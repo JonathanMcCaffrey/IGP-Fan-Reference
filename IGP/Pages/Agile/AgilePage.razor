@@ -1,0 +1,172 @@
+﻿@implements IDisposable;
+@inject IAgileService AgileService;
+@inject DatabaseContext Database;
+
+@layout PageLayout
+
+@page "/agile"
+
+@if (AgileService.IsLoaded()) {
+    <LayoutMediumContentComponent>
+
+        <WebsiteTitleComponent>Agile</WebsiteTitleComponent>
+
+        <div class="agileViewContainer">
+            @foreach (var sprint in AgileService.SprintModels.OrderBy(e => e.EndDate).Reverse()) {
+                <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()" open="@(sprint.GetSprintType() == SprintType.Current)">
+                    <summary class="sprintSummary">
+                        <div class="sprintTitle">@sprint.Name</div>
+                        <div style="flex: 1; flex-grow: 1;"></div>
+                        <div class="sprintDates">
+                            <div class="sprintStartDate">
+                                <b>Start: </b>@sprint.StartDate.Value.ToString("dd/MM/yyyy")
+                            </div>
+                            <div class="sprintEndDate">
+                                <b>End: </b>@sprint.EndDate.Value.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                    </summary>
+                    <SprintComponent Sprint=sprint Tasks=AgileService.TaskModels></SprintComponent>
+                </details>
+            }
+
+            <details class="sprintDisplayContainer">
+                <summary class="sprintSummary">
+                    <div class="sprintTitle">Backlog</div>
+                    <div style="flex: 1; flex-grow: 1;"></div>
+                </summary>
+                <div>
+                    <BacklogComponent Backlog=backlog></BacklogComponent>
+                </div>
+            </details>
+        </div>
+
+        <ContentDividerComponent></ContentDividerComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>What is Agile?</InfoQuestionComponent>
+            <InfoAnswerComponent>
+                Agile is a work methodology for determing task assignment and release deadlines.
+                <br/><br/>
+                My agile practice will be creating tasks in a backlog. Assigning them to weekly sprints. And completing all tasks in the allotted time frame.
+                <br/><br/>
+                Any unfinished tasks are moved into the next sprint, or the sprint will be extended by a week.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+    </LayoutMediumContentComponent>
+}
+else {
+    <LoadingComponent></LoadingComponent>
+}
+
+
+<style>
+.agileViewContainer {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.sprintDisplayContainer {
+    border: 4px solid var(--paper);
+    box-shadow: 0px 2px 12px rgba(0,0,0,0.2);
+    border-radius: 2px;
+    padding: 25px;
+    margin: auto;
+    width: 100%;
+    background-color:var(--paper);
+}
+
+@@media only screen and (max-width: 1025px) {
+    .sprintDisplayContainer {
+        padding: 2px;
+    }
+}
+
+.sprintSummary {
+    display: flex;
+    width: 100%;
+}
+
+.sprintDisplayContainer.@SprintType.Current.ToLower() {
+    border-color: #042901;
+    background-color:var(--paper);
+}
+
+.sprintDisplayContainer.@SprintType.Planned.ToLower() {
+    border-color: #2a2000;
+    background-color:var(--paper);
+}
+
+.sprintDisplayContainer.@SprintType.Completed.ToLower() {
+    border-color: #2a2000;
+    background-color:var(--paper);
+}
+
+
+details .sprintSummary::before {
+    content: "+";
+    font-weight: bolder;
+    font-size: 1.5rem;
+    padding-right: 8px;
+}
+
+details[open] .sprintSummary::before {
+    content: "-";
+}
+
+
+.sprintTitle {
+    width: 400px;
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.sprintDates {
+    width: 160px;
+    text-align: right;
+}
+
+</style>
+
+
+@code {
+
+    [Parameter]
+    public DbSet<SprintModel> Sprints { get; set; }
+
+    [Parameter]
+    public DbSet<TaskModel> Tasks { get; set; }
+
+
+    private readonly List<TaskModel> backlog = new();
+
+
+    protected override void OnInitialized() {
+        AgileService.Subscribe(HasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        AgileService.Unsubscribe(HasChanged);
+    }
+
+    void HasChanged() {
+        Sprints = AgileService.SprintModels;
+        Tasks = AgileService.TaskModels;
+
+        backlog.Clear();
+
+        foreach (var task in Tasks) {
+            if (task.SprintModelId == null) {
+                backlog.Add(task);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync() {
+        await AgileService.Load(Database);
+    }
+
+}

@@ -1,0 +1,229 @@
+﻿@layout PageLayout
+@page "/sandbox"
+@inject IJSRuntime JS
+
+<LayoutLargeContentComponent>
+    <WebsiteTitleComponent>Sandbox</WebsiteTitleComponent>
+
+    <div>
+        Generic Page of Testing In Progress code
+    </div>
+
+    <button @onclick="() => DownloadFile(typeof(WebPageModel))">
+        WebPageModel
+    </button>
+
+    <button @onclick="() => DownloadFile(typeof(WebSectionModel))">
+        WebSectionModel
+    </button>
+
+    <button @onclick="() => DownloadFile(typeof(PatchModel))">
+        PatchModel
+    </button>
+
+    <button @onclick="() => DownloadFile(typeof(ChangeModel))">
+        ChangeModel
+    </button>
+
+    <button @onclick="() => DownloadFile(typeof(SprintModel))">
+        SprintModel
+    </button>
+
+    <button @onclick="() => DownloadFile(typeof(TaskModel))">
+        TaskModel
+    </button>
+
+    <FormLayoutComponent>
+        <FormTextAreaComponent Value="@infoText"></FormTextAreaComponent>
+    </FormLayoutComponent>
+
+
+</LayoutLargeContentComponent>
+
+
+@code {
+    readonly List<EntityModel> entities = EntityModel.GetList();
+
+    List<EntityInfoModel> infos = new();
+
+    string infoText = "";
+    string weaponText = "";
+
+    readonly List<ChangeModel> changes = new();
+    readonly List<PatchModel> patches = new();
+
+    private async Task DownloadFile(Type type) {
+        var fileName = $"{type.ToString().Split(".").Last()}s.csv";
+
+        var objectData =
+            type == typeof(PatchModel) ? new List<object>(patches)
+                : type == typeof(ChangeModel) ? new List<object>(changes)
+                    : new List<object>();
+
+        await JS.InvokeVoidAsync("download", fileName, Generate(type, objectData));
+    }
+
+    void GenerateEntityModels() {
+        var properties = typeof(EntityInfoModel).GetProperties();
+
+        infoText += "Id,Name,Descriptive,Description,Notes\n";
+
+        var id = 1;
+        foreach (var entity in entities) {
+            infoText += $"{id++},{entity.Info().Name},{entity.Info().Descriptive},{entity.Info().Description},{entity.Info().Notes}\n";
+        }
+    }
+
+    string Generate(Type type, List<object> dataList) {
+        var properties = type.GetProperties();
+
+        var generatedText = "";
+
+        for (var index = 0; index < properties.Count(); index++) {
+            var property = properties[index];
+
+            if (property.GetAccessors().First().IsVirtual) {
+                continue;
+            }
+
+            var attributes = property.GetCustomAttributes().OfType<ObsoleteAttribute>();
+            if (attributes.Count() > 0) {
+                continue;
+            }
+
+            generatedText += property.Name;
+            if (index != properties.Count() - 1) {
+                generatedText += ",";
+            }
+        }
+
+        generatedText = generatedText.Trim();
+        if (generatedText.EndsWith(",")) {
+            generatedText = generatedText.Remove(generatedText.Length - 1);
+        }
+
+
+        generatedText += "\n";
+
+        foreach (var data in dataList) {
+            for (var index = 0; index < properties.Count(); index++) {
+                var property = properties[index];
+
+                if (property.GetAccessors().First().IsVirtual) {
+                    continue;
+                }
+
+                var attributes = property.GetCustomAttributes().OfType<ObsoleteAttribute>();
+                if (attributes.Count() > 0) {
+                    continue;
+                }
+
+
+                if (property.GetValue(data) != null) {
+                    generatedText += "\"" + property.GetValue(data).ToString().Replace("\"", "\"\"") + "\"";
+                    if (index != properties.Count() - 1) {
+                        generatedText += ",";
+                    }
+                }
+                else {
+                    generatedText += "\"" + " " + "\"";
+                    if (index != properties.Count() - 1) {
+                        generatedText += ",";
+                    }
+                }
+            }
+
+            generatedText = generatedText.Trim();
+            if (generatedText.EndsWith(",")) {
+                generatedText = generatedText.Remove(generatedText.Length - 1);
+            }
+
+            generatedText += "\n";
+        }
+
+
+        return generatedText;
+    }
+
+
+    void GenerateWeapons() {
+        var properties = typeof(EntityWeaponModel).GetProperties();
+
+        for (var index = 0; index < properties.Count(); index++) {
+            var property = properties[index];
+
+            if (property.GetAccessors().First().IsVirtual) {
+                continue;
+            }
+
+            var attributes = property.GetCustomAttributes().OfType<ObsoleteAttribute>
+                ();
+            if (attributes.Count() > 0) {
+                continue;
+            }
+
+            weaponText += property.Name;
+            if (index != properties.Count() - 1) {
+                weaponText += ",";
+            }
+        }
+
+        weaponText += "\n";
+
+        foreach (var entity in entities) {
+            foreach (var weapon in entity.Weapons()) {
+                for (var index = 0; index < properties.Count(); index++) {
+                    var property = properties[index];
+
+                    if (property.GetAccessors().First().IsVirtual) {
+                        continue;
+                    }
+
+
+                    var attributes = property.GetCustomAttributes().OfType<ObsoleteAttribute>
+                        ();
+                    if (attributes.Count() > 0) {
+                        continue;
+                    }
+
+
+                    weaponText += property.GetValue(weapon);
+                    if (index != properties.Count() - 1) {
+                        weaponText += ",";
+                    }
+                }
+
+                weaponText += "\n";
+            }
+        }
+    }
+
+    void GenerateExample() {
+        var properties = typeof(EntityInfoModel).GetProperties();
+
+        for (var index = 0; index < properties.Count(); index++) {
+            var property = properties[index];
+            infoText += property.Name;
+            if (index != properties.Count() - 1) {
+                infoText += ",";
+            }
+        }
+
+        infoText += "\n";
+
+        foreach (var entity in entities) {
+            if (entity.Info() != null) {
+                for (var index = 0; index < properties.Count(); index++) {
+                    var property = properties[index];
+                    infoText += property.GetValue(entity.Info());
+                    if (index != properties.Count() - 1) {
+                        infoText += ",";
+                    }
+                }
+
+                infoText += "\n";
+            }
+        }
+    }
+
+}

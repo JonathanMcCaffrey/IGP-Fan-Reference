@@ -1,0 +1,116 @@
+﻿<div class="makingOfContainer">
+    <div class="makingInfo">
+        <div class="makingTitle">@Title</div>
+        <div class="makingDescription">@Description</div>
+    </div>
+
+    <div class="makingofGrid">
+        <div class="makingofItem">
+            <details open>
+                <summary>Example</summary>
+
+                <div class="shownCode">
+                    @Example
+                </div>
+            </details>
+        </div>
+        <div class="makingofItem">
+            <details open>
+                <summary>Usage</summary>
+                <div class="shownCode">
+                    @Usage
+                </div>
+            </details>
+        </div>
+        <div class="makingofItem">
+            <details open>
+                <summary>Code</summary>
+                <div class="shownCode">
+                    @Code
+                </div>
+            </details>
+        </div>
+    </div>
+</div>
+
+<style>
+    .makingInfo {
+        margin-top: 6px;
+        margin-bottom: 12px;
+    }
+
+    .makingTitle {
+        font-weight: bolder;
+        font-size: 1.4rem;
+    }
+
+    .makingOfContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .makingofGrid {
+        display: flex;
+        flex-wrap: wrap;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        
+    }
+
+    .makingofItem {
+        width: 100%;
+    }
+
+    .makingOfContainer details {
+        border: 2px dashed black;
+        border-radius: 4px;
+    }
+
+    .makingOfContainer summary {
+        font-weight: bold;
+        padding: 12px;
+        background-color: rgba(0,0,0, 0.1);
+    }
+
+    .shownCode {
+        visibility: hidden;
+        padding: 12px;
+        background-color: rgba(0,0,0, 0.1);
+    }
+
+    .makingOfContainer details[open] .shownCode {
+        visibility: visible;
+    }
+
+    .makingOfContainer details[open] summary {
+        border-bottom: 2px dashed black;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .makingofGrid {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment Title { get; set; }
+
+    [Parameter]
+    public RenderFragment Description { get; set; }
+
+
+    [Parameter]
+    public RenderFragment Example { get; set; }
+
+    [Parameter]
+    public RenderFragment Usage { get; set; }
+
+    [Parameter]
+    public RenderFragment Code { get; set; }
+
+}

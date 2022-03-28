@@ -1,0 +1,60 @@
+﻿@implements IDisposable
+
+<Virtualize Items="@EconomyService.GetOverTime()" Context="economyAtSecond" ItemSize="400" OverscanCount="4">
+    <div style="display: grid; gap: 8px; grid-template-columns: 1fr 1fr;">
+        <div>
+            <div>
+                @economyAtSecond.Interval
+            </div>
+            <div>
+                T @Interval.ToTime(economyAtSecond.Interval) | A @economyAtSecond.Alloy | E @economyAtSecond.Ether
+            </div>
+            <div>
+                Worker Count: @(economyAtSecond.WorkerCount)
+            </div>
+            <div>
+                Free Worker Count: @(economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount)
+            </div>
+            <div>
+                Busy Worker Count: @economyAtSecond.BusyWorkerCount
+            </div>
+            <div>
+                Creating Worker Count: @economyAtSecond.CreatingWorkerCount
+            </div>
+            <br/>
+        </div>
+        <div>
+            @foreach (var order in BuildOrderService.GetOrdersAt(economyAtSecond.Interval)) {
+                <div>
+                    Requested: @order.Info().Name
+                </div>
+            }
+            @foreach (var order in BuildOrderService.GetCompletedAt(economyAtSecond.Interval)) {
+                <div>
+                    New: @order.Info().Name
+                </div>
+            }
+        </div>
+    </div>
+</Virtualize>
+
+
+@code {
+
+    [Inject]
+    IEconomyService EconomyService { get; set; }
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+    protected override void OnInitialized() {
+        EconomyService.Subscribe(StateHasChanged);
+        BuildOrderService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        EconomyService.Unsubscribe(StateHasChanged);
+        BuildOrderService.Unsubscribe(StateHasChanged);
+    }
+
+}

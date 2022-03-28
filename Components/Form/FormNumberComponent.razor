@@ -1,0 +1,59 @@
+﻿<div class="formNumberContainer">
+    @if (FormLabelComponent != null) {
+        <FormLabelComponent>@FormLabelComponent</FormLabelComponent>
+    }
+    <div>
+        <input readonly="@ReadOnly"
+               class="numberInput"
+               type="number"
+               min="@Min"
+               max="@Max"
+               value="@Value"
+               @onchange="OnChange"/>
+    </div>
+    @if (FormInfoComponent != null) {
+        <FormInfoComponent>@FormInfoComponent</FormInfoComponent>
+    }
+</div>
+
+<style>
+    .formNumberContainer {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .numberInput {
+        width: 100%;
+        background-color: var(--primary);
+        border: 4px solid var(--primary-border);
+        border-radius: 1px;
+        padding: 8px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? FormLabelComponent { get; set; }
+
+    [Parameter]
+    public RenderFragment? FormInfoComponent { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool? ReadOnly { get; set; }
+
+    [Parameter]
+    public int? Value { get; set; }
+
+    [Parameter]
+    public int? Min { get; set; }
+
+    [Parameter]
+    public int? Max { get; set; }
+
+}

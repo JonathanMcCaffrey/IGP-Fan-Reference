@@ -1,0 +1,73 @@
+﻿@implements IDisposable
+
+<FormLayoutComponent>
+    <FormDisplayComponent Label="Time">
+        <Display>@BuildOrderService.GetLastRequestInterval() | T @Interval.ToTime(BuildOrderService.GetLastRequestInterval())</Display>
+    </FormDisplayComponent>
+    <FormDisplayComponent Label="Alloy">
+        <Display>@economy.Alloy</Display>
+    </FormDisplayComponent>
+    <FormDisplayComponent Label="Ether">
+        <Display>@economy.Ether</Display>
+    </FormDisplayComponent>
+    <DevOnlyComponent>
+        <FormDisplayComponent Label="Pyre">
+            <Display>@economy.Pyre</Display>
+        </FormDisplayComponent>
+    </DevOnlyComponent>
+    <FormDisplayComponent Label="Supply">
+        <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
+    </FormDisplayComponent>
+</FormLayoutComponent>
+
+@code {
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+    [Inject]
+    IEconomyService EconomyService { get; set; }
+
+    EconomyModel economy = new();
+    int supplyGranted;
+    int supplyTaken;
+    int extraBuildings;
+
+    protected override void OnInitialized() {
+        BuildOrderService.Subscribe(OnBuildOrderChanged);
+        EconomyService.Subscribe(OnBuildOrderChanged);
+    }
+
+    void IDisposable.Dispose() {
+        BuildOrderService.Unsubscribe(OnBuildOrderChanged);
+        EconomyService.Subscribe(OnBuildOrderChanged);
+    }
+
+    void OnBuildOrderChanged() {
+        economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
+
+        var ordersOverTime = BuildOrderService.GetOrders();
+
+        supplyTaken = (from ordersAtInterval in ordersOverTime
+            from order in ordersAtInterval.Value
+            where order.Supply() != null
+            where order.Supply().Takes > 0
+            select order.Supply().Takes).Sum();
+
+        supplyGranted = (from ordersAtInterval in ordersOverTime
+            from order in ordersAtInterval.Value
+            where order.Supply() != null
+            where order.Supply().Grants > 0
+            select order.Supply().Grants).Sum();
+
+        extraBuildings = 0;
+        if (supplyGranted > 160) {
+            extraBuildings = (supplyGranted - 160) / 16;
+            supplyGranted = 160;
+        }
+
+
+        StateHasChanged();
+    }
+
+}

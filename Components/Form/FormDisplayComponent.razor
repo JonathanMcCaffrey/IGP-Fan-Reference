@@ -1,0 +1,55 @@
+﻿<div class="displayContainer">
+    @if (Label != "") {
+        <div class="formLabel">
+            @Label
+        </div>
+    }
+    <div class="displayContent">
+        @Display
+    </div>
+    @if (Info != "") {
+        <div class="formInfo">
+            @Info
+        </div>
+    }
+</div>
+
+<style>
+    .displayContainer {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .displayContent {
+        background-color: var(--accent);
+        width: 100%;
+        border: 1px solid var(--primary-border);
+        border-radius: 1px;
+        padding: 8px;
+        min-height: 42px;
+    }
+</style>
+
+@code {
+    //TODO Clean up
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public string Info { get; set; }
+
+    [Parameter]
+    public RenderFragment? Display { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool? ReadOnly { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+}

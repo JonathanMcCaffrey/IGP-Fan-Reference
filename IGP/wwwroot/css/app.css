@@ -1,0 +1,67 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+@import "default.css";
+@import "components/table.css";
+
+:root {
+    --accent: #432462;
+    --primary: #4308a3;
+    --primary-border: #2c0b62;
+    --primary-hover: #5e00f7;
+    --primary-border-hover: #a168ff;
+    --background: #161618;
+    --secondary: #23133e;
+    --secondary-hover: #2a0070;
+    --secondary-border-hover: #a168ff;
+    --paper: #252526;
+    --paper-border: #151516;
+    --info: #451376;
+    --info-border: #210b36;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+input::selection {
+    border-style: solid;
+    border-color: gray;
+    background: #3A6FD1;
+}
+
+::selection {
+    background: #3A6FD1;
+}
+
+::-moz-selection {
+    background: #3A6FD1;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: black;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: black;
+}
+
+a {
+    color: #8ac3ff;
+}

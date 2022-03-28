@@ -1,0 +1,72 @@
+﻿@if (IsOnDev) {
+    <div class="devOnlyContainer">
+        <div class="devOnlyTitleContainer">
+            <div class="devOnlyTitle">
+                DevOnly UI
+            </div>
+        </div>
+
+        <div class="devOnlyContentContainer">
+            <div class="devOnlyContent">
+
+                @ChildContent
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .devOnlyContainer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .devOnlyTitle {
+            background-color: rgba(20,20,20,0.75);
+            padding: 10px;
+            color: orange;
+            font-weight: bolder;
+            font-size: 1.5rem;
+        }
+
+        .devOnlyContent {
+            background-color: rgba(20,20,20,0.75);
+            width: 100%;
+            padding: 10px;
+        }
+
+
+        .devOnlyTitleContainer {
+            background: repeating-linear-gradient( 45deg, blue, blue 50px, orange 51px, orange 100px);
+            margin-right: auto;
+            padding: 10px;
+            border-left: 6px dashed orange;
+            border-right: 6px dashed orange;
+            border-top: 6px dashed orange;
+            text-shadow: 4px 4px 1px blue;
+        }
+
+        .devOnlyContentContainer {
+            border: 6px dashed orange;
+            background: repeating-linear-gradient( 45deg, blue, blue 50px, orange 51px, orange 100px);
+            box-shadow: 5px 5px 5px blue;
+            padding: 20px;
+        }
+    </style>
+}
+
+
+@code {
+
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    bool IsOnDev;
+
+    protected override void OnInitialized() {
+        IsOnDev = NavigationManager.BaseUri.Contains("https://localhost");
+    }
+
+}

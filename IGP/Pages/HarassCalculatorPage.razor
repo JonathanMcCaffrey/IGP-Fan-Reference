@@ -1,0 +1,272 @@
+﻿@layout PageLayout
+
+@page "/harass-calculator"
+
+<LayoutMediumContentComponent>
+    <WebsiteTitleComponent>Harass Calculator</WebsiteTitleComponent>
+
+    <PaperComponent>
+        Credit to Zard for deriving the formula.
+    </PaperComponent>
+
+    <PaperComponent>
+        <LayoutRowComponent>
+            <LayoutColumnComponent>
+                <FormLayoutComponent>
+                    <FormDisplayComponent Label="Cost of worker">
+                        <Display>@CostOfWorker</Display>
+                    </FormDisplayComponent>
+
+                    <FormDisplayComponent Label="Alloy mined per second by worker">
+                        <Display>@AlloyMinedPerSecondByWorker</Display>
+                    </FormDisplayComponent>
+
+                    <FormDisplayComponent Label="Time to produce worker">
+                        <Display>@TimeToProduceWorker</Display>
+                    </FormDisplayComponent>
+                </FormLayoutComponent>
+            </LayoutColumnComponent>
+
+            <LayoutColumnComponent>
+                <FormLayoutComponent>
+                    <FormNumberComponent Min="0"
+                                         Value="@((int)NumberOfWorkersLostToHarass)"
+                                         OnChange="@(e => { NumberOfWorkersLostToHarass = int.Parse(e.Value.ToString()); Calculate();})">
+                        <FormLabelComponent>Number of workers lost to harass</FormLabelComponent>
+                    </FormNumberComponent>
+
+                    <FormNumberComponent Min="0"
+                                         Value="@((int)NumberOfTownHallsExisting)"
+                                         OnChange="@(e => { NumberOfTownHallsExisting = int.Parse(e.Value.ToString()); Calculate();})">
+                        <FormLabelComponent>Number of townhalls existing</FormLabelComponent>
+                    </FormNumberComponent>
+
+                    <FormNumberComponent Min="0"
+                                         Value="@((int)TravelTime)"
+                                         OnChange="@(e => { TravelTime = int.Parse(e.Value.ToString()); Calculate();})">
+                        <FormLabelComponent>Travel time</FormLabelComponent>
+                    </FormNumberComponent>
+
+                    <FormDisplayComponent Label="Total alloy lost">
+                        <Display>
+                            <div style="font-size: 1.5rem; font-weight: 800;">
+                                @TotalAlloyHarassment
+                            </div>
+                        </Display>
+                    </FormDisplayComponent>
+
+
+                </FormLayoutComponent>
+
+                <br/>
+                <div>
+                    (<b>Worker replacement costs:</b> @WorkerReplacementCost())
+                </div>
+                <div>
+
+                    (<b>Delayed mining time:</b> @DelayedMiningCost())
+                </div>
+
+
+            </LayoutColumnComponent>
+
+
+        </LayoutRowComponent>
+    </PaperComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <PaperComponent>
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                What is this tool?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                The Harass Calculator allows you to calculate damage done to an enemy alloy line. For example, if you were to attack with Ichors, and kill 6 enemy workers, you can set the <b>Number of workers lost to harass</b> to 6. This would determine a loss of 741 alloy. Quite the large number.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                What can I learn from this?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                Well, let's assume you lost a full alloy line of workers, and have to take that 741 alloy cost (300 to rebuy the workers, and 441 in lost mining time.)
+                <br/><br/>
+                If you were to set the <b>Number of townhalls existing</b> to 2, the calculator will consider worker transfer micro. Allowing you to cut the total cost by roughly 315 alloy. However, that number isn't entirely accurate, you are also going to have to bump up the <b>Travel time</b> to account for the time it takes the transferred workers to arrive at the decimated alloy line.
+                <br/><br/>
+                Let's say it takes 10 seconds for workers to transfer from your second base. We can divide that number by 2, to represent our bases, and add those 5 additional seconds to <b>Travel time</b>, for the more accurate loss of 456 alloy (saving you 285 alloy.) <i>Which is much better than not transferring workers!</i>
+
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Can I see the formula for the calculation?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                <br/>
+                <div class="mathContainer">
+                    <div> =c*m+r*g*(t+l) + </div>
+
+                    <MathLoopSumComponent>
+                        <LoopStart><i>x</i> =1</LoopStart>
+                        <LoopEnd>
+                            ⌊
+                            <MathDivisionComponent>
+                                <Dividee>m</Dividee><Divider>a</Divider>
+                            </MathDivisionComponent>⌋
+                        </LoopEnd>
+                        <IndexSymbol>
+                            <i>x</i>
+                        </IndexSymbol>
+                    </MathLoopSumComponent>
+
+                    <div style="width: 132px">g*<i>x</i>*(t+l)</div>
+                </div>
+                <br/>
+                <div style="font-family:monospace;">
+                    <div>c is CostOfWorker </div>
+                    <div>m is NumberOfWorkersLostToHarass, <i>m for [M]otes</i></div>
+                    <div>a is NumberOfTownHallsExisting, <i>a for [A]cropolis</i></div>
+                    <div>r is m mod a is LeftOverWorkersToProduceCount()</div>
+                    <div>g is AlloyMinedPerSecondByWorker</div>
+                    <div>t is TimeToProduceWorker</div>
+                    <div>l is TravelTime</div>
+                    <div><i>x</i> is workerProductionIndex</div>
+                </div>
+                <br/><br/>
+
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Can I see the code for the calculation?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+
+                <CodeComponent>
+                    <div style="color: green;">//TotalAlloyHarassment is set after Calculate() function is called</div>
+                    <div>
+                        float TotalAlloyHarassment;
+
+                        float CostOfWorker = 50;
+                        float AlloyMinedPerSecondByWorker = 1;
+                        float TimeToProduceWorker = 20;
+                        float TravelTime = 1;
+                        float NumberOfWorkersLostToHarass = 1;
+                        float NumberOfTownHallsExisting = 1;
+
+                        float SimultaneousProductionFloor() {
+                        if (NumberOfTownHallsExisting &lt;= 0 || NumberOfWorkersLostToHarass &lt;= 0) {
+                        return 0;
+                        }
+
+                        return (float)Math.Floor(NumberOfWorkersLostToHarass / Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
+                        }
+                        float LeftOverWorkersToProduceCount() {
+                        return NumberOfWorkersLostToHarass % (Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
+                        }
+
+                        float WorkerReplacementCost() {
+                        return CostOfWorker * NumberOfWorkersLostToHarass;
+                        }
+
+
+                        float DelayedMiningCost() {
+                        return TotalAlloyHarassment - WorkerReplacementCost();
+                        }
+
+                        void Calculate() {
+                        TotalAlloyHarassment = WorkerReplacementCost();
+
+                        for (var workerProductionIndex = 0; workerProductionIndex &lt; SimultaneousProductionFloor(); workerProductionIndex++) {
+                        TotalAlloyHarassment += AlloyMinedPerSecondByWorker * (TimeToProduceWorker + TravelTime) * (workerProductionIndex + 1);
+                        }
+
+                        TotalAlloyHarassment += LeftOverWorkersToProduceCount() * (TimeToProduceWorker + TravelTime) * AlloyMinedPerSecondByWorker;
+                        }
+
+
+                    </div>
+
+                </CodeComponent>
+            </InfoAnswerComponent>
+
+        </InfoBodyComponent>
+    </PaperComponent>
+
+
+</LayoutMediumContentComponent>
+
+<style>
+    .mathContainer {
+        font-family: monospace;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        border: 1px black solid;
+        padding: 32px;
+        background-color: #1A1B1E
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .mathContainer {
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+    }
+</style>
+
+@code {
+    float TotalAlloyHarassment;
+
+    readonly float CostOfWorker = 50;
+    readonly float AlloyMinedPerSecondByWorker = 1;
+    readonly float TimeToProduceWorker = 20;
+    float TravelTime = 1;
+    float NumberOfWorkersLostToHarass = 1;
+    float NumberOfTownHallsExisting = 1;
+
+    float SimultaneousProductionFloor() {
+        if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0) {
+            return 0;
+        }
+
+        return (float)Math.Floor(NumberOfWorkersLostToHarass / Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
+    }
+
+    float LeftOverWorkersToProduceCount() {
+        return NumberOfWorkersLostToHarass % Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass);
+    }
+
+    float WorkerReplacementCost() {
+        return CostOfWorker * NumberOfWorkersLostToHarass;
+    }
+
+
+    float DelayedMiningCost() {
+        return TotalAlloyHarassment - WorkerReplacementCost();
+    }
+
+    void Calculate() {
+        TotalAlloyHarassment = WorkerReplacementCost();
+
+        for (var workerProductionIndex = 0; workerProductionIndex < SimultaneousProductionFloor(); workerProductionIndex++) {
+            TotalAlloyHarassment += AlloyMinedPerSecondByWorker * (TimeToProduceWorker + TravelTime) * (workerProductionIndex + 1);
+        }
+
+        TotalAlloyHarassment += LeftOverWorkersToProduceCount() * (TimeToProduceWorker + TravelTime) * AlloyMinedPerSecondByWorker;
+    }
+
+    protected override void OnInitialized() {
+        Calculate();
+    }
+
+    void ValueChanged(float test) {
+        Calculate();
+    }
+
+}

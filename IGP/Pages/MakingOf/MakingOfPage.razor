@@ -1,0 +1,84 @@
+﻿@page "/makingof"
+
+@layout PageLayout
+
+<LayoutLargeContentComponent>
+    <WebsiteTitleComponent>Making Of</WebsiteTitleComponent>
+
+    <AlertComponent Type="SeverityType.Warning">
+        <Title>Under Construction</Title>
+        <Message>This page is still being worked on. It will list the tech and design choices made for this website. It's is strictly for educational and reference purposes, and it has nothing to do with IMMORTAL: Gates of Pyre.</Message>
+    </AlertComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <FormLayoutComponent>
+        <FormDisplayComponent Label="Tech Stack">
+            <Display>Blazor (C# and HTML)</Display>
+        </FormDisplayComponent>
+
+        <FormDisplayComponent Label="Stack Details">
+            <Display>This is a Static Single Page Application hosted on Azure.</Display>
+        </FormDisplayComponent>
+    </FormLayoutComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <MakingOfColours></MakingOfColours>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <DevOnlyComponent>
+        <MakingOfSectionComponent Title="Empty">
+            <MakingOfComponent>
+                <Title>
+                    Empty
+                </Title>
+                <Description>
+                    Empty
+                </Description>
+                <Example>
+                    Empty
+                </Example>
+                <Usage>
+                    <CodeComponent>Empty</CodeComponent>
+                </Usage>
+                <Code>
+                    <CodeComponent>Empty</CodeComponent>
+                </Code>
+            </MakingOfComponent>
+
+        </MakingOfSectionComponent>
+    </DevOnlyComponent>
+
+    <DevOnlyComponent>
+        <MakingOfSectionComponent Title="Dialogs">
+            <MakingOfDialogs></MakingOfDialogs>
+        </MakingOfSectionComponent>
+    </DevOnlyComponent>
+
+    <DevOnlyComponent>
+
+        <FormLayoutComponent>
+            <FormEscapeCodeComponent></FormEscapeCodeComponent>
+        </FormLayoutComponent>
+    </DevOnlyComponent>
+
+    <MakingOfSectionComponent Title="Displays">
+        <MakingOfDisplays></MakingOfDisplays>
+    </MakingOfSectionComponent>
+
+    <DevOnlyComponent>
+        <MakingOfSectionComponent Title="Navigation">
+            <MakingOfNavigation></MakingOfNavigation>
+        </MakingOfSectionComponent>
+    </DevOnlyComponent>
+
+    <MakingOfSectionComponent Title="Feedback">
+        <MakingOfFeedback></MakingOfFeedback>
+    </MakingOfSectionComponent>
+
+    <MakingOfSectionComponent Title="Forms">
+        <MakingOfForms></MakingOfForms>
+    </MakingOfSectionComponent>
+</LayoutLargeContentComponent>

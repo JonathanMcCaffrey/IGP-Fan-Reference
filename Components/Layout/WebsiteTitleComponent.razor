@@ -1,0 +1,27 @@
+﻿<div class="title">
+    @ChildContent
+</div>
+
+
+<style>
+    .title {
+        padding-top: 35px;
+        padding-bottom: 5px;
+        font-size: 1.5rem;
+        font-weight: bolder;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .title {
+            padding: 10px;
+            border: 0px solid black;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

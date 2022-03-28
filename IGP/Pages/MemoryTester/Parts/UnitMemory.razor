@@ -1,0 +1,117 @@
+﻿@implements IDisposable;
+@inject IMemoryTesterService MemoryTesterService;
+
+<div class="unitMemoryContainer@(isCorrect ? " correct" : isWrong ? "wrong" : "")">
+    <FormLayoutComponent>
+        <FormDisplayComponent Label="Name">
+            <Display>@EntityMemory.Name</Display>
+        </FormDisplayComponent>
+
+        @foreach (var question in questions) {
+            var questionWrong = hasBeenSubmitted && !question.IsRevealed && question.Guess != question.Answer;
+
+            <FormGuessComponent IsSubmitted="hasBeenSubmitted"
+                                OnChange="answerEventArgs => OnAnswerEntered(answerEventArgs, question)"
+                                MemoryQuestion="question"/>
+
+            @if (questionWrong) {
+                <div class="wrongAnswer">The correct answer was @question.Answer</div>
+            }
+        }
+
+    </FormLayoutComponent>
+</div>
+
+<style>
+    .unitMemoryContainer {
+    }
+
+        .unitMemoryContainer.correct {
+            border-color: green;
+
+        }
+
+        .unitMemoryContainer.wrong {
+            border-color: red;
+        }
+
+    .wrongAnswer {
+        padding: 12px;
+        color: #ff2525;
+        font-weight: 700;
+        background-color: rgba(0,0,0,0.4);
+        padding: 8px;
+        border-radius: 2px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public MemoryEntityModel EntityMemory { get; set; }
+
+    private List<MemoryQuestionModel> questions { get; set; }
+
+    private bool hasBeenSubmitted = false;
+    private bool isCorrect = false;
+    private bool isWrong = false;
+
+    public int Guess { get; set; }
+
+    protected override void OnInitialized() {
+        MemoryTesterService.Subscribe(OnMemoryEvent);
+
+        OnRefresh();
+    }
+
+    void IDisposable.Dispose() {
+        MemoryTesterService.Unsubscribe(OnMemoryEvent);
+    }
+
+    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent) {
+        if (memoryTesterEvent == MemoryTesterEvent.OnVerify) {
+            OnVerify();
+        }
+
+        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh) {
+            OnRefresh();
+        }
+    }
+
+
+    public void OnAnswerEntered(AnswerEventArgs answerEventArgs, MemoryQuestionModel question) {
+        question.Guess = answerEventArgs.Guess;
+
+        MemoryTesterService.Update(question);
+    }
+
+    void OnVerify() {
+        hasBeenSubmitted = true;
+
+        isCorrect = true;
+
+        foreach (var question in questions) {
+            if (question.Answer != question.Guess) {
+                isCorrect = false;
+                isWrong = true;
+                return;
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    void OnRefresh() {
+        hasBeenSubmitted = false;
+        isCorrect = false;
+        isWrong = false;
+
+        questions = (from question in MemoryTesterService.GetQuestions()
+            where question.MemoryEntityModelId == EntityMemory.Id
+            select question).ToList();
+
+
+        StateHasChanged();
+    }
+
+}

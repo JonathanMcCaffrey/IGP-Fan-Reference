@@ -1,0 +1,22 @@
+﻿@implements IDisposable
+
+<div>
+    <textarea readonly style="background-color: #36393F; width: 330px; height: 400px;"> 
+		@BuildComparisonService.AsJson()
+		</textarea>
+</div>
+
+@code {
+
+    [Inject]
+    IBuildComparisonService BuildComparisonService { get; set; }
+
+    protected override void OnInitialized() {
+        BuildComparisonService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        BuildComparisonService.Unsubscribe(StateHasChanged);
+    }
+
+}

@@ -1,0 +1,243 @@
+﻿@implements IDisposable
+
+<div class="chartsContainer">
+    @foreach (var chart in charts) {
+        <div style="width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
+            <div style="position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
+                @foreach (var point in chart.Points) {
+                    <div style="position: absolute;
+							bottom:@point.GetValue(chart.HighestValuePoint, chart.ValueDisplayMax)px;
+							left:@point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax)px;
+							width: 0px;
+							height: 0px;">
+                        <div style="width:1px; height: 1px; border-top-right-radius:10px; border-top-left-radius:10px; border: 2px solid @chart.ChartColor; background-color:@chart.ChartColor">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .chartsContainer {
+        position: relative;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<FormLayoutComponent>
+    <FormDisplayComponent Label="Highest Alloy">
+        <Display>@highestAlloyPoint</Display>
+    </FormDisplayComponent>
+    <FormDisplayComponent Label="Highest Ether">
+        <Display>@highestEtherPoint</Display>
+    </FormDisplayComponent>
+    <DevOnlyComponent>
+        <FormDisplayComponent Label="Highest Pyre">
+            <Display>@highestEtherPoint</Display>
+        </FormDisplayComponent>
+    </DevOnlyComponent>
+    <FormDisplayComponent Label="Highest Army">
+        <Display>@highestArmyPoint</Display>
+    </FormDisplayComponent>
+</FormLayoutComponent>
+
+
+@code {
+
+    [Inject]
+    IEconomyService EconomyService { get; set; }
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+
+    int height = 100;
+    readonly int width = 250;
+
+    List<int> valueList = new();
+
+    readonly List<ChartModel> charts = new();
+
+
+    float highestAlloyPoint;
+    float highestEtherPoint;
+    float highestPyrePoint;
+    float highestArmyPoint;
+
+    protected override void OnInitialized() {
+        EconomyService.Subscribe(GenerateChart);
+        BuildOrderService.Subscribe(GenerateChart);
+
+        GenerateChart();
+    }
+
+    void IDisposable.Dispose() {
+        EconomyService.Unsubscribe(GenerateChart);
+        BuildOrderService.Unsubscribe(GenerateChart);
+    }
+
+    void GenerateChart() {
+        var economyOverTime = EconomyService.GetOverTime();
+
+        charts.Clear();
+
+        var alloyChart = new ChartModel {
+            IntervalDisplayMax = width,
+            ValueDisplayMax = 100,
+            ChartColor = "Cyan"
+        };
+        var etherChart = new ChartModel {
+            Offset = width,
+            IntervalDisplayMax = width,
+            ValueDisplayMax = 100,
+            ChartColor = "LightGreen"
+        };
+
+        var pyreChart = new ChartModel {
+            Offset = width * 2,
+            IntervalDisplayMax = width,
+            ValueDisplayMax = 100,
+            ChartColor = "Red"
+        };
+
+        var armyChart = new ChartModel {
+            Offset = width * 3,
+            IntervalDisplayMax = width,
+            ValueDisplayMax = 100,
+            ChartColor = "White"
+        };
+
+        highestAlloyPoint = 0;
+        highestEtherPoint = 0;
+        highestPyrePoint = 0;
+        highestArmyPoint = 0;
+
+        for (var interval = 0; interval < economyOverTime.Count(); interval++) {
+            var army = from unit in BuildOrderService.GetCompletedBefore(interval)
+                where unit.EntityType == EntityType.Army
+                select unit;
+
+            var armyValue = 0;
+            foreach (var unit in army) {
+                armyValue += unit.Production().Alloy + unit.Production().Ether;
+            }
+
+
+            highestArmyPoint = Math.Max(highestArmyPoint, armyValue);
+
+            armyChart.Points.Add(new PointModel { Interval = interval, Value = armyValue });
+        }
+
+
+        for (var interval = 0; interval < economyOverTime.Count(); interval++) {
+            var alloyPoint = new PointModel { Interval = interval };
+            var etherPoint = new PointModel { Interval = interval };
+            var pyrePoint = new PointModel { Interval = interval };
+
+            var economyAtSecond = economyOverTime[interval];
+
+            var alloyWorkerHarvesters = from harvester in economyAtSecond.Harvesters
+                where harvester.Harvest() != null
+                where harvester.Harvest().RequiresWorker
+                where harvester.Harvest().Resource == ResourceType.Alloy
+                select harvester;
+
+            var alloyAutomaticHarvesters = from harvester in economyAtSecond.Harvesters
+                where harvester.Harvest() != null
+                where harvester.Harvest().RequiresWorker == false
+                where harvester.Harvest().Resource == ResourceType.Alloy
+                select harvester;
+
+            var etherAutomaticHarvesters = from harvester in economyAtSecond.Harvesters
+                where harvester.Harvest() != null
+                where harvester.Harvest().RequiresWorker == false
+                where harvester.Harvest().Resource == ResourceType.Ether
+                select harvester;
+
+            float autoAlloy = 0;
+            float workerSlots = 0;
+            float workerAlloy = 0;
+            float autoEther = 0;
+
+            float economySpending = 0;
+
+            foreach (var alloyAutoHarvester in alloyAutomaticHarvesters) {
+                autoAlloy += alloyAutoHarvester.Harvest().Slots * alloyAutoHarvester.Harvest().HarvestedPerInterval;
+                var production = alloyAutoHarvester.Production();
+                if (production != null) {
+                    economySpending += production.Alloy;
+                }
+            }
+
+            foreach (var alloyWorkerHarvester in alloyWorkerHarvesters) {
+                workerSlots += alloyWorkerHarvester.Harvest().Slots;
+                var production = alloyWorkerHarvester.Production();
+                if (production != null) {
+                    economySpending += production.Alloy;
+                }
+            }
+
+            foreach (var etherWorkerHarvester in etherAutomaticHarvesters) {
+                autoEther += etherWorkerHarvester.Harvest().Slots * etherWorkerHarvester.Harvest().HarvestedPerInterval;
+                var production = etherWorkerHarvester.Production();
+                if (production != null) {
+                    economySpending += production.Alloy;
+                }
+            }
+
+            economySpending += (economyAtSecond.WorkerCount - 6) * 50;
+
+            workerAlloy = Math.Min(economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount, workerSlots);
+
+
+            alloyPoint.TempValue = workerAlloy + autoAlloy;
+            etherPoint.Value = autoEther;
+
+
+            if (interval > 0) {
+                alloyPoint.TempValue += alloyChart.Points.Last().TempValue;
+                etherPoint.Value += etherChart.Points.Last().Value;
+                pyrePoint.Value = pyreChart.Points.Last().Value + 1;
+            }
+
+            alloyPoint.Value = alloyPoint.TempValue - economySpending;
+
+            highestAlloyPoint = Math.Max(highestAlloyPoint, alloyPoint.Value);
+            highestEtherPoint = Math.Max(highestEtherPoint, etherPoint.Value);
+
+            alloyChart.Points.Add(alloyPoint);
+            etherChart.Points.Add(etherPoint);
+            pyreChart.Points.Add(pyrePoint);
+        }
+
+        alloyChart.HighestValuePoint = (int)Math.Max(highestAlloyPoint, 5000.0f);
+        etherChart.HighestValuePoint = (int)Math.Max(highestEtherPoint, 2000.0f);
+        pyreChart.HighestValuePoint = (int)Math.Max(highestPyrePoint, 2000.0f);
+
+        alloyChart.HighestIntervalPoint = economyOverTime.Count();
+        etherChart.HighestIntervalPoint = economyOverTime.Count();
+        pyreChart.HighestIntervalPoint = economyOverTime.Count();
+
+        armyChart.HighestValuePoint = (int)Math.Max(highestArmyPoint, 2000.0f);
+        armyChart.HighestIntervalPoint = economyOverTime.Count();
+
+
+        charts.Add(alloyChart);
+        charts.Add(etherChart);
+
+
+    //TODO WIP
+    //charts.Add(pyreChart);
+
+        charts.Add(armyChart);
+
+        StateHasChanged();
+    }
+
+}

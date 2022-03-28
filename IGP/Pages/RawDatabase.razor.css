@@ -1,0 +1,15 @@
+﻿.page {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+}
+
+@media only screen and (max-width: 1025px) {
+    .page {
+        display: flex;
+        flex-direction: column;
+        padding: 2px;
+        gap: 2px;
+    }
+}

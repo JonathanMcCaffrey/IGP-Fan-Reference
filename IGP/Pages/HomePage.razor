@@ -1,0 +1,149 @@
+﻿@layout PageLayout;
+
+@page "/immortal-home"
+
+<LayoutMediumContentComponent>
+    <div class="mainContainer">
+        <div class="mainTitle">
+            Fan Reference
+        </div>
+
+        <div>
+            Refer to various aspects of "IMMORTAL: Gates of Pyre" from this external reference!
+        </div>
+    </div>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <div class="herosContainer">
+        <div class="hero">
+            <div class="heroTitle">
+                Database
+            </div>
+            <img src="image/hero/Database.png" class="heroImage"/>
+            <NavLink Href="/database" class="heroCallToAction">
+                Review the units!
+            </NavLink>
+        </div>
+
+
+        <div class="hero">
+            <div class="heroTitle">
+                Build Calculator
+            </div>
+            <img src="image/hero/Build.png" class="heroImage"/>
+            <NavLink Href="/build-calculator" class="heroCallToAction">
+                Make a build!
+            </NavLink>
+        </div>
+
+
+        <div class="hero">
+            <div class="heroTitle">
+                Notes
+            </div>
+            <img src="image/hero/Notes.png" class="heroImage"/>
+            <NavLink Href="/notes" class="heroCallToAction">
+                Read some notes!
+            </NavLink>
+        </div>
+
+
+        <div class="hero">
+            <div class="heroTitle">
+                Streams
+            </div>
+            <img src="image/hero/Streams.png" class="heroImage"/>
+            <NavLink Href="/streams" class="heroCallToAction">
+                Watch live development!
+            </NavLink>
+        </div>
+
+    </div>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <AlertComponent>
+        <Title>Under Construction</Title>
+        <Message>Website is still being made. Check out <NavLink Href="/immortal-roadmap">Road Map</NavLink> for future plans, <NavLink Href="/immortal-agile">Agile</NavLink> for present tasks, and <NavLink Href="/immortal-changelog">Change Log</NavLink> for past changes.</Message>
+
+    </AlertComponent>
+
+</LayoutMediumContentComponent>
+
+<style>
+    .mainContainer {
+        padding-bottom: 32px;
+    }
+
+    .mainTitle {
+        font-size: 2.2rem;
+        font-weight: bold;
+    }
+
+    .quoteContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+
+
+    .quoteTitle {
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .quoteText {
+        margin: auto;
+        font-style: italic;
+    }
+
+    .herosContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 64px;
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+
+    .heroTitle {
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin: auto;
+    }
+
+    .heroImage {
+        border: 1px solid rgba(0,0,0,0.5);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        height: 400px;
+        width: 400px;
+        margin: auto;
+    }
+
+    .heroCallToAction {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: auto;
+        background-color: var(--primary);
+        border: 1px solid var(--primary);
+        padding: 16px;
+        cursor: pointer;
+        color: white;
+    }
+
+        .heroCallToAction:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-border-hover);
+        }
+
+</style>

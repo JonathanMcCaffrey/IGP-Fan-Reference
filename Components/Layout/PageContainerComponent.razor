@@ -1,0 +1,30 @@
+﻿<div class="content">
+    @ChildContent
+</div>
+
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        border: 2px solid black;
+        min-height: 50vh;
+        padding-bottom: 124px
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .content {
+            padding: 10px;
+            border: 0px solid black;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

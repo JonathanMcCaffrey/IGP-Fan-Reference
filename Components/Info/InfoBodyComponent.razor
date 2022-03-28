@@ -1,0 +1,44 @@
+﻿<div class="infoContainer">
+    @if (InfoQuestionComponent != null) {
+        <div class="infoTitle">@InfoQuestionComponent</div>
+    }
+    @if (InfoAnswerComponent != null) {
+        <div>@InfoAnswerComponent</div>
+    }
+</div>
+
+<style>
+    .infoContainer {
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 16px;
+        margin: auto;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .infoTitle {
+        font-weight: 800;
+        font-size: 1.3rem;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .infoContainer {
+            padding: 2px;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? InfoQuestionComponent { get; set; }
+
+    [Parameter]
+    public RenderFragment? InfoAnswerComponent { get; set; }
+
+}

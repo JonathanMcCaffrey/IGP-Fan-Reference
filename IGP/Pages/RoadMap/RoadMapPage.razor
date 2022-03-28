@@ -1,0 +1,27 @@
+﻿@layout PageLayout
+
+@page "/roadmap"
+
+<LayoutLargeContentComponent>
+    <WebsiteTitleComponent>Road Map</WebsiteTitleComponent>
+
+    <div class="roadMapsContainer">
+        @foreach (var roadMap in data) {
+            <RoadMapComponent RoadMap=roadMap/>
+        }
+    </div>
+</LayoutLargeContentComponent>
+
+<style>
+    .roadMapsContainer {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: center;
+    }
+</style>
+
+@code {
+    readonly List<ImmortalRoadMapModel> data = ImmortalRoadMapModel.Data;
+}

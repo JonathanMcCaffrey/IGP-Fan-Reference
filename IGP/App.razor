@@ -1,0 +1,30 @@
+﻿@inject HttpClient HttpClient
+@inject DatabaseContext Database
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+
+<style>
+    a {
+        color: #8fc5ff;
+        font-weight: 700;
+    }
+
+        a:hover {
+            color: #d2f0ff;
+            text-decoration: underline;
+            text-decoration-color: #8fc5ff;
+            text-decoration-thickness: 3px;
+        }
+</style>

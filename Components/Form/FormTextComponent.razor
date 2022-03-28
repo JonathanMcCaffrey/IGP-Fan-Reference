@@ -1,0 +1,75 @@
+﻿<div class="formContainer">
+    @if (Label != "") {
+        <div class="formLabel">
+            @Label
+        </div>
+    }
+    <div>
+        <input readonly="@ReadOnly"
+               class="formTextInput"
+               placeholder="@Placeholder"
+               type="text"
+               value="@Value"
+               id="@labelId"
+               @onchange="OnChange"/>
+    </div>
+    @if (Info != "") {
+        <div class="formInfo">
+            @Info
+        </div>
+    }
+</div>
+<style>
+    .formContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .formLabel {
+        font-weight: 800;
+    }
+
+    .formInfo {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    .formTextInput {
+        border-radius: 1px;
+        padding: 8px;
+        display: block;
+        width: 100%;
+        background-color: var(--primary);
+        border: 4px solid var(--primary-border);
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string Info { get; set; } = "";
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    private string labelId = "";
+
+    protected override void OnInitialized() {
+        labelId = Label.ToLower().Replace(" ", "_");
+    }
+
+}

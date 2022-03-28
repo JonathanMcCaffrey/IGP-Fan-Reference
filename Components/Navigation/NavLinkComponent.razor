@@ -1,0 +1,84 @@
+﻿@using Services
+@using Model.Website
+@using Model.Website.Enums
+@inject INavigationService NavigationService;
+@inject NavigationManager NavigationManager;
+
+
+@if (IsOnPage) {
+    <NavLink href="@Page.Href" class="navContainer navLink navSelected">
+        <div class="navName">
+            @Page.Name
+        </div>
+    </NavLink>
+}
+else {
+    <NavLink @onclick="() => NavigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="navContainer navLink">
+        <div class="navName">
+            @Page.Name
+        </div>
+    </NavLink>
+}
+
+<style>
+    .navContainer {
+        cursor: pointer;
+        border: 2px solid black;
+        border: none;
+        height: 60px;
+        width: 100%;
+        display: block;
+        display: flex;
+        border: none;
+    }
+
+    .navName {
+        margin: auto;
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+
+    .navLink {
+        background-color: var(--primary);
+        border: 1px solid var(--primary);
+    }
+
+        .navLink:hover {
+            color: #8EC3FF;
+            background-color: var(--primary-hover);
+            border-color: var(--primary-border-hover);
+        }
+
+    .navSelected {
+        background-color: var(--primary-hover);
+    }
+
+</style>
+
+
+@code {
+
+    [Parameter]
+    public WebPageModel Page { get; set; }
+
+    bool IsOnPage = false;
+
+    protected override async Task OnParametersSetAsync() {
+        var uri = NavigationManager.Uri.Remove(0, NavigationManager.BaseUri.Count()).ToLower();
+
+        IsOnPage = Page.Href.ToLower().Equals(uri);
+    }
+
+
+    void OnNavigationChanged() {
+        StateHasChanged();
+    }
+
+    void OnBack() {
+        NavigationService.Back();
+    }
+
+}

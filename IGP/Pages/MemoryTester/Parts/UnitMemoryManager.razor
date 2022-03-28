@@ -1,0 +1,94 @@
+﻿@implements IDisposable;
+
+@inject IMemoryTesterService MemoryTesterService;
+
+<div class="quizContainer">
+    <div class="quizListContainer">
+        @if (entities != null && questions != null) {
+            @foreach (var entityMemory in entities) {
+                <UnitMemory EntityMemory="entityMemory"></UnitMemory>
+            }
+        }
+    </div>
+
+    <div class="quizButtons">
+        <ButtonComponent ButtonType="ButtonType.Secondary" OnClick="OnRefreshQuiz">Refresh</ButtonComponent>
+        <ButtonComponent ButtonType="ButtonType.Primary" OnClick="OnSubmitQuiz">Submit</ButtonComponent>
+    </div>
+</div>
+
+<style>
+    .quizContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+
+    .quizListContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    @@media (min-width: @SupportedWebSizes.Tablet) {
+        .quizContainer {
+        }
+
+        .quizButtons {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .quizListContainer {
+        }
+    }
+
+    @@media (min-width: @SupportedWebSizes.Desktop) {
+        .quizListContainer {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+</style>
+
+
+@code {
+    private List<MemoryEntityModel> entities;
+    private List<MemoryQuestionModel> questions;
+
+    protected override void OnInitialized() {
+        MemoryTesterService.Subscribe(OnMemoryEvent);
+
+        MemoryTesterService.GenerateQuiz();
+    }
+
+    void IDisposable.Dispose() {
+        MemoryTesterService.Unsubscribe(OnMemoryEvent);
+    }
+
+    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent) {
+        if (memoryTesterEvent == MemoryTesterEvent.OnVerify) {
+            StateHasChanged();
+        }
+
+        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh) {
+            entities = MemoryTesterService.GetEntities();
+            questions = MemoryTesterService.GetQuestions();
+
+            StateHasChanged();
+        }
+    }
+
+    void OnSubmitQuiz(EventArgs eventArgs) {
+        MemoryTesterService.Verify();
+    }
+
+    void OnRefreshQuiz(EventArgs eventArgs) {
+        MemoryTesterService.GenerateQuiz();
+    }
+
+}

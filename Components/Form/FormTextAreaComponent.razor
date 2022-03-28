@@ -1,0 +1,90 @@
+﻿<div class="form-text-container">
+    @if (Label != "") {
+        <div class="form-label">
+            @Label
+        </div>
+    }
+    <div>
+        <textarea readonly="@ReadOnly"
+                  class="textAreaInput"
+                  type="text"
+                  rows="@Rows"
+                  value="@Value"
+                  @onchange="OnChange" />
+    </div>
+    @if (Info != "") {
+        <div class="form-info">
+            @Info
+        </div>
+    }
+</div>
+
+<style>
+    .form-text-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .textAreaInput {
+        width: 100%;
+        border-radius: 1px;
+        padding: 8px;
+        background-color: var(--primary);
+        border: 4px solid var(--primary-border);
+    }
+
+    .form-text-container .form-label {
+        font-weight: 800;
+    }
+
+    .form-text-container .form-info {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    .form-text-container .form-text-input {
+        background-color: #2C2E33;
+        border: 3px solid #A8ADB9;
+        border-radius: 1px;
+        padding: 8px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? FormLabelComponent { get; set; }
+
+    [Parameter]
+    public RenderFragment? FormInfoComponent { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool? ReadOnly { get; set; }
+
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public int Rows { get; set; } = 4;
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string Info { get; set; } = "";
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    private string labelId = "";
+
+    protected override void OnInitialized() {
+        labelId = Label.ToLower().Replace(" ", "_");
+    }
+
+}

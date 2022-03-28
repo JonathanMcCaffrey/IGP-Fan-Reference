@@ -1,0 +1,202 @@
+﻿<div class="sprintContainer">
+    <div class="tasksContainer">
+        @foreach (var task in Backlog) {
+            <div class="taskContainer @task.Status.ToLower()">
+                <div class="taskName">@task.Name</div>
+                <div class="taskDetails">
+                    <LayoutRowComponent>
+                        <LayoutColumnComponent>
+                            <div class="taskType">
+                                <b>Type: </b>@task.Task.Replace("_", " ")
+                            </div>
+                            <div class="taskStatus">
+                                <b>Status: </b>@task.Status.Replace("_", " ")
+                            </div>
+                            <div class="taskPriority">
+                                <b>Priority: </b>@task.Priority
+                            </div>
+                        </LayoutColumnComponent>
+                        <LayoutColumnComponent>
+                            @if (task.Finished != null) {
+                                <div class="taskFinished">
+                                    <b>Finished: </b>@task.Finished
+                                </div>
+                            }
+                            <div class="taskCreated">
+                                <b>Created: </b>@task.Created
+                            </div>
+                        </LayoutColumnComponent>
+                    </LayoutRowComponent>
+                </div>
+                <div class="taskDescription">
+                    <b>Description: </b>@task.Description
+                </div>
+                <div class="taskNotes">
+                    <b>Notes: </b>@task.Notes
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+<style>
+    .sprintContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 16px;
+    }
+
+    .sprintDescription {
+        grid-area: description;
+    }
+
+    .sprintStartDate {
+    }
+
+    .sprintEndDate {
+    }
+
+    .sprintNotes {
+    }
+
+
+    @@media only screen and (max-width: 1025px) {
+        .sprintContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border: none;
+            margin-top: 12px;
+            box-shadow: none;
+            padding: 8px;
+        }
+
+        .sprintStartDate {
+            text-align: left;
+        }
+
+        .sprintEndDate {
+            text-align: left;
+        }
+    }
+
+    .tasksContainer {
+        grid-area: tasks;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 25px;
+        align-items: stretch;
+        justify-content: stretch;
+        justify-items: stretch;
+    }
+
+    .taskContainer {
+        padding: 25px;
+        border: 1px dashed rgba(0,0,0,0.6);
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
+
+
+
+
+
+    .taskContainer.@StatusType.In_Progress.ToLower() {
+        border-color: #030129;
+        background-color: #2c3a4c;
+    }
+
+    .taskContainer.@StatusType.Todo.ToLower() {
+        border-color: #2a2000;
+        background-color: #ffbf0029;
+    }
+
+    .taskContainer.@StatusType.To_Test.ToLower() {
+        border-color: #030129;
+        background-color: #2c3a4c;
+    }
+
+    .taskContainer.@StatusType.Canceled.ToLower() {
+        border-color: #290102;
+        background-color: #4C2C33;
+    }
+
+    .taskContainer.@StatusType.Done.ToLower() {
+        border-color: #042901;
+        background-color: #2E4C2C;
+    }
+
+
+    .taskName {
+        font-weight: bold;
+        grid-area: name;
+    }
+
+    .taskCreated {
+        grid-area: created;
+    }
+
+    .taskFinished {
+        grid-area: finished;
+    }
+
+    .taskStatus {
+        grid-area: status;
+    }
+
+    .taskDescription {
+        margin-top: 10px;
+        grid-area: description;
+    }
+
+    .taskNotes {
+        grid-area: notes;
+    }
+
+
+    @@media only screen and (max-width: 1025px) {
+        .tasksContainer {
+             padding: 0px;
+             margin-top: 12px;
+             padding-top: 12px;
+             border-top: 4px solid rgba(0,0,0,0.4)
+        }
+
+        .taskContainer {
+            padding: 2px;
+            border: none;
+            box-shadow: none;
+        }
+
+        .taskContainer.@StatusType.In_Progress.ToLower() {
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        .taskContainer.@StatusType.Todo.ToLower() {
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        .taskContainer.@StatusType.Canceled.ToLower() {
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        .taskContainer.@StatusType.Done.ToLower() {
+            border-color: transparent;
+            background-color: transparent;
+        }
+    }
+
+</style>
+
+@code {
+
+    [Parameter]
+    public List<TaskModel> Backlog { get; set; }
+
+}

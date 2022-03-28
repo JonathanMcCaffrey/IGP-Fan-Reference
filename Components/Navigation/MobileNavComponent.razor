@@ -1,0 +1,170 @@
+﻿@using Model.Website
+@using Microsoft.EntityFrameworkCore
+<div class="mobileFooter">
+    <div class="mobileNavSectionsContainer">
+        @foreach (var _section in WebSections) {
+            <div class="mobileNavSectionButton" @onclick="() => OnSectionClicked(_section)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+                <div class="mobileNavSectionButtonText">
+                    @_section.Name
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="fullPageButton @(selectedSection != null)" @onclick="OnPageClicked" @onclick:stopPropagation="false" @onclick:preventDefault="false">
+    </div>
+
+    @if (selectedSection != null) {
+        var pages = (from page in WebPages
+            where page.WebSectionModelId == selectedSection.Id
+            select page).ToList();
+
+        <div class="mobileNavPagesContainer">
+            @foreach (var _page in pages) {
+                if (_page.IsPrivate.Equals("True")) {
+                    continue;
+                }
+                <div class="mobileNavPageButton" @onclick="() => OnPageLinkClicked(_page)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+                    <div class="mobileNavPageButtonText">
+                        @_page.Name
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+<style>
+    fullPageButton {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        bottom: 0;
+        display: none;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    .fullPageButton.True {
+        display: block;
+    }
+
+
+    .mobileFooter {
+        position: fixed;
+        background-color: rgba(0,0,0,1);
+        width: 100vw;
+        bottom: 0;
+        display: none;
+    }
+
+    .mobileNavPagesContainer {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        bottom: 0;
+        width: 100vw;
+        background-color: black;
+        padding-bottom: 6px;
+        padding-top: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+        gap: 2px;
+    }
+
+    .mobileNavSectionsContainer {
+        display: grid;
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+        width: 100%;
+        padding-bottom: 6px;
+        padding-top: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+        gap: 2px;
+    }
+
+    .mobileNavSectionButton {
+        border: 1px solid var(--primary);
+        width: 100%;
+        height: 64px;
+        display: flex;
+        background-color: var(--primary);
+        cursor: pointer;
+    }
+
+    .mobileNavPageButton {
+        border: 1px solid var(--primary);
+        width: 100%;
+        height: 64px;
+        display: flex;
+        background-color: var(--primary);
+        cursor: pointer;
+    }
+
+
+        .mobileNavPageButton:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-border-hover);
+        }
+
+
+    .mobileNavSectionButton:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-border-hover);
+    }
+
+    .mobileNavSectionButtonText {
+        font-size: 0.75rem;
+        text-align: center;
+        margin: auto;
+        font-weight: bolder;
+    }
+
+    .mobileNavPageButtonText {
+        font-size: 1.1rem;
+        text-align: center;
+        margin: auto;
+        font-weight: bolder;
+    }
+
+    @@media only screen and (max-width: 480px) {
+        .mobileFooter {
+            display: block;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public DbSet<WebSectionModel> WebSections { get; set; }
+
+    [Parameter]
+    public DbSet<WebPageModel> WebPages { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+
+    public WebSectionModel selectedSection;
+    public WebPageModel selectedPage;
+
+
+    void OnSectionClicked(WebSectionModel webSection) {
+        selectedSection = webSection;
+    }
+
+    void OnPageLinkClicked(WebPageModel webPage) {
+        selectedPage = webPage;
+        selectedSection = null;
+
+        NavigationManager.NavigateTo(webPage.Href);
+    }
+
+    void OnPageClicked(EventArgs eventArgs) {
+        selectedPage = null;
+        selectedSection = null;
+    }
+
+}

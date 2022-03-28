@@ -1,0 +1,43 @@
+﻿@if (Entity.IdAbilities().Count > 0) {
+    <EntityDisplayComponent Title="Abilities">
+        @foreach (var idAbility in Entity.IdAbilities()) {
+            var spell = EntityModel.Get(idAbility.Id);
+
+            var info = spell.Info();
+            var production = spell.Production();
+
+            <div>
+                <div>
+                    <b>Name:</b> @info.Name
+                </div>
+                <div style="max-width: 600px;">
+                    <b>Description:</b> @((MarkupString)info.Description)
+                </div>
+                <div>
+                    @if (production != null) {
+                        if (production.Energy != 0) {
+                            <b> Energy: </b>
+                            @production.Energy
+                        }
+                        if (production.BuildTime != 0) {
+                            <b> BuildTime: </b>
+                            @production.BuildTime
+                        }
+                        if (production.Cooldown != 0) {
+                            <b> Cooldown: </b>
+                            @production.Cooldown
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </EntityDisplayComponent>
+}
+
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

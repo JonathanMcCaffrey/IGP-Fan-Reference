@@ -1,0 +1,51 @@
+﻿@implements IDisposable
+
+<div style="overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;">
+    @if (Entity != null) {
+        <EntityViewComponent Entity=Entity></EntityViewComponent>
+    }
+</div>
+
+@code {
+    EntityModel Entity;
+
+    [Inject]
+    IKeyService KeyService { get; set; }
+
+    [Inject]
+    IImmortalSelectionService FilterService { get; set; }
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+    protected override void OnInitialized() {
+        KeyService.Subscribe(HandleClick);
+        BuildOrderService.Subscribe(OnBuildOrderChanged);
+    }
+
+    void IDisposable.Dispose() {
+        KeyService.Unsubscribe(HandleClick);
+        BuildOrderService.Unsubscribe(OnBuildOrderChanged);
+    }
+
+
+    protected void HandleClick() {
+        var hotkey = KeyService.GetHotkey();
+        var hotkeyGroup = KeyService.GetHotkeyGroup();
+        var isHoldSpace = KeyService.IsHoldingSpace();
+        var faction = FilterService.GetFactionType();
+        var immortal = FilterService.GetImmortalType();
+
+        var foundEntity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
+
+        if (foundEntity != null) {
+            Entity = foundEntity;
+            StateHasChanged();
+        }
+    }
+
+    void OnBuildOrderChanged() {
+        StateHasChanged();
+    }
+
+}

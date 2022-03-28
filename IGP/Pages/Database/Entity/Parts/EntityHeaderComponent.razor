@@ -1,0 +1,46 @@
+﻿<div class="entityHeader">
+    <div class="entityHeaderText">
+        @Entity.Info().Name
+    </div>
+    <div style="font-size:1.4rem;">
+        <b>@Entity.EntityType.Replace("_", " ")</b>
+        @if (Entity.Info().Descriptive != DescriptiveType.None) {
+            <span>
+                <b>:</b> @Entity.Info().Descriptive.Replace("_", " ")
+            </span>
+        }
+    </div>
+</div>
+
+<style>
+    .entityHeader {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        justify-content: space-between;
+        margin-bottom: 22px;
+        width: 100%;
+        margin-left: -6px;
+    }
+
+    .entityHeaderText {
+        font-size: 2rem;
+        font-weight: 900;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .entityHeader {
+            flex-direction: column;
+            justify-content: normal;
+            margin-left: 4px;
+        }
+    }
+</style>
+
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

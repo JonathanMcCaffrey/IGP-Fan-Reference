@@ -1,0 +1,24 @@
+﻿@using Model.Website.Enums
+@using Model.Website
+@if (isDisplayable) {
+    @ChildContent
+}
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public WebDeploymentType DeploymentType { get; set; }
+
+    [Inject]
+    public NavigationManager MyNavigationManager { get; set; }
+
+    bool isDisplayable;
+
+    protected override void OnInitialized() {
+        isDisplayable = DeploymentType == WebDeploymentModel.DeploymentType;
+    }
+
+}

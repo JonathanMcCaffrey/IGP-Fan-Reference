@@ -1,0 +1,28 @@
+﻿<span class="spoiler">
+    <u>@ChildContent</u>
+</span>
+
+<style>
+    .spoiler {
+        color: black;
+        background-color: black;
+    }
+
+    u {
+        text-decoration-color: inherit;
+        text-decoration-thickness:1px;
+    }
+
+    .spoiler:hover {
+        color: inherit;
+        background-color: inherit;
+    }
+
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

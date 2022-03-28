@@ -1,0 +1,106 @@
+﻿
+.desktopFilters {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    top: 50px;
+    padding: 12px;
+    width: 100%;
+    left: 0px;
+}
+
+.desktopFiltersContainer {
+    width: 75%;
+    min-width: 1000px;
+    margin: auto;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-items: flex-start;
+}
+
+.filtersContainer {
+    display: flex;
+    gap: 16px;
+}
+
+.filterContainer {
+    display: flex;
+    background-color: var(--background);
+    gap: 2px;
+    margin-right: auto;
+    border-radius: 8px;
+}
+
+.choiceButton {
+    background-color: var(--primary);
+    color: white;
+    padding: 12px;
+    border: 1px solid var(--primary);
+}
+
+.choiceButton:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-border-hover);
+}
+
+.selected {
+    background-color: var(--secondary);
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.selected:hover {
+    background-color: var(--secondary-hover);
+    border-color: var(--secondary-border-hover);
+}
+
+
+.filterContainer .choiceButton:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+
+.filterContainer .choiceButton:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+@media only screen and (max-width: 1025px) {
+    .desktopNavContainer {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .filtersContainer {
+        flex-direction: column;
+    }
+
+    .filterContainer {
+        flex-direction: column;
+    }
+}
+
+.mobileFilters {
+    display: none;
+}
+
+@media only screen and (max-width: 1024px) {
+    .mobileFilters {
+        display: block;
+    }
+
+    .desktopFilters {
+        display: none;
+    }
+
+    .desktopSpacer {
+        display: none;
+    }
+}

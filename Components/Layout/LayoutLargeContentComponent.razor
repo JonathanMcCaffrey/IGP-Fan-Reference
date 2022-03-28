@@ -1,0 +1,40 @@
+﻿<div class="lrg_container">
+    @ChildContent
+</div>
+
+<style>
+    .lrg_container {
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+        width: 75%;
+        min-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .lrg_container {
+            width: 100%;
+            min-width: 350px;
+        }
+    }
+
+
+
+    @@media only screen and (min-width: 1024px) {
+        .lrg_container {
+            margin-top: 50px;
+        }
+    }
+
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

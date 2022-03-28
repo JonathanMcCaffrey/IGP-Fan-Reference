@@ -1,0 +1,50 @@
+﻿<FormLayoutComponent>
+    <FormNumberComponent ReadOnly="true"
+                         Max="600"
+                         Min="0"
+                         Value="@TimingService.GetTiming()"
+                         OnChange="@OnTimingChanged">
+        <FormLabelComponent>Timing interval</FormLabelComponent>
+        <FormInfoComponent>Altering the time interval is currently disabled.</FormInfoComponent>
+    </FormNumberComponent>
+
+    <FormTextComponent Label="Name" Placeholder="Fast Thrones..." Value="@BuildOrderService.GetName()" OnChange="OnNameChanged"/>
+
+    <FormTextAreaComponent Label="Notes"
+                           Value="@BuildOrderService.GetNotes()"
+                           OnChange="@OnNotesChanged">
+    </FormTextAreaComponent>
+    <FormTextComponent Label="Color" Placeholder="red..." Value="@BuildOrderService.GetColor()" OnChange="OnColorChanged"/>
+</FormLayoutComponent>
+
+@code {
+
+    [Inject]
+    public ITimingService TimingService { get; set; }
+
+    [Inject]
+    public IBuildOrderService BuildOrderService { get; set; }
+
+
+    void OnTimingChanged(ChangeEventArgs changeEventArgs) {
+        TimingService.SetTiming(int.Parse(changeEventArgs.Value.ToString()));
+    }
+
+    void OnTimingChanged(int value) {
+        TimingService.SetTiming(value);
+    }
+
+    void OnNameChanged(ChangeEventArgs changeEventArgs) {
+        BuildOrderService.SetName(changeEventArgs.Value.ToString());
+    }
+
+    void OnColorChanged(ChangeEventArgs changeEventArgs) {
+        BuildOrderService.SetColor(changeEventArgs.Value.ToString());
+    }
+
+
+    void OnNotesChanged(ChangeEventArgs changeEventArgs) {
+        BuildOrderService.SetNotes(changeEventArgs.Value.ToString());
+    }
+
+}

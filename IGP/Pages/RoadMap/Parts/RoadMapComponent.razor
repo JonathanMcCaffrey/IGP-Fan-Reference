@@ -1,0 +1,59 @@
+﻿<div class="roadMapContainer @RoadMap.Status.ToLower()">
+    <div class="roadMapTitle">@RoadMap.Name</div>
+    <div>
+        <b>Priority:</b> @RoadMap.Priority.Replace("_", " ")
+    </div>
+    <div>
+        <b>Status:</b> @RoadMap.Status.Replace("_", " ")
+    </div>
+    <div>@((MarkupString)RoadMap.Description)</div>
+</div>
+
+<style>
+    .roadMapContainer {
+        display: flex;
+        flex-direction: column;
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 16px;
+        width: 100%;
+        gap: 10px;
+        padding-bottom: 26px;
+        max-width: 420px;
+    }
+
+    .roadMapContainer.@ReleaseStatusType.In_Development.ToLower() {
+         border-color: #030129;
+        background-color: #2c3a4c;
+    }
+
+    .roadMapContainer.@ReleaseStatusType.Cancelled.ToLower() {
+        border-color: #290102;
+        background-color: #290102;
+    }
+
+    .roadMapContainer.@ReleaseStatusType.Done.ToLower() {
+        border-color: #042901;
+        background-color: #2E4C2C;
+    }
+
+    .roadMapContainer.@ReleaseStatusType.Future_Possibility.ToLower() {
+        border-color: #2a2000;
+        background-color: #ffbf0029;
+    }
+
+    .roadMapContainer.@ReleaseStatusType.Planned.ToLower() {
+        background-color: var(--paper);
+    }
+
+    .roadMapTitle {
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public ImmortalRoadMapModel? RoadMap { get; set; }
+
+}

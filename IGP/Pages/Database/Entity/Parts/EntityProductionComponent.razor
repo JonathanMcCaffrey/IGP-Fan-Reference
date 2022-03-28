@@ -1,0 +1,94 @@
+﻿@{
+    var production = Entity.Production();
+    var supply = Entity.Supply();
+    var requirements = Entity.Requirements();
+}
+
+@if (production != null || supply != null || requirements.Count > 0) {
+    <EntityDisplayComponent Title="Production">
+        <div class="productionContainer">
+            @if (requirements.Count() > 0) {
+                <div>
+                    @foreach (var requirement in requirements) {
+                        <div>
+
+                            <span>
+                                <b>@requirement.Requirement.Replace("_", " "):</b> @requirement.Name
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (production != null && (!production.Alloy.Equals(0)
+                                        || !production.Ether.Equals(0)
+                                        || !production.BuildTime.Equals(0)
+                                        || !production.Cooldown.Equals(0))) {
+                <div>
+                    @if (!production.Alloy.Equals(0)) {
+                        <div>
+                            <b>Alloy:</b> @production.Alloy
+                        </div>
+                    }
+                    @if (!production.Ether.Equals(0)) {
+                        <div>
+                            <b>Ether:</b> @production.Ether
+                        </div>
+                    }
+                    @if (!production.Pyre.Equals(0)) {
+                        <div>
+                            <b>Pyre:</b> @production.Pyre
+                        </div>
+                    }
+
+                    @if (!production.BuildTime.Equals(0)) {
+                        <div>
+                            <b>Build Time:</b> @production.BuildTime.ToString()s
+                        </div>
+                    }
+
+                    @if (!production.Cooldown.Equals(0)) {
+                        <div>
+                            <b>Cooldown:</b> @production.Cooldown.ToString()s
+                        </div>
+                    }
+                </div>
+            }
+            @if (supply != null) {
+                <div>
+                    @if (!supply.Grants.Equals(0)) {
+                        <div>
+                            <b>Grants:</b> @supply.Grants
+                        </div>
+                    }
+                    @if (!supply.Takes.Equals(0)) {
+                        <div>
+                            <b>Takes:</b> @supply.Takes Supply
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </EntityDisplayComponent>
+}
+
+<style>
+    .productionContainer {
+        display: flex;
+        gap: 32px;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .productionContainer {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

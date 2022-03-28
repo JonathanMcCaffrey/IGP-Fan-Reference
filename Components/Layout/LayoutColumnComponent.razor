@@ -1,0 +1,18 @@
+﻿<div class="columnContainer">
+    @ChildContent
+</div>
+
+<style>
+    .columnContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

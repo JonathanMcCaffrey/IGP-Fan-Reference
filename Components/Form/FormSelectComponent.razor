@@ -1,0 +1,30 @@
+﻿<div style="display: flex; width: 100%; flex-direction: column; gap:6px;">
+    @if (FormLabelComponent != null) {
+        <FormLabelComponent>@FormLabelComponent</FormLabelComponent>
+    }
+    <select style="background-color: #2C2E33; width: 100%; border:3px solid #A8ADB9; border-radius:1px; padding: 8px;"
+            @onchange="OnChange">
+        @ChildContent
+    </select>
+
+    @if (FormInfoComponent != null) {
+        <FormInfoComponent>@FormInfoComponent</FormInfoComponent>
+    }
+</div>
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment? FormLabelComponent { get; set; }
+
+    [Parameter]
+    public RenderFragment? FormInfoComponent { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+}

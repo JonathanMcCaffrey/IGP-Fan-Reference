@@ -1,0 +1,27 @@
+﻿@if (Entity.Mechanics().Count > 0) {
+    <EntityDisplayComponent Title="Mechanics">
+        <div>
+            @foreach (var data in Entity.Mechanics()) {
+                <div>
+                    <div>
+                        <span>
+                            <b>Name:</b> @data.Name
+                        </span>
+                    </div>
+                    <div>
+                        <b>Description:</b> @data.Description
+                    </div>
+                    <br/>
+                </div>
+            }
+        </div>
+
+    </EntityDisplayComponent>
+}
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

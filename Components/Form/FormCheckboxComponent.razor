@@ -1,0 +1,73 @@
+﻿<div class="formContainer">
+    <div class="formTextContainer">
+        <div class="formLabel">
+            @Label:
+        </div>
+        <input readonly="@ReadOnly"
+               class="formCheckboxInput"
+               type="checkbox"
+               id="@labelId"
+               checked="@Value
+               "@onchange="OnChange"/>
+    </div>
+    @if (Info != "") {
+        <div class="formInfo">
+            @Info
+        </div>
+    }
+</div>
+<style>
+    .formContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .formTextContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .formLabel {
+        font-weight: 800;
+    }
+
+    .formInfo {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    .formCheckboxInput {
+        background-color: var(--primary);
+        color: var(--primary);
+        border: 2px solid var(--primary-border);
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string Info { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    private string labelId = "";
+
+    protected override void OnInitialized() {
+        labelId = Label.ToLower().Replace(" ", "_");
+    }
+
+}

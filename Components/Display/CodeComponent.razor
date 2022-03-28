@@ -1,0 +1,27 @@
+﻿<div class="code">
+    @ChildContent
+</div>
+
+<style>
+    .code {
+        font-family: monospace;
+        border: 2px solid white;
+        color: white;
+        padding: 8px;
+        background-color: black;
+        white-space: pre;
+        overflow-x: scroll;
+    }
+
+        .code::-webkit-scrollbar {
+            height: 0;
+            background: transparent;
+        }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+}

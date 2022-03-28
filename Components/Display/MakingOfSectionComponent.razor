@@ -1,0 +1,32 @@
+﻿<details class="makingOfSection">
+    <summary>
+        @Title
+    </summary>
+
+    @ChildContent
+</details>
+
+<style>
+    .makingOfSection {
+        width: 100%;
+        background-color: rgba(0,0,0, 0.1);
+        padding: 25px;
+        border-radius: 8px;
+        border: 2px black dashed;
+    }
+
+        .makingOfSection > summary {
+            font-size: 3.4em;
+        }
+</style>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+
+}

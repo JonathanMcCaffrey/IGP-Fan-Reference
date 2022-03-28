@@ -1,0 +1,119 @@
+﻿@page "/changelog"
+@implements IDisposable;
+@inject IGitService GitService;
+@inject DatabaseContext Database;
+
+@layout PageLayout
+
+
+@if (GitService.IsLoaded()) {
+    <LayoutMediumContentComponent>
+        <WebsiteTitleComponent>Change Log</WebsiteTitleComponent>
+
+        <PaperComponent>
+            <FormLayoutComponent>
+                <FormCheckboxComponent Label="Show Important"
+                                       Info="Only show important patches. Like database updates to the latest game patch."
+                                       Value="@isViewImportant"
+                                       OnChange="OnChangeClicked">
+                </FormCheckboxComponent>
+            </FormLayoutComponent>
+        </PaperComponent>
+
+        <PaperComponent>
+            @foreach (var patch in Patches.OrderBy(x => x.Date).Reverse()) {
+                @if (!patch.Important.Equals("True") && isViewImportant) {
+                    continue;
+                }
+
+                var daysAgo = Math.Floor(DateTime.Now.Subtract(patch.Date).TotalDays);
+
+                <div class="patchContainer">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div style="font-size: 1.2rem; font-weight: bolder; margin-bottom:4px;">
+                            @patch.Name
+                        </div>
+                        <div>
+                            @if (daysAgo == 0) {
+                                <i>Today</i>
+                            }
+                            else if (daysAgo < 8) {
+                                <i>@daysAgo days ago</i>
+                            }
+                            else {
+                                <i>@patch.Date.ToString("dd/MM/yyyy")</i>
+                            }
+
+                        </div>
+                    </div>
+                    <div>
+                        @foreach (var change in patch.ChangeModels) {
+                            @if (!change.Important.Equals("True") && isViewImportant) {
+                                continue;
+                            }
+
+                            <div style="display: flex; justify-content: space-between; ">
+                                <div>
+                                    <div>
+                                        <b>
+                                            - @change.Name
+
+                                            @if (change.Commit != CommitType.None) {
+                                                <span>(@change.Commit)</span>
+                                            }
+                                            :
+                                        </b> @((MarkupString)change.Description)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+                <br/>
+            }
+
+        </PaperComponent>
+    </LayoutMediumContentComponent>
+}
+else {
+    <LoadingComponent></LoadingComponent>
+}
+
+
+@code {
+
+    [Parameter]
+    public DbSet<PatchModel> Patches { get; set; }
+
+    [Parameter]
+    public DbSet<ChangeModel> Changes { get; set; }
+
+    private bool isViewImportant = true;
+
+
+    protected override void OnInitialized() {
+        GitService.Subscribe(HasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        GitService.Unsubscribe(HasChanged);
+    }
+
+
+    void OnChangeClicked(ChangeEventArgs changeEventArgs) {
+        isViewImportant = (bool)changeEventArgs.Value;
+    }
+
+    void HasChanged() {
+        Changes = GitService.ChangeModels;
+        Patches = GitService.PatchModels;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync() {
+        GitService.Load(Database);
+    }
+
+}

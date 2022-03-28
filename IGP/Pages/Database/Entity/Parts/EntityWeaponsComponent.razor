@@ -1,0 +1,114 @@
+﻿@if (Entity.Weapons().Count > 0) {
+    <EntityDisplayComponent Title="Weapons">
+        <div class="weaponsContainer">
+            @foreach (var data in Entity.Weapons()) {
+                <div>
+                    <div>
+                        <div class="damageContainer">
+                            <div>
+                                <b>Damage:</b> @data.Damage
+                            </div>
+                            @if (data.LightDamage != 0) {
+                                <div class="alternateDamage">
+                                    <i>vs Light: @data.LightDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.MediumDamage != 0) {
+                                <div class="alternateDamage">
+                                    <i>vs Medium: @data.MediumDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.HeavyDamage != 0) {
+                                <div class="alternateDamage">
+                                    <i>vs Heavy: @data.HeavyDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.EthericDamageBonus != 0) {
+                                <div class="alternateDamage">
+                                    <i>vs Etheric +@data.EthericDamageBonus</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.StructureDamageBonus != 0) {
+                                <div class="alternateDamage">
+                                    <i>vs Structure: +@data.StructureDamageBonus</i>&nbsp;
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <b>Range:</b> @data.Range
+                    </div>
+                    @if (data.SecondsBetweenAttacks > 0) {
+                        <div>
+                            <b>AttacksPerSecond:</b> @(1 / data.SecondsBetweenAttacks)
+                        </div>
+                        <div>
+                            (or <b>SecondsBetweenAttacks:</b> @data.SecondsBetweenAttacks)
+                        </div>
+                    }
+                    else if (data.AttacksPerSecond > 0) {
+                        <div>
+                            <b>AttacksPerSecond:</b> @data.AttacksPerSecond
+                        </div>
+                        <div>
+                            (or <b>SecondsBetweenAttacks:</b> @(1 / data.AttacksPerSecond))
+                        </div>
+                    }
+
+                    <div>
+                        <b>Targets:</b> @data.Targets
+                    </div>
+                    @if (data.AttacksPerSecond != 0) {
+                        <span>
+                            <b>DPS:</b> @(Math.Round(data.Damage * data.AttacksPerSecond))&nbsp;
+                        </span>
+                        @if (data.LightDamage != 0) {
+                            <span>
+                                <i>L: @(Math.Round(data.LightDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                        @if (data.MediumDamage != 0) {
+                            <span>
+                                <i>M: @(Math.Round(data.MediumDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                        @if (data.HeavyDamage != 0) {
+                            <span>
+                                <i>H: @(Math.Round(data.HeavyDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </EntityDisplayComponent>
+}
+
+<style>
+    .weaponsContainer {
+        display: flex;
+        gap: 32px;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .weaponsContainer {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+
+    .alternateDamage {
+        margin-left: 18px;
+    }
+
+    .damageContainer {
+        margin-bottom: 6px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

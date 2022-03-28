@@ -1,0 +1,52 @@
+﻿<button class="buttonContainer @ButtonType.ToString().ToLower()" @onclick="ButtonClicked">@ChildContent</button>
+
+<style>
+    .buttonContainer {
+        padding: 16px;
+        border: 1px solid;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+    .@(ButtonType.Primary.ToString().ToLower()) {
+        border-color: var(--primary);
+        background-color: var(--primary);
+    }
+
+    .@ButtonType.Secondary.ToString().ToLower() {
+        border-color: var(--secondary);
+        background-color: var(--secondary);
+    }
+
+        .@ButtonType.Primary.ToString().ToLower():hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-border-hover);
+            color: white;
+        }
+
+        .@ButtonType.Secondary.ToString().ToLower():hover {
+            background-color: var(--secondary-hover);
+            border-color: var(--secondary-border-hover);
+            color: white;
+        }
+
+</style>
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<EventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public ButtonType ButtonType { get; set; }
+
+    private void ButtonClicked(EventArgs eventArgs) {
+        OnClick.InvokeAsync(eventArgs);
+    }
+
+}

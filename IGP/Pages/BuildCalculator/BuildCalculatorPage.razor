@@ -1,0 +1,288 @@
+﻿@implements IDisposable
+
+@layout PageLayout
+
+@page "/build-calculator"
+
+<LayoutLargeContentComponent>
+    <WebsiteTitleComponent>Build Calculator</WebsiteTitleComponent>
+
+    <AlertComponent Type="SeverityType.Warning">
+        <Title>Work In Progress and Not Fully Tested</Title>
+        <Message>
+            Currently not considering training queue times. Lacking error toasts for invalid actions. Performance needs to be optimized. Calculations haven't been thoroughly compared against real gameplay. Added a 2 second delay to actions to account for casual micro (will probably tweak later).
+        </Message>
+    </AlertComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+
+    <div class="calculatorGrid">
+
+        <div style="grid-area: timing;" class="gridItem">
+            <InfoTooltipComponent InfoText="Enter build details.
+                                           
+<b>Timing Interval:</b> set the max interval length for the build. <i>Ex. 240 (seconds) is 4 minutes, a possible timing for Thrum build order.</i>
+<b>Name:</b> the name of the build for saving purposes. <i>Ex. 'Safe Thrum Opener'</i>
+<b>Notes:</b> additional notes of the build for saving purposes. <i>Ex. 'Thrums are for harassing and defending against a ground Q'Rath army.'</i>
+<b>Color:</b> value to color charts when comparing builds. Not currently implemented.">
+
+                <TimingComponent></TimingComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        @if (true) {
+            <div style="grid-area: chart;" class="gridItem">
+                <InfoTooltipComponent InfoText="Shows economy at each game interval. Use to determine if spending additional resourcses on harvesters will help or hinder overall timing attack.">
+                    <ChartComponent></ChartComponent>
+                </InfoTooltipComponent>
+            </div>
+        }
+
+        <div style="grid-area: filter;" class="gridItem">
+            <InfoTooltipComponent InfoText="Select build details, such as Faction and Immortal. Affects entities you can build.">
+                <FilterComponent></FilterComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        <div style="grid-area: view;" class="gridItem">
+            <InfoTooltipComponent InfoText="Summary of the entity you just selected.">
+                <EntityClickViewComponent></EntityClickViewComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        <div style="grid-area: bank;" class="gridItem">
+            <InfoTooltipComponent InfoText="Bank at time of last requested action. Use this section to determine if your build is floating too much alloy or ether.">
+                <BankComponent></BankComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        <div style="grid-area: army;" class="gridItem">
+            <InfoTooltipComponent InfoText="Overview of current army, and when it will be ready to begin an attack.">
+                <ArmyComponent></ArmyComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        <div class="gridItem gridKeys">
+
+            <InfoTooltipComponent InfoText="Click on the desired entity to build it. <i>You cannot build entities you cannot afford, construct an ether extractor before spending ether.</i>
+
+You can also use the default Immortal hotkeys, but the above hotkey UI must have focus for this to work. <i>I.e. click on it if hotkeys aren't working, and a white border should appear after key input  to indicate focus.</i>
+
+Additionally, more entities will appear as you build the required technology. You can click or press ` to remove the last made entity. <i>But you cannot remove the starting entities at interval 0.</i>">
+
+                <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
+            </InfoTooltipComponent>
+        </div>
+
+
+        @if (false) {
+            <div style="grid-area: timeline;" class="gridItem">
+                <TimelineComponent></TimelineComponent>
+            </div>
+        }
+
+        <div style="grid-area: highlights;" class="gridItem">
+            <InfoTooltipComponent InfoText="Timeline highlights of your build order. Shows when you start a new action and when the action is done.">
+                <HighlightsComponent></HighlightsComponent>
+            </InfoTooltipComponent>
+        </div>
+
+        <div style="grid-area: buildorder;" class="gridItem">
+            <InfoTooltipComponent InfoText="Some raw JSON data to represent your build order.">
+                <BuildOrderComponent></BuildOrderComponent>
+            </InfoTooltipComponent>
+        </div>
+    </div>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <PaperComponent>
+        <FormLayoutComponent>
+            <InfoBodyComponent>
+                <InfoQuestionComponent>
+                    What is this tool?
+                </InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    This is a calculator to determine build timings. Mostly so someone can quickly try out a few build orders to see if they somewhat make sense.
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+
+            <InfoBodyComponent>
+                <InfoQuestionComponent>
+                    How does it work?
+                </InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    The tool calculates every second of game time. So if you attempt to build a <b>Legion Hall</b> as your first action, the tool will scan every second, until you get to one where the request can be made. In this case, that is interval 58.
+                    <br/>
+                    <br/>
+                    If you then build 2 <b>Apostle of Bindings</b> a <b>Soul Foundry</b> and a 3 <b>Absolvers</b> you should see yourself roughly floating 500 alloy, with barely having any ether. Which means you could of gotten an <b>Acropolis</b> and a <b>Zentari</b> without hurting your build.
+                    <br/>
+                    <br/>
+                    Try building <b>Apostle of Bindings</b> before the <b>Legion Hall</b> and see how that changes the timing of your 3 <b>Absolvers</b>. (Spoiler: <SpoilerTextComponent> your <b>Absolvers</b> will be built much faster, and you won't be floating so much alloy.</SpoilerTextComponent>)
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+
+            <InfoBodyComponent>
+                <InfoQuestionComponent>
+                    What is CONTROl key for?
+                </InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    Economy and tech related upgrades for townhalls.
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+
+            <InfoBodyComponent>
+                <InfoQuestionComponent>
+                    What is SHIFT key for?
+                </InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    Misc building related upgrades. (Omnivores)
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+
+            <InfoBodyComponent>
+                <InfoQuestionComponent>
+                    What is 2 key for?
+                </InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    It will be for Pyre camps. Currently not implemented.
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+        </FormLayoutComponent>
+    </PaperComponent>
+</LayoutLargeContentComponent>
+
+
+<style>
+    .calculatorGrid {
+        display: grid;
+        gap: 8px;
+        max-width: 90vw;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 600px 400px 450px;
+        grid-template-areas:
+            'timing view view view'
+            'filter bank army army'
+            'keys keys highlights buildorder'
+            'chart chart chart chart';
+    }
+
+    .gridItem {
+        border: 2px solid var(--paper-border);
+        padding: 20px;
+        background-color: var(--paper);
+    }
+
+    .gridKeys {
+        grid-area: keys;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .gridKeys {
+            background-color: #282A30;
+        }
+
+        .calculatorGrid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            grid-template-areas:
+                'timing'
+                'view'
+                'filter'
+                'keys'
+                'bank'
+                'army'
+                'highlights'
+                'buildorder'
+                'chart';
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+
+        .gridItem {
+            padding: 0px;
+            border: 0px;
+            width: 100%;
+        }
+    }
+</style>
+
+
+@code {
+
+    [Inject]
+    IKeyService KeyService { get; set; }
+
+    [Inject]
+    IImmortalSelectionService FilterService { get; set; }
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+    [Inject]
+    IEconomyService EconomyService { get; set; }
+
+    [Inject]
+    ITimingService TimingService { get; set; }
+
+    Dictionary<int, List<EntityModel>> completedEntities = new();
+
+    List<EntityModel> entities = EntityModel.GetListOnlyHotkey();
+
+    protected override void OnInitialized() {
+        KeyService.Subscribe(HandleClick);
+        FilterService.Subscribe(StateHasChanged);
+        EconomyService.Subscribe(StateHasChanged);
+        TimingService.Subscribe(HandleTimingChanged);
+        EconomyService.Calculate(BuildOrderService, TimingService, 0);
+    }
+
+    void IDisposable.Dispose() {
+        KeyService.Unsubscribe(HandleClick);
+        FilterService.Unsubscribe(StateHasChanged);
+        TimingService.Unsubscribe(StateHasChanged);
+        EconomyService.Unsubscribe(StateHasChanged);
+    }
+
+
+    protected void HandleTimingChanged() {
+        EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+    }
+
+    protected void HandleClick() {
+        var hotkey = KeyService.GetHotkey();
+
+        if (hotkey == "") {
+            return;
+        }
+
+        if (hotkey == "`") {
+            BuildOrderService.RemoveLast();
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+            StateHasChanged();
+            return;
+        }
+
+        var hotkeyGroup = KeyService.GetHotkeyGroup();
+        var isHoldSpace = KeyService.IsHoldingSpace();
+        var faction = FilterService.GetFactionType();
+        var immortal = FilterService.GetImmortalType();
+
+        var entity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
+
+        if (entity == null) {
+            return;
+        }
+        if (BuildOrderService.Add(entity, EconomyService)) {
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+        }
+    }
+
+}

@@ -1,0 +1,51 @@
+﻿@inherits LayoutComponentBase;
+
+@inject IWebsiteService WebService;
+@implements IDisposable;
+
+@inject DatabaseContext Database;
+<div class="layoutContainer" @onclick="OnPageClicked">
+    @if (!WebService.IsLoaded()) {
+        <LoadingComponent></LoadingComponent>
+    }
+    else {
+        <div class="content">
+            @Body
+        </div>
+        <DesktopNavComponent WebSections=WebService.WebSectionModels
+                             WebPages=WebService.WebPageModels/>
+        <TabletNavComponent WebSections=WebService.WebSectionModels
+                            WebPages=WebService.WebPageModels/>
+        <MobileNavComponent WebSections=WebService.WebSectionModels
+                            WebPages=WebService.WebPageModels/>
+    }
+</div>
+
+@code {
+    bool NavOpen = true;
+
+    void OnNavClicked(EventArgs eventArgs) {
+        NavOpen = !NavOpen;
+    }
+
+    void OnPageClicked(EventArgs eventArgs) {
+        NavOpen = false;
+    }
+
+    protected override void OnInitialized() {
+        WebService.Subscribe(HasChanged);
+    }
+
+    protected override async Task OnInitializedAsync() {
+        await WebService.Load(Database);
+    }
+
+    void IDisposable.Dispose() {
+        WebService.Unsubscribe(HasChanged);
+    }
+
+    void HasChanged() {
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,220 @@
+﻿@layout PageLayout
+
+@page "/database"
+
+@implements IDisposable
+
+<LayoutLargeContentComponent>
+    <WebsiteTitleComponent>Database</WebsiteTitleComponent>
+
+    <PaperComponent>
+        <FormDisplayComponent Label="Patch">
+            <Display>
+                Game Patch: @EntityModel.GameVersion
+            </Display>
+        </FormDisplayComponent>
+    </PaperComponent>
+
+    <PaperComponent>
+        <EntityFilterComponent></EntityFilterComponent>
+
+        @if (searches != null) {
+            <div class="databaseItems">
+                @foreach (var entity in searches) {
+                    <EntityViewComponent Entity=entity></EntityViewComponent>
+                }
+            </div>
+        }
+    </PaperComponent>
+
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <PaperComponent>
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                What is this tool?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                This is a reference database. Mostly so unit stats can be reviewed outside of the game, IMMORTAL: Gates of Pyre.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Is this database complete?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                No. A lot of content is missing, that needs to be manually transfered from screenshots of IMMORTAL: Gates of Pyre. This will happen slowly over-time.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Is this database updated to the latest version?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                Maybe. Check this <b>@EntityModel.GameVersion</b> version number, and compare it to the number on discord, in the <b>#game-updates</b> channel. That should give a general sense of how out of date the data is.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                This database has some errors in it.
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                Yup. The content is being transferred by hand, so some mistakes are expected.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Can I see this data as raw JSON?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                <a href="/raw-database">raw json link</a>
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+    </PaperComponent>
+</LayoutLargeContentComponent>
+
+<style>
+    .databaseItems {
+        height: 700px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: var(--background);
+        gap: 4px;
+        border-top: 4px solid var(--accent);
+        border-bottom: 4px solid var(--accent);
+        padding: 4px;
+    }
+</style>
+
+
+@code {
+
+    [Inject]
+    public IEntityFilterService EntityFilterService { get; set; }
+
+    readonly List<EntityModel> defaults = (from entity in EntityModel.GetList()
+        where entity.IsSpeculative == false
+        select entity).ToList();
+
+    List<EntityModel> factions;
+    List<EntityModel> immortals;
+    List<EntityModel> entities;
+    List<EntityModel> searches;
+
+
+    string selectedFactionType = FactionType.Any;
+    string selectedImmortalType = ImmortalType.Any;
+    string selectedEntityType = EntityType.Army;
+    string searchText = "";
+
+    protected override void OnInitialized() {
+        RefreshFactionSearch();
+
+        EntityFilterService.Subscribe(OnChange);
+    }
+
+    void IDisposable.Dispose() {
+        EntityFilterService.Subscribe(OnChange);
+    }
+
+    void OnChange(EntityFilterEvent filterEntityEvent) {
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshFaction) {
+            RefreshFactionSearch();
+        }
+
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshImmortal) {
+            RefreshImmortalSearch();
+        }
+
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshEntity) {
+            RefreshEntitySearch();
+        }
+
+
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshSearch) {
+            RefreshTextSearch();
+        }
+    }
+
+    void RefreshFactionSearch() {
+        selectedFactionType = EntityFilterService.GetFactionType();
+
+        if (selectedFactionType == FactionType.Any) {
+            factions = defaults.ToList();
+        }
+        else {
+            factions = (from entity in defaults
+                where entity.Faction() != null && entity.Faction().Faction == selectedFactionType
+                select entity).ToList();
+        }
+
+        RefreshImmortalSearch();
+    }
+
+
+    void OnImmortalChanged(ChangeEventArgs e) {
+        selectedImmortalType = e.Value.ToString();
+        RefreshImmortalSearch();
+    }
+
+    void RefreshImmortalSearch() {
+        selectedImmortalType = EntityFilterService.GetImmortalType();
+
+        if (selectedImmortalType == ImmortalType.Any) {
+            immortals = factions.ToList();
+        }
+        else {
+            immortals = (from entity in factions
+                where entity.Vanguard() == null || entity.Vanguard().Immortal == selectedImmortalType
+                select entity).ToList();
+        }
+
+        RefreshEntitySearch();
+    }
+
+    void OnEntityChanged(ChangeEventArgs e) {
+        selectedEntityType = e.Value.ToString();
+        RefreshEntitySearch();
+    }
+
+    void RefreshEntitySearch() {
+        selectedEntityType = EntityFilterService.GetEntityType();
+
+        if (selectedEntityType == EntityType.Any) {
+            entities = immortals.ToList();
+        }
+        else {
+            entities = (from entity in immortals
+                where entity.EntityType == selectedEntityType
+                select entity).ToList();
+        }
+
+        RefreshTextSearch();
+    }
+
+    void OnSearchTextChanged(ChangeEventArgs e) {
+        searchText = e.Value.ToString();
+        RefreshTextSearch();
+    }
+
+    void RefreshTextSearch() {
+        searchText = EntityFilterService.GetSearchText();
+
+        if (searchText.Trim() == "") {
+            searches = entities.ToList();
+        }
+        else {
+            searches = (from entity in entities
+                where entity.Info().Name.ToLower().Contains(searchText.ToLower())
+                select entity).ToList();
+        }
+
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,39 @@
+﻿@layout PageLayout
+
+@page "/memory-tester"
+
+<LayoutMediumContentComponent>
+    <WebsiteTitleComponent>Memory Tester</WebsiteTitleComponent>
+
+    <PaperComponent>
+        <UnitMemoryManager></UnitMemoryManager>
+    </PaperComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <PaperComponent>
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                What is this tool?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                A tool to test your memory of unit stats. Look at the first unit given, and fill in the remaining stats based on how they should compare.
+
+                <br/><br/>
+                For example, if the first unit you see is the Masked Hunter of range 400, do you remember the range of the Scepter? Are they the same? Does the Scepter have double the range of the Masked Hunter? Less range than it? Well, enter your guess and submit! <SpoilerTextComponent>The range is 200 longer, so if you remember that, you know you are going to need more than Masked Hunters to deal with hard to reach enemy Scepters.</SpoilerTextComponent>
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                Why is this tool here?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                It was just a tool to quickly develop for fun when I didn't want to cover something larger on the 02/27/2022 live coding stream.
+                <br/><br/>
+                It may get expanded upon later.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+    </PaperComponent>
+
+</LayoutMediumContentComponent>

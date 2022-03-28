@@ -1,0 +1,86 @@
+﻿@{
+    var vitality = Entity.Vitality();
+    var movement = Entity.Movement();
+}
+
+@if (vitality != null || movement != null) {
+    <EntityDisplayComponent Title="Stats">
+        <div class="statContainer">
+            @if (vitality != null) {
+                <div>
+                    @if (!vitality.DefenseLayer.Equals(0)) {
+                        <div>
+                            <b>Shield:</b> @vitality.DefenseLayer
+                        </div>
+                    }
+                    @if (!vitality.Health.Equals(0)) {
+                        <div>
+                            <b>Health:</b> @vitality.Health
+                        </div>
+                    }
+                    @if (!vitality.Energy.Equals(0)) {
+                        <div>
+                            <b>Energy:</b> @vitality.Energy
+                        </div>
+                    }
+                    @if (vitality.Armor != "") {
+                        <div>
+                            <b>Armor:</b> @vitality.Armor
+                        </div>
+                    }
+
+                    @if (vitality.IsEtheric) {
+                        <div>
+                            <b> + Etheric</b>
+                        </div>
+                    }
+                    @if (vitality.IsStructure) {
+                        <div>
+                            <b> + Structure</b>
+                        </div>
+                    }
+                </div>
+            }
+
+
+            @if (movement != null) {
+                <div>
+                    @if (!movement.Speed.Equals(0)) {
+                        <div>
+                            <b>Speed:</b> @movement.Speed
+                        </div>
+                    }
+                    else {
+                        <div>
+                            <b>Speed:</b> Immobile
+                        </div>
+                    }
+                    <div>
+                        <b>Move Type:</b> @movement.Movement
+                    </div>
+                </div>
+            }
+        </div>
+    </EntityDisplayComponent>
+}
+
+<style>
+    .statContainer {
+        display: flex;
+        gap: 32px;
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .statContainer {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

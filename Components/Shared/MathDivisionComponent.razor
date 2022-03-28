@@ -1,0 +1,19 @@
+﻿<div style="display:inline; width: 12px;">
+    <div style="height: 0px; display:flex; flex-direction:column; align-items:center;">
+        <div style="height: 0px;">
+            ―
+        </div>
+        <div style="height: 0px;position: relative; top: -6px; left:0px; white-space:pre">@Dividee</div>
+        <div style="height: 0px; position: relative; top: 6px; left:0px; white-space:pre">@Divider</div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment Dividee { get; set; }
+
+    [Parameter]
+    public RenderFragment Divider { get; set; }
+
+}

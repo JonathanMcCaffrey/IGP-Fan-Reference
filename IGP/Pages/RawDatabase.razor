@@ -1,0 +1,12 @@
+﻿@page "/raw-database"
+
+<div class="page">
+    <AlertComponent>
+        <Title>Placeholders and Speculative</Title>
+        <Message>The data I am using contains placeholders and speculation on future mechanics. Ignore said data when using this JSON.</Message>
+    </AlertComponent>
+
+    <CodeComponent>
+        @DATA.AsJson()
+    </CodeComponent>
+</div>

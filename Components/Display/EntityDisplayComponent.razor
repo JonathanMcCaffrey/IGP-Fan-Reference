@@ -1,0 +1,78 @@
+﻿<div class="entityDisplaySection">
+    <div class="entityDisplayHeader">
+        <div class="entityDisplayTitle">
+            @Title
+        </div>
+        <div class="entityDisplayBorder">
+        </div>
+    </div>
+    @ChildContent
+</div>
+
+<style>
+    .entityDisplaySection {
+        position: relative;
+        padding: 8px;
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        margin-top: 14px;
+        margin-top: 20px;
+        padding: 12px;
+        background-color: var(--info);
+        border-top-right-radius: 12px;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+
+    .entityDisplayHeader {
+        bottom: 100%;
+        position: absolute;
+        white-space: pre;
+        width: 100%;
+        line-height: 0px;
+        right: 0px;
+        top: -4px;
+        display: flex;
+    }
+
+    .entityDisplayTitle {
+        font-weight: 800;
+        font-size: 1.4rem;
+        padding-right: 8px;
+        text-shadow: 3px 0 0 var(--info), -3px 0 0 var(--info), 0 3px 0 var(--info), 0 -3px 0 var(--info), 2px 2px var(--info), -2px -2px 0 var(--info), 2px -2px 0 var(--info), -2px 2px 0 var(--info);
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .entityDisplayHeader {
+            position: inherit;
+            width: 100%;
+            margin: 0px;
+        }
+
+        .entityDisplaySection {
+            position: inherit;
+            width: 100%;
+            margin: 0px;
+            max-width: none;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+
+        .entityDisplayTitle {
+            position: inherit;
+            margin: 0px;
+        }
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+}

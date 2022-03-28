@@ -1,0 +1,29 @@
+﻿@using System.Web
+<div class="escapeCodeContainer">
+    <textarea style="background-color: #2C2E33; width: 100%; border:3px solid #A8ADB9; border-radius:1px; padding: 8px;"
+              rows="8"
+              @onchange="OnChange" />
+
+    <textarea style="background-color: #2C2E33; width: 100%; border:3px solid #A8ADB9; border-radius:1px; padding: 8px;"
+              rows="8"
+              @bind="Output" />
+</div>
+
+<style>
+    .escapeCodeContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+</style>
+
+@code {
+    string Output = "";
+
+    public void OnChange(ChangeEventArgs changeEventArgs) {
+        var encoded = HttpUtility.HtmlEncode(changeEventArgs.Value.ToString());
+        Output = encoded.Replace("@", "@@");
+        Output = Output.Replace("\n", "<br />");
+    }
+
+}

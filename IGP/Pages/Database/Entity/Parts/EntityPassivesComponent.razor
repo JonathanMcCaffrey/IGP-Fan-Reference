@@ -1,0 +1,26 @@
+﻿@if (Entity.IdPassives().Count > 0) {
+    <EntityDisplayComponent Title="Passives">
+        @foreach (var idPassive in Entity.IdPassives()) {
+            var passive = EntityModel.Get(idPassive.Id);
+
+            var info = passive.Info();
+
+            <div>
+                <div>
+                    <b>Name:</b> @info.Name
+                </div>
+                <div style="max-width: 600px;">
+                    <b>Description:</b> @((MarkupString)info.Description)
+                </div>
+            </div>
+        }
+    </EntityDisplayComponent>
+}
+
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

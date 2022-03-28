@@ -1,0 +1,65 @@
+﻿@implements IDisposable
+
+<FormLayoutComponent>
+    <FormDisplayComponent Label="Army ready at">
+        <Display>@LastInterval | T @Interval.ToTime(LastInterval)</Display>
+    </FormDisplayComponent>
+    <FormDisplayComponent Label="Army units built">
+        <Display>
+            <div style="display: flex; width: 100%; gap: 12px;  flex-wrap: wrap;">
+                @foreach (var unit in armyCount) {
+                    <div style="width:90px; height: 60px; border: 1px solid gray; padding: 8px;">
+                        <div>@unit.Value.ToString()x</div>
+                        <div>@unit.Key</div>
+                    </div>
+                }
+            </div>
+        </Display>
+    </FormDisplayComponent>
+
+</FormLayoutComponent>
+
+@code {
+
+    [Inject]
+    public IBuildOrderService BuildOrder { get; set; }
+
+    int LastInterval;
+
+    readonly Dictionary<string, int> armyCount = new();
+
+    List<EntityModel> army = new();
+
+    protected override void OnInitialized() {
+        BuildOrder.Subscribe(OnBuildOrderChanged);
+    }
+
+    void IDisposable.Dispose() {
+        BuildOrder.Unsubscribe(OnBuildOrderChanged);
+    }
+
+    void OnBuildOrderChanged() {
+        armyCount.Clear();
+
+        LastInterval = 0;
+
+        var entitiesOverTime = BuildOrder.GetOrders();
+
+        foreach (var entitiesAtTime in entitiesOverTime) {
+            foreach (var entity in entitiesAtTime.Value) {
+                if (entity.EntityType == EntityType.Army) {
+                    if (!armyCount.TryAdd(entity.Info().Name, 1)) {
+                        armyCount[entity.Info().Name]++;
+                    }
+
+                    if (entity.Production() != null && entity.Production().BuildTime + entitiesAtTime.Key > LastInterval) {
+                        LastInterval = entity.Production().BuildTime + entitiesAtTime.Key;
+                    }
+                }
+            }
+        }
+
+        StateHasChanged();
+    }
+
+}

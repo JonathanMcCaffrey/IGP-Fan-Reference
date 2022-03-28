@@ -1,0 +1,26 @@
+﻿@using Model.Website
+@if (isDisplayable) {
+    @ChildContent
+}
+else {
+    <LayoutView Layout="@typeof(MainLayout)">
+        <p>Sorry, there's nothing at this address.</p>
+    </LayoutView>
+}
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Inject]
+    public NavigationManager MyNavigationManager { get; set; }
+
+    bool isDisplayable;
+
+    protected override void OnInitialized() {
+        var page = MyNavigationManager.Uri.Remove(0, MyNavigationManager.BaseUri.Length);
+        isDisplayable = WebDeploymentModel.Get().Contains(page);
+    }
+
+}

@@ -1,0 +1,75 @@
+﻿@implements IDisposable
+
+<div class="highlightsContainer">
+    <div>
+        <div>Requested</div>
+
+        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--) {
+            @foreach (var order in BuildOrderService.GetOrdersAt(i)) {
+                if (order.EntityType == EntityType.Worker) {
+                    continue;
+                }
+                <div>
+                    @i | T @Interval.ToTime(i)
+                </div>
+                <div>
+                    @order.Info().Name
+                </div>
+                <br/>
+            }
+        }
+    </div>
+    <div>
+        <div>Finished</div>
+
+        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--) {
+            @foreach (var order in BuildOrderService.GetCompletedAt(i)) {
+                if (order.EntityType == EntityType.Worker) {
+                    continue;
+                }
+                <div>
+                    @i | T @Interval.ToTime(i)
+                </div>
+                <div>
+                    @order.Info().Name
+                </div>
+                <br/>
+            }
+        }
+    </div>
+
+</div>
+
+<style>
+    .highlightsContainer {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 400px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+    }
+</style>
+
+@code {
+
+    [Inject]
+    IEconomyService EconomyService { get; set; }
+
+    [Inject]
+    IBuildOrderService BuildOrderService { get; set; }
+
+    [Inject]
+    ITimingService TimingService { get; set; }
+
+    protected override void OnInitialized() {
+        EconomyService.Subscribe(StateHasChanged);
+        BuildOrderService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        EconomyService.Unsubscribe(StateHasChanged);
+        BuildOrderService.Unsubscribe(StateHasChanged);
+    }
+
+}

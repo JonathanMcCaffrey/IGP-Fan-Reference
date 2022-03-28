@@ -1,0 +1,33 @@
+﻿@implements IDisposable
+
+
+<div>
+    <Button Color="Color.Primary" @onclick="OnLoad">Load</Button>
+    <button @onclick="OnLoad">Load</button>
+</div>
+
+<div>
+    <textarea @bind="buildData" @bind:event="oninput"
+              style="background-color: #36393F; width: 330px; height: 400px;"> 
+        </textarea>
+</div>
+
+@code {
+    string buildData = "";
+
+    [Inject]
+    IBuildComparisonService BuildComparisionService { get; set; }
+
+    protected override void OnInitialized() {
+        BuildComparisionService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose() {
+        BuildComparisionService.Unsubscribe(StateHasChanged);
+    }
+
+    void OnLoad() {
+        BuildComparisionService.LoadJson(buildData);
+    }
+
+}
