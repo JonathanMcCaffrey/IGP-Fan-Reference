@@ -10,22 +10,32 @@
                 <div>
                     <b>Name:</b> @info.Name
                 </div>
-                <div style="max-width: 600px;">
+                <div>
                     <b>Description:</b> @((MarkupString)info.Description)
                 </div>
+                
+                @if (!info.Notes.Trim().Equals("")) {
+                    <div>
+                        <b>Notes:</b> @((MarkupString)info.Notes)
+                    </div>   
+                }
+                
                 <div>
                     @if (production != null) {
                         if (production.Energy != 0) {
-                            <b> Energy: </b>
-                            @production.Energy
+                            <div>
+                                <b> Energy: </b> @production.Energy
+                            </div>
                         }
                         if (production.BuildTime != 0) {
-                            <b> BuildTime: </b>
-                            @production.BuildTime
+                            <div>
+                            <b> BuildTime: </b>  @production.BuildTime
+                            </div>
                         }
                         if (production.Cooldown != 0) {
-                            <b> Cooldown: </b>
-                            @production.Cooldown
+                            <div>
+                            <b> Cooldown: </b> @production.Cooldown
+                            </div>
                         }
                     }
                 </div>

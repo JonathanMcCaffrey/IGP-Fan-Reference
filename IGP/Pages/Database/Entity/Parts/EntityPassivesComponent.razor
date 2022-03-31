@@ -4,6 +4,8 @@
             var passive = EntityModel.Get(idPassive.Id);
 
             var info = passive.Info();
+            
+            var production = passive.Production();
 
             <div>
                 <div>
@@ -12,7 +14,29 @@
                 <div style="max-width: 600px;">
                     <b>Description:</b> @((MarkupString)info.Description)
                 </div>
+                
+                @if (!info.Notes.Trim().Equals("")) {
+                
+                    <div style="max-width: 600px;">
+                        <b>Description:</b> @((MarkupString)info.Notes)
+                    </div>    
+                }
             </div>
+            
+            @if (production != null) {
+                <div>
+                    @if (production.Pyre != 0) {
+                        <div>
+                            <b>Pyre:</b> @production.Pyre
+                        </div>   
+                    }
+                    @if (production.Cooldown != 0) {
+                        <div>
+                            <b>Cooldown:</b> @production.Cooldown.ToString()s
+                        </div>   
+                    }
+                </div>
+            }
         }
     </EntityDisplayComponent>
 }

@@ -95,17 +95,33 @@ public static class DataType {
     public static string UPGRADE_BehemothCapacity = "d0390dd2-d9a5-4b20-9d8b-f554f4c52143";
     public static string UPGRADE_BloodPlague = "9c207e21-f595-49d0-967d-f30ca8cc3745";
     public static string UPGRADE_BirthingStorm = "0cb2f1a4-03b3-491b-9db3-d2d4590ede3a";
+    
+    
+    public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
+
+    public static string PASSIVE_QuenchingScythes = "dbf07db4-e7b6-4f81-9f8e-e5391850eead";
+    public static string PASSIVE_AaroxBurn = "921fe250-2b97-40c0-9765-9e6c1e766dd5";
+    public static string PASSIVE_EngorgedArteries = "5b742d12-f695-4948-a00c-debdcb8b3717";
+    public static string PASSIVE_ProjectileGestation = "e14f144f-8fa7-4cd5-bb9e-bed06e8af135";
+    public static string PASSIVE_GuidingAmber = "9eab6701-0f0d-4858-b8a4-14e3a5dab822";
+    public static string PASSIVE_GodstoneBulwark = "482189ac-713d-4870-a960-d2930961c486";
+    public static string PASSIVE_Invervention = "3a70d237-1530-455a-b4f8-a626d708334c";
+    
+    public static string PASSIVE_ThrumAttackSpeed = "356b6c33-a857-489c-8218-68c53d03db90";
+    
     public static string PASSIVE_MendingCommand = "25d94c3d-dba9-4f02-abf4-904269b539c6";
     public static string PASSIVE_StabilizeHallowedGround = "0bbbaf06-fd22-4f48-a888-cc1ab6af046e";
     public static string PASSIVE_SpawnQuitl = "80f6b382-da1c-49a1-8235-1ea37983ea54";
     public static string PASSIVE_XacalDamage = "69928f20-5332-418f-ada3-694da3f7b199";
+    
     public static string ABILITY_BladesOfTheGodhead = "000154ac-faf5-483d-b0bd-e84335891a27";
     public static string ABILITY_Windstep = "a410b296-39f7-42e0-87c8-6cef11eb967c";
-    public static string ABILITY_Intervention = "aa155b88-125a-4d25-b63f-77987ea6e519";
+    public static string ABILITY_Leap = "aa155b88-125a-4d25-b63f-77987ea6e519";
     public static string ABILITY_OrdainedPassage = "3382a5a5-2d22-4b03-a12c-1974199e8a92";
-    public static string ABILITY_DeployMobilizeMagi = "5d5bc595-54b7-42e4-a6f5-b000c2128fa9";
-    public static string ABILITY_DeployMobilizeAbsolver = "c9b5c9c3-6336-4ffe-86d2-e0a9344726c8";
+    public static string ABILITY_DeployMagi = "5d5bc595-54b7-42e4-a6f5-b000c2128fa9";
+    public static string ABILITY_DeployAbsolver = "c9b5c9c3-6336-4ffe-86d2-e0a9344726c8";
     public static string ABILITY_Awestrike = "6282b1c3-b11b-43f2-9ce9-b3b300b1f2fa";
+    public static string ABILITY_MobilizeQrath = "5b64793e-55eb-4fa2-86d8-ccc5db55465c";
     public static string ABILITY_Offering = "ca2f92b5-3bbe-4b35-a4ba-f7b8b7d3bb1a";
     public static string ABILITY_DiveBomb = "1699824c-1d65-4862-bb13-776123b0341a";
     public static string ABILITY_CullingStrike = "b43396de-b7e4-4b87-af74-21522a888af3";
@@ -114,6 +130,7 @@ public static class DataType {
     public static string ABILITY_BloodPlague = "11444d33-cbe9-4e7d-a00b-02d5385d508e";
     public static string ABILITY_DeployMobilizeResinant = "15fb784f-8cb7-4693-9485-242a6003e4da";
     public static string ABILITY_DeployMobilizeUnderSpine = "e79f3483-cca0-4de3-9a09-4d98fdbaf792";
+    public static string ABILITY_MobilizeAru = "c911d368-55b0-4f16-a75d-65759f56e688";
     public static string ABILITY_RootVice = "b3d7099e-5034-4416-b1e9-2f34eb2d30a9";
     public static string ABILITY_BirthingStorm = "ba85a10c-eeff-4f44-abd7-09fc976c558c";
     public static string ABILITY_SummonSiegeMaw = "26196eef-906d-4aeb-b51b-d6cdc717618c";
@@ -147,7 +164,7 @@ public static class DataType {
     public static string UNIT_Ichor = "ff4355f1-ac0c-4ea1-8a47-ef6791252bb9";
     public static string UNIT_Resinant = "4dff710f-c326-46af-8406-c308e1969596";
     public static string UNIT_WraithBow = "775f08e8-d40d-45a9-93c5-69709de10c37";
-    public static string UNIT_UnderSpine = "03f54c91-0bf0-4006-8372-ac090f606e7a";
+    public static string UNIT_Underspine = "03f54c91-0bf0-4006-8372-ac090f606e7a";
     public static string UNIT_Aarox = "56669268-2172-4792-aa17-574c54c7fded";
     public static string UNIT_Thrum = "5fa85c8e-5e61-4c07-ab74-6bf58048c219";
     public static string UNIT_Behemoth = "3783004b-65fd-4e4e-bef0-4cf161ea2d2d";

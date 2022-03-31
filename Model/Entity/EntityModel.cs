@@ -9,7 +9,7 @@ using Model.Immortal.Types;
 namespace Model.Immortal.Entity;
 
 public class EntityModel {
-    public static readonly string GameVersion = "0.0.6.8375a";
+    public static readonly string GameVersion = "0.0.6.8900a";
 
      private static Dictionary<string, EntityModel> _database;
 

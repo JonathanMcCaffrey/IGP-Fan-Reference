@@ -12,7 +12,7 @@ public class EntityProductionModel : IEntityPartInterface {
     public int BuildTime { get; set; } = 0;
 
     // Remove cooldown as a cost, and move into ability stats
-    public int Cooldown { get; set; } = 0;
+    public float Cooldown { get; set; } = 0;
 
     public bool RequiresWorker { get; set; } = false;
     public bool ConsumesWorker { get; set; } = false;

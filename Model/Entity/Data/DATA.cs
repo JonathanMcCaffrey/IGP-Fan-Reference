@@ -478,7 +478,7 @@ public class DATA {
                         Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityMovementModel { Speed = 378, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_FaithCastBlades })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_IconOfKhastEem })
             }, {
@@ -493,11 +493,11 @@ public class DATA {
                     .AddPart(new EntityVitalityModel { Health = 350, DefenseLayer = 120, Armor = ArmorType.Heavy })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
                     .AddPart(new EntityWeaponModel {
-                        Damage = 30, MediumDamage = 40, HeavyDamage = 50, Range = 600, AttacksPerSecond = 0.637f,
+                        Damage = 30, MediumDamage = 35, HeavyDamage = 40, Range = 600, SecondsBetweenAttacks = 1.8f, AttacksPerSecond = 0.637f,
                         Targets = TargetType.Ground, 
                     })
                     .AddPart(new EntityWeaponModel {
-                        Damage = 40, MediumDamage = 50, HeavyDamage = 60, Range = 600, AttacksPerSecond = 0.637f,
+                        Damage = 40, MediumDamage = 45, HeavyDamage = 50, Range = 600, SecondsBetweenAttacks = 1.8f, AttacksPerSecond = 0.637f,
                         Targets = TargetType.Ground,  HasSplash = true
                     })
                     .AddPart(new EntityRequirementModel {
@@ -521,8 +521,8 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 75, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel
-                        { Health = 130, DefenseLayer = 100, Armor = ArmorType.Light, IsEtheric = true })
-                    .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
+                        { Health = 140, DefenseLayer = 100, Armor = ArmorType.Light, IsEtheric = true })
+                    .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
                     .AddPart(new EntityRequirementModel {
                         Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
@@ -533,8 +533,8 @@ public class DATA {
                     })
                     .AddPart(new EntityWeaponModel
                         { Damage = 16, Range = 80, AttacksPerSecond = 0.833f, Targets = TargetType.Ground })
-                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Intervention })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_MendingCommand })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Leap })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Invervention })
             }, {
                 DataType.VANGUARD_ArkMother_Ajari,
                 new EntityModel(DataType.VANGUARD_ArkMother_Ajari, EntityType.Army)
@@ -559,7 +559,7 @@ public class DATA {
                         Name = "House of Fading Saints", DataType = DataType.BUILDING_HouseOfFadingSaints,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 335, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 25, Range = 1100, AttacksPerSecond = 0.4f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_OrdainedPassage })
@@ -586,7 +586,7 @@ public class DATA {
                     .AddPart(new EntityMovementModel { Speed = 340, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 16, Range = 700, AttacksPerSecond = 0.606f, Targets = TargetType.Ground })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_SpawnQuitl })
+                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_ProjectileGestation })
             }, {
                 DataType.VANGUARD_DreadSister_Mala,
                 new EntityModel(DataType.VANGUARD_DreadSister_Mala, EntityType.Army)
@@ -659,7 +659,7 @@ public class DATA {
                     })
                     .AddPart(new EntityMovementModel { Speed = 448, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel {
-                        Damage = 30, MediumDamage = 40, HeavyDamage = 50, Range = 100, AttacksPerSecond = 1,
+                        Damage = 40, Range = 100, AttacksPerSecond = 1,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_LethalBond })
@@ -695,7 +695,7 @@ public class DATA {
                         Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityMovementModel { Speed = 378, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel {
                         Damage = 20, HeavyDamage = 18, Range = 180, AttacksPerSecond = 0.699f,
                         SecondsBetweenAttacks = 1.43f, Targets = TargetType.Ground
@@ -712,7 +712,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 75, BuildTime = 35 })
-                    .AddPart(new EntitySupplyModel { Takes = 4 })
+                    .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVanguardReplacedModel { Immortal = ImmortalType.Ajari, ReplacedBy = "Saoshin" })
                     .AddPart(new EntityRequirementModel {
                         Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
@@ -723,11 +723,13 @@ public class DATA {
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Energy = 100, Health = 50, DefenseLayer = 60, Armor = ArmorType.Light })
+                        { Energy = 100, Health = 50, DefenseLayer = 50, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 335, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
-                        { Damage = 7, Range = 600, AttacksPerSecond = 1.408f, Targets = TargetType.All })
-                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployMobilizeMagi })
+                        { Damage = 7, Range = 600, SecondsBetweenAttacks = 0.94f ,AttacksPerSecond = 1.408f, Targets = 
+                        TargetType.All })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployMagi })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_MobilizeQrath })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_MendingCommand })
             }, {
                 DataType.UNIT_Zephyr,
@@ -740,7 +742,7 @@ public class DATA {
                     .AddPart(new EntityTierModel { Tier = 1.5f })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-                    .AddPart(new EntityProductionModel { Alloy = 95, Ether = 40, BuildTime = 30 })
+                    .AddPart(new EntityProductionModel { Alloy = 100, Ether = 40, BuildTime = 30 })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityRequirementModel {
                         Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
@@ -753,7 +755,7 @@ public class DATA {
                     .AddPart(new EntityVitalityModel { Health = 180, DefenseLayer = 90, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel {
-                        Damage = 18, MediumDamage = 22, HeavyDamage = 26, Range = 500, AttacksPerSecond = 0.667f,
+                        Damage = 20, MediumDamage = 24, HeavyDamage = 28, Range = 500, AttacksPerSecond = 0.667f,
                         Targets = TargetType.All
                     })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Windstep })
@@ -775,7 +777,7 @@ public class DATA {
                         Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityMovementModel { Speed = 450, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel {
                         Damage = 20, LightDamage = 40, MediumDamage = 30, Range = 250, AttacksPerSecond = 0.5f,
                         Targets = TargetType.Ground
@@ -808,9 +810,11 @@ public class DATA {
                         Damage = 4, MediumDamage = 6, HeavyDamage = 8, Range = 800, AttacksPerSecond = 2.857f,
                         Targets = TargetType.Ground
                     })
-                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployMobilizeAbsolver })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployAbsolver })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_MobilizeQrath })
                     .AddPart(new EntityPassiveModel { Name = "?", Description = "Hits multiple units when deployed." })
-            }, {
+            }, 
+            {
                 DataType.UNIT_Castigator,
                 new EntityModel(DataType.UNIT_Castigator, EntityType.Army)
                     .AddPart(new EntityInfoModel {
@@ -886,7 +890,8 @@ public class DATA {
                     .AddPart(new EntityWeaponModel {
                         Damage = 28, Range = 500, AttacksPerSecond = 0.714f, Targets = TargetType.Air
                     })
-            }, {
+            }, 
+            {
                 DataType.UNIT_Throne,
                 new EntityModel(DataType.UNIT_Throne, EntityType.Army)
                     .AddPart(new EntityInfoModel {
@@ -915,7 +920,9 @@ public class DATA {
                     })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_BladesOfTheGodhead })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BladesOfTheGodhead })
-            }, {
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_GodstoneBulwark })
+            }, 
+            {
                 DataType.UNIT_Warden,
                 new EntityModel(DataType.UNIT_Warden, EntityType.Army)
                     .AddPart(new EntityInfoModel {
@@ -944,7 +951,7 @@ public class DATA {
                     .AddPart(new EntityTierModel { Tier = 3.5f })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-                    .AddPart(new EntityProductionModel { Alloy = 110, Ether = 150, BuildTime = 55 })
+                    .AddPart(new EntityProductionModel { Alloy = 110, Ether = 175, BuildTime = 55 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
                     .AddPart(new EntityRequirementModel {
                         Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
@@ -1056,7 +1063,9 @@ public class DATA {
                         Damage = 30, MediumDamage = 40, LightDamage = 50, Range = 80, AttacksPerSecond = 0.714f,
                         Targets = TargetType.Ground
                     })
-            }, {
+                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_QuenchingScythes })
+            }, 
+            {
                 DataType.UNIT_RedSeer,
                 new EntityModel(DataType.UNIT_RedSeer, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Red Seer", Descriptive = DescriptiveType.Elite_Caster })
@@ -1083,13 +1092,15 @@ public class DATA {
                     .AddPart(new EntityWeaponModel
                         { Damage = 9, Range = 700, AttacksPerSecond = 0.798f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BloodPlague })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DrainingEmbrace })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_AwakenAcaaluk })
             }, {
-                DataType.UNIT_UnderSpine,
-                new EntityModel(DataType.UNIT_UnderSpine, EntityType.Army)
+                DataType.UNIT_Underspine,
+                new EntityModel(DataType.UNIT_Underspine, EntityType.Army)
                     .AddPart(new EntityInfoModel
-                        { Name = "Under Spine", Descriptive = DescriptiveType.Force_Multiplier })
+                        { Name = "Underspine", Descriptive = DescriptiveType.Force_Multiplier, Notes = "Has +5 HP regen when burrowed."})
                     .AddPart(new EntityTierModel { Tier = 2 })
-                    .AddPart(new EntityVanguardReplacedModel { Immortal = ImmortalType.Mala, ReplacedBy = "Inqubator" })
+                    .AddPart(new EntityVanguardReplacedModel { Immortal = ImmortalType.Mala, ReplacedBy = "Incubator" })
                     .AddPart(new EntityRequirementModel {
                         Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Production_Building
@@ -1101,10 +1112,14 @@ public class DATA {
                     .AddPart(new EntityVitalityModel { Health = 140, DefenseLayer = 40, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
-                        { Damage = 14, Range = 600, AttacksPerSecond = 1.124f, Targets = TargetType.All })
+                        { Damage = 9, Range = 700, SecondsBetweenAttacks = 1.2529f, Targets = 
+                        TargetType.All })
                     .AddPart(new EntityWeaponModel
-                        { Damage = 14, Range = 500, AttacksPerSecond = 0.562f, Targets = TargetType.Ground })
+                        { Damage = 9, Range = 600, SecondsBetweenAttacks  = 0.7143f, Targets = 
+                        TargetType.Ground })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployMobilizeUnderSpine })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_MobilizeAru })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_OssifyingSwarm })
             }, {
                 DataType.UNIT_Ichor,
                 new EntityModel(DataType.UNIT_Ichor, EntityType.Army)
@@ -1154,6 +1169,8 @@ public class DATA {
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_ResinantDeploy })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_MobilizeAru })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_EngorgedArteries })
             }, {
                 DataType.UNIT_Aarox,
                 new EntityModel(DataType.UNIT_Aarox, EntityType.Army)
@@ -1174,7 +1191,9 @@ public class DATA {
                     .AddPart(new EntityVitalityModel { Health = 35, DefenseLayer = 10, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 532, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
-                        { Damage = 120, Range = 20, AttacksPerSecond = 1, Targets = TargetType.Air })
+                        { LightDamage = 75, MediumDamage = 100, HeavyDamage = 125,Range = 20, AttacksPerSecond = 1, Targets = 
+                        TargetType.Air })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_AaroxBurn })
             }, {
                 DataType.UNIT_Thrum,
                 new EntityModel(DataType.UNIT_Thrum, EntityType.Army)
@@ -1193,6 +1212,8 @@ public class DATA {
                     .AddPart(new EntityWeaponModel {
                         Damage = 11, HeavyDamage = 9, Range = 350, AttacksPerSecond = 0.8f, Targets = TargetType.All
                     })
+                
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_ThrumAttackSpeed })
             }, {
                 DataType.UNIT_WraithBow,
                 new EntityModel(DataType.UNIT_WraithBow, EntityType.Army)
@@ -1212,6 +1233,7 @@ public class DATA {
                         { Damage = 15, Range = 700, AttacksPerSecond = 0.909f, Targets = TargetType.Air })
                     .AddPart(new EntityWeaponModel
                         { Damage = 9, Range = 500, AttacksPerSecond = 0.714f, Targets = TargetType.Ground })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_GuidingAmber })
             }, {
                 DataType.UNIT_Behemoth,
                 new EntityModel(DataType.UNIT_Behemoth, EntityType.Army)
@@ -1229,7 +1251,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 190, Ether = 150, BuildTime = 50 })
                     .AddPart(new EntitySupplyModel { Takes = 8 })
-                    .AddPart(new EntityVitalityModel { Health = 225, DefenseLayer = 100, Armor = ArmorType.Heavy })
+                    .AddPart(new EntityVitalityModel { Health = 350, DefenseLayer = 100, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel {
                         Damage = 0, Range = 600, AttacksPerSecond = 0.588f, SecondsBetweenAttacks = 1.7f,
@@ -1481,7 +1503,8 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 120, BuildTime = 80 })
                     .AddPart(new EntityVanguardReplacedModel
                         { Immortal = ImmortalType.Xol, ReplacedBy = "Birthing Storm" })
-            }, {
+            }, 
+            {
                 DataType.UPGRADE_BirthingStorm,
                 new EntityModel(DataType.UPGRADE_BirthingStorm, EntityType.Tech)
                     .AddPart(new EntityInfoModel { Name = "Birthing Storm", Descriptive = DescriptiveType.Upgrade })
@@ -1505,14 +1528,36 @@ public class DATA {
                         Name = "Mending Command", Descriptive = DescriptiveType.Ability,
                         Description = @"Autocast ability that heals 48 life and 24 shields over 2 seconds."
                     })
+                    .AddPart(new EntityProductionModel{ Pyre = 10, Cooldown = 3})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-            }, {
+            }, 
+            {
                 DataType.PASSIVE_StabilizeHallowedGround,
                 new EntityModel(DataType.PASSIVE_StabilizeHallowedGround, EntityType.Passive)
                     .AddPart(new EntityInfoModel {
                         Name = "Stabilize Hallowed Ground", Descriptive = DescriptiveType.Ability,
                         Description = @"Generates Hallowed Ground on Stabilized"
                     }) //TODO Add a glossary of terms like for Stabilized
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            },
+            {
+                DataType.PASSIVE_GodstoneBulwark,
+                new EntityModel(DataType.PASSIVE_GodstoneBulwark, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Godstone Bulkwark", Descriptive = DescriptiveType.Ability,
+                        Description = @"Grants +1 damage reduction."
+                    }) 
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            },
+            
+            {
+                DataType.PASSIVE_Invervention,
+                new EntityModel(DataType.PASSIVE_Invervention, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Intervention", Descriptive = DescriptiveType.Ability,
+                        Description = @"The Saoshin releases healing energy. Allied units nearby heal over several seconds. This automatically activates when the Saoshin drops below 70 HP."
+                    }) 
+                    .AddPart(new EntityProductionModel { Pyre = 70, Cooldown = 5})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
             // Passives
@@ -1526,7 +1571,77 @@ public class DATA {
                             @"Xacal builds up charges for double damage overtime. These charges can be spent on attacking."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-            }, {
+            },
+            {
+                DataType.PASSIVE_OssifyingSwarm,
+                new EntityModel(DataType.PASSIVE_OssifyingSwarm, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Ossifying Swarm", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Reduces the movement speed and attack speed of enemies near your attack target.",
+                        Notes = "10% movement and attack speed. Stacks up to 5 times."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
+                DataType.PASSIVE_AaroxBurn,
+                new EntityModel(DataType.PASSIVE_AaroxBurn, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Aarox Burn", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"The aarox dies when attacking. Any units in its area of effect suffer damage over time.",
+                        Notes = "Deals 75 damage over 3 seconds."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
+                DataType.PASSIVE_QuenchingScythes,
+                new EntityModel(DataType.PASSIVE_QuenchingScythes, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Quenching Scythes", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Recovers 5 life when dealing damage, or 10 mana if life is full."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
+                DataType.PASSIVE_EngorgedArteries,
+                new EntityModel(DataType.PASSIVE_EngorgedArteries, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Engorged Arteries", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Grants +2 range when deployed on rootway."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
+                DataType.PASSIVE_ProjectileGestation,
+                new EntityModel(DataType.PASSIVE_ProjectileGestation, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Projectile Gestation", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Fires a quitl at a target enemy unit."
+                    })
+                    .AddPart(new EntityProductionModel { Energy = 35, Cooldown = 2.5f })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
+                DataType.PASSIVE_GuidingAmber,
+                new EntityModel(DataType.PASSIVE_GuidingAmber, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Guiding Amber", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Units hit by this attack takes +1 damage for a few seconds, to a maximum of +4."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
+            {
                 DataType.PASSIVE_SpawnQuitl,
                 new EntityModel(DataType.PASSIVE_SpawnQuitl, EntityType.Passive)
                     .AddPart(new EntityInfoModel {
@@ -1561,12 +1676,12 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Cooldown = 20 })
             }, {
-                DataType.ABILITY_Intervention,
-                new EntityModel(DataType.ABILITY_Intervention, EntityType.Ability)
+                DataType.ABILITY_Leap,
+                new EntityModel(DataType.ABILITY_Leap, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
-                        Name = "Intervention", Descriptive = DescriptiveType.Ability,
+                        Name = "Leap", Descriptive = DescriptiveType.Ability,
                         Description =
-                            @"The Saoshin leaps to the target location and creates <b style=""color:white"">Hallowed Ground</b> in a small radius for several seconds. Allied units nearby <b style=""color:lime"">reduce incoming damage significantly</b> for several seconds."
+                            @"The Saoshin leaps to the target location. If she has enough mana, she activates Intervention upon landing."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
@@ -1583,26 +1698,27 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Cooldown = 5, Energy = 75 })
             }, {
-                DataType.ABILITY_DeployMobilizeAbsolver,
-                new EntityModel(DataType.ABILITY_DeployMobilizeAbsolver, EntityType.Ability)
+                DataType.ABILITY_DeployAbsolver,
+                new EntityModel(DataType.ABILITY_DeployAbsolver, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
-                        Name = "Deploy or Mobilize Absolver", Descriptive = DescriptiveType.Ability,
+                        Name = "Deploy Absolver", Descriptive = DescriptiveType.Ability,
                         Description =
                             @"Deploying the Absolver drastically <b style=""color: orange"">increases its attack speed</b>."
-                    })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
-                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-            }, {
-                DataType.ABILITY_DeployMobilizeMagi,
-                new EntityModel(DataType.ABILITY_DeployMobilizeMagi, EntityType.Ability)
-                    .AddPart(new EntityInfoModel {
-                        Name = "Deploy or Mobilize Magi", Descriptive = DescriptiveType.Ability,
-                        Description =
-                            @"Deploys the Magic to project <b style=""color:white"">Hallowed Ground</b> around it."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             }, {
+                DataType.ABILITY_DeployMagi,
+                new EntityModel(DataType.ABILITY_DeployMagi, EntityType.Ability)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Deploy Magi", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Deploys the Magic to project <b style=""color:white"">Hallowed Ground</b> around it."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            }, 
+            {
                 DataType.ABILITY_Awestrike,
                 new EntityModel(DataType.ABILITY_Awestrike, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
@@ -1614,6 +1730,17 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Cooldown = 8, Energy = 60 })
             },
+            {
+                DataType.ABILITY_MobilizeQrath,
+                new EntityModel(DataType.ABILITY_MobilizeQrath, EntityType.Ability)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Mobilize Q'Rath", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Mobilize all deployed Q'Rath units."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "D" })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            },
             // Abilities
             // Aru
             {
@@ -1624,7 +1751,7 @@ public class DATA {
                         Description =
                             "Sacrifices 10 life to increase range, speed, and attack speed for several seconds."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             }, {
                 DataType.ABILITY_DiveBomb,
@@ -1644,7 +1771,7 @@ public class DATA {
                         Description =
                             "Teleports to target location, and deals massive damage to the nearest ground unit."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Energy = 40, Cooldown = 3 })
             }, {
@@ -1655,7 +1782,7 @@ public class DATA {
                         Description =
                             "After a short delay, enemy units in the target area receive a debuff which causes them to take double damage from all attacks for a duration."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel { Immortal = ImmortalType.Xol, Replaces = "Culling Strike" })
                     .AddPart(new EntityProductionModel { Energy = 40 })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
@@ -1666,10 +1793,11 @@ public class DATA {
                         Name = "Draining Embrace", Descriptive = DescriptiveType.Ability,
                         Description = "Units in the target area are rooted and lose mana."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "D" })
                     .AddPart(new EntityProductionModel { Energy = 25, Cooldown = 5 })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-            }, {
+            }, 
+            {
                 DataType.ABILITY_BloodPlague,
                 new EntityModel(DataType.ABILITY_BloodPlague, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
@@ -1677,23 +1805,25 @@ public class DATA {
                         Description =
                             "Units that enter the target area suffer heavy damage over time. This damaging effect persists for a few seconds after leaving the plague area."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
                     .AddPart(new EntityProductionModel { Energy = 75, Cooldown = 2 })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-            }, {
+            }, 
+            {
                 DataType.ABILITY_DeployMobilizeResinant,
                 new EntityModel(DataType.ABILITY_DeployMobilizeResinant, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
-                        Name = "Deploy/Mobilize Resinant", Descriptive = DescriptiveType.Ability,
+                        Name = "Deploy Resinant", Descriptive = DescriptiveType.Ability,
                         Description = "Deploying the Resinant enables it to deal area of effect damage at long range."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-            }, {
+            }, 
+            {
                 DataType.ABILITY_DeployMobilizeUnderSpine,
                 new EntityModel(DataType.ABILITY_DeployMobilizeUnderSpine, EntityType.Ability)
                     .AddPart(new EntityInfoModel {
-                        Name = "Deploy/Mobilize Under Spine", Descriptive = DescriptiveType.Ability,
+                        Name = "Deploy Underspine", Descriptive = DescriptiveType.Ability,
                         Description =
                             "Burrow into the ground to generate rootway and attack air units. Enemies near your attack target will be slowed for a short duration."
                     })
@@ -1707,7 +1837,7 @@ public class DATA {
                         Description =
                             "Roots all units for several seconds, then leaves them slowed for several seconds after."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel { Immortal = ImmortalType.Mala })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Energy = 50, Cooldown = 10 })
@@ -1717,9 +1847,10 @@ public class DATA {
                     .AddPart(new EntityInfoModel {
                         Name = "Birthing Storm", Descriptive = DescriptiveType.Ability,
                         Description =
-                            "Deals damage over time in an area and marks affected units for several seconds. Units that die while marked spawn a quitl."
+                            "Deals damage over time in an area and marks affected units for several seconds. Units that die while marked spawn a quitl.",
+                        Notes = "Deals 20 damage + 15% of max life of the target immediately upon affecting the enemy unit. It deals the same damage again after 8 seconds. If the unit dies during those 8 seconds (including the final burst), spawns 1 quitl every 2 supply of the dead unit, rounded up"
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel { Immortal = ImmortalType.Mala })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Energy = 80, Cooldown = 2 })
