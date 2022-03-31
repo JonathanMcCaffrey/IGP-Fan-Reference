@@ -1672,7 +1672,7 @@ public class DATA {
                         Description =
                             @"The Zephyr <b style=""color: skyblue"">teleports</b> toward target location, draining shields. Windstepping into <b>Halled Ground</b> restores shields instead."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Cooldown = 20 })
             }, {
@@ -1726,7 +1726,7 @@ public class DATA {
                         Description =
                             @"After a short delay, enemy ground units at center of the area <b style=""color:orange"">suffer a huge burst of damage</b>. Targets outside the center <b style=""color:orange"">take reduced damage</b>. Then the area is left ablaze damaging units over time."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Cooldown = 8, Energy = 60 })
             },
