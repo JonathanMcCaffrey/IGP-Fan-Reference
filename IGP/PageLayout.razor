@@ -3,30 +3,37 @@
 @inject IWebsiteService WebService;
 @implements IDisposable;
 
-@inject DatabaseContext Database;
 <div class="layoutContainer" @onclick="OnPageClicked">
     @if (!WebService.IsLoaded()) {
         <LoadingComponent></LoadingComponent>
-    }
-    else {
+    } else {
         <div class="content">
             @Body
         </div>
+
+
         <DesktopNavComponent WebSections=WebService.WebSectionModels
-                             WebPages=WebService.WebPageModels/>
+                         WebPages=WebService.WebPageModels />
         <TabletNavComponent WebSections=WebService.WebSectionModels
-                            WebPages=WebService.WebPageModels/>
+                        WebPages=WebService.WebPageModels />
         <MobileNavComponent WebSections=WebService.WebSectionModels
-                            WebPages=WebService.WebPageModels/>
+                        WebPages=WebService.WebPageModels />
+
+
+
     }
 </div>
 
 @code {
-    bool NavOpen = true;
 
-    void OnNavClicked(EventArgs eventArgs) {
-        NavOpen = !NavOpen;
-    }
+#if NO_SQL
+
+#else
+    [Inject]
+    DatabaseContext Database { get; set; }
+#endif
+    
+    bool NavOpen = true;
 
     void OnPageClicked(EventArgs eventArgs) {
         NavOpen = false;
@@ -37,7 +44,13 @@
     }
 
     protected override async Task OnInitializedAsync() {
+
+#if NO_SQL
+        await WebService.Load();
+#else
         await WebService.Load(Database);
+#endif
+        
     }
 
     void IDisposable.Dispose() {

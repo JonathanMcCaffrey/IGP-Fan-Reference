@@ -1,4 +1,6 @@
-﻿using Contexts;
+﻿
+
+using Contexts;
 using Microsoft.EntityFrameworkCore;
 using Model.Immortal.BuildOrders;
 using Model.Immortal.Economy;
@@ -12,34 +14,72 @@ using Services.Immortal;
 
 namespace Services;
 
-public interface IAgileService {
-    public DbSet<SprintModel> SprintModels { get; }
-    public DbSet<TaskModel> TaskModels { get; }
+public interface IWebsiteService {
+#if NO_SQL
+    public List<WebPageModel> WebPageModels { get; set; }
+    public List<WebSectionModel> WebSectionModels { get; set; }
+#else
+    public DbSet<WebPageModel> WebPageModels { get; }
+    public DbSet<WebSectionModel> WebSectionModels { get; }
+#endif
+
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
+    
+    
+#if NO_SQL
+    public Task Load();
+#else
+    
     public Task Load(DatabaseContext database);
+#endif
+    
+    
     public bool IsLoaded();
 }
 
-public interface IWebsiteService {
-    public DbSet<WebPageModel> WebPageModels { get; }
-    public DbSet<WebSectionModel> WebSectionModels { get; }
+public interface IAgileService {
+
+#if NO_SQL
+    public List<SprintModel> SprintModels { get; set; }
+    public List<TaskModel> TaskModels { get; set; }
+#else
+    public DbSet<SprintModel> SprintModels { get; }
+    public DbSet<TaskModel> TaskModels { get; }
+#endif
+
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
+    
+#if NO_SQL
+    public Task Load();
+#else
     public Task Load(DatabaseContext database);
+#endif
     public bool IsLoaded();
 }
 
 public interface IGitService {
+
+#if NO_SQL
+    public List<ChangeModel> ChangeModels { get; set; }
+    public List<PatchModel> PatchModels { get; set; }
+#else
     public DbSet<ChangeModel> ChangeModels { get; }
     public DbSet<PatchModel> PatchModels { get; }
+#endif
+
 
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
+#if NO_SQL
+    public Task Load();
+#else
     public Task Load(DatabaseContext database);
+#endif
     public bool IsLoaded();
 }
 

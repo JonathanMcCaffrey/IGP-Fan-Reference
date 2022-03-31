@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Json;
+﻿
+
+using System.Net.Http.Json;
 using Contexts;
 using Microsoft.EntityFrameworkCore;
 using Model.Work.Tasks;
@@ -14,9 +16,17 @@ public class AgileService : IAgileService {
         this.httpClient = httpClient;
     }
 
+
+#if NO_SQL
+    public List<SprintModel> SprintModels { get; set; }
+    public List<TaskModel> TaskModels { get; set; }
+#else
+
     private DatabaseContext Database { get; set; }
     public DbSet<SprintModel> SprintModels => Database.SprintModels;
     public DbSet<TaskModel> TaskModels => Database.TaskModels;
+#endif
+
 
     public void Subscribe(Action action) {
         _onChange += action;
@@ -30,10 +40,26 @@ public class AgileService : IAgileService {
         return isLoaded;
     }
 
+#if NO_SQL
+    public async Task Load() {
+        if (isLoaded) {
+            return;
+        }
+
+        SprintModels = (await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json")).ToList();
+        TaskModels =(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json")).ToList();
+
+        isLoaded = true;
+
+        NotifyDataChanged();
+    }
+#else
     public async Task Load(DatabaseContext database) {
         Database = database;
 
-        if (isLoaded) return;
+        if (isLoaded) {
+            return;
+        }
 
         Database.SprintModels.AddRange(await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json"));
         Database.TaskModels.AddRange(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json"));
@@ -44,6 +70,7 @@ public class AgileService : IAgileService {
 
         NotifyDataChanged();
     }
+#endif
 
     public void Update() {
         NotifyDataChanged();

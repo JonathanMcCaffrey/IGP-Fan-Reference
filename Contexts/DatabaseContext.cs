@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#if NO_SQL
+
+#else
+
+using Microsoft.EntityFrameworkCore;
 using Model.Website;
 using Model.Work.Git;
 using Model.Work.Tasks;
@@ -24,3 +28,5 @@ public class DatabaseContext : DbContext {
         base.OnModelCreating(modelBuilder);
     }
 }
+
+#endif

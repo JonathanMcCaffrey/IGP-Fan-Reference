@@ -1,7 +1,6 @@
 ﻿@page "/changelog"
 @implements IDisposable;
 @inject IGitService GitService;
-@inject DatabaseContext Database;
 
 @layout PageLayout
 
@@ -47,7 +46,7 @@
                         </div>
                     </div>
                     <div>
-                        @foreach (var change in patch.ChangeModels) {
+                        @foreach (var change in Changes.FindAll(e => e.PatchModelId == patch.Id)) {
                             @if (!change.Important.Equals("True") && isViewImportant) {
                                 continue;
                             }
@@ -56,12 +55,12 @@
                                 <div>
                                     <div>
                                         <b>
-                                            - @change.Name
+                                            <span>- @change.Name </span>
 
                                             @if (change.Commit != CommitType.None) {
                                                 <span>(@change.Commit)</span>
                                             }
-                                            :
+                                            <span>: </span>
                                         </b> @((MarkupString)change.Description)
                                     </div>
                                 </div>
@@ -70,8 +69,6 @@
                     </div>
                 </div>
 
-
-                <br/>
             }
 
         </PaperComponent>
@@ -84,11 +81,22 @@ else {
 
 @code {
 
+#if  NO_SQL
+    [Parameter]
+    public List<PatchModel> Patches { get; set; }
+
+    [Parameter]
+    public List<ChangeModel> Changes { get; set; }    
+#else
+    [Inject]
+    DatabaseContext Database { get; set; }
+    
     [Parameter]
     public DbSet<PatchModel> Patches { get; set; }
 
     [Parameter]
     public DbSet<ChangeModel> Changes { get; set; }
+#endif
 
     private bool isViewImportant = true;
 
@@ -113,7 +121,11 @@ else {
     }
 
     protected override async Task OnInitializedAsync() {
+#if NO_SQL
+        GitService.Load();
+#else
         GitService.Load(Database);
+#endif
     }
 
 }

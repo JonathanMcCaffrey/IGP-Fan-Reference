@@ -6,6 +6,8 @@
 @using Microsoft.EntityFrameworkCore
 @implements IDisposable
 
+
+
 <div onmouseleave="@HoverOut" class="desktopNavContainer">
     <div class="menuHeader" @onmouseover="() => NavigationService.ChangeNavigationState(NavigationStateType.Hovering_Menu)">
         <NavLink href="/" class="websiteTitle">
@@ -97,12 +99,21 @@
 </style>
 
 @code {
+    
+#if NO_SQL
+    [Parameter]
+    public List<WebSectionModel> WebSections { get; set; }
 
+    [Parameter]
+    public List<WebPageModel> WebPages { get; set; }
+    
+#else
     [Parameter]
     public DbSet<WebSectionModel> WebSections { get; set; }
 
     [Parameter]
     public DbSet<WebPageModel> WebPages { get; set; }
+#endif
 
     protected override void OnInitialized() {
         NavigationService.Subscribe(StateHasChanged);

@@ -1,4 +1,6 @@
-﻿@using Model.Website
+﻿
+
+@using Model.Website
 @using Microsoft.EntityFrameworkCore
 <div class="mobileFooter">
     <div class="mobileNavSectionsContainer">
@@ -136,13 +138,21 @@
 </style>
 
 @code {
+#if NO_SQL
+    [Parameter]
+    public List<WebSectionModel> WebSections { get; set; }
 
+    [Parameter]
+    public List<WebPageModel> WebPages { get; set; }
+    
+#else
     [Parameter]
     public DbSet<WebSectionModel> WebSections { get; set; }
 
     [Parameter]
     public DbSet<WebPageModel> WebPages { get; set; }
-
+#endif
+    
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 

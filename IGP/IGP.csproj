@@ -7,14 +7,32 @@
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DefineConstants>TRACE;NO_SQL</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DefineConstants>TRACE;NO_SQL</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Pages\Agile\AgilePage.razor.css" />
+      <None Remove="Pages\ChangeLogPage.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Pages\Agile\AgilePage.razor.css" />
+      <Content Include="Pages\ChangeLogPage.razor.css" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.2.22153.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.2.22153.2" PrivateAssets="all" />
-
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.2.22153.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0-preview.2.22153.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0-preview.2.22153.1" />
-        <NativeFileReference Include="e_sqlite3.o" />
+        <!--
+                <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.2.22153.1" />
+                <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0-preview.2.22153.1" />
+                <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0-preview.2.22153.1" />
+               <NativeFileReference Include="e_sqlite3.o" /> -->  
     </ItemGroup>
 
     <ItemGroup>

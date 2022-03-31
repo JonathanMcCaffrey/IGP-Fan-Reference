@@ -1,5 +1,4 @@
 ﻿@inject HttpClient HttpClient
-@inject DatabaseContext Database
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -28,3 +27,14 @@
             text-decoration-thickness: 3px;
         }
 </style>
+
+@code {
+
+    #if NO_SQL
+
+#else
+    [Inject]
+    DatabaseContext Database { get; set; }
+#endif
+
+}

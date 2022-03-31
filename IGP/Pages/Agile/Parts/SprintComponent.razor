@@ -221,14 +221,19 @@
 
 @code {
 
+#if NO_SQL
     [Parameter]
-    public SprintModel Sprint { get; set; }
-
+    public List<TaskModel> Tasks { get; set; }
+#else 
     [Parameter]
     public DbSet<TaskModel> Tasks { get; set; }
+#endif
 
+    [Parameter]
+    public SprintModel Sprint { get; set; }
+    
     private List<TaskModel> selectedTasks { get; set; }
-
+    
     protected override void OnInitialized() {
         selectedTasks = (from task in Tasks
             where task.SprintModelId == Sprint.Id

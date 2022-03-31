@@ -1,7 +1,14 @@
-using Contexts;
+
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
+
+#if NO_SQL
+
+#else
+using Contexts;
 using Microsoft.EntityFrameworkCore;
+#endif
+
 using Services;
 using Services.Immortal;
 using Services.Website;
@@ -31,7 +38,11 @@ builder.Services.AddSingleton(new HttpClient {
 });
 
 
-builder.Services.AddDbContext<DatabaseContext>(options => { options.UseSqlite("Data Source=./Database.db"); });
+#if NO_SQL
+
+#else
+//builder.Services.AddDbContext<DatabaseContext>(options => { options.UseSqlite("Data Source=./Database.db"); });
+#endif
 
 builder.Services.AddSingleton<IWebsiteService, WebsiteService>();
 builder.Services.AddSingleton<IAgileService, AgileService>();
