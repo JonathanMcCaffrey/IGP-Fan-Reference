@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 var webProjectName = "IGP";
 var projectPath = $"{Environment.CurrentDirectory}/../../../..";
-var webPath = $"{projectPath}/{webProjectName}/wwwroot/json";
+var webPath = $"{projectPath}/{webProjectName}/wwwroot/generated";
 
 var options = new DbContextOptionsBuilder<DatabaseContext>();
 options.UseSqlite($"Filename={projectPath}/{webProjectName}/Database.db");
