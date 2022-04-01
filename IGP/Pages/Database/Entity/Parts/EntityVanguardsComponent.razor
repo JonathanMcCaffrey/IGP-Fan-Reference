@@ -3,24 +3,21 @@
         @foreach (var data in Entity.IdVanguards()) {
             var entity = EntityModel.Get(data.Id);
 
-            var info = entity.Info();
-            var production = entity.Production();
             var requirements = entity.Requirements();
-            var vanguard = entity.Vanguard();
+            var vanguard = entity.VanguardAdded();
             var productionBuilding = (from building in requirements
                 where building.Requirement == RequirementType.Production_Building
-                select building).First().Name;
+                select building).First().DataType;
 
             <div>
                 <div>
-                    <b>Name:</b> @info.Name
+                    <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
                 </div>
                 <div>
-                    <b>Replaces:</b> @vanguard.Replaces
+                    <b>Replaces:</b> <EntityLabelComponent EntityId="@vanguard.ReplaceId"/> 
                 </div>
-
                 <div>
-                    <b>Built From:</b> @productionBuilding
+                    <b>Built From:</b> <EntityLabelComponent EntityId="@productionBuilding"/>
                 </div>
             </div>
         }

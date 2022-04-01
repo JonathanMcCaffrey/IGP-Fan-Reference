@@ -17,6 +17,10 @@
     --paper-border: #151516;
     --info: #451376;
     --info-border: #210b36;
+    
+    --dialog-border-color: black;
+    --dialog-border-width: 2px;
+    --dialog-radius: 6px;
 }
 
 html {

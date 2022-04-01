@@ -1,10 +1,14 @@
 ﻿
+#if NO_SQL
 
+#else
 using Contexts;
 using Microsoft.EntityFrameworkCore;
+#endif
 using Model.Immortal.BuildOrders;
 using Model.Immortal.Economy;
 using Model.Immortal.Entity;
+using Model.Immortal.Entity.Data;
 using Model.Immortal.MemoryTester;
 using Model.Website;
 using Model.Website.Enums;
@@ -13,6 +17,20 @@ using Model.Work.Tasks;
 using Services.Immortal;
 
 namespace Services;
+
+
+public interface IEntityDialogService
+{
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    
+    public void AddDialog(string entityId);
+    public void CloseDialog();
+
+    public string? GetEntityId();
+
+    public bool HasDialog();
+}
 
 public interface IWebsiteService {
 #if NO_SQL

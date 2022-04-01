@@ -1,0 +1,27 @@
+﻿@implements IDisposable;
+
+@inject IEntityDialogService entityDialogService
+
+@if (entityDialogService.HasDialog())
+{
+    <EntityDialogComponent EntityId="@entityDialogService.GetEntityId()"></EntityDialogComponent>
+}
+
+
+@code {
+    protected override void OnInitialized()
+    {
+        entityDialogService.Subscribe(OnUpdate);
+    }
+    
+    public void Dispose() {
+        entityDialogService.Unsubscribe(OnUpdate);
+    }
+
+    void OnUpdate()
+    {
+        StateHasChanged();
+    }
+
+}
+    

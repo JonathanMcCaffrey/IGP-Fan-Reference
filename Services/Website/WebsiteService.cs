@@ -1,6 +1,10 @@
 ﻿using System.Net.Http.Json;
+
+#if !NO_SQL
 using Contexts;
 using Microsoft.EntityFrameworkCore;
+#endif
+
 using Model.Website;
 
 namespace Services.Work;
@@ -10,6 +14,10 @@ public class WebsiteService : IWebsiteService {
 
     private bool isLoaded;
 
+    
+    private event Action _onChange;
+
+    
     public WebsiteService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
@@ -75,8 +83,6 @@ public class WebsiteService : IWebsiteService {
     public void Update() {
         NotifyDataChanged();
     }
-
-    private event Action _onChange;
 
     private void NotifyDataChanged() {
         _onChange?.Invoke();

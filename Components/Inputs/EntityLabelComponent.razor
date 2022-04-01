@@ -1,0 +1,38 @@
+﻿@using Model.Immortal.Entity
+@using Services.Website
+@using System.ComponentModel.DataAnnotations
+@using Model.Immortal.Entity.Data
+@using Services
+
+@inject IEntityDialogService entityDialogService 
+
+
+@if (entity == null)
+{
+    <div>Add a entity</div>
+}
+else
+{
+    <button class="entityLabel @entity.Descriptive.ToLower()" @onclick="EntityLabelClicked">@entity.Info().Name</button>
+}
+
+@code {
+    
+    [Parameter] public string EntityId { get; set; }
+
+    private EntityModel entity = null;
+    
+    protected override void OnInitialized()
+    {
+        entity = DATA.Get()[EntityId];
+        Console.Write(entity.Info().Name);
+        
+    }
+
+    void EntityLabelClicked()
+    {
+        Console.WriteLine("EntityLabelClicked()");
+        
+        entityDialogService.AddDialog(EntityId);
+    }
+}

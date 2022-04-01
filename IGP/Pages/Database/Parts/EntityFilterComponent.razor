@@ -13,12 +13,15 @@
 
             @if (EntityFilterService.GetFactionType() != "Any" && EntityFilterService.GetFactionType() != "None") {
                 <div class="filterContainer">
-                    @foreach (var choice in EntityFilterService.GetImmortalChoices()) {
+                    @foreach (var choice in EntityFilterService.GetImmortalChoices())
+                    {
+                        var name = DATA.Get()[choice].Info().Name;
+                        
                         var styleClass = "";
                         if (choice.Equals(EntityFilterService.GetImmortalType())) {
                             styleClass = "selected";
                         }
-                        <button class="choiceButton @styleClass" @onclick="@(e => OnChangeImmortal(choice))">@choice</button>
+                        <button class="choiceButton @styleClass" @onclick="@(e => OnChangeImmortal(choice))">@name</button>
                     }
                 </div>
             }
@@ -52,10 +55,10 @@
             <FormLabelComponent>Immortal</FormLabelComponent>
             <ChildContent>
                 <option value="@ImmortalType.Any" selected>Any</option>
-                <option value="@ImmortalType.Mala">Mala</option>
-                <option value="@ImmortalType.Xol">Xol</option>
-                <option value="@ImmortalType.Orzum">Orzum</option>
-                <option value="@ImmortalType.Ajari">Ajari</option>
+                <option value="@DataType.IMMORTAL_Mala">Mala</option>
+                <option value="@DataType.IMMORTAL_Xol">Xol</option>
+                <option value="@DataType.IMMORTAL_Orzum">Orzum</option>
+                <option value="@DataType.IMMORTAL_Ajari">Ajari</option>
             </ChildContent>
         </FormSelectComponent>
 

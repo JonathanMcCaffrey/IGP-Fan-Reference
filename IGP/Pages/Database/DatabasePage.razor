@@ -170,7 +170,7 @@
         }
         else {
             immortals = (from entity in factions
-                where entity.Vanguard() == null || entity.Vanguard().Immortal == selectedImmortalType
+                where entity.VanguardAdded() == null || entity.VanguardAdded().ImmortalId == selectedImmortalType
                 select entity).ToList();
         }
 

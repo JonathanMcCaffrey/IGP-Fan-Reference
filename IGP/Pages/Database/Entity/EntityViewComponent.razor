@@ -1,11 +1,11 @@
 ﻿@if (Entity != null) {
-    var isVanguard = Entity.Vanguard() != null ? " vanguard" : "";
+    var isVanguard = Entity.VanguardAdded() != null ? " vanguard" : "";
 
     <div class="enititiesContainer @isVanguard">
         <EntityHeaderComponent Entity=Entity></EntityHeaderComponent>
 
-        <div class="entityPartsContainer">
-            <EntityVanguardComponent Entity=Entity></EntityVanguardComponent>
+        <div>
+            <EntityVanguardAddedComponent Entity=Entity></EntityVanguardAddedComponent>
             <EntityInfoComponent Entity=Entity></EntityInfoComponent>
             <EntityVanguardsComponent Entity=Entity></EntityVanguardsComponent>
             <EntityProductionComponent Entity=Entity></EntityProductionComponent>
@@ -30,27 +30,10 @@
         display: flex;
         flex-wrap: wrap;
     }
-
-    .vanguard {
-        border: 4px solid var(--accent);
-        border-radius: 8px;
-    }
-
-    .entityPartsContainer {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-
-
+    
     @@media only screen and (max-width: 1025px) {
         .enititiesContainer {
             padding: 0px;
-        }
-
-        .entityPartsContainer {
-            margin: 0px;
         }
     }
 </style>

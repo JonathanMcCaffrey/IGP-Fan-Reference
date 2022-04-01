@@ -1,0 +1,31 @@
+﻿@{
+    var vanguard = Entity.VanguardAdded();
+
+    var isNull = Entity.VanguardAdded() == null ? "null" : "not null";
+}
+
+@if (vanguard != null) {
+    var immortalId = Entity.VanguardAdded().ImmortalId;
+    var immortal = DATA.Get()[immortalId];
+    
+    
+<EntityDisplayComponent Title="Vanguard">
+        <div>
+            <div>
+                <b>Immortal:</b> <EntityLabelComponent EntityId="@immortal.DataType"/>
+            </div>
+            @if (!Entity.VanguardAdded().ReplaceId.Equals("")) {
+                <div>
+                    <b>Replaces:</b> <EntityLabelComponent EntityId="@Entity.VanguardAdded().ReplaceId"></EntityLabelComponent> 
+                </div>
+            }
+        </div>
+    </EntityDisplayComponent>
+}
+
+@code {
+
+    [Parameter]
+    public EntityModel Entity { get; set; }
+
+}

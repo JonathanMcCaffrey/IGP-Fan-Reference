@@ -1,0 +1,66 @@
+﻿@inject IEntityDialogService entityDialogService
+
+<div class="dialogBackground" onclick="@CloseDialog">
+
+<div class="dialogContainer" 
+     @onclick:preventDefault="true"
+     @onclick:stopPropagation="true">
+        @if (entity == null)
+        {
+            <div>Entity is null</div>
+        }
+        else
+        {
+            <div class="dialogHeader">
+                <div class="dialogTitle">
+                    @entity.Info().Name
+                </div>
+
+            </div>
+            <div class="dialogContent">
+                <div>
+                    <EntityVanguardAddedComponent Entity=@entity></EntityVanguardAddedComponent>
+                    <EntityInfoComponent Entity=@entity></EntityInfoComponent>
+                    <EntityVanguardsComponent Entity=@entity></EntityVanguardsComponent>
+                    <EntityProductionComponent Entity=@entity></EntityProductionComponent>
+                    <EntityStatsComponent Entity=@entity></EntityStatsComponent>
+                    <EntityMechanicsComponent Entity=@entity></EntityMechanicsComponent>
+                    <EntityPassivesComponent Entity=@entity></EntityPassivesComponent>
+                    <EntityPyreSpellsComponent Entity=@entity></EntityPyreSpellsComponent>
+                    <EntityUpgradesComponent Entity=@entity></EntityUpgradesComponent>
+                    <EntityWeaponsComponent Entity=@entity></EntityWeaponsComponent>
+                    <EntityAbilitiesComponent Entity=@entity></EntityAbilitiesComponent>
+                </div>
+
+            </div>
+            <div class="dialogFooter"></div>
+        }
+
+    </div>
+    
+</div>
+
+
+
+
+@code {
+    private EntityModel entity = null;
+    
+    [Parameter] public string EntityId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (entityDialogService.GetEntityId() == null)
+        {
+            return;
+        }
+
+        entity = DATA.Get()[EntityId];
+    }
+
+    public void CloseDialog()
+    {
+        entityDialogService.CloseDialog();
+    }
+
+}

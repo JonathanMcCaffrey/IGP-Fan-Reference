@@ -52,7 +52,7 @@
                             continue;
                         }
 
-                        var isVanguard = entity.Vanguard() != null;
+                        var isVanguard = entity.VanguardAdded() != null;
                         var style = isVanguard ? "font-weight: bold;" : "";
 
                         <div style="@style">@entity.Info()?.Name</div>
@@ -126,7 +126,7 @@
 
     // Move to Filter Service
     bool InvalidVanguard(EntityModel entity) {
-        if (entity.Vanguard() != null && entity.Vanguard()?.Immortal != FilterService.GetImmortalType() && FilterService.GetImmortalType() != ImmortalType.Any) {
+        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != FilterService.GetImmortalType() && FilterService.GetImmortalType() != ImmortalType.Any) {
             return true;
         }
 
@@ -138,7 +138,7 @@
         if (entity.Replaceds().Count > 0) {
             var isReplaced = false;
             foreach (var replaced in entity.Replaceds()) {
-                if (FilterService.GetImmortalType() == replaced.Immortal) {
+                if (FilterService.GetImmortalType() == replaced.ImmortalId) {
                     isReplaced = true;
                     break;
                 }

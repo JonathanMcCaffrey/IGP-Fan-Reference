@@ -5,7 +5,7 @@
                 var entity = EntityModel.Get(upgradeId.Id);
                 <div>
                     <div>
-                        <b>Name:</b> @entity.Info().Name
+                        <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
                     </div>
                     <div>
                         <b>Description:</b> @entity.Info().Description

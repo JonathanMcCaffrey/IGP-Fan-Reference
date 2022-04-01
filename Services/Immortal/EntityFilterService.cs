@@ -14,12 +14,12 @@ public enum EntityFilterEvent {
 public class EntityFilterService : IEntityFilterService {
     private readonly List<string> _entityChoices = new();
 
-    private readonly List<string> _factionChoices = new() { FactionType.QRath, FactionType.Aru, FactionType.Any };
+    private readonly List<string> _factionChoices = new() { FactionType.Any, FactionType.QRath, FactionType.Aru };
     private readonly List<string> _immortalChoices = new();
     private string _entityType = EntityType.Army;
     private string _searchText = "";
-    private string _selectedFaction = FactionType.QRath;
-    private string _selectedImmortal = ImmortalType.Orzum;
+    private string _selectedFaction = FactionType.Any;
+    private string _selectedImmortal = ImmortalType.Any;
 
 
     public EntityFilterService() {
@@ -118,7 +118,7 @@ public class EntityFilterService : IEntityFilterService {
         _immortalChoices.Clear();
 
         //TODO Consider getting these values from the database
-        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any) {
+        /*if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any) {
             _immortalChoices.Add(ImmortalType.Orzum);
             _immortalChoices.Add(ImmortalType.Ajari);
         }
@@ -126,6 +126,16 @@ public class EntityFilterService : IEntityFilterService {
         if (_selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any) {
             _immortalChoices.Add(ImmortalType.Mala);
             _immortalChoices.Add(ImmortalType.Xol);
+        }*/
+        
+         if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any) {
+            _immortalChoices.Add(DataType.IMMORTAL_Orzum);
+            _immortalChoices.Add(DataType.IMMORTAL_Ajari);
+        }
+
+        if (_selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any) {
+            _immortalChoices.Add(DataType.IMMORTAL_Mala);
+            _immortalChoices.Add(DataType.IMMORTAL_Xol);
         }
     }
 

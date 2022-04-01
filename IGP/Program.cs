@@ -38,6 +38,8 @@ builder.Services.AddSingleton(new HttpClient {
 });
 
 
+builder.Services.AddSingleton<IEntityDialogService, EntityDialogService>();
+
 #if NO_SQL
 
 #else

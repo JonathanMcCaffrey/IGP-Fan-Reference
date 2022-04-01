@@ -28,10 +28,6 @@ public class EntityModel {
         IsSpeculative = isSpeculative;
     }
 
-    [Key] public int Id { get; set; } = 1;
-
-
-
     public string DataType { get; set; }
 
     // TODO Serilization currently being used for build orders
@@ -41,12 +37,7 @@ public class EntityModel {
 
     public bool IsSpeculative { get; set; }
 
-    //TODO Use these values
-    public string Name { get; set; } = "";
     public string Descriptive { get; set; } = DescriptiveType.None;
-    public string Description { get; set; } = "";
-    public string Notes { get; set; }
-
     
     public EntityModel Clone() {
         return (EntityModel)MemberwiseClone();
@@ -124,13 +115,14 @@ public class EntityModel {
         string immortal) {
         if (hotkey == null || hotkey == "") return null;
 
+        //TODO
         var foundList = from entity in GetEntitiesByHotkey()[hotkey]
             where entity.Hotkey()?.HotkeyGroup == hotkeyGroup
                   && entity.Hotkey()?.HoldSpace == holdSpace
                   && entity.Faction()?.Faction == faction
-                  && (entity.Vanguard()?.Immortal == immortal || entity.Vanguard() == null)
+                  && (entity.VanguardAdded()?.ImmortalId == immortal || entity.VanguardAdded() == null)
                   && (entity.Replaceds().Count == 0 || (from replace in entity.Replaceds()
-                      where replace.Immortal == immortal
+                      where replace.ImmortalId == immortal
                       select replace).ToList().Count == 0)
             select entity;
 
@@ -190,7 +182,7 @@ public class EntityModel {
     }
 
     
-    public EntityVanguardAddedModel Vanguard() {
+    public EntityVanguardAddedModel VanguardAdded() {
         return (EntityVanguardAddedModel)EntityParts.Find(x => x.GetType() == typeof(EntityVanguardAddedModel));
     }
 

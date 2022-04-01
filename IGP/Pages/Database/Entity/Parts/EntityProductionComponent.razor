@@ -13,7 +13,7 @@
                         <div>
 
                             <span>
-                                <b>@requirement.Requirement.Replace("_", " "):</b> @requirement.Name
+                                <b>@requirement.Requirement.Replace("_", " "):</b>  <EntityLabelComponent EntityId="@requirement.DataType"/>
                             </span>
                         </div>
                     }
@@ -46,6 +46,13 @@
                             <b>Build Time:</b> @production.BuildTime.ToString()s
                         </div>
                     }
+                    
+                    @if (!production.Energy.Equals(0)) {
+                        <div>
+                            <b>Energy:</b> @production.Energy
+                        </div>
+                    }
+
 
                     @if (!production.Cooldown.Equals(0)) {
                         <div>
