@@ -94,7 +94,7 @@ But really, these optional objectives can be completely ignored, so you can just
             }
         }
     };
-
+    
     public int Id { get; set; }
     public DateTime LastUpdated { get; set; }
     public string Name { get; set; }
