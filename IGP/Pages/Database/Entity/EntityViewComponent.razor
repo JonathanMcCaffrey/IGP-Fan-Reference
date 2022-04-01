@@ -4,7 +4,7 @@
     <div class="enititiesContainer @isVanguard">
         <EntityHeaderComponent Entity=Entity></EntityHeaderComponent>
 
-        <div>
+        <div class="entityPartsContainer">
             <EntityVanguardAddedComponent Entity=Entity></EntityVanguardAddedComponent>
             <EntityInfoComponent Entity=Entity></EntityInfoComponent>
             <EntityVanguardsComponent Entity=Entity></EntityVanguardsComponent>
@@ -29,6 +29,15 @@
         padding: 30px;
         display: flex;
         flex-wrap: wrap;
+        
+        flex-direction: column;
+    }
+    
+    .entityPartsContainer {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
     }
     
     @@media only screen and (max-width: 1025px) {
