@@ -49,6 +49,7 @@ builder.Services.AddSingleton<IEntityDialogService, EntityDialogService>();
 builder.Services.AddSingleton<IWebsiteService, WebsiteService>();
 builder.Services.AddSingleton<IAgileService, AgileService>();
 builder.Services.AddSingleton<IGitService, GitService>();
+builder.Services.AddSingleton<INoteService, NoteService>();
 
 
 await builder.Build().RunAsync();

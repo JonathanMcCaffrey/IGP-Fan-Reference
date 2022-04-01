@@ -1,48 +1,60 @@
 ﻿@layout PageLayout
 
+@inject INoteService NoteService
+@implements IDisposable
+
 @page "/notes"
 
-<LayoutMediumContentComponent>
-    <WebsiteTitleComponent>Notes</WebsiteTitleComponent>
 
-    <div class="section">
-        <div for="noteSection">Section: </div>
-        <div style="flex: 1"></div>
-        <select @oninput="OnSectionChanged" style="background-color: #36393F; width: 250px; margin-right: 16px;" name="noteSection">
-            <option value="All">All</option>
+@if (!NoteService.IsLoaded())
+{
+    <LoadingComponent></LoadingComponent>
+}
+else
+{
+    <LayoutMediumContentComponent>
+        <WebsiteTitleComponent>Notes</WebsiteTitleComponent>
 
-        </select>
-    </div>
+        <div class="section">
+            <div for="noteSection">Section: </div>
+            <div style="flex: 1"></div>
+            <select @oninput="OnSectionChanged" style="background-color: #36393F; width: 250px; margin-right: 16px;" name="noteSection">
+                <option value="All">All</option>
 
-    <div class="notesContainer">
-        @foreach (var note in data) {
-            if (note.IsHidden) {
-                continue;
+            </select>
+        </div>
+
+        <div class="notesContainer">
+            @foreach (var note in NoteService.NoteModels) {
+                if (note.IsHidden) {
+                    continue;
+                }
+                if (selectedSection != "All" && note.Section != selectedSection) {
+                    continue;
+                }
+                @if (note.IsPreAlpha) {
+                    <AlertComponent Type=SeverityType.Warning>
+                        <Title>Pre Alpha</Title>
+                        <Message>This note refers to content that is in pre-alpha. It won't be accurate in future updates to IGP.</Message>
+                    </AlertComponent>
+                }
+                <PaperComponent>
+                    <div style="display: flex; flex-direction: row;">
+                        <span style="font-weight: bold; font-style:italic;">@note.Section</span>
+                        <div style="flex: 1"></div>
+                        <span style="font-weight: bold; font-style:italic;">Last Updated on @note.LastUpdated</span>
+                    </div>
+                    <div>
+                        <div id="@note.DEPRECATED_Id()" style="font-weight: bold; font-size: 1.4rem;">@note.Name</div>
+                        
+                        <div style="white-space:break-spaces;">@((MarkupString)note.Description)</div>
+                    </div>
+                </PaperComponent>
             }
-            if (selectedSection != "All" && note.Section != selectedSection) {
-                continue;
-            }
-            @if (note.IsPreAlpha) {
-                <AlertComponent Type=SeverityType.Warning>
-                    <Title>Pre Alpha</Title>
-                    <Message>This note refers to content that is in pre-alpha. It won't be accurate in future updates to IGP.</Message>
-                </AlertComponent>
-            }
-            <PaperComponent>
-                <div style="display: flex; flex-direction: row;">
-                    <span style="font-weight: bold; font-style:italic;">@note.Section</span>
-                    <div style="flex: 1"></div>
-                    <span style="font-weight: bold; font-style:italic;">Last Updated on @note.LastUpdated</span>
-                </div>
-                <div>
-                    <div id="@note.DEPRECATED_Id()" style="font-weight: bold; font-size: 1.4rem;">@note.Name</div>
-                    <div style="white-space:break-spaces;">@((MarkupString)note.Description)</div>
-                </div>
-            </PaperComponent>
-        }
-    </div>
-</LayoutMediumContentComponent>
-
+        </div>
+    </LayoutMediumContentComponent>
+   
+}
 <style>
     .section {
         display: flex;
@@ -74,13 +86,26 @@
 </style>
 
 @code {
-    readonly List<NoteModel> data = NoteModel.Notes.Values.ToList();
 
     string selectedSection = "All";
+
+    protected override void OnInitialized()
+    {
+        NoteService.Subscribe(StateHasChanged);
+        
+        NoteService.Load();
+    }
+    
+    
+    public void Dispose()
+    {
+        NoteService.Unsubscribe(StateHasChanged);
+
+    }
+    
 
     void OnSectionChanged(ChangeEventArgs e) {
         selectedSection = e.Value.ToString();
         StateHasChanged();
     }
-
 }

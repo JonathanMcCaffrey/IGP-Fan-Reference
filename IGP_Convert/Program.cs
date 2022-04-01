@@ -18,4 +18,8 @@ using (var db = new DatabaseContext(options.Options)) {
     File.WriteAllTextAsync($"{webPath}/TaskModels.json", JsonSerializer.Serialize(db.TaskModels));
     File.WriteAllTextAsync($"{webPath}/WebSectionModels.json", JsonSerializer.Serialize(db.WebSectionModels));
     File.WriteAllTextAsync($"{webPath}/WebPageModels.json", JsonSerializer.Serialize(db.WebPageModels));
+    
+    
+    File.WriteAllTextAsync($"{webPath}/DocumentationModels.json", JsonSerializer.Serialize(db.DocumentationModels));
+    File.WriteAllTextAsync($"{webPath}/NoteModels.json", JsonSerializer.Serialize(db.NoteModels));
 }

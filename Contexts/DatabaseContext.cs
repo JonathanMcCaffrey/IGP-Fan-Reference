@@ -3,6 +3,8 @@
 #else
 
 using Microsoft.EntityFrameworkCore;
+using Model.Documentation;
+using Model.Immortal.Notes;
 using Model.Website;
 using Model.Work.Git;
 using Model.Work.Tasks;
@@ -20,7 +22,10 @@ public class DatabaseContext : DbContext {
     public DbSet<PatchModel> PatchModels { get; set; }
     public DbSet<WebPageModel> WebPageModels { get; set; }
     public DbSet<WebSectionModel> WebSectionModels { get; set; }
-
+    
+    public DbSet<DocumentationModel> DocumentationModels { get; set; }
+    public DbSet<NoteModel> NoteModels { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.Entity<PatchModel>();
         modelBuilder.Entity<TaskModel>();

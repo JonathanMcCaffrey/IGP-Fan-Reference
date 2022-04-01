@@ -10,6 +10,7 @@ using Model.Immortal.Economy;
 using Model.Immortal.Entity;
 using Model.Immortal.Entity.Data;
 using Model.Immortal.MemoryTester;
+using Model.Immortal.Notes;
 using Model.Website;
 using Model.Website.Enums;
 using Model.Work.Git;
@@ -79,6 +80,15 @@ public interface IAgileService {
 #else
     public Task Load(DatabaseContext database);
 #endif
+    public bool IsLoaded();
+}
+
+public interface INoteService {
+    public List<NoteModel> NoteModels { get; set; }
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    public void Update();
+    public Task Load();
     public bool IsLoaded();
 }
 

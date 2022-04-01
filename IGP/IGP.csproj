@@ -36,4 +36,8 @@
         <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Notes\Pages\CoopHoldout.razor" />
+    </ItemGroup>
+
 </Project>
