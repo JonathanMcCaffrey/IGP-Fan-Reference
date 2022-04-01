@@ -1,8 +1,15 @@
-﻿@inject IEntityDialogService entityDialogService
+﻿@implements IDisposable;
+
+@inject IEntityDialogService entityDialogService
+
 
 <div class="dialogBackground" onclick="@CloseDialog">
 
-<div class="dialogContainer" 
+    @{
+        var entity = DATA.Get()[entityDialogService.GetEntityId()];
+    }
+    
+    <div class="dialogContainer" 
      @onclick:preventDefault="true"
      @onclick:stopPropagation="true">
         @if (entity == null)
@@ -12,6 +19,14 @@
         else
         {
             <div class="dialogHeader">
+                @if (entityDialogService.HasHistory())
+                {
+                    <button class="backButton" @onclick="entityDialogService.BackDialog">
+                        
+                        <div class="backButtonIcon"> </div>
+                    </button>
+                }
+
                 <div class="dialogTitle">
                     @entity.Info().Name
                 </div>
@@ -40,23 +55,106 @@
     
 </div>
 
+<style>
+   
+.dialogBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+}
 
+.dialogContainer {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 64px;
+    width: 800px;
+    height: 600px;
+    
+    background-color: var(--background);
+    border-width: var(--dialog-border-width);
+    border-style: solid;
+    border-color: var(--dialog-border-color);
+    border-radius: var(--dialog-radius);
+    
+    
+    box-shadow: 1px 2px 2px black;
 
+}
+
+.dialogHeader {
+    width: 100%;
+    background-color: var(--accent);
+    border-top-left-radius: var(--dialog-radius);
+    border-top-right-radius: var(--dialog-radius);
+    border-bottom: 4px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.backButton {
+    margin-left: 16px;
+    padding: 12px;
+    
+    border: 1px solid var(--accent);
+}
+
+.backButton:hover {
+    background-color: var(--primary-hover);
+    border: 1px solid var(--primary-border-hover);
+}
+
+.backButtonIcon 
+{
+    height: 32px;
+    width: 32px;
+    border: solid white;
+    border-width: 0 9px 9px 0;
+    transform: rotate(135deg);
+}
+
+.dialogTitle {
+    padding: 16px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.dialogContent {
+    flex-grow: 1;
+    padding: 6px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    height: 500px;
+}
+
+.dialogFooter {
+    width: 100%;
+    height: 6px;
+    background-color: var(--paper);
+}
+</style>
 
 @code {
-    private EntityModel entity = null;
-    
-    [Parameter] public string EntityId { get; set; }
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
-        if (entityDialogService.GetEntityId() == null)
-        {
-            return;
-        }
-
-        entity = DATA.Get()[EntityId];
+        entityDialogService.Subscribe(OnUpdate);
     }
+    
+    public void Dispose() {
+        entityDialogService.Unsubscribe(OnUpdate);
+    }
+
+    void OnUpdate()
+    {
+        StateHasChanged();
+    }
+    
 
     public void CloseDialog()
     {
@@ -64,3 +162,4 @@
     }
 
 }
+

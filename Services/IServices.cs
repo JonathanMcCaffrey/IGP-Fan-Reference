@@ -26,10 +26,13 @@ public interface IEntityDialogService
     
     public void AddDialog(string entityId);
     public void CloseDialog();
+    
+    public void BackDialog();
 
     public string? GetEntityId();
 
     public bool HasDialog();
+    public bool HasHistory();
 }
 
 public interface IWebsiteService {
