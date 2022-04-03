@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Services;
 using Services.Immortal;
 using Services.Website;
-using Services.Work;
+using Services.Development;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.SetMinimumLevel(LogLevel.Warning);
@@ -50,6 +50,7 @@ builder.Services.AddSingleton<IWebsiteService, WebsiteService>();
 builder.Services.AddSingleton<IAgileService, AgileService>();
 builder.Services.AddSingleton<IGitService, GitService>();
 builder.Services.AddSingleton<INoteService, NoteService>();
+builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
 
 
 await builder.Build().RunAsync();

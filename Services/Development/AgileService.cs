@@ -5,13 +5,17 @@ using Contexts;
 using Microsoft.EntityFrameworkCore;
 using Model.Work.Tasks;
 
-namespace Services.Work;
+namespace Services.Development;
 
 public class AgileService : IAgileService {
     private readonly HttpClient httpClient;
 
     private bool isLoaded;
 
+    
+    private event Action _onChange;
+
+    
     public AgileService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
@@ -46,8 +50,8 @@ public class AgileService : IAgileService {
             return;
         }
 
-        SprintModels = (await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json")).ToList();
-        TaskModels =(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json")).ToList();
+        SprintModels = (await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json")?? Array.Empty<SprintModel>() ).ToList();
+        TaskModels =(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json") ?? Array.Empty<TaskModel>()).ToList();
 
         isLoaded = true;
 
@@ -75,8 +79,6 @@ public class AgileService : IAgileService {
     public void Update() {
         NotifyDataChanged();
     }
-
-    private event Action _onChange;
 
     private void NotifyDataChanged() {
         _onChange?.Invoke();

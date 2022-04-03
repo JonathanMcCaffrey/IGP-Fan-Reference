@@ -1,6 +1,4 @@
-﻿
-
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Model.Work.Git;
 
 #if NO_SQL
@@ -10,7 +8,7 @@ using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
 
-namespace Services.Work;
+namespace Services.Development;
 
 public class GitService : IGitService {
     private readonly HttpClient httpClient;
@@ -53,8 +51,8 @@ public class GitService : IGitService {
             return;
         }
         
-        ChangeModels =  (await httpClient.GetFromJsonAsync<ChangeModel[]>("generated/ChangeModels.json")).ToList();
-        PatchModels = (await httpClient.GetFromJsonAsync<PatchModel[]>("generated/PatchModels.json")).ToList();
+        ChangeModels =  (await httpClient.GetFromJsonAsync<ChangeModel[]>("generated/ChangeModels.json") ?? Array.Empty<ChangeModel>()).ToList();
+        PatchModels = (await httpClient.GetFromJsonAsync<PatchModel[]>("generated/PatchModels.json") ?? Array.Empty<PatchModel>()).ToList();
 
 
         isLoaded = true;

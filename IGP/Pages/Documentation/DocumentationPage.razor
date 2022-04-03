@@ -1,0 +1,141 @@
+﻿@layout PageLayout
+
+@inject IDocumentationService DocumentationService
+@using Markdig
+@implements IDisposable
+
+@page "/docs"
+
+@if (!DocumentationService.IsLoaded())
+{
+    <LoadingComponent></LoadingComponent>
+}
+else
+{
+    <LayoutMediumContentComponent>
+        <WebsiteTitleComponent>Documentation</WebsiteTitleComponent>
+
+        <div class="section">
+            <div for="docSection">Section: </div>
+            <div style="flex: 1"></div>
+            <select @oninput="OnSectionChanged" style="background-color: #36393F; width: 250px; margin-right: 16px;" name="docSection">
+                <option value="All">All</option>
+
+            </select>
+        </div>
+
+        <div class="docsContainer">
+            @foreach (var doc in DocumentationService.DocumentationModels) {
+                if (selectedSection != "All" && doc.Section != selectedSection) {
+                    continue;
+                }
+                <PaperComponent>
+                    <div style="display: flex; flex-direction: row;">
+                        <span style="font-weight: bold; font-style:italic;">@doc.Section</span>
+                        <div style="flex: 1"></div>
+                        <span style="font-weight: bold; font-style:italic;">Last Updated on @doc.UpdatedDate.ToString("MM/dd/yyyy")</span>
+                    </div>
+                    <div>
+                        <div id="@doc.Id" style="font-weight: bold; font-size: 1.4rem;">@doc.Name</div>
+                        <div>@((MarkupString)Markdown.ToHtml(doc.Description))</div>
+                    </div>
+                </PaperComponent>
+            }
+        </div>
+    </LayoutMediumContentComponent>
+   
+}
+<style>
+    .section {
+        display: flex;
+        width: 500px;
+        flex-direction: row;
+        background-color: var(--paper);
+        justify-content: center;
+        padding: 24px;
+        border: 4px solid var(--paper-border);
+        box-shadow: 0px 6px var(--paper-border);
+    }
+
+    .docsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    
+    pre code {
+        color: white;
+        
+    }
+    
+    h1 {
+    	display: block;
+        font-size: 2em;
+        margin-top: 0.67em;
+        margin-bottom: 0.67em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
+    
+    h2 {
+        display: block;
+        font-size: 1.5em;
+        margin-top: 0.83em;
+        margin-bottom: 0.83em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
+    
+    li {
+    	display: list-item;
+    }
+    
+    p {
+        display: block;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 40px;
+    }
+    
+    pre {
+        background: black;
+        padding: 2px;
+    }
+</style>
+
+@code {
+
+    string selectedSection = "All";
+
+    protected override void OnInitialized()
+    {
+        DocumentationService.Subscribe(StateHasChanged);
+        
+        DocumentationService.Load();
+    }
+    
+    
+    public void Dispose()
+    {
+        DocumentationService.Unsubscribe(StateHasChanged);
+    }
+    
+    void OnSectionChanged(ChangeEventArgs e) {
+        selectedSection = e.Value.ToString();
+        StateHasChanged();
+    }
+}

@@ -1,8 +1,5 @@
-﻿
-
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Model.Immortal.Notes;
-using Model.Work.Git;
 
 #if NO_SQL
 
@@ -11,7 +8,7 @@ using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
 
-namespace Services.Work;
+namespace Services.Development;
 
 public class NoteService : INoteService {
     private readonly HttpClient httpClient;
@@ -52,7 +49,7 @@ public class NoteService : INoteService {
             return;
         }
         
-        NoteModels =  (await httpClient.GetFromJsonAsync<NoteModel[]>("generated/NoteModels.json")).ToList();
+        NoteModels =  (await httpClient.GetFromJsonAsync<NoteModel[]>("generated/NoteModels.json") ?? Array.Empty<NoteModel>()).ToList();
  
 
         isLoaded = true;

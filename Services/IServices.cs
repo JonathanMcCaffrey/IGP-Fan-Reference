@@ -5,6 +5,7 @@
 using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
+using Model.Documentation;
 using Model.Immortal.BuildOrders;
 using Model.Immortal.Economy;
 using Model.Immortal.Entity;
@@ -91,6 +92,16 @@ public interface INoteService {
     public Task Load();
     public bool IsLoaded();
 }
+
+public interface IDocumentationService {
+    public List<DocumentationModel> DocumentationModels { get; set; }
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    public void Update();
+    public Task Load();
+    public bool IsLoaded();
+}
+
 
 public interface IGitService {
 

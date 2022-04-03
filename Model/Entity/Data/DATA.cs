@@ -1562,6 +1562,18 @@ public class DATA {
             },
             // Passives
             // Aru Passives
+            //PASSIVE_ThrumAttackSpeed
+            {
+                DataType.PASSIVE_ThrumAttackSpeed,
+                new EntityModel(DataType.PASSIVE_ThrumAttackSpeed, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Thrum Attack Speed Boost", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Thrums gain more attack speed for a short duration when a near by allied Thrum kills an enemy unit"
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
+            
             {
                 DataType.PASSIVE_XacalDamage,
                 new EntityModel(DataType.PASSIVE_XacalDamage, EntityType.Passive)
@@ -1743,6 +1755,17 @@ public class DATA {
             },
             // Abilities
             // Aru
+            {
+                DataType.ABILITY_MobilizeAru,
+                new EntityModel(DataType.ABILITY_MobilizeAru, EntityType.Ability)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Mobilize Aru", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Mobilize all deployed Aru units."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "D" })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+            },
             {
                 DataType.ABILITY_Offering,
                 new EntityModel(DataType.ABILITY_Offering, EntityType.Ability)

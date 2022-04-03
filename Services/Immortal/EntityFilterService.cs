@@ -142,7 +142,7 @@ public class EntityFilterService : IEntityFilterService {
     private void RefreshEntityChoices() {
         _entityChoices.Clear();
 
-        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Aru) {
+        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any) {
             _entityChoices.Add(EntityType.Army);
             _entityChoices.Add(EntityType.Immortal);
             _entityChoices.Add(EntityType.Passive);
@@ -150,16 +150,10 @@ public class EntityFilterService : IEntityFilterService {
             _entityChoices.Add(EntityType.Tech);
             _entityChoices.Add(EntityType.Ability);
             _entityChoices.Add(EntityType.Pyre_Spell);
-            _entityChoices.Add(EntityType.Building_Upgrade);
             _entityChoices.Add(EntityType.Worker);
         }
 
         if (_selectedFaction == FactionType.Any) {
-            _entityChoices.Add(EntityType.Teapot);
-            _entityChoices.Add(EntityType.Command);
-            _entityChoices.Add(EntityType.Pyre_Event);
-            _entityChoices.Add(EntityType.Family);
-            _entityChoices.Add(EntityType.Faction);
             _entityChoices.Add(EntityType.Any);
         }
     }

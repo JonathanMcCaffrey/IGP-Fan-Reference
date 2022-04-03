@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Model.Website;
 
-namespace Services.Work;
+namespace Services.Development;
 
 public class WebsiteService : IWebsiteService {
     private readonly HttpClient httpClient;
