@@ -5,6 +5,13 @@
         </div>
     }
 
+    @if (Entity.Info().Notes != "") {
+            <div>
+                <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
+            </div>
+    }
+
+    
     <div class="infoDisplayContainer">
         <div>
             @if (Entity.Faction() != null) {
@@ -51,7 +58,7 @@
 
 @code {
 
-    [Parameter]
-    public EntityModel Entity { get; set; }
+    [CascadingParameter]
+    public EntityModel? Entity { get; set; }
 
 }

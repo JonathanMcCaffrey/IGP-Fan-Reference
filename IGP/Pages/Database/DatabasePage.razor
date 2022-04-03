@@ -21,7 +21,9 @@
         @if (searches != null) {
             <div class="databaseItems">
                 @foreach (var entity in searches) {
-                    <EntityViewComponent Entity=entity></EntityViewComponent>
+                    <CascadingValue Value="entity">
+                        <EntityViewComponent></EntityViewComponent>
+                    </CascadingValue>
                 }
             </div>
         }

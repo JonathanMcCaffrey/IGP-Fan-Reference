@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using Model.Immortal.Entity.Parts;
 using Model.Immortal.Types;
 using Newtonsoft.Json;
@@ -37,14 +38,14 @@ public class DATA {
             // TEAPOTS
             {
                 DataType.TEAPOT_Teapot, new EntityModel(DataType.TEAPOT_Teapot, EntityType.Teapot)
-                    .AddPart(new EntityInfoModel { Name = "Teapot", Notes = @"Very powerful! So Fast" })
+                    .AddPart(new EntityInfoModel { Name = "Teapot", Description = "Basic scout. Every faction has this", Notes = @"Very powerful! So Fast" })
                     .AddPart(new EntityVitalityModel { Health = 70, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 400 })
-            }, {
+            }, 
+            {
                 DataType.TEAPOT_FlyingTeapot, new EntityModel(DataType.TEAPOT_FlyingTeapot, EntityType.Teapot)
-                    .AddPart(new EntityInfoModel { Name = "Flying Teapot", Notes = @"Much flying, Wow!" })
-                    .AddPart(new EntityRequirementModel
-                        { Name = "Teapot", Requirement = RequirementType.Morph, DataType = DataType.TEAPOT_Teapot })
+                    .AddPart(new EntityInfoModel { Name = "Flying Teapot", Description = "Basic observer. Can fly and see hidden units", Notes = @"Much flying, Wow!" })
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.TEAPOT_Teapot })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 50 })
                     .AddPart(new EntityVitalityModel { Health = 70, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 400, Movement = MovementType.Air })
@@ -55,101 +56,48 @@ public class DATA {
                 DataType.FAMILY_Rae,
                 new EntityModel(DataType.FAMILY_Rae, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
-                        Name = "Rae",
-                        Notes =
-                            @"Enslaved insectoid faction family. Controlled by the Amn Baal, a god not from the dimension of creation. Few Rae are allowed to have free will, and all must obey the call of the work. Maybe?"
+                        Name = "Rae"
                     })
-                    .AddPart(new EntityMechanicModel
-                        { Name = "Centralized?", Description = "Units can be built only out of the town hall. Maybe?" })
-                    .AddPart(new EntityMechanicModel {
-                        Name = "Breach?",
-                        Description = "Under certain conditions, units can be built anywhere on the map. Maybe?"
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Protect your town halls! If they get sniped, you are going to have trouble keeping up in army production. Maybe?"
-                    })
-            }, {
+            }, 
+            {
                 DataType.FAMILY_Sylv,
                 new EntityModel(DataType.FAMILY_Sylv, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
-                        Name = "Sylv",
-                        Notes =
-                            "Plantoid faction family. They heavily rely on their connection to roots and to each other."
+                        Name = "Sylv"
                     })
-                    .AddPart(new EntityMechanicModel {
-                        Name = "Vineway",
-                        Description = "Buildings can only built on the vines that spread from already made buildings."
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Taking a risky base? Try to move vineway generating units to the location, so you can build static defense faster."
-                    })
-            }, {
+            }, 
+            {
                 DataType.FAMILY_Angelic,
                 new EntityModel(DataType.FAMILY_Angelic, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
-                        Name = "Angelic",
-                        Notes =
-                            "Pyre-based faction family. They seek to protect and guide creation, in the teachings of their god Aros."
-                    })
-                    .AddPart(new EntityMechanicModel {
-                        Name = "Hallowed Ground",
-                        Description =
-                            "All buildings generate an angelic field that boosts nearby units with additional effects."
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Try to ensure your always fightning on your Hallowed Ground. When on attack, bring with you units that can generate Hallowed Ground, such as the Magi or Ark Mother."
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Your proxy rushes are more dangerous than other families, given your buildings can easily be placed anywhere on the map, and provide the Hallowed Ground bonus."
+                        Name = "Angelic"
                     })
             }, {
                 DataType.FAMILY_Human,
                 new EntityModel(DataType.FAMILY_Human, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
                         Name = "Human",
-                        Notes =
-                            "Human governing faction family. They seek power and trade, expanding their territory and control."
                     })
-                    .AddPart(new EntityMechanicModel {
-                        Name = "Grid?",
-                        Description = "Your building benefit from power connections to your townhall. Maybe?"
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Keep small forward bases on the map, so your units have somewhere nearby to reload after a skirmish. Maybe?"
-                    })
-            }, {
+            }, 
+            {
                 DataType.FAMILY_Coalition,
                 new EntityModel(DataType.FAMILY_Coalition, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
                         Name = "Coalition?",
-                        Notes =
-                            "Coalition of species faction family. They make up of variety of groups joining together to surivive in creation. Maybe?"
                     })
-                    .AddPart(new EntityMechanicModel {
-                        Name = "Diversity?",
-                        Description =
-                            "Your tech tree is flat, allowing you to special in truly unexpected build orders and compositions. Maybe?"
-                    })
-            }, {
+            }, 
+            {
                 DataType.FAMILY_Demonic,
                 new EntityModel(DataType.FAMILY_Demonic, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
                         Name = "Demonic?",
-                        Notes =
-                            "Not much is known about demons, aside that they are like a pyre-cancer. A part of creation, just not a healthy part. We shouldn't expect any new info a demons until many years after the release of Immortal, should the faction family ever get a gameplay element. Maybe?"
                     })
-            }, {
+            }, 
+            {
                 DataType.FAMILY_NazRa,
                 new EntityModel(DataType.FAMILY_NazRa, EntityType.Family, true)
                     .AddPart(new EntityInfoModel {
                         Name = "Naz'Ra",
-                        Notes =
-                            "An ancient species, believed to of consumed their gods. Naz'Ra were probably all killed off in old wars against the Rae. Some could still be alive, but if I had to guess, they probably won't be appart of the game. Maybe?"
                     })
             },
             // Factions
@@ -159,8 +107,6 @@ public class DATA {
                 new EntityModel(DataType.FACTION_Aru, EntityType.Faction)
                     .AddPart(new EntityInfoModel {
                         Name = "Aru",
-                        Notes =
-                            "Sylv variant that is no longer as reliant on the vineway. Instead they rely on a blood god's rootway, and on the god's beasts for protection."
                     })
                     .AddPart(new EntityPassiveModel {
                         Name = "Overgrowth",
@@ -177,32 +123,18 @@ public class DATA {
                         Description =
                             "You can summon blood wells for pyre, that allow you to heal your units health and mana."
                     })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Due to Overgrowth, Aru benfit from being able to quickly skrimish their units in and out of combat. Additionally, certain units in the Aru arsenal also favour this playstyle, like the Behemoths, Incubators, Xacals and more."
-                    })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Aru have no healing outside of Pyre utility buildings: Towers and Blood Wells. You should always try to hold pyre camps, but also try to consider how you will spend the Pyre to help keep your army alive."
-                    })
-            }, {
+            }, 
+            {
                 DataType.FACTION_Iratek,
                 new EntityModel(DataType.FACTION_Iratek, EntityType.Faction, true)
                     .AddPart(new EntityInfoModel {
-                        Name = "Iratek", Notes = "Sylv faction that relies on the vineway to create a hivemind. Maybe?"
+                        Name = "Iratek"
                     })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "The Chorus?",
-                        Description = "Your units become isolated when leaving the vineway. Maybe?"
-                    })
-            }, {
+            }, 
+            {
                 DataType.FACTION_Yul,
                 new EntityModel(DataType.FACTION_Yul, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "Yul", Notes = "A more fungal Sylv faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Plant Growth?",
-                        Description = "You want to grow important utility units on the vineway. Maybe?"
-                    })
+                    .AddPart(new EntityInfoModel { Name = "Yul" })
             },
             // Factions
             // Angelic
@@ -212,87 +144,56 @@ public class DATA {
                     .AddPart(new EntityInfoModel {
                         Name = "Q'Rath",
                         Notes =
-                            "Anglic faction that has adopted many humans into their ranks. They seek to bring more into their collective."
+                            "Angelic faction that has adopted many humans into their ranks. They seek to bring more into their collective."
                     })
                     .AddPart(new EntityPassiveModel {
                         Name = "Wards",
                         Description =
                             "Your units have an extra layer of health that is always (but slowly) regenerates. The regeneration is double on Hallowed Ground."
                     })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "As Q'Rath, you care about fighting on Hallowed Ground, given the regen it provides your units. Additionally, units like the Sipari and Zentari will get additional bonuses when fighting on Hallowed Ground. Try to hold position at forward buildings, Pillars and Ark Mothers."
-                    })
-            }, {
+            }, 
+            {
                 DataType.FACTION_YRiah,
                 new EntityModel(DataType.FACTION_QRath, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "R'Raih", Notes = "An angrier angelic faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel
-                        { Name = "Berserk?", Description = "Your units get stronger when at low health. Maybe?" })
+                    .AddPart(new EntityInfoModel { Name = "R'Raih" })
             }, {
                 DataType.FACTION_ArkShai,
                 new EntityModel(DataType.FACTION_QRath, EntityType.Faction, true)
                     .AddPart(new EntityInfoModel
-                        { Name = "Ark'Shai", Notes = "An more soul sucking angelic faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel
-                        { Name = "Life Steal?", Description = "Your units gain life when attacking. Maybe?" })
+                        { Name = "Ark'Shai" })
             },
             // Factions
             // Human
             {
                 DataType.FACTION_Jora,
                 new EntityModel(DataType.FACTION_Jora, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "Jora", Notes = "Industrial human faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Ammo?",
-                        Description =
-                            "Your units have limited attacks, which need to be replenished at a building. Maybe?"
-                    })
-            }, {
+                    .AddPart(new EntityInfoModel { Name = "Jora" })
+            }, 
+            {
                 DataType.FACTION_Telmetra,
                 new EntityModel(DataType.FACTION_Telmetra, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "Talmetra", Notes = "Heavy political faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Trade Lines?",
-                        Description = "Increase alloy and ether production by connecting bases with roads. Maybe?"
-                    })
-            }, {
+                    .AddPart(new EntityInfoModel { Name = "Talmetra" })
+            }, 
+            {
                 DataType.FACTION_Kjor,
                 new EntityModel(DataType.FACTION_Kjor, EntityType.Faction, true)
                     .AddPart(new EntityInfoModel
-                        { Name = "Kjor", Notes = "Aggressive warriors with magical runes. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Rune Recharging?",
-                        Description = "Your units have spells that they can only recover at buildings. Maybe?"
-                    })
+                        { Name = "Kjor" }
+                    )
             },
             // Factions
             // Rae
             {
                 DataType.FACTION_Herlesh,
                 new EntityModel(DataType.FACTION_Herlesh, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "Herlesh", Notes = "Biomechanical Rae faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Miasma?",
-                        Description = "Units leave damage-over-time area-of-effects when the die. Maybe?"
-                    })
-            }, {
-                DataType.FACTION_EntralledRae,
-                new EntityModel(DataType.FACTION_EntralledRae, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel
-                        { Name = "Entralled Rae", Notes = "Mind controlled Rae faction. Maybe?" })
-                    .AddPart(new EntityPassiveModel
-                        { Name = "Mind Control?", Description = "Can temporary shut down enemy units. Maybe?" })
-            },
+                    .AddPart(new EntityInfoModel { Name = "Herlesh"})
+            }, 
             // Factions
             // Coalition
             {
                 DataType.FACTION_Khardu,
                 new EntityModel(DataType.FACTION_Khardu, EntityType.Faction, true)
-                    .AddPart(new EntityInfoModel { Name = "Khardu", Notes = "Horde composed of many species. Maybe?" })
-                    .AddPart(new EntityPassiveModel {
-                        Name = "Totems?", Description = "Place totems in combat that offer a variety of bonuses. Maybe?"
-                    })
+                    .AddPart(new EntityInfoModel { Name = "Khardu" })
             },
             // Immortals
             // Aru
@@ -330,10 +231,6 @@ public class DATA {
                         Description =
                             "[PlaceholderText] Your units can sense nearby enemies in the fog of war. (Not implemented)"
                     })
-                    .AddPart(new EntityStrategyModel {
-                        Notes =
-                            "Sneak small skrimishing units around the map to attack workers and isolated enemy units."
-                    })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
@@ -356,8 +253,6 @@ public class DATA {
                         Name = "[PlaceholderText] Healing Hallowed Ground",
                         Description = "[PlaceholderText] Your Hallowed Ground also heals units."
                     })
-                    .AddPart(new EntityStrategyModel
-                        { Notes = "Bring your damaged units to full health with Hallowed Ground." })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
@@ -377,8 +272,6 @@ public class DATA {
                         Name = "[PlaceholderText] Expansionist",
                         Description = "[PlaceholderText] Your towers cost 25 less pyre."
                     })
-                    .AddPart(new EntityStrategyModel
-                        { Notes = "You want to leverage building a lot of towers for vision and map control." })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_EmpireUnbroken })
@@ -392,12 +285,12 @@ public class DATA {
                 DataType.COMMAND_Attack,
                 new EntityModel(DataType.COMMAND_Attack, EntityType.Command)
                     .AddPart(new EntityInfoModel
-                        { Name = "Attack", Notes = "Makes selected units attack targeted area." })
+                        { Name = "Attack", Description = "Makes selected units attack targeted area." })
                     .AddPart(new EntityHotkeyModel { Hotkey = "A", HotkeyGroup = "D" })
             }, {
                 DataType.COMMAND_StandGround,
                 new EntityModel(DataType.COMMAND_StandGround, EntityType.Command)
-                    .AddPart(new EntityInfoModel { Name = "Stand Ground", Notes = "Makes selected units stop moving." })
+                    .AddPart(new EntityInfoModel { Name = "Stand Ground", Description = "Makes selected units stop moving." })
                     .AddPart(new EntityHotkeyModel { Hotkey = "S", HotkeyGroup = "D" })
             },
             // Starting Structures
@@ -405,22 +298,34 @@ public class DATA {
                 DataType.STARTING_Bastion,
                 new EntityModel(DataType.STARTING_Bastion, EntityType.Building)
                     .AddPart(new EntityInfoModel
-                        { Name = "Bastion", Notes = "Provides a fully upgraded base worth of alloy." })
+                        { Name = "Bastion", 
+                            Description = "Provides a fully upgraded base worth of alloy.",
+                            Notes = "Revives in 40 seconds when destroyed." })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Neutral })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Neutral })
                     .AddPart(new EntityHarvestModel {
                         HarvestedPerInterval = 6, RequiresWorker = false, Resource = ResourceType.Alloy, Slots = 1,
                         TotalAmount = 6000
                     })
-            }, {
+                    .AddPart(new EntityVitalityModel{ Health = 500, Armor = ArmorType.Heavy})
+                    .AddPart(new EntityWeaponModel{ Damage = 30, AttacksPerSecond = 1.401f, Targets = TargetType.All, Range = 700,})
+            }, 
+            {
                 DataType.STARTING_Tower,
-                new EntityModel(DataType.STARTING_Bastion, EntityType.Building)
+                new EntityModel(DataType.STARTING_Tower, EntityType.Building)
                     .AddPart(new EntityInfoModel {
                         Name = "Starting Tower",
                         Notes = "Currently not in game. Can be upgraded to the factions pyre tower."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Neutral })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Neutral })
+                    .AddPart(new EntityVitalityModel
+                        { Health = 1000, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityWeaponModel {
+                        Damage = 20, Range = 800, AttacksPerSecond = 1.124f, Targets = TargetType.All,
+                        MediumDamage = 25, HeavyDamage = 30
+                    })
+                    .AddPart(new EntityIdPassiveModel{Id = DataType.PASSIVE_Respite})
             },
             // Starting Structures
             // Aru
@@ -474,8 +379,7 @@ public class DATA {
                         { Damage = 26, Range = 100, AttacksPerSecond = 0.699f, Targets = TargetType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 26, Range = 300, AttacksPerSecond = 0.699f, Targets = TargetType.Ground })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
@@ -500,8 +404,7 @@ public class DATA {
                         Damage = 40, MediumDamage = 45, HeavyDamage = 50, Range = 600, SecondsBetweenAttacks = 1.8f, AttacksPerSecond = 0.637f,
                         Targets = TargetType.Ground,  HasSplash = true
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVanguardAddedModel { ReplaceId = DataType.UNIT_Warden, ImmortalId = DataType.IMMORTAL_Orzum })
@@ -523,12 +426,10 @@ public class DATA {
                     .AddPart(new EntityVitalityModel
                         { Health = 140, DefenseLayer = 100, Armor = ArmorType.Light, IsEtheric = true })
                     .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Reliquary", DataType = DataType.BUILDING_Reliquary,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Reliquary,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityWeaponModel
@@ -551,12 +452,10 @@ public class DATA {
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel
                         { Energy = 100, Health = 100, DefenseLayer = 100, Armor = ArmorType.Medium, IsEtheric = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "House of Fading Saints", DataType = DataType.BUILDING_HouseOfFadingSaints,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_HouseOfFadingSaints,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 335, Movement = MovementType.Ground })
@@ -572,8 +471,7 @@ public class DATA {
                 new EntityModel(DataType.VANGUARD_Incubator_Mala, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Incubator", Descriptive = DescriptiveType.Force_Multiplier })
                     .AddPart(new EntityTierModel { Tier = 2 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HoldSpace = true, HotkeyGroup = "Z" })
@@ -592,12 +490,10 @@ public class DATA {
                 new EntityModel(DataType.VANGUARD_DreadSister_Mala, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Dread Sister", Descriptive = DescriptiveType.Elite_Caster })
                     .AddPart(new EntityTierModel { Tier = 3 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HoldSpace = true, HotkeyGroup = "Z" })
@@ -621,8 +517,7 @@ public class DATA {
                 new EntityModel(DataType.VANGUARD_BoneStalker_Xol, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Bone Stalker", Descriptive = DescriptiveType.Generalist })
                     .AddPart(new EntityTierModel { Tier = 1 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "Z" })
@@ -640,12 +535,10 @@ public class DATA {
                 new EntityModel(DataType.VANGUARD_WhiteWoodReaper_Xol, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "White Wood Reaper", Descriptive = DescriptiveType.Assassin })
                     .AddPart(new EntityTierModel { Tier = 3 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "Z" })
@@ -691,8 +584,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, BuildTime = 25 })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 140, DefenseLayer = 70, Armor = ArmorType.Light })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
@@ -714,12 +606,10 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 75, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVanguardReplacedModel { ImmortalId = DataType.IMMORTAL_Ajari, ReplacedById = DataType.VANGUARD_Saoshin_Ajari })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Reliquary", DataType = DataType.BUILDING_Reliquary,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Reliquary,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -744,12 +634,10 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 40, BuildTime = 30 })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Reliquary", DataType = DataType.BUILDING_Reliquary,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Reliquary,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel { Health = 180, DefenseLayer = 90, Armor = ArmorType.Heavy })
@@ -773,8 +661,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 125, Ether = 10, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 140, DefenseLayer = 100, Armor = ArmorType.Medium })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
@@ -797,8 +684,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 75, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 175, DefenseLayer = 150, Armor = ArmorType.Medium })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 315, Movement = MovementType.Ground })
@@ -829,8 +715,7 @@ public class DATA {
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 200, DefenseLayer = 100, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 340, Movement = MovementType.Ground })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityWeaponModel {
@@ -855,12 +740,10 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 75, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "House of Fading Saints", DataType = DataType.BUILDING_HouseOfFadingSaints,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_HouseOfFadingSaints,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 130, Armor = ArmorType.Heavy })
@@ -883,8 +766,7 @@ public class DATA {
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 150, DefenseLayer = 100, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 525, Movement = MovementType.Air })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityWeaponModel {
@@ -905,12 +787,10 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 250, Ether = 100, BuildTime = 50 })
                     .AddPart(new EntitySupplyModel { Takes = 9 })
                     .AddPart(new EntityVitalityModel { Health = 350, DefenseLayer = 200, Armor = ArmorType.Heavy })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Bearer of the Crown", DataType = DataType.BUILDING_BearerOfTheCrown,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_BearerOfTheCrown,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityMovementModel { Speed = 262, Movement = MovementType.Air })
@@ -936,8 +816,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 175, Ether = 100, BuildTime = 40 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel { Health = 300, DefenseLayer = 80, Armor = ArmorType.Heavy })
@@ -953,12 +832,10 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 110, Ether = 175, BuildTime = 55 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Eye of Eros", DataType = DataType.BUILDING_EyeOfAros,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_EyeOfAros,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -978,8 +855,7 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Symbiote", Descriptive = DescriptiveType.Worker })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 20 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Grove Heart", DataType = DataType.BUILDING_GroveHeart,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_GroveHeart,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel { Health = 50, DefenseLayer = 10, Armor = ArmorType.Light })
@@ -998,8 +874,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "Z" })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.VANGUARD_BoneStalker_Xol })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
@@ -1017,12 +892,10 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Xacal, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Xacal", Descriptive = DescriptiveType.Frontliner })
                     .AddPart(new EntityTierModel { Tier = 1.5f })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "Z" })
@@ -1044,12 +917,10 @@ public class DATA {
                     .AddPart(new EntityTierModel { Tier = 3 })
                     .AddPart(new EntityVanguardReplacedModel
                         {  ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.VANGUARD_WhiteWoodReaper_Xol })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "Z" })
@@ -1072,12 +943,10 @@ public class DATA {
                     .AddPart(new EntityTierModel { Tier = 3 })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Mala, ReplacedById = DataType.VANGUARD_DreadSister_Mala })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HoldSpace = true, HotkeyGroup = "Z" })
@@ -1102,8 +971,12 @@ public class DATA {
                     .AddPart(new EntityTierModel { Tier = 2 })
                     .AddPart(new EntityVanguardReplacedModel { ImmortalId = DataType.IMMORTAL_Mala, ReplacedById = DataType.VANGUARD_Incubator_Mala })
                     .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                        DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
+                    })
+                    .AddPart(new EntityRequirementModel {
+                        DataType = DataType.BUILDING_Neurocyte,
+                        Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
@@ -1125,8 +998,7 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Ichor, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Ichor", Descriptive = DescriptiveType.Harrier })
                     .AddPart(new EntityTierModel { Tier = 2 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "Z" })
@@ -1146,12 +1018,10 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Resinant, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Resinant", Descriptive = DescriptiveType.Zone_Control })
                     .AddPart(new EntityTierModel { Tier = 2.5f })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "Z" })
@@ -1176,12 +1046,10 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Aarox, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Aarox", Descriptive = DescriptiveType.Air_Superiority })
                     .AddPart(new EntityTierModel { Tier = 3 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Bone Canopy", DataType = DataType.BUILDING_BoneCanopy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_BoneCanopy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HoldSpace = true, HotkeyGroup = "Z" })
@@ -1199,8 +1067,7 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Thrum, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Thrum", Descriptive = DescriptiveType.Harrier })
                     .AddPart(new EntityTierModel { Tier = 3 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Bone Canopy", DataType = DataType.BUILDING_BoneCanopy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_BoneCanopy,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "Z" })
@@ -1219,8 +1086,7 @@ public class DATA {
                 new EntityModel(DataType.UNIT_WraithBow, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Wraith Bow", Descriptive = DescriptiveType.Air_Denial })
                     .AddPart(new EntityTierModel { Tier = 2 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HoldSpace = true, HotkeyGroup = "Z" })
@@ -1239,12 +1105,10 @@ public class DATA {
                 new EntityModel(DataType.UNIT_Behemoth, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Behemoth", Descriptive = DescriptiveType.Skirmisher })
                     .AddPart(new EntityTierModel { Tier = 3.5f })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Bone Canopy", DataType = DataType.BUILDING_BoneCanopy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_BoneCanopy,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "A", HoldSpace = true, HotkeyGroup = "Z" })
@@ -1279,9 +1143,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building,
-                        Name = "Reliquary"
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Production_Building
                     })
             }, {
                 DataType.UPGRADE_RelicOfTheWrathfulGaze,
@@ -1295,7 +1157,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 75, BuildTime = 29 })
                     .AddPart(new EntityRequirementModel {
                         DataType = DataType.BUILDING_HouseOfFadingSaints,
-                        Requirement = RequirementType.Production_Building, Name = "House of Fading Saints"
+                        Requirement = RequirementType.Production_Building
                     })
             }, {
                 DataType.UPGRADE_WindStep,
@@ -1305,10 +1167,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 55 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building,
-                        Name = "Reliquary"
-                    })
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Production_Building })
             }, {
                 DataType.UPGRADE_ZephyrRange,
                 new EntityModel(DataType.UPGRADE_ZephyrRange, EntityType.Tech)
@@ -1319,10 +1178,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 100, BuildTime = 43 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building,
-                        Name = "Reliquary"
-                    })
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Production_Building})
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WindStep })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_ZephyrRange })
             }, {
@@ -1337,7 +1193,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 100, BuildTime = 60 })
                     .AddPart(new EntityRequirementModel {
                         DataType = DataType.BUILDING_HouseOfFadingSaints,
-                        Requirement = RequirementType.Production_Building, Name = "House of Fading Saints"
+                        Requirement = RequirementType.Production_Building
                     })
             }, {
                 DataType.UPGRADE_IconOfKhastEem,
@@ -1349,9 +1205,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HoldSpace = true, HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 43 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_EyeOfAros, Requirement = RequirementType.Production_Building,
-                        Name = "Eye of Aros"
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Production_Building
                     })
             }, {
                 DataType.UPGRADE_BladesOfTheGodhead,
@@ -1363,10 +1217,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "A", HoldSpace = true, HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 75, BuildTime = 45 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_BearerOfTheCrown,
-                        Requirement = RequirementType.Production_Building, Name = "Bearer of the Crown"
-                    })
+                    .AddPart(new EntityRequirementModel { DataType = DataType.BUILDING_BearerOfTheCrown, Requirement = RequirementType.Production_Building                     })
             }, {
                 DataType.UPGRADE_WingsOfTheKenLatir,
                 new EntityModel(DataType.UPGRADE_WingsOfTheKenLatir, EntityType.Tech)
@@ -1377,10 +1228,7 @@ public class DATA {
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 100, BuildTime = 30 })
-                    .AddPart(new EntityRequirementModel {
-                        DataType = DataType.BUILDING_BearerOfTheCrown,
-                        Requirement = RequirementType.Production_Building, Name = "Bearer of the Crown"
-                    })
+                    .AddPart(new EntityRequirementModel { DataType = DataType.BUILDING_BearerOfTheCrown, Requirement = RequirementType.Production_Building})
             },
             // Upgrades
             // Aru
@@ -1391,12 +1239,10 @@ public class DATA {
                         { Name = "Offering", Descriptive = DescriptiveType.Upgrade, Description = "Unlocks Offering" })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 80, BuildTime = 60 })
@@ -1407,12 +1253,10 @@ public class DATA {
                         { Name = "Blood Mother's Fevor", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 150, BuildTime = 80 })
@@ -1422,8 +1266,7 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Den Instinct", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 120, BuildTime = 45 })
@@ -1433,8 +1276,7 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Pursuit Ligaments", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 100, BuildTime = 45 })
@@ -1444,12 +1286,10 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Resinant Deploy", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Amber Womb", DataType = DataType.BUILDING_AmberWomb,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AmberWomb,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 43 })
@@ -1459,8 +1299,7 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Xacal Damage", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 75, BuildTime = 60 })
@@ -1470,23 +1309,21 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Behemoth Capacity", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "A", HotkeyGroup = "TAB", HoldSpace = true })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Deep Nest", DataType = DataType.BUILDING_DeepNest,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_DeepNest,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 150, BuildTime = 46 })
             }, {
-                DataType.UPGRADE_WraithBow,
-                new EntityModel(DataType.UPGRADE_WraithBow, EntityType.Tech)
-                    .AddPart(new EntityInfoModel { Name = "Wraith Bow", Descriptive = DescriptiveType.Upgrade })
+                DataType.UPGRADE_WraithBowRange,
+                new EntityModel(DataType.UPGRADE_WraithBowRange, EntityType.Tech)
+                    .AddPart(new EntityInfoModel { Name = "Wraith Bow Range", Description = "Increase's the range of the Wraith Bow anti-air attack.", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB", HoldSpace = true })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Neurocyte", DataType = DataType.BUILDING_Neurocyte,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Neurocyte,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 29 })
-                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WraithBow })
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WraithBowRange })
             }, {
                 DataType.UPGRADE_BloodPlague,
                 new EntityModel(DataType.UPGRADE_BloodPlague, EntityType.Tech)
@@ -1496,8 +1333,7 @@ public class DATA {
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "TAB", HoldSpace = true })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 120, BuildTime = 80 })
@@ -1510,17 +1346,29 @@ public class DATA {
                     .AddPart(new EntityInfoModel { Name = "Birthing Storm", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "TAB", HoldSpace = true })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Blood Vale", DataType = DataType.BUILDING_RedVale,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 120, BuildTime = 80 })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala, ReplaceId = DataType.ABILITY_BloodPlague })
             },
 
-
+            // Passives
+            // Neutral
+            {
+                DataType.PASSIVE_Respite,
+                new EntityModel(DataType.PASSIVE_Respite, EntityType.Passive)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Respite", Descriptive = DescriptiveType.Ability,
+                        Description =
+                            @"Nearby units will slowly heal after not attacking for several seconds."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Any })
+            },
+            
             // Passives
             // Q'Rath Passives
+            
             {
                 DataType.PASSIVE_MendingCommand,
                 new EntityModel(DataType.PASSIVE_MendingCommand, EntityType.Passive)
@@ -1889,7 +1737,6 @@ public class DATA {
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala, ReplaceId = DataType.UNIT_Acaaluk })
                     .AddPart(new EntityProductionModel { Energy = 80, BuildTime = 4, Cooldown = 20 })
                     .AddPart(new EntitySupplyModel { Takes = 0 })
-                    .AddPart(new EntityRequirementModel { Name = "Red Seer", DataType = DataType.UNIT_RedSeer })
                     .AddPart(new EntityVitalityModel { Health = 300, DefenseLayer = 100, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 0, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel {
@@ -1907,8 +1754,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 25 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
-                    .AddPart(new EntityRequirementModel
-                        { Name = "Red Seer", DataType = DataType.UNIT_RedSeer, Requirement = RequirementType.Morph })
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Morph })
                     .AddPart(new EntityVitalityModel { Health = 200, DefenseLayer = 60, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
@@ -1932,6 +1778,7 @@ public class DATA {
                         Damage = 20, Range = 800, AttacksPerSecond = 1.124f, Targets = TargetType.All,
                         MediumDamage = 25, HeavyDamage = 30
                     })
+                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Respite})
             }, {
                 DataType.ISPELL_PillarOfHeaven,
                 new EntityModel(DataType.ISPELL_PillarOfHeaven, EntityType.Pyre_Spell)
@@ -2008,6 +1855,7 @@ public class DATA {
                         { Health = 1200, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityWeaponModel
                         { Damage = 15, Range = 800, AttacksPerSecond = 1.887f, Targets = TargetType.All })
+                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Respite})
             }, {
                 DataType.ISPELL_ConstructBloodWell,
                 new EntityModel(DataType.ISPELL_ConstructBloodWell, EntityType.Pyre_Spell)
@@ -2079,8 +1927,7 @@ public class DATA {
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Acropolis", DataType = DataType.BUILDING_Acropolis, Requirement = RequirementType.Morph
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Morph
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, BuildTime = 20, RequiresWorker = false })
                     .AddPart(new EntityHarvestModel {
@@ -2096,8 +1943,7 @@ public class DATA {
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Mining Level 2", DataType = DataType.BUPGRADE_MiningLevel2_QRath,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUPGRADE_MiningLevel2_QRath,
                         Requirement = RequirementType.Morph
                     })
                     .AddPart(new EntityProductionModel { Alloy = 125, BuildTime = 20, RequiresWorker = false })
@@ -2134,7 +1980,8 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 38, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
-            }, {
+            }, 
+            {
                 DataType.DEFENSE_FireSinger,
                 new EntityModel(DataType.DEFENSE_FireSinger, EntityType.Building)
                     .AddPart(new EntityInfoModel {
@@ -2145,12 +1992,27 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
-                        Requirement = RequirementType.Production_Building
+                        DataType = DataType.BUILDING_KeeperOfTheHardenedFlames,
+                        Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 300, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
-            }, {
+            }, 
+            {
+                DataType.BUILDING_KeeperOfTheHardenedFlames,
+                new EntityModel(DataType.BUILDING_KeeperOfTheHardenedFlames, EntityType.Building_Upgrade)
+                    .AddPart(new EntityInfoModel {
+                        Name = "Keeper Of the Hardened Flames", Descriptive = DescriptiveType.Defense,
+                        Description = ""
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "V", HoldSpace = true, HotkeyGroup = "C" })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+                    .AddPart(new EntityProductionModel { Alloy = 125, BuildTime = 30, RequiresWorker = true })
+                    .AddPart(new EntityVitalityModel
+                        { Health = 350, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+            }, 
+            
+            {
                 DataType.BUILDING_Reliquary,
                 new EntityModel(DataType.BUILDING_Reliquary, EntityType.Building)
                     .AddPart(new EntityInfoModel {
@@ -2162,8 +2024,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel
                         { Alloy = 150, Ether = 10, BuildTime = 45, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -2180,8 +2041,7 @@ public class DATA {
                     .AddPart(new EntityProductionModel
                         { Alloy = 250, Ether = 80, BuildTime = 45, RequiresWorker = true })
                     .AddPart(new EntitySupplyModel { Grants = 16 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Legion Hall", DataType = DataType.BUILDING_LegionHall,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_LegionHall,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -2197,12 +2057,11 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel
                         { Alloy = 175, Ether = 200, BuildTime = 52, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1600, DefenseLayer = 800, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
             }, {
                 DataType.BUILDING_Angelarium,
                 new EntityModel(DataType.BUILDING_Angelarium, EntityType.Building)
@@ -2215,12 +2074,11 @@ public class DATA {
                     .AddPart(new EntityProductionModel
                         { Alloy = 250, Ether = 80, BuildTime = 48, RequiresWorker = true })
                     .AddPart(new EntitySupplyModel { Grants = 16 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Soul Foundry", DataType = DataType.BUILDING_SoulFoundry,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1600, DefenseLayer = 800, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 600, DefenseLayer = 600, Armor = ArmorType.Heavy, IsStructure = true })
             }, {
                 DataType.BUILDING_EyeOfAros,
                 new EntityModel(DataType.BUILDING_EyeOfAros, EntityType.Building)
@@ -2232,8 +2090,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel
                         { Alloy = 200, Ether = 200, BuildTime = 36, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -2249,8 +2106,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel
                         { Alloy = 250, Ether = 200, BuildTime = 52, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Angelarium", DataType = DataType.BUILDING_Angelarium,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_Angelarium,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -2284,12 +2140,10 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVitalityModel
                         { Health = 2150, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Grove Heart", DataType = DataType.STARTING_TownHall_Aru,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.STARTING_TownHall_Aru,
                         Requirement = RequirementType.Morph
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel
@@ -2303,8 +2157,7 @@ public class DATA {
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Grove Heart", DataType = DataType.BUILDING_GroveHeart,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_GroveHeart,
                         Requirement = RequirementType.Morph
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, BuildTime = 20, RequiresWorker = false })
@@ -2321,8 +2174,7 @@ public class DATA {
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Mining Level 2", DataType = DataType.BUPGRADE_MiningLevel2_Aru,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUPGRADE_MiningLevel2_Aru,
                         Requirement = RequirementType.Morph
                     })
                     .AddPart(new EntityProductionModel { Alloy = 125, BuildTime = 20, RequiresWorker = false })
@@ -2341,7 +2193,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 500, DefenseLayer = 0, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 400, DefenseLayer = 100, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityHarvestModel {
                         HarvestedPerInterval = 1.5625f, RequiresWorker = false, Resource = ResourceType.Ether,
                         Slots = 1, TotalAmount = 1200
@@ -2357,7 +2209,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntitySupplyModel { Grants = 16 })
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 36, RequiresWorker = true })
-                    .AddPart(new EntityVitalityModel { Health = 1000, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityVitalityModel { Health = 900, DefenseLayer = 100,  Armor = ArmorType.Heavy, IsStructure = true })
             }, {
                 DataType.BUILDING_Neurocyte,
                 new EntityModel(DataType.BUILDING_Neurocyte, EntityType.Building)
@@ -2369,13 +2221,13 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel
                         { Alloy = 100, Ether = 75, BuildTime = 30, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 650, DefenseLayer = 150, Armor = ArmorType.Heavy, IsStructure = true })
-            }, {
+            }, 
+            {
                 DataType.DEFENSE_Aerovore,
                 new EntityModel(DataType.DEFENSE_Aerovore, EntityType.Building)
                     .AddPart(new EntityInfoModel {
@@ -2387,17 +2239,20 @@ public class DATA {
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 18, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 300, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
-            }, {
+            }, 
+            {
                 DataType.BUPGRADE_Omnivore,
                 new EntityModel(DataType.BUPGRADE_Omnivore, EntityType.Building_Upgrade)
                     .AddPart(new EntityInfoModel { Name = "Omnivore", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "SHIFT" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Aerovore", DataType = DataType.DEFENSE_Aerovore, Requirement = RequirementType.Morph
-                    })
+                    .AddPart(new EntityRequirementModel{ Requirement = RequirementType.Morph })
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 18, RequiresWorker = false })
-            }, {
+                    .AddPart(new EntityVitalityModel
+                        { Health = 400, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+
+            }, 
+            {
                 DataType.BUILDING_AmberWomb,
                 new EntityModel(DataType.BUILDING_AmberWomb, EntityType.Building)
                     .AddPart(new EntityInfoModel {
@@ -2409,15 +2264,13 @@ public class DATA {
                     .AddPart(new EntityProductionModel
                         { Alloy = 250, Ether = 80, BuildTime = 45, RequiresWorker = true })
                     .AddPart(new EntitySupplyModel { Grants = 16 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "God Heart", DataType = DataType.BUPGRADE_GodHeart,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUPGRADE_GodHeart,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityVitalityModel { Health = 1250, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityVitalityModel { Health = 1000, DefenseLayer = 250, Armor = ArmorType.Heavy, IsStructure = true })
             }, {
                 DataType.BUILDING_BoneCanopy,
                 new EntityModel(DataType.BUILDING_BoneCanopy, EntityType.Building)
@@ -2430,11 +2283,10 @@ public class DATA {
                     .AddPart(new EntityProductionModel
                         { Alloy = 250, Ether = 80, BuildTime = 36, RequiresWorker = true })
                     .AddPart(new EntitySupplyModel { Grants = 16 })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "God Heart", DataType = DataType.BUPGRADE_GodHeart,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUPGRADE_GodHeart,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityVitalityModel { Health = 1250, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityVitalityModel { Health = 1000, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
             }, {
                 DataType.BUILDING_RedVale,
                 new EntityModel(DataType.BUILDING_RedVale, EntityType.Building)
@@ -2446,8 +2298,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel
                         { Alloy = 100, Ether = 100, BuildTime = 36, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Altar of the Worthy", DataType = DataType.BUILDING_AltarOfTheWorthy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_AltarOfTheWorthy,
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
@@ -2463,8 +2314,7 @@ public class DATA {
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel
                         { Alloy = 175, Ether = 150, BuildTime = 38, RequiresWorker = true })
-                    .AddPart(new EntityRequirementModel {
-                        Name = "Bone Canopy", DataType = DataType.BUILDING_BoneCanopy,
+                    .AddPart(new EntityRequirementModel{ DataType = DataType.BUILDING_BoneCanopy,
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel

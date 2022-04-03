@@ -1,14 +1,8 @@
 ﻿@implements IDisposable;
-
 @inject IEntityDialogService entityDialogService
-
 
 <div class="dialogBackground" onclick="@CloseDialog">
 
-    @{
-        var entity = DATA.Get()[entityDialogService.GetEntityId()];
-    }
-    
     <div class="dialogContainer" 
      @onclick:preventDefault="true"
      @onclick:stopPropagation="true">
@@ -22,7 +16,6 @@
                 @if (entityDialogService.HasHistory())
                 {
                     <button class="backButton" @onclick="entityDialogService.BackDialog">
-                        
                         <div class="backButtonIcon"> </div>
                     </button>
                 }
@@ -33,19 +26,21 @@
 
             </div>
             <div class="dialogContent">
-                <div>
-                    <EntityVanguardAddedComponent Entity=@entity></EntityVanguardAddedComponent>
-                    <EntityInfoComponent Entity=@entity></EntityInfoComponent>
-                    <EntityVanguardsComponent Entity=@entity></EntityVanguardsComponent>
-                    <EntityProductionComponent Entity=@entity></EntityProductionComponent>
-                    <EntityStatsComponent Entity=@entity></EntityStatsComponent>
-                    <EntityMechanicsComponent Entity=@entity></EntityMechanicsComponent>
-                    <EntityPassivesComponent Entity=@entity></EntityPassivesComponent>
-                    <EntityPyreSpellsComponent Entity=@entity></EntityPyreSpellsComponent>
-                    <EntityUpgradesComponent Entity=@entity></EntityUpgradesComponent>
-                    <EntityWeaponsComponent Entity=@entity></EntityWeaponsComponent>
-                    <EntityAbilitiesComponent Entity=@entity></EntityAbilitiesComponent>
-                </div>
+                <CascadingValue Value="@entity">
+                    <CascadingValue Value="@refresh">
+                    <EntityVanguardAddedComponent ></EntityVanguardAddedComponent>
+                    <EntityInfoComponent ></EntityInfoComponent>
+                    <EntityVanguardsComponent ></EntityVanguardsComponent>
+                    <EntityProductionComponent ></EntityProductionComponent>
+                    <EntityStatsComponent ></EntityStatsComponent>
+                    <EntityMechanicsComponent ></EntityMechanicsComponent>
+                    <EntityPassivesComponent ></EntityPassivesComponent>
+                    <EntityPyreSpellsComponent ></EntityPyreSpellsComponent>
+                    <EntityUpgradesComponent ></EntityUpgradesComponent>
+                    <EntityWeaponsComponent ></EntityWeaponsComponent>
+                    <EntityAbilitiesComponent ></EntityAbilitiesComponent>
+                </CascadingValue>
+                </CascadingValue>
 
             </div>
             <div class="dialogFooter"></div>
@@ -140,9 +135,15 @@
 </style>
 
 @code {
+    
+    EntityModel entity = null;
+
+    private int refresh = 0;
 
     protected override void OnInitialized()
     {
+        entity = DATA.Get()[entityDialogService.GetEntityId()];
+        
         entityDialogService.Subscribe(OnUpdate);
     }
     
@@ -152,10 +153,13 @@
 
     void OnUpdate()
     {
+        entity = DATA.Get()[entityDialogService.GetEntityId()];
+        refresh++;
+
+        Console.WriteLine("OnUpdate()");
         StateHasChanged();
     }
     
-
     public void CloseDialog()
     {
         entityDialogService.CloseDialog();

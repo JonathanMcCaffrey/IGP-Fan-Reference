@@ -23,7 +23,6 @@ public static class DataType {
     public static string FACTION_YRiah = "c7537d12-a536-4ef5-99b9-d7ad704716fe";
     public static string FACTION_ArkShai = "ffe82eea-b8c6-4933-9230-cd019fd1c259";
     public static string FACTION_Herlesh = "e6c09f4a-ae7d-4bfd-b5d4-a63445d59498";
-    public static string FACTION_EntralledRae = "9316a2a1-a8e6-47ae-a4c6-411ff54f949a";
     public static string FACTION_Khardu = "a1764de6-8178-4775-819a-59d23677dd76";
     public static string COMMAND_Attack = "168486ff-581e-46da-a308-74f1d7d615fd";
     public static string COMMAND_StandGround = "cb9ee44f-7293-4a82-826c-a3829491006b";
@@ -76,6 +75,10 @@ public static class DataType {
     public static string BUILDING_DeepNest = "3076ae6e-89bf-4ea1-a66c-ea45ffcb4046";
     public static string BUILDING_Neurocyte = "90c6e53f-0430-4992-a1eb-4f91699292cb";
     public static string DEFENSE_FireSinger = "c7a90286-6977-4d92-91e0-2a0a46eb13ea";
+    
+    public static string BUILDING_KeeperOfTheHardenedFlames = "db784823-5199-4bae-bc5e-96174490cd00";
+
+    
     public static string DEFENSE_Aerovore = "b68307b7-4759-43a3-8679-d844ac3aa73f";
     public static string UPGRADE_FaithCastBlades = "32087a66-900e-4f25-95f7-de56d5b424c7";
     public static string UPGRADE_RelicOfTheWrathfulGaze = "e6fa5ded-53f5-4914-85bb-1fdff5f32b64";
@@ -91,11 +94,14 @@ public static class DataType {
     public static string UPGRADE_PursuitLigaments = "51a4e848-ae67-4182-9c1f-27cb24e9c531";
     public static string UPGRADE_XacalDamage = "f10b8f7a-0c52-4e78-8d7d-002ac14e8862";
     public static string UPGRADE_ResinantDeploy = "29f49353-8fdf-4c5d-b034-37f96447dedb";
-    public static string UPGRADE_WraithBow = "80c09dc3-28a5-48cf-886e-c7f5a52f6b47";
+    public static string UPGRADE_WraithBowRange = "80c09dc3-28a5-48cf-886e-c7f5a52f6b47";
     public static string UPGRADE_BehemothCapacity = "d0390dd2-d9a5-4b20-9d8b-f554f4c52143";
     public static string UPGRADE_BloodPlague = "9c207e21-f595-49d0-967d-f30ca8cc3745";
     public static string UPGRADE_BirthingStorm = "0cb2f1a4-03b3-491b-9db3-d2d4590ede3a";
     
+
+    public static string PASSIVE_Respite = "607c39f4-a957-4a7a-8fc6-a239f9e570ec";
+
     
     public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
 

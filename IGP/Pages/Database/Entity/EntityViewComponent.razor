@@ -2,21 +2,23 @@
     var isVanguard = Entity.VanguardAdded() != null ? " vanguard" : "";
 
     <div class="enititiesContainer @isVanguard">
-        <EntityHeaderComponent Entity=Entity></EntityHeaderComponent>
+        <EntityHeaderComponent></EntityHeaderComponent>
 
-        <div class="entityPartsContainer">
-            <EntityVanguardAddedComponent Entity=Entity></EntityVanguardAddedComponent>
-            <EntityInfoComponent Entity=Entity></EntityInfoComponent>
-            <EntityVanguardsComponent Entity=Entity></EntityVanguardsComponent>
-            <EntityProductionComponent Entity=Entity></EntityProductionComponent>
-            <EntityStatsComponent Entity=Entity></EntityStatsComponent>
-            <EntityMechanicsComponent Entity=Entity></EntityMechanicsComponent>
-            <EntityPassivesComponent Entity=Entity></EntityPassivesComponent>
-            <EntityPyreSpellsComponent Entity=Entity></EntityPyreSpellsComponent>
-            <EntityUpgradesComponent Entity=Entity></EntityUpgradesComponent>
-            <EntityWeaponsComponent Entity=Entity></EntityWeaponsComponent>
-            <EntityAbilitiesComponent Entity=Entity></EntityAbilitiesComponent>
-        </div>
+        <CascadingValue Value="@Entity">
+            <div class="entityPartsContainer">
+                <EntityVanguardAddedComponent></EntityVanguardAddedComponent>
+                <EntityInfoComponent></EntityInfoComponent>
+                <EntityVanguardsComponent></EntityVanguardsComponent>
+                <EntityProductionComponent></EntityProductionComponent>
+                <EntityStatsComponent></EntityStatsComponent>
+                <EntityMechanicsComponent></EntityMechanicsComponent>
+                <EntityPassivesComponent></EntityPassivesComponent>
+                <EntityPyreSpellsComponent></EntityPyreSpellsComponent>
+                <EntityUpgradesComponent></EntityUpgradesComponent>
+                <EntityWeaponsComponent></EntityWeaponsComponent>
+                <EntityAbilitiesComponent></EntityAbilitiesComponent>
+            </div>
+        </CascadingValue>
     </div>
 }
 
@@ -48,8 +50,6 @@
 </style>
 
 @code {
-
-    [Parameter]
-    public EntityModel Entity { get; set; }
-
+    [CascadingParameter]
+    public EntityModel? Entity { get; set; }
 }

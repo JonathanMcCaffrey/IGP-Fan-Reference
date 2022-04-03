@@ -1,4 +1,5 @@
-﻿using Model.Immortal.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using DataType = Model.Immortal.Entity.Data.DataType;
 
 namespace Services.Website;
 

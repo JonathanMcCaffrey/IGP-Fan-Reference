@@ -7,26 +7,24 @@
 @inject IEntityDialogService entityDialogService 
 
 
-@if (entity == null)
+@if (EntityId == null)
 {
     <div>Add a entity</div>
 }
 else
 {
-    <button class="entityLabel @entity.Descriptive.ToLower()" @onclick="EntityLabelClicked">@entity.Info().Name</button>
+    <button class="entityLabel @Entity.Descriptive.ToLower()" @onclick="EntityLabelClicked">@Entity.Info().Name</button>
 }
 
 @code {
     
     [Parameter] public string EntityId { get; set; }
 
-    private EntityModel entity = null;
-    
+    private EntityModel Entity => DATA.Get()[EntityId];
+
     protected override void OnInitialized()
     {
-        entity = DATA.Get()[EntityId];
-        Console.Write(entity.Info().Name);
-        
+        Console.Write(Entity.Info().Name);
     }
 
     void EntityLabelClicked()

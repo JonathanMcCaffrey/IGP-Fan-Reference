@@ -1,76 +1,70 @@
-﻿@{
-    var production = Entity.Production();
-    var supply = Entity.Supply();
-    var requirements = Entity.Requirements();
-}
-
-@if (production != null || supply != null || requirements.Count > 0) {
+﻿@if (@Production != null || Supply != null || Requirements.Count > 0) {
     <EntityDisplayComponent Title="Production">
-        <div class="productionContainer">
-            @if (requirements.Count() > 0) {
+        <div class="ProductionContainer">
+            @if (Requirements.Count() > 0) {
                 <div>
-                    @foreach (var requirement in requirements) {
+                    @foreach (var requirement in Requirements) {
                         <div>
 
                             <span>
-                                <b>@requirement.Requirement.Replace("_", " "):</b>  <EntityLabelComponent EntityId="@requirement.DataType"/>
+                                <b>@requirement.Requirement.Replace("_", " "):</b> <EntityLabelComponent EntityId="@requirement.DataType"/>
                             </span>
                         </div>
                     }
                 </div>
             }
 
-            @if (production != null && (!production.Alloy.Equals(0)
-                                        || !production.Ether.Equals(0)
-                                        || !production.BuildTime.Equals(0)
-                                        || !production.Cooldown.Equals(0))) {
+            @if (Production != null && (!Production.Alloy.Equals(0)
+                                        || !Production.Ether.Equals(0)
+                                        || !Production.BuildTime.Equals(0)
+                                        || !Production.Cooldown.Equals(0))) {
                 <div>
-                    @if (!production.Alloy.Equals(0)) {
+                    @if (!Production.Alloy.Equals(0)) {
                         <div>
-                            <b>Alloy:</b> @production.Alloy
+                            <b>Alloy:</b> @Production.Alloy
                         </div>
                     }
-                    @if (!production.Ether.Equals(0)) {
+                    @if (!Production.Ether.Equals(0)) {
                         <div>
-                            <b>Ether:</b> @production.Ether
+                            <b>Ether:</b> @Production.Ether
                         </div>
                     }
-                    @if (!production.Pyre.Equals(0)) {
+                    @if (!Production.Pyre.Equals(0)) {
                         <div>
-                            <b>Pyre:</b> @production.Pyre
+                            <b>Pyre:</b> @Production.Pyre
                         </div>
                     }
 
-                    @if (!production.BuildTime.Equals(0)) {
+                    @if (!Production.BuildTime.Equals(0)) {
                         <div>
-                            <b>Build Time:</b> @production.BuildTime.ToString()s
+                            <b>Build Time:</b> @Production.BuildTime.ToString()s
                         </div>
                     }
                     
-                    @if (!production.Energy.Equals(0)) {
+                    @if (!Production.Energy.Equals(0)) {
                         <div>
-                            <b>Energy:</b> @production.Energy
+                            <b>Energy:</b> @Production.Energy
                         </div>
                     }
 
 
-                    @if (!production.Cooldown.Equals(0)) {
+                    @if (!Production.Cooldown.Equals(0)) {
                         <div>
-                            <b>Cooldown:</b> @production.Cooldown.ToString()s
+                            <b>Cooldown:</b> @Production.Cooldown.ToString()s
                         </div>
                     }
                 </div>
             }
-            @if (supply != null) {
+            @if (Supply != null) {
                 <div>
-                    @if (!supply.Grants.Equals(0)) {
+                    @if (!Supply.Grants.Equals(0)) {
                         <div>
-                            <b>Grants:</b> @supply.Grants
+                            <b>Grants:</b> @Supply.Grants
                         </div>
                     }
-                    @if (!supply.Takes.Equals(0)) {
+                    @if (!Supply.Takes.Equals(0)) {
                         <div>
-                            <b>Takes:</b> @supply.Takes Supply
+                            <b>Takes:</b> @Supply.Takes Supply
                         </div>
                     }
                 </div>
@@ -80,13 +74,13 @@
 }
 
 <style>
-    .productionContainer {
+    .ProductionContainer {
         display: flex;
         gap: 32px;
     }
 
     @@media only screen and (max-width: 1025px) {
-        .productionContainer {
+        .ProductionContainer {
             flex-direction: column;
             gap: 4px;
         }
@@ -95,7 +89,19 @@
 
 @code {
 
-    [Parameter]
-    public EntityModel Entity { get; set; }
+    [CascadingParameter]
+    public EntityModel? Entity { get; set; }
+    
+
+    private EntityProductionModel Production => Entity.Production();
+    private List<EntityRequirementModel> Requirements => Entity.Requirements();
+    private EntitySupplyModel Supply => Entity.Supply();
+
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
+
 
 }
