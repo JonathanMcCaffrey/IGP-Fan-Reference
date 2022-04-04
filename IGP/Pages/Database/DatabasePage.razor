@@ -4,17 +4,23 @@
 
 @implements IDisposable
 
+@inject IEntityDisplayService entityDisplayService
+
 <LayoutLargeContentComponent>
     <WebsiteTitleComponent>Database</WebsiteTitleComponent>
 
     <PaperComponent>
-        <FormDisplayComponent Label="Patch">
-            <Display>
-                Game Patch: @EntityModel.GameVersion
-            </Display>
-        </FormDisplayComponent>
+            <FormDisplayComponent Label="Patch">
+                <Display>
+                    Game Patch: @EntityModel.GameVersion
+                </Display>
+            </FormDisplayComponent>
     </PaperComponent>
-
+    
+    <div style="margin-left: 8px">
+        <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+        </div>
+    
     <PaperComponent>
         <EntityFilterComponent></EntityFilterComponent>
 
@@ -22,7 +28,9 @@
             <div class="databaseItems">
                 @foreach (var entity in searches) {
                     <CascadingValue Value="entity">
-                        <EntityViewComponent></EntityViewComponent>
+                        <CascadingValue Value="@entityDisplayService.GetDisplayType()">
+                            <EntityViewComponent></EntityViewComponent>
+                            </CascadingValue>
                     </CascadingValue>
                 }
             </div>
@@ -91,6 +99,13 @@
         border-bottom: 4px solid var(--accent);
         padding: 4px;
     }
+    
+    .databaseInfoContainer {
+        display: flex;
+        gap: 24px;
+        
+    }
+    
 </style>
 
 
@@ -118,10 +133,12 @@
         RefreshFactionSearch();
 
         EntityFilterService.Subscribe(OnChange);
+        entityDisplayService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose() {
-        EntityFilterService.Subscribe(OnChange);
+        EntityFilterService.Unsubscribe(OnChange);
+        entityDisplayService.Unsubscribe(StateHasChanged);
     }
 
     void OnChange(EntityFilterEvent filterEntityEvent) {

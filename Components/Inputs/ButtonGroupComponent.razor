@@ -1,0 +1,87 @@
+﻿<div class="groupButtonContainerContainer">
+<div class="groupButtonContainer">
+    @foreach (var choice in Choices) {
+        var styleClass = "";
+        if (choice.Equals(Choice)) {
+            styleClass = "selected";
+        }
+        <button @onclick="@(e => OnChangeChoice(choice))" class="groupChoiceButton @styleClass">@choice</button>
+    }
+</div>
+</div>
+<style>
+
+.groupButtonContainerContainer {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-items: flex-start;
+}
+.groupButtonContainer {
+    display: flex;
+    background-color: var(--background);
+    gap: 2px;
+    margin-right: auto;
+    border-radius: 8px;
+}
+
+.groupChoiceButton {
+    background-color: var(--primary);
+    color: white;
+    padding: 12px;
+    border: 1px solid var(--primary);
+}
+
+.groupChoiceButton:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-border-hover);
+}
+
+.selected {
+    background-color: var(--secondary);
+    color: white;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.selected:hover {
+    background-color: var(--secondary-hover);
+    border-color: var(--secondary-border-hover);
+}
+
+
+.groupButtonContainer .groupChoiceButton:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+
+.groupButtonContainer .groupChoiceButton:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+</style>
+
+
+@code {
+
+    [Parameter]
+    public string Choice { get; set; }
+
+    [Parameter]
+    public List<string> Choices { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnClick { get; set; }
+
+    
+    protected override void OnInitialized() { }
+
+    void OnChangeChoice(string choice)
+    {
+        Choice = choice;
+        OnClick.InvokeAsync(choice);
+    }
+}

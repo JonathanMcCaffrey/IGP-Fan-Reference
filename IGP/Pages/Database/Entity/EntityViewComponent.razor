@@ -3,22 +3,19 @@
 
     <div class="enititiesContainer @isVanguard">
         <EntityHeaderComponent></EntityHeaderComponent>
-
-        <CascadingValue Value="@Entity">
-            <div class="entityPartsContainer">
-                <EntityVanguardAddedComponent></EntityVanguardAddedComponent>
-                <EntityInfoComponent></EntityInfoComponent>
-                <EntityVanguardsComponent></EntityVanguardsComponent>
-                <EntityProductionComponent></EntityProductionComponent>
-                <EntityStatsComponent></EntityStatsComponent>
-                <EntityMechanicsComponent></EntityMechanicsComponent>
-                <EntityPassivesComponent></EntityPassivesComponent>
-                <EntityPyreSpellsComponent></EntityPyreSpellsComponent>
-                <EntityUpgradesComponent></EntityUpgradesComponent>
-                <EntityWeaponsComponent></EntityWeaponsComponent>
-                <EntityAbilitiesComponent></EntityAbilitiesComponent>
-            </div>
-        </CascadingValue>
+        <div class="entityPartsContainer">
+            <EntityVanguardAddedComponent></EntityVanguardAddedComponent>
+            <EntityInfoComponent></EntityInfoComponent>
+            <EntityVanguardsComponent></EntityVanguardsComponent>
+            <EntityProductionComponent></EntityProductionComponent>
+            <EntityStatsComponent></EntityStatsComponent>
+            <EntityMechanicsComponent></EntityMechanicsComponent>
+            <EntityPassivesComponent></EntityPassivesComponent>
+            <EntityPyreSpellsComponent></EntityPyreSpellsComponent>
+            <EntityUpgradesComponent></EntityUpgradesComponent>
+            <EntityWeaponsComponent></EntityWeaponsComponent>
+            <EntityAbilitiesComponent></EntityAbilitiesComponent>
+        </div>
     </div>
 }
 
@@ -52,4 +49,7 @@
 @code {
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+    
+    [CascadingParameter]
+    public string? StyleType { get; set; }
 }

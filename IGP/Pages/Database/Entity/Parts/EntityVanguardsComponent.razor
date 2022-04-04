@@ -1,27 +1,60 @@
 ﻿@if (Entity.IdVanguards().Count > 0) {
-    <EntityDisplayComponent Title="Vanguards">
+    @if (StyleType.Equals("Plain"))
+    {
         @foreach (var data in Entity.IdVanguards()) {
             var entity = EntityModel.Get(data.Id);
 
             var requirements = entity.Requirements();
-            var vanguard = entity.VanguardAdded();
+            var vanguardAdded = entity.VanguardAdded();
+            var replaced = DATA.Get()[vanguardAdded.ReplaceId];
+            var immortal = DATA.Get()[vanguardAdded.ImmortalId];
+
+            
             var productionBuilding = (from building in requirements
                 where building.Requirement == RequirementType.Production_Building
                 select building).First().DataType;
 
             <div>
                 <div>
-                    <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
+                    <b>Name:</b> @entity.Info().Name
                 </div>
                 <div>
-                    <b>Replaces:</b> <EntityLabelComponent EntityId="@vanguard.ReplaceId"/> 
+                    <b>- Replaces:</b> @replaced.Info().Name
                 </div>
                 <div>
-                    <b>Built From:</b> <EntityLabelComponent EntityId="@productionBuilding"/>
+                    <b>- Built From:</b> @immortal.Info().Name 
                 </div>
             </div>
         }
-    </EntityDisplayComponent>
+    }
+    else
+    {
+        <EntityDisplayComponent Title="Vanguards">
+            @foreach (var data in Entity.IdVanguards()) {
+                var entity = EntityModel.Get(data.Id);
+
+                var requirements = entity.Requirements();
+                var vanguard = entity.VanguardAdded();
+                var productionBuilding = (from building in requirements
+                    where building.Requirement == RequirementType.Production_Building
+                    select building).First().DataType;
+
+                <div>
+                    <div>
+                        <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
+                    </div>
+                    <div>
+                        <b>Replaces:</b> <EntityLabelComponent EntityId="@vanguard.ReplaceId"/> 
+                    </div>
+                    <div>
+                        <b>Built From:</b> <EntityLabelComponent EntityId="@productionBuilding"/>
+                    </div>
+                </div>
+            }
+        </EntityDisplayComponent>
+        
+    }
+
 }
 
 @code {
@@ -29,4 +62,8 @@
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
     
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
+
 }

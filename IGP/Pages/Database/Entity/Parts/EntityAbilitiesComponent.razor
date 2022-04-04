@@ -1,5 +1,6 @@
 ﻿@if (Entity.IdAbilities().Count > 0) {
-    <EntityDisplayComponent Title="Abilities">
+    @if (StyleType.Equals("Plain"))
+    {
         @foreach (var idAbility in Entity.IdAbilities()) {
             var spell = EntityModel.Get(idAbility.Id);
 
@@ -8,15 +9,15 @@
 
             <div>
                 <div>
-                    <b>Name:</b> <EntityLabelComponent EntityId="@spell.DataType"/>
+                    <b>Ability Name:</b> @spell.Info().Name
                 </div>
                 <div>
-                    <b>Description:</b> @((MarkupString)info.Description)
+                    <b>- Description:</b> @((MarkupString)info.Description)
                 </div>
                 
                 @if (!info.Notes.Trim().Equals("")) {
                     <div>
-                        <b>Notes:</b> @((MarkupString)info.Notes)
+                        <b>- Notes:</b> @((MarkupString)info.Notes)
                     </div>   
                 }
                 
@@ -24,24 +25,73 @@
                     @if (production != null) {
                         if (production.Energy != 0) {
                             <div>
-                                <b> Energy: </b> @production.Energy
+                                <b>- Energy: </b> @production.Energy
                             </div>
                         }
                         if (production.BuildTime != 0) {
                             <div>
-                            <b> BuildTime: </b>  @production.BuildTime
+                                <b>- BuildTime: </b>  @production.BuildTime
                             </div>
                         }
                         if (production.Cooldown != 0) {
                             <div>
-                            <b> Cooldown: </b> @production.Cooldown
+                                <b>- Cooldown: </b> @production.Cooldown
                             </div>
                         }
                     }
                 </div>
             </div>
         }
-    </EntityDisplayComponent>
+        
+    }
+    else
+    {
+
+        <EntityDisplayComponent Title="Abilities">
+            @foreach (var idAbility in Entity.IdAbilities()) {
+                var spell = EntityModel.Get(idAbility.Id);
+
+                var info = spell.Info();
+                var production = spell.Production();
+
+                <div>
+                    <div>
+                        <b>Name:</b> <EntityLabelComponent EntityId="@spell.DataType"/>
+                    </div>
+                    <div>
+                        <b>Description:</b> @((MarkupString)info.Description)
+                    </div>
+                
+                    @if (!info.Notes.Trim().Equals("")) {
+                        <div>
+                            <b>Notes:</b> @((MarkupString)info.Notes)
+                        </div>   
+                    }
+                
+                    <div>
+                        @if (production != null) {
+                            if (production.Energy != 0) {
+                                <div>
+                                    <b> Energy: </b> @production.Energy
+                                </div>
+                            }
+                            if (production.BuildTime != 0) {
+                                <div>
+                                    <b> BuildTime: </b>  @production.BuildTime
+                                </div>
+                            }
+                            if (production.Cooldown != 0) {
+                                <div>
+                                    <b> Cooldown: </b> @production.Cooldown
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </EntityDisplayComponent>        
+    }
+
 }
 
 
@@ -49,6 +99,9 @@
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
 
  
 }

@@ -1,66 +1,125 @@
 ﻿
 @if (Vitality != null || Movement != null) {
-    <EntityDisplayComponent Title="Stats">
-        <div class="statContainer">
-            @if (Vitality != null) {
-                <div>
-                    @if (!Vitality.DefenseLayer.Equals(0)) {
-                        <div>
-                            <b>Shield:</b> @Vitality.DefenseLayer
-                        </div>
-                    }
-                    @if (!Vitality.Health.Equals(0)) {
-                        <div>
-                            <b>Health:</b> @Vitality.Health
-                        </div>
-                    }
-                    @if (!Vitality.Energy.Equals(0)) {
-                        <div>
-                            <b>Energy:</b> @Vitality.Energy
-                        </div>
-                    }
-                    @if (Vitality.Armor != "") {
-                        <div>
-                            <b>Armor:</b> @Vitality.Armor
-                        </div>
-                    }
-
-                    @if (Vitality.IsEtheric) {
-                        <div>
-                            <b> + Etheric</b>
-                        </div>
-                    }
-                    @if (Vitality.IsStructure) {
-                        <div>
-                            <b> + Structure</b>
-                        </div>
-                    }
-                </div>
-            }
-
-
-            @if (Movement != null) {
-                <div>
-                    @if (!Movement.Speed.Equals(0)) {
-                        <div>
-                            <b>Speed:</b> @Movement.Speed
-                        </div>
-                    }
-                    else {
-                        <div>
-                            <b>Speed:</b> Immobile
-                        </div>
-                    }
+    @if (StyleType.Equals("Plain"))
+    {
+        @if (Vitality != null) {
                     <div>
-                        <b>Move Type:</b> @Movement.Movement
-                    </div>
-                </div>
-            }
-        </div>
-    </EntityDisplayComponent>
-}
+                        @if (!Vitality.DefenseLayer.Equals(0)) {
+                            <div>
+                                <b>Shield:</b> @Vitality.DefenseLayer
+                            </div>
+                        }
+                        @if (!Vitality.Health.Equals(0)) {
+                            <div>
+                                <b>Health:</b> @Vitality.Health
+                            </div>
+                        }
+                        @if (!Vitality.Energy.Equals(0)) {
+                            <div>
+                                <b>Energy:</b> @Vitality.Energy
+                            </div>
+                        }
+                        @if (Vitality.Armor != "") {
+                            <div>
+                                <b>Armor:</b> @Vitality.Armor
+                            </div>
+                        }
 
-<style>
+                        @if (Vitality.IsEtheric) {
+                            <div>
+                                <b> + Etheric</b>
+                            </div>
+                        }
+                        @if (Vitality.IsStructure) {
+                            <div>
+                                <b> + Structure</b>
+                            </div>
+                        }
+                    </div>
+                }
+
+
+                @if (Movement != null) {
+                    <div>
+                        @if (!Movement.Speed.Equals(0)) {
+                            <div>
+                                <b>Speed:</b> @Movement.Speed
+                            </div>
+                        }
+                        else {
+                            <div>
+                                <b>Speed:</b> Immobile
+                            </div>
+                        }
+                        <div>
+                            <b>Move Type:</b> @Movement.Movement
+                        </div>
+                    </div>
+                }
+    }
+    else
+    {
+        
+
+        <EntityDisplayComponent Title="Stats">
+            <div class="statContainer">
+                @if (Vitality != null) {
+                    <div>
+                        @if (!Vitality.DefenseLayer.Equals(0)) {
+                            <div>
+                                <b>Shield:</b> @Vitality.DefenseLayer
+                            </div>
+                        }
+                        @if (!Vitality.Health.Equals(0)) {
+                            <div>
+                                <b>Health:</b> @Vitality.Health
+                            </div>
+                        }
+                        @if (!Vitality.Energy.Equals(0)) {
+                            <div>
+                                <b>Energy:</b> @Vitality.Energy
+                            </div>
+                        }
+                        @if (Vitality.Armor != "") {
+                            <div>
+                                <b>Armor:</b> @Vitality.Armor
+                            </div>
+                        }
+
+                        @if (Vitality.IsEtheric) {
+                            <div>
+                                <b> + Etheric</b>
+                            </div>
+                        }
+                        @if (Vitality.IsStructure) {
+                            <div>
+                                <b> + Structure</b>
+                            </div>
+                        }
+                    </div>
+                }
+
+
+                @if (Movement != null) {
+                    <div>
+                        @if (!Movement.Speed.Equals(0)) {
+                            <div>
+                                <b>Speed:</b> @Movement.Speed
+                            </div>
+                        }
+                        else {
+                            <div>
+                                <b>Speed:</b> Immobile
+                            </div>
+                        }
+                        <div>
+                            <b>Move Type:</b> @Movement.Movement
+                        </div>
+                    </div>
+                }
+            </div>
+        </EntityDisplayComponent>
+        <style>
     .statContainer {
         display: flex;
         gap: 32px;
@@ -74,10 +133,20 @@
     }
 </style>
 
+        
+    }
+}
+
+
 @code {
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
 
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
+
+    
     private EntityVitalityModel Vitality => Entity.Vitality();
     private EntityMovementModel Movement => Entity.Movement();
 }

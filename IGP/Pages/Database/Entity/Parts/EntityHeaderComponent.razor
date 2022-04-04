@@ -1,18 +1,30 @@
-﻿<div class="entityHeader">
-    <div class="entityHeaderText">
-        @Entity.Info().Name
+﻿@if (StyleType.Equals("Plain"))
+{
+    <div><b>@Entity?.Info().Name</b>
+            @if (Entity?.Info().Descriptive != DescriptiveType.None)
+                {
+                    <span>, @Entity?.Info().Descriptive.Replace("_", " ")</span>
+                }
+        </div>
+}
+else
+{
+    <div class="entityHeader">
+        <div class="entityHeaderText">
+            @Entity?.Info().Name
+        </div>
+        <div style="font-size:1.4rem;">
+            <b>@Entity?.EntityType.Replace("_", " ")</b>
+            @if (Entity?.Info().Descriptive != DescriptiveType.None)
+            {
+                <span>
+                    <b>:</b> @Entity.Info().Descriptive.Replace("_", " ")
+                </span>
+            }
+        </div>
     </div>
-    <div style="font-size:1.4rem;">
-        <b>@Entity.EntityType.Replace("_", " ")</b>
-        @if (Entity.Info().Descriptive != DescriptiveType.None) {
-            <span>
-                <b>:</b> @Entity.Info().Descriptive.Replace("_", " ")
-            </span>
-        }
-    </div>
-</div>
 
-<style>
+    <style>
     .entityHeader {
         display: flex;
         flex-direction: row;
@@ -36,11 +48,15 @@
         }
     }
 </style>
-
+}
 
 @code {
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
 
 }

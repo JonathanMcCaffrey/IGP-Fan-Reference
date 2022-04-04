@@ -1,0 +1,78 @@
+﻿@layout PageLayout
+
+@page "/database/{text}"
+
+@inject IEntityDisplayService entityDisplayService
+
+@implements IDisposable
+
+<LayoutLargeContentComponent>
+    
+   <PaperComponent>
+       <FormDisplayComponent Label="Patch">
+           <Display>
+               Game Patch: @EntityModel.GameVersion
+           </Display>
+           </FormDisplayComponent>
+   </PaperComponent>
+    
+        <div style="margin-left: 8px">
+            <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+            </div>
+
+    
+    @if (entity == null)
+    {
+        <div>Invalid entity name entered: @Text</div>
+        <div>No such entity. Did you mean <b>"Throne"</b>?</div>
+    }
+    else
+    {
+        <PaperComponent>
+            <CascadingValue Value="entity">
+                <CascadingValue Value="@entityDisplayService.GetDisplayType()">
+                                  
+                    <EntityViewComponent></EntityViewComponent>
+                </CascadingValue>
+            </CascadingValue>
+
+        </PaperComponent>    
+    }
+    
+</LayoutLargeContentComponent>
+
+
+<style>
+    .databaseInfoContainer {
+        display: flex;
+        gap: 24px;
+    }
+    
+</style>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+
+    private EntityModel? entity = null;
+    
+    protected override void OnInitialized()
+    {
+        
+        entityDisplayService.Subscribe(StateHasChanged);
+        
+        foreach (var e in DATA.Get().Values)
+        {
+            if (e.Info().Name.Equals(Text))
+            {
+                entity = e;
+                return;
+            }
+        }
+    }
+    
+    void IDisposable.Dispose() {
+        entityDisplayService.Unsubscribe(StateHasChanged);
+    }
+
+}

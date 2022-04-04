@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Model.Immortal.Entity.Data;
 using Model.Immortal.Entity.Parts;
 using Model.Immortal.Types;
+using YamlDotNet.Serialization;
 
 namespace Model.Immortal.Entity;
 
@@ -28,6 +28,13 @@ public class EntityModel {
         IsSpeculative = isSpeculative;
     }
 
+    public string AsYaml() {
+        var stringBuilder = new StringBuilder();
+        var serializer = new Serializer();
+        stringBuilder.AppendLine(serializer.Serialize(this));
+        return stringBuilder.ToString();
+    }
+    
     public string DataType { get; set; }
 
     // TODO Serilization currently being used for build orders
@@ -70,6 +77,8 @@ public class EntityModel {
         return _database[entity];
     }
 
+    
+    
     
     public static List<EntityModel> GetList() {
         if (entityModels == null) entityModels = DATA.Get().Values.ToList();

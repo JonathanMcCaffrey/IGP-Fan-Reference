@@ -1,22 +1,39 @@
 ﻿@if (Entity.IdUpgrades().Count > 0) {
-    <EntityDisplayComponent Title="Upgrades">
-        <div class="upgradesContainer">
-            @foreach (var upgradeId in Entity.IdUpgrades()) {
-                var entity = EntityModel.Get(upgradeId.Id);
+    @if (StyleType.Equals("Plain"))
+    {
+        @foreach (var upgradeId in Entity.IdUpgrades()) {
+            var entity = EntityModel.Get(upgradeId.Id);
+            <div>
                 <div>
-                    <div>
-                        <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
-                    </div>
-                    <div>
-                        <b>Description:</b> @entity.Info().Description
-                    </div>
+                    <b>Upgrade Name:</b> @entity.Info().Name
                 </div>
-            }
-        </div>
-    </EntityDisplayComponent>
-}
-
-<style>
+                <div>
+                    <b>- Description:</b> @entity.Info().Description
+                </div>
+            </div>
+        }
+           
+    }
+    else
+    {
+        <EntityDisplayComponent Title="Upgrades">
+            <div class="upgradesContainer">
+                @foreach (var upgradeId in Entity.IdUpgrades()) {
+                    var entity = EntityModel.Get(upgradeId.Id);
+                    <div>
+                        <div>
+                            <b>Name:</b> <EntityLabelComponent EntityId="@entity.DataType"/>
+                        </div>
+                        <div>
+                            <b>Description:</b> @entity.Info().Description
+                        </div>
+                    </div>
+                }
+            </div>
+        </EntityDisplayComponent>  
+        
+        
+        <style>
     .upgradesContainer {
         display: flex;
         gap: 32px;
@@ -29,10 +46,18 @@
         }
     }
 </style>
+    }
+
+}
+
 
 @code {
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
 
 }

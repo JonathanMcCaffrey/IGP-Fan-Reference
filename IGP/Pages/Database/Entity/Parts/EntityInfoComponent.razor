@@ -1,4 +1,6 @@
-﻿<EntityDisplayComponent Title="Info">
+﻿
+@if (StyleType.Equals("Plain"))
+{
     @if (Entity.Info().Description != "") {
         <div>
             <b>Description:</b> @((MarkupString)Entity.Info().Description)
@@ -6,9 +8,9 @@
     }
 
     @if (Entity.Info().Notes != "") {
-            <div>
-                <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
-            </div>
+        <div>
+            <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
+        </div>
     }
 
     
@@ -40,25 +42,76 @@
             </div>
         }
     </div>
-</EntityDisplayComponent>
-
-<style>
-    .infoDisplayContainer {
-        display: flex;
-        gap: 32px;
-    }
-
-    @@media only screen and (max-width: 1025px) {
-        .infoDisplayContainer {
-            flex-direction: column;
-            gap: 4px;
+}
+else
+{
+    <EntityDisplayComponent Title="Info">
+        @if (Entity.Info().Description != "") {
+            <div>
+                <b>Description:</b> @((MarkupString)Entity.Info().Description)
+            </div>
         }
-    }
-</style>
+
+        @if (Entity.Info().Notes != "") {
+            <div>
+                <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
+            </div>
+        }
+
+    
+        <div class="infoDisplayContainer">
+            <div>
+                @if (Entity.Faction() != null) {
+                    <div>
+                        <b>Faction:</b> @Entity.Faction().Faction
+                    </div>
+                }
+                @if (Entity.Tier() != null) {
+                    <div>
+                        <b>Tier:</b> @Entity.Tier().Tier
+                    </div>
+                }
+            </div>
+
+            @if (Entity.Hotkey() != null) {
+                <div>
+                    <div>
+                        <b>Hotkey Group:</b> @Entity.Hotkey().HotkeyGroup
+                    </div>
+                    <div>
+                        <b>Hotkey:</b> @Entity.Hotkey().Hotkey
+                    </div>
+                    <div>
+                        <b>Hold Space:</b> @(Entity.Hotkey().HoldSpace ? "Yes" : "No")
+                    </div>
+                </div>
+            }
+        </div>
+    </EntityDisplayComponent>
+
+    <style>
+        .infoDisplayContainer {
+            display: flex;
+            gap: 32px;
+        }
+
+        @@media only screen and (max-width: 1025px) {
+            .infoDisplayContainer {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+</style>    
+}
+
+
 
 @code {
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
 
 }

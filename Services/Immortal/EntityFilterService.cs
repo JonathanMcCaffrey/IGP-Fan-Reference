@@ -21,7 +21,7 @@ public class EntityFilterService : IEntityFilterService {
     private string _selectedFaction = FactionType.Any;
     private string _selectedImmortal = ImmortalType.Any;
 
-
+    
     public EntityFilterService() {
         RefreshImmortalChoices();
         RefreshEntityChoices();
@@ -46,7 +46,7 @@ public class EntityFilterService : IEntityFilterService {
     public string GetImmortalType() {
         return _selectedImmortal;
     }
-
+    
 
     public bool SelectFactionType(string factionType) {
         if (_selectedFaction == factionType) {

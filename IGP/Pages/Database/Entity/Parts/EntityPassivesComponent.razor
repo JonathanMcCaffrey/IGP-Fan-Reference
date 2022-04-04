@@ -1,5 +1,6 @@
 ﻿@if (Entity.IdPassives().Count > 0) {
-    <EntityDisplayComponent Title="Passives">
+    @if (StyleType.Equals("Plain"))
+    {
         @foreach (var idPassive in Entity.IdPassives()) {
             var passive = EntityModel.Get(idPassive.Id);
 
@@ -9,16 +10,16 @@
 
             <div>
                 <div>
-                    <b>Name:</b> <EntityLabelComponent EntityId="@passive.DataType"/> 
+                    <b>Name:</b> @info.Name 
                 </div>
-                <div style="max-width: 600px;">
-                    <b>Description:</b> @((MarkupString)info.Description)
+                <div>
+                    <b>- Description:</b> @((MarkupString)info.Description)
                 </div>
                 
                 @if (!info.Notes.Trim().Equals("")) {
                 
-                    <div style="max-width: 600px;">
-                        <b>Description:</b> @((MarkupString)info.Notes)
+                    <div>
+                        <b>- Description:</b> @((MarkupString)info.Notes)
                     </div>    
                 }
             </div>
@@ -27,18 +28,64 @@
                 <div>
                     @if (production.Pyre != 0) {
                         <div>
-                            <b>Pyre:</b> @production.Pyre
+                            <b>- Pyre:</b> @production.Pyre
                         </div>   
                     }
                     @if (production.Cooldown != 0) {
                         <div>
-                            <b>Cooldown:</b> @production.Cooldown.ToString()s
+                            <b>- Cooldown:</b> @production.Cooldown.ToString()s
                         </div>   
                     }
                 </div>
             }
         }
-    </EntityDisplayComponent>
+       
+    }
+    else
+    {
+
+        <EntityDisplayComponent Title="Passives">
+            @foreach (var idPassive in Entity.IdPassives()) {
+                var passive = EntityModel.Get(idPassive.Id);
+
+                var info = passive.Info();
+            
+                var production = passive.Production();
+
+                <div>
+                    <div>
+                        <b>Name:</b> <EntityLabelComponent EntityId="@passive.DataType"/> 
+                    </div>
+                    <div>
+                        <b>Description:</b> @((MarkupString)info.Description)
+                    </div>
+                
+                    @if (!info.Notes.Trim().Equals("")) {
+                
+                        <div>
+                            <b>Description:</b> @((MarkupString)info.Notes)
+                        </div>    
+                    }
+                </div>
+            
+                @if (production != null) {
+                    <div>
+                        @if (production.Pyre != 0) {
+                            <div>
+                                <b>Pyre:</b> @production.Pyre
+                            </div>   
+                        }
+                        @if (production.Cooldown != 0) {
+                            <div>
+                                <b>Cooldown:</b> @production.Cooldown.ToString()s
+                            </div>   
+                        }
+                    </div>
+                }
+            }
+        </EntityDisplayComponent>        
+    }
+
 }
 
 
@@ -46,5 +93,9 @@
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
 
 }

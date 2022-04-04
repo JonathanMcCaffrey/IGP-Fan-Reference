@@ -1,31 +1,46 @@
-﻿@{
-    var vanguard = Entity.VanguardAdded();
-
-    var isNull = Entity.VanguardAdded() == null ? "null" : "not null";
-}
-
-@if (vanguard != null) {
-    var immortalId = Entity.VanguardAdded().ImmortalId;
+﻿@if (Vanguard != null) {
+    var immortalId = Vanguard.ImmortalId;
     var immortal = DATA.Get()[immortalId];
     
+    var replaced = DATA.Get()[Vanguard.ReplaceId];
     
-<EntityDisplayComponent Title="Vanguard">
+    @if (StyleType.Equals("Plain"))
+    {
         <div>
-            <div>
-                <b>Immortal:</b> <EntityLabelComponent EntityId="@immortal.DataType"/>
-            </div>
-            @if (!Entity.VanguardAdded().ReplaceId.Equals("")) {
-                <div>
-                    <b>Replaces:</b> <EntityLabelComponent EntityId="@Entity.VanguardAdded().ReplaceId"></EntityLabelComponent> 
-                </div>
-            }
+            <b>Immortal:</b> @immortal.Info().Name
         </div>
-    </EntityDisplayComponent>
+        @if (!Vanguard.ReplaceId.Equals("")) {
+            <div>
+                <b>Replaces:</b> @replaced.Info().Name 
+            </div>
+        }
+    }
+    else
+    {
+        <EntityDisplayComponent Title="Vanguard">
+            <div>
+                <div>
+                    <b>Immortal:</b> <EntityLabelComponent EntityId="@immortal.DataType"/>
+                </div>
+                @if (!Vanguard.ReplaceId.Equals("")) {
+                    <div>
+                        <b>Replaces:</b> <EntityLabelComponent EntityId="@Vanguard.ReplaceId"></EntityLabelComponent> 
+                    </div>
+                }
+            </div>
+        </EntityDisplayComponent>   
+    }
 }
 
 @code {
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
+    
+    private EntityVanguardAddedModel? Vanguard => Entity?.VanguardAdded();
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
+    
     
 
 }

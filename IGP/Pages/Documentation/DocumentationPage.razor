@@ -4,7 +4,8 @@
 @using Markdig
 @implements IDisposable
 
-@page "/docs"
+@page "/docs/{text?}"
+
 
 @if (!DocumentationService.IsLoaded())
 {
@@ -119,6 +120,9 @@ else
 
 @code {
 
+    [Parameter]
+    public string? Text { get; set; }
+    
     string selectedSection = "All";
 
     protected override void OnInitialized()

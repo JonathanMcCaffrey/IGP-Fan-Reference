@@ -190,8 +190,21 @@ public interface IEntityFilterService {
     public void Unsubscribe(EntityFilterAction action);
 }
 
+
 public interface IEntityService {
     public List<EntityModel> GetEntities();
+}
+
+
+
+public interface IEntityDisplayService
+{
+    public List<string> DefaultChoices();
+    
+    public string GetDisplayType();
+    public void SetDisplayType(string displayType);
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
 }
 
 public interface IImmortalSelectionService {

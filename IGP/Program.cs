@@ -13,6 +13,7 @@ using Services;
 using Services.Immortal;
 using Services.Website;
 using Services.Development;
+using IEntityDisplayService = Services.IEntityDisplayService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.SetMinimumLevel(LogLevel.Warning);
@@ -32,6 +33,9 @@ builder.Services.AddSingleton<IEconomyService, EconomyService>();
 builder.Services.AddSingleton<ITimingService, TimingService>();
 builder.Services.AddSingleton<IMemoryTesterService, MemoryTesterService>();
 builder.Services.AddSingleton<IEntityFilterService, EntityFilterService>();
+
+builder.Services.AddSingleton<IEntityDisplayService, EntityDisplayService>();
+
 
 builder.Services.AddSingleton(new HttpClient {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)

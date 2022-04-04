@@ -1,34 +1,146 @@
-﻿@if (Entity.Weapons().Count > 0) {
+﻿@if (Entity.Weapons().Count > 0)
+{
+    @if (StyleType.Equals("Plain"))
+    {
+        int index = 0;
+       
+        foreach (var data in Entity.Weapons())
+        {
+            index++;
+                
+                <div>
+                    <div>
+                        <div class="damageContainer">
+                             <div>
+                                 <b>Weapon @index</b>
+                                 </div>
+                            
+                            <div>
+                                <b>- Damage:</b> @data.Damage
+                            </div>
+                            @if (data.LightDamage != 0)
+                            {
+                                <div class="alternateDamage">
+                                    <i>- vs Light: @data.LightDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.MediumDamage != 0)
+                            {
+                                <div class="alternateDamage">
+                                    <i>- vs Medium: @data.MediumDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.HeavyDamage != 0)
+                            {
+                                <div class="alternateDamage">
+                                    <i>- vs Heavy: @data.HeavyDamage</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.EthericDamageBonus != 0)
+                            {
+                                <div class="alternateDamage">
+                                    <i>- vs Etheric +@data.EthericDamageBonus</i>&nbsp;
+                                </div>
+                            }
+                            @if (data.StructureDamageBonus != 0)
+                            {
+                                <div class="alternateDamage">
+                                    <i>- vs Structure: +@data.StructureDamageBonus</i>&nbsp;
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <b>- Range:</b> @data.Range
+                    </div>
+                    @if (data.SecondsBetweenAttacks > 0)
+                    {
+                        <div>
+                            <b>- AttacksPerSecond:</b> @(1 / data.SecondsBetweenAttacks)
+                        </div>
+                        <div>
+                            - (or <b>SecondsBetweenAttacks:</b> @data.SecondsBetweenAttacks)
+                        </div>
+                    }
+                    else if (data.AttacksPerSecond > 0)
+                    {
+                        <div>
+                            <b>- AttacksPerSecond:</b> @data.AttacksPerSecond
+                        </div>
+                        <div>
+                            - (or <b>SecondsBetweenAttacks:</b> @(1 / data.AttacksPerSecond))
+                        </div>
+                    }
+
+                    <div>
+                        <b>- Targets:</b> @data.Targets
+                    </div>
+                    @if (data.AttacksPerSecond != 0)
+                    {
+                        <span>
+                            <b>- DPS:</b> @(Math.Round(data.Damage * data.AttacksPerSecond))&nbsp;
+                        </span>
+                        @if (data.LightDamage != 0)
+                        {
+                            <span>
+                                <i>- Light DPS: @(Math.Round(data.LightDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                        @if (data.MediumDamage != 0)
+                        {
+                            <span>
+                                <i>- Medium DPS: @(Math.Round(data.MediumDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                        @if (data.HeavyDamage != 0)
+                        {
+                            <span>
+                                <i>- Heavy DPS: @(Math.Round(data.HeavyDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </span>
+                        }
+                    }
+                </div>
+            }
+    }
+    else
+    {
+
     <EntityDisplayComponent Title="Weapons">
         <div class="weaponsContainer">
-            @foreach (var data in Entity.Weapons()) {
+            @foreach (var data in Entity.Weapons())
+            {
                 <div>
                     <div>
                         <div class="damageContainer">
                             <div>
                                 <b>Damage:</b> @data.Damage
                             </div>
-                            @if (data.LightDamage != 0) {
+                            @if (data.LightDamage != 0)
+                            {
                                 <div class="alternateDamage">
                                     <i>vs Light: @data.LightDamage</i>&nbsp;
                                 </div>
                             }
-                            @if (data.MediumDamage != 0) {
+                            @if (data.MediumDamage != 0)
+                            {
                                 <div class="alternateDamage">
                                     <i>vs Medium: @data.MediumDamage</i>&nbsp;
                                 </div>
                             }
-                            @if (data.HeavyDamage != 0) {
+                            @if (data.HeavyDamage != 0)
+                            {
                                 <div class="alternateDamage">
                                     <i>vs Heavy: @data.HeavyDamage</i>&nbsp;
                                 </div>
                             }
-                            @if (data.EthericDamageBonus != 0) {
+                            @if (data.EthericDamageBonus != 0)
+                            {
                                 <div class="alternateDamage">
                                     <i>vs Etheric +@data.EthericDamageBonus</i>&nbsp;
                                 </div>
                             }
-                            @if (data.StructureDamageBonus != 0) {
+                            @if (data.StructureDamageBonus != 0)
+                            {
                                 <div class="alternateDamage">
                                     <i>vs Structure: +@data.StructureDamageBonus</i>&nbsp;
                                 </div>
@@ -38,7 +150,8 @@
                     <div>
                         <b>Range:</b> @data.Range
                     </div>
-                    @if (data.SecondsBetweenAttacks > 0) {
+                    @if (data.SecondsBetweenAttacks > 0)
+                    {
                         <div>
                             <b>AttacksPerSecond:</b> @(1 / data.SecondsBetweenAttacks)
                         </div>
@@ -46,7 +159,8 @@
                             (or <b>SecondsBetweenAttacks:</b> @data.SecondsBetweenAttacks)
                         </div>
                     }
-                    else if (data.AttacksPerSecond > 0) {
+                    else if (data.AttacksPerSecond > 0)
+                    {
                         <div>
                             <b>AttacksPerSecond:</b> @data.AttacksPerSecond
                         </div>
@@ -58,33 +172,36 @@
                     <div>
                         <b>Targets:</b> @data.Targets
                     </div>
-                    @if (data.AttacksPerSecond != 0) {
-                        <span>
+                    @if (data.AttacksPerSecond != 0)
+                    {
+                        <div>
                             <b>DPS:</b> @(Math.Round(data.Damage * data.AttacksPerSecond))&nbsp;
-                        </span>
-                        @if (data.LightDamage != 0) {
-                            <span>
-                                <i>L: @(Math.Round(data.LightDamage * data.AttacksPerSecond))</i>&nbsp;
-                            </span>
+                        </div>
+                        @if (data.LightDamage != 0)
+                        {
+                            <div>
+                                <i>Light DPS: @(Math.Round(data.LightDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </div>
                         }
-                        @if (data.MediumDamage != 0) {
-                            <span>
-                                <i>M: @(Math.Round(data.MediumDamage * data.AttacksPerSecond))</i>&nbsp;
-                            </span>
+                        @if (data.MediumDamage != 0)
+                        {
+                            <div>
+                                <i>Medium DPS: @(Math.Round(data.MediumDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </div>
                         }
-                        @if (data.HeavyDamage != 0) {
-                            <span>
-                                <i>H: @(Math.Round(data.HeavyDamage * data.AttacksPerSecond))</i>&nbsp;
-                            </span>
+                        @if (data.HeavyDamage != 0)
+                        {
+                            <div>
+                                <i>Heavy DPS: @(Math.Round(data.HeavyDamage * data.AttacksPerSecond))</i>&nbsp;
+                            </div>
                         }
                     }
                 </div>
             }
         </div>
     </EntityDisplayComponent>
-}
 
-<style>
+        <style>
     .weaponsContainer {
         display: flex;
         gap: 32px;
@@ -106,9 +223,16 @@
     }
 </style>
 
+}
+}
+
 @code {
 
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
  
+    
+    [CascadingParameter]
+    public string StyleType { get; set; } = "Detailed";
+
 }
