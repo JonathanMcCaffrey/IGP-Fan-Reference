@@ -2000,7 +2000,7 @@ public class DATA {
             }, 
             {
                 DataType.BUILDING_KeeperOfTheHardenedFlames,
-                new EntityModel(DataType.BUILDING_KeeperOfTheHardenedFlames, EntityType.Building_Upgrade)
+                new EntityModel(DataType.BUILDING_KeeperOfTheHardenedFlames, EntityType.Building)
                     .AddPart(new EntityInfoModel {
                         Name = "Keeper Of the Hardened Flames", Descriptive = DescriptiveType.Defense,
                         Description = ""
