@@ -70,11 +70,8 @@ else {
 @code {
 
 #if NO_SQL
-    [Parameter]
-    public List<TaskModel> Tasks { get; set; }
-
-    [Parameter]
-    public List<SprintModel> Sprints { get; set; }
+    public List<TaskModel> Tasks => AgileService.TaskModels;
+    public List<SprintModel> Sprints => AgileService.SprintModels;
 #else
     [Inject]
     DatabaseContext Database { get; set; }
@@ -97,9 +94,6 @@ else {
     }
 
     void HasChanged() {
-        Sprints = AgileService.SprintModels;
-        Tasks = AgileService.TaskModels;
-
         backlog.Clear();
 
         foreach (var task in Tasks) {

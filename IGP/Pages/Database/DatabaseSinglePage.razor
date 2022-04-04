@@ -8,24 +8,37 @@
 
 <LayoutLargeContentComponent>
     
-   <PaperComponent>
-       <FormDisplayComponent Label="Patch">
-           <Display>
-               Game Patch: @EntityModel.GameVersion
-           </Display>
-           </FormDisplayComponent>
-   </PaperComponent>
+    <PaperComponent>
+        <FormDisplayComponent Label="Patch">
+            <Display>
+                Game Patch: @EntityModel.GameVersion
+            </Display>
+        </FormDisplayComponent>
+    </PaperComponent>
     
-        <div style="margin-left: 8px">
-            <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
-            </div>
+    <div style="margin-left: 8px">
+        <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+    </div>
 
     
-    @if (entity == null)
+    @if(Text.Trim().ToLower().Equals("walter"))
     {
-        <div>Invalid entity name entered: @Text</div>
-        <div>No such entity. Did you mean <b>"Throne"</b>?</div>
+        <PaperComponent>
+            <CodeComponent>Unhandled Exception: EXCEPTION_MEMORY_SIZE_VIOLATION
+                UNIT_WALTER too powerful to be displayed.
+                
+                This SHOULD NEVER HAPPEN!
+            </CodeComponent>
+        </PaperComponent>
     }
+    else if (entity == null)
+    {
+        <PaperComponent>
+            <div>Invalid entity name entered: @Text</div>
+            <div>No such entity. Did you mean <b>"Throne"</b>?</div>
+        </PaperComponent>
+    } 
+    
     else
     {
         <PaperComponent>
@@ -42,13 +55,6 @@
 </LayoutLargeContentComponent>
 
 
-<style>
-    .databaseInfoContainer {
-        display: flex;
-        gap: 24px;
-    }
-    
-</style>
 
 @code {
     [Parameter]
