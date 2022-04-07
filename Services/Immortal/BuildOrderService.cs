@@ -1,19 +1,19 @@
 ﻿using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Model.Immortal.BuildOrders;
-using Model.Immortal.Entity;
-using Model.Immortal.Types;
+using Model.BuildOrders;
+using Model.Entity;
+using Model.Types;
 using YamlDotNet.Serialization;
 
 namespace Services.Immortal;
 
 public class BuildOrderService : IBuildOrderService {
-    public static int HumanMicro = 2;
+    private int HumanMicro = 2;
 
     private readonly BuildOrderModel buildOrder = new();
-    private int lastInterval;
-
+    private int lastInterval = 0;
+    
     public int GetLastRequestInterval() {
         return lastInterval;
     }
@@ -23,11 +23,11 @@ public class BuildOrderService : IBuildOrderService {
     }
 
     public void Subscribe(Action action) {
-        onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        onChange -= action;
+        OnChange -= action;
     }
 
     public void Add(EntityModel entity, int atInterval) {
@@ -81,7 +81,7 @@ public class BuildOrderService : IBuildOrderService {
     }
 
     public void RemoveLast() {
-        EntityModel entityRemoved = null;
+        EntityModel entityRemoved = null!;
 
 
         if (buildOrder.Orders.Keys.Count > 1) {
@@ -184,7 +184,7 @@ public class BuildOrderService : IBuildOrderService {
                     select requiredEntity;
 
 
-                if (entitiesNeeded.Count() == 0) return false;
+                if (!entitiesNeeded.Any()) return false;
 
 
                 if (entitiesNeeded.Any() == false)
@@ -212,8 +212,8 @@ public class BuildOrderService : IBuildOrderService {
         return buildOrder.Notes;
     }
 
-    public void SetColor(string Color) {
-        buildOrder.Color = Color;
+    public void SetColor(string color) {
+        buildOrder.Color = color;
         NotifyDataChanged();
     }
 
@@ -221,14 +221,10 @@ public class BuildOrderService : IBuildOrderService {
         return buildOrder.Color;
     }
 
-    private event Action onChange;
+    private event Action OnChange = null!;
 
     private void NotifyDataChanged() {
-        onChange?.Invoke();
-    }
-
-    public Action OnChange() {
-        return onChange;
+        OnChange?.Invoke();
     }
 
     public bool MeetsSupply(EntityModel entity) {

@@ -1,6 +1,7 @@
 ﻿namespace Model.Website.Enums;
 
-public enum WebDeploymentType {
+public enum WebDeploymentType
+{
     Private,
     Public,
     Immortal

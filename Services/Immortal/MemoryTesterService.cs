@@ -1,6 +1,6 @@
-﻿using Model.Immortal.Entity;
-using Model.Immortal.Entity.Data;
-using Model.Immortal.MemoryTester;
+﻿using Model.Entity;
+using Model.Entity.Data;
+using Model.MemoryTester;
 using static Services.IMemoryTesterService;
 
 namespace Services.Immortal;
@@ -18,11 +18,11 @@ public class MemoryTesterService : IMemoryTesterService {
     private readonly Random random = new();
 
     public void Subscribe(MemoryAction action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(MemoryAction action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public void GenerateQuiz() {
@@ -88,13 +88,10 @@ public class MemoryTesterService : IMemoryTesterService {
 
     //public delegate void MemoryAction(MemoryTesterActions memoryAction);
 
-    private event MemoryAction _onChange;
+    private event MemoryAction OnChange = null!;
 
     private void NotifyDataChanged(MemoryTesterEvent memoryAction) {
-        _onChange?.Invoke(memoryAction);
+        OnChange?.Invoke(memoryAction);
     }
 
-    public MemoryAction OnChange() {
-        return _onChange;
-    }
 }

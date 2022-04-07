@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager;
 
 
-@if (IsOnPage) {
+@if (isOnPage) {
     <NavLink href="@Page.Href" class="navContainer navLink navSelected">
         <div class="navName">
             @Page.Name
@@ -62,14 +62,15 @@ else {
 @code {
 
     [Parameter]
-    public WebPageModel Page { get; set; }
+    public WebPageModel Page { get; set; } = default!;
 
-    bool IsOnPage = false;
+    bool isOnPage = false;
 
-    protected override async Task OnParametersSetAsync() {
+    protected override Task OnParametersSetAsync() {
         var uri = NavigationManager.Uri.Remove(0, NavigationManager.BaseUri.Count()).ToLower();
 
-        IsOnPage = Page.Href.ToLower().Equals(uri);
+        isOnPage = Page.Href.ToLower().Equals(uri);
+        return Task.CompletedTask;
     }
 
 

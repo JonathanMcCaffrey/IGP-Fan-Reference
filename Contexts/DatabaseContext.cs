@@ -3,10 +3,10 @@
 #else
 
 using Microsoft.EntityFrameworkCore;
-using Model.Documentation;
-using Model.Immortal.Notes;
+using Model.Doc;
+using Model.Notes;
 using Model.Website;
-using Model.Work.Git;
+using Model.Development.Git;
 using Model.Work.Tasks;
 
 namespace Contexts;
@@ -16,22 +16,18 @@ public class DatabaseContext : DbContext {
         Database.EnsureCreated();
     }
 
-    public DbSet<SprintModel> SprintModels { get; set; }
-    public DbSet<TaskModel> TaskModels { get; set; }
-    public DbSet<ChangeModel> ChangeModels { get; set; }
-    public DbSet<PatchModel> PatchModels { get; set; }
-    public DbSet<WebPageModel> WebPageModels { get; set; }
-    public DbSet<WebSectionModel> WebSectionModels { get; set; }
-    
-    public DbSet<DocumentationModel> DocumentationModels { get; set; }
-    public DbSet<NoteModel> NoteModels { get; set; }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        modelBuilder.Entity<PatchModel>();
-        modelBuilder.Entity<TaskModel>();
-
-        base.OnModelCreating(modelBuilder);
-    }
+    public DbSet<AgileSprintModel> AgileSprintModels { get; set; } = default!;
+    public DbSet<AgileTaskModel> AgileTaskModels { get; set; } = default!;
+    public DbSet<GitChangeModel> GitChangeModels { get; set; } = default!;
+    public DbSet<GitPatchModel> GitPatchModels { get; set; } = default!;
+    public DbSet<WebPageModel> WebPageModels { get; set; } = default!;
+    public DbSet<WebSectionModel> WebSectionModels { get; set; } = default!;
+    public DbSet<DocContentModel> DocContentModels { get; set; } = default!;
+    public DbSet<DocConnectionModel> DocConnectionModels { get; set; } = default!;
+    public DbSet<DocSectionModel> DocSectionModels { get; set; } = default!;
+    public DbSet<NoteContentModel> NoteContentModels { get; set; } = default!;
+    public DbSet<NoteConnectionModel> NoteConnectionModels { get; set; } = default!;
+    public DbSet<NoteSectionModel> NoteSectionModels { get; set; } = default!;
 }
 
 #endif

@@ -11,19 +11,17 @@ public class AgileService : IAgileService {
     private readonly HttpClient httpClient;
 
     private bool isLoaded;
-
     
-    private event Action _onChange;
+    private event Action OnChange = default!;
 
-    
     public AgileService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
 
 #if NO_SQL
-    public List<SprintModel> SprintModels { get; set; }
-    public List<TaskModel> TaskModels { get; set; }
+    public List<AgileSprintModel>? AgileSprintModels { get; set; }
+    public List<AgileTaskModel>? AgileTaskModels { get; set; }
 #else
 
     private DatabaseContext Database { get; set; }
@@ -32,12 +30,12 @@ public class AgileService : IAgileService {
 #endif
 
 
-    public void Subscribe(Action action) {
-        _onChange += action;
+    public void Subscribe(Action? action) {
+        OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
-        _onChange -= action;
+    public void Unsubscribe(Action? action) {
+        OnChange -= action;
     }
 
     public bool IsLoaded() {
@@ -50,13 +48,40 @@ public class AgileService : IAgileService {
             return;
         }
 
-        SprintModels = (await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json")?? Array.Empty<SprintModel>() ).ToList();
-        TaskModels =(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json") ?? Array.Empty<TaskModel>()).ToList();
-
+        AgileSprintModels = (await httpClient.GetFromJsonAsync<AgileSprintModel[]>("generated/AgileSprintModels.json")?? Array.Empty<AgileSprintModel>() ).ToList();
+        AgileTaskModels = (await httpClient.GetFromJsonAsync<AgileTaskModel[]>("generated/AgileTaskModels.json") ?? Array.Empty<AgileTaskModel>()).ToList();
+        
+        foreach (var agileTask in AgileTaskModels)
+        {
+            if (agileTask.AgileSprintModelId != null)
+            {
+                SprintById(agileTask.AgileSprintModelId.Value)?.AgileTaskModels.Add(agileTask);
+            }
+        }
+        
         isLoaded = true;
 
         NotifyDataChanged();
     }
+    
+    private AgileSprintModel? SprintById(int id)
+    {
+        foreach (var data in AgileSprintModels!)
+            if (data.Id == id)
+                return data;
+
+        return null;
+    }
+    
+    private AgileTaskModel? TaskById(int id)
+    {
+        foreach (var data in AgileTaskModels!)
+            if (data.Id == id)
+                return data;
+
+        return null;
+    }
+    
 #else
     public async Task Load(DatabaseContext database) {
         Database = database;
@@ -65,8 +90,8 @@ public class AgileService : IAgileService {
             return;
         }
 
-        Database.SprintModels.AddRange(await httpClient.GetFromJsonAsync<SprintModel[]>("generated/SprintModels.json"));
-        Database.TaskModels.AddRange(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/TaskModels.json"));
+        Database.SprintModels.AddRange(await httpClient.GetFromJsonAsync<SprintModel[]>("generated/AgileSprintModels.json"));
+        Database.TaskModels.AddRange(await httpClient.GetFromJsonAsync<TaskModel[]>("generated/AgileTaskModels.json"));
 
         Database.SaveChanges();
 
@@ -81,6 +106,6 @@ public class AgileService : IAgileService {
     }
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 }

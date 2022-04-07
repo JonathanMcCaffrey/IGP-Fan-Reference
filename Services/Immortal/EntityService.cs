@@ -1,4 +1,4 @@
-﻿using Model.Immortal.Entity;
+﻿using Model.Entity;
 
 namespace Services.Immortal;
 

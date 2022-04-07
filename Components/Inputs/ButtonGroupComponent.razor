@@ -68,10 +68,10 @@
 @code {
 
     [Parameter]
-    public string Choice { get; set; }
+    public string Choice { get; set; } = default!;
 
     [Parameter]
-    public List<string> Choices { get; set; }
+    public List<string> Choices { get; set; } = default!;
 
     [Parameter]
     public EventCallback<string> OnClick { get; set; }

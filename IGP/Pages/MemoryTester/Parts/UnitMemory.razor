@@ -7,14 +7,16 @@
             <Display>@EntityMemory.Name</Display>
         </FormDisplayComponent>
 
-        @foreach (var question in questions) {
+        @foreach (var question in questions)
+        {
             var questionWrong = hasBeenSubmitted && !question.IsRevealed && question.Guess != question.Answer;
 
             <FormGuessComponent IsSubmitted="hasBeenSubmitted"
                                 OnChange="answerEventArgs => OnAnswerEntered(answerEventArgs, question)"
                                 MemoryQuestion="question"/>
 
-            @if (questionWrong) {
+            @if (questionWrong)
+            {
                 <div class="wrongAnswer">The correct answer was @question.Answer</div>
             }
         }
@@ -48,9 +50,9 @@
 @code {
 
     [Parameter]
-    public MemoryEntityModel EntityMemory { get; set; }
+    public MemoryEntityModel EntityMemory { get; set; } = default!;
 
-    private List<MemoryQuestionModel> questions { get; set; }
+    private List<MemoryQuestionModel> questions { get; set; } = default!;
 
     private bool hasBeenSubmitted = false;
     private bool isCorrect = false;
@@ -58,40 +60,49 @@
 
     public int Guess { get; set; }
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         MemoryTesterService.Subscribe(OnMemoryEvent);
 
         OnRefresh();
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         MemoryTesterService.Unsubscribe(OnMemoryEvent);
     }
 
-    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent) {
-        if (memoryTesterEvent == MemoryTesterEvent.OnVerify) {
+    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent)
+    {
+        if (memoryTesterEvent == MemoryTesterEvent.OnVerify)
+        {
             OnVerify();
         }
 
-        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh) {
+        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh)
+        {
             OnRefresh();
         }
     }
 
 
-    public void OnAnswerEntered(AnswerEventArgs answerEventArgs, MemoryQuestionModel question) {
+    public void OnAnswerEntered(AnswerEventArgs answerEventArgs, MemoryQuestionModel question)
+    {
         question.Guess = answerEventArgs.Guess;
 
         MemoryTesterService.Update(question);
     }
 
-    void OnVerify() {
+    void OnVerify()
+    {
         hasBeenSubmitted = true;
 
         isCorrect = true;
 
-        foreach (var question in questions) {
-            if (question.Answer != question.Guess) {
+        foreach (var question in questions)
+        {
+            if (question.Answer != question.Guess)
+            {
                 isCorrect = false;
                 isWrong = true;
                 return;
@@ -101,7 +112,8 @@
         StateHasChanged();
     }
 
-    void OnRefresh() {
+    void OnRefresh()
+    {
         hasBeenSubmitted = false;
         isCorrect = false;
         isWrong = false;

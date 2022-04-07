@@ -10,11 +10,13 @@
     <FormSelectComponent OnChange="@OnImmortalChanged">
         <FormLabelComponent>Immortal</FormLabelComponent>
         <ChildContent>
-            @if (FilterService.GetFactionType() == FactionType.QRath) {
+            @if (FilterService.GetFactionType() == FactionType.QRath)
+            {
                 <option value="@ImmortalType.Orzum" selected>Orzum</option>
                 <option value="@ImmortalType.Ajari">Ajari</option>
             }
-            @if (FilterService.GetFactionType() == FactionType.Aru) {
+            @if (FilterService.GetFactionType() == FactionType.Aru)
+            {
                 <option value="@ImmortalType.Mala" selected>Mala</option>
                 <option value="@ImmortalType.Xol">Xol</option>
             }
@@ -25,14 +27,16 @@
 @code {
 
     [Inject]
-    public IImmortalSelectionService FilterService { get; set; }
+    public IImmortalSelectionService FilterService { get; set; } = default!;
 
-    void OnFactionChanged(ChangeEventArgs e) {
-        FilterService.SelectFactionType(e.Value.ToString());
+    void OnFactionChanged(ChangeEventArgs e)
+    {
+        FilterService.SelectFactionType(e.Value!.ToString()!);
     }
 
-    void OnImmortalChanged(ChangeEventArgs e) {
-        FilterService.SelectImmortalType(e.Value.ToString());
+    void OnImmortalChanged(ChangeEventArgs e)
+    {
+        FilterService.SelectImmortalType(e.Value!.ToString()!);
     }
 
 }

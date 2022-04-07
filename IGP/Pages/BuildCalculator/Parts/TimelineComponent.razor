@@ -24,12 +24,14 @@
             <br/>
         </div>
         <div>
-            @foreach (var order in BuildOrderService.GetOrdersAt(economyAtSecond.Interval)) {
+            @foreach (var order in BuildOrderService.GetOrdersAt(economyAtSecond.Interval))
+            {
                 <div>
                     Requested: @order.Info().Name
                 </div>
             }
-            @foreach (var order in BuildOrderService.GetCompletedAt(economyAtSecond.Interval)) {
+            @foreach (var order in BuildOrderService.GetCompletedAt(economyAtSecond.Interval))
+            {
                 <div>
                     New: @order.Info().Name
                 </div>
@@ -42,17 +44,19 @@
 @code {
 
     [Inject]
-    IEconomyService EconomyService { get; set; }
+    IEconomyService EconomyService { get; set; } = default!;
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         EconomyService.Subscribe(StateHasChanged);
         BuildOrderService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         EconomyService.Unsubscribe(StateHasChanged);
         BuildOrderService.Unsubscribe(StateHasChanged);
     }

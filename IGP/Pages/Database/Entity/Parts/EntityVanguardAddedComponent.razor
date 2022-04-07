@@ -1,17 +1,19 @@
-﻿@if (Vanguard != null) {
+﻿@if (Vanguard != null)
+{
     var immortalId = Vanguard.ImmortalId;
     var immortal = DATA.Get()[immortalId];
-    
+
     var replaced = DATA.Get()[Vanguard.ReplaceId];
-    
+
     @if (StyleType.Equals("Plain"))
     {
         <div>
             <b>Immortal:</b> @immortal.Info().Name
         </div>
-        @if (!Vanguard.ReplaceId.Equals("")) {
+        @if (!Vanguard.ReplaceId.Equals(""))
+        {
             <div>
-                <b>Replaces:</b> @replaced.Info().Name 
+                <b>Replaces:</b> @replaced.Info().Name
             </div>
         }
     }
@@ -22,25 +24,27 @@
                 <div>
                     <b>Immortal:</b> <EntityLabelComponent EntityId="@immortal.DataType"/>
                 </div>
-                @if (!Vanguard.ReplaceId.Equals("")) {
+                @if (!Vanguard.ReplaceId.Equals(""))
+                {
                     <div>
-                        <b>Replaces:</b> <EntityLabelComponent EntityId="@Vanguard.ReplaceId"></EntityLabelComponent> 
+                        <b>Replaces:</b> <EntityLabelComponent EntityId="@Vanguard.ReplaceId"></EntityLabelComponent>
                     </div>
                 }
             </div>
-        </EntityDisplayComponent>   
+        </EntityDisplayComponent>
     }
 }
 
 @code {
+
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
-    
+    public EntityModel? Entity { get; set; } = default!;
+
     private EntityVanguardAddedModel? Vanguard => Entity?.VanguardAdded();
-    
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
-    
-    
+
+
 
 }

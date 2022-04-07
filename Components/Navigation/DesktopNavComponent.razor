@@ -100,17 +100,17 @@
     
 #if NO_SQL
     [Parameter]
-    public List<WebSectionModel> WebSections { get; set; }
+    public List<WebSectionModel> WebSections { get; set; } = default!;
 
     [Parameter]
-    public List<WebPageModel> WebPages { get; set; }
+    public List<WebPageModel> WebPages { get; set; } = default!;
     
 #else
     [Parameter]
-    public DbSet<WebSectionModel> WebSections { get; set; }
+    public DbSet<WebSectionModel> WebSections { get; set; } = default!;
 
     [Parameter]
-    public DbSet<WebPageModel> WebPages { get; set; }
+    public DbSet<WebPageModel> WebPages { get; set; } = default!;
 #endif
 
     protected override void OnInitialized() {

@@ -16,17 +16,20 @@
     string buildData = "";
 
     [Inject]
-    IBuildComparisonService BuildComparisionService { get; set; }
+    IBuildComparisonService BuildComparisionService { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         BuildComparisionService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         BuildComparisionService.Unsubscribe(StateHasChanged);
     }
 
-    void OnLoad() {
+    void OnLoad()
+    {
         BuildComparisionService.LoadJson(buildData);
     }
 

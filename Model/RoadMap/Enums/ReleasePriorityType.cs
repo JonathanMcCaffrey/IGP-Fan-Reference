@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.RoadMap.Enums;
+﻿namespace Model.RoadMap.Enums;
 
-public class ReleasePriorityType {
+public class ReleasePriorityType
+{
     public static string High = "High";
     public static string Medium = "Medium";
     public static string Low = "Low";

@@ -16,11 +16,11 @@
     </div>
 
 
-    <div class="fullPageButton @NavOpen" @onclick="OnNavClicked" @onclick:stopPropagation="false" @onclick:preventDefault="false">
+    <div class="fullPageButton @navOpen" @onclick="OnNavClicked" @onclick:stopPropagation="false" @onclick:preventDefault="false">
     </div>
 
 
-    <div class="tabletNav @NavOpen">
+    <div class="tabletNav @navOpen">
         @foreach (var _section in WebSections) {
             var pages = (from page in WebPages
                 where page.WebSectionModelId == _section.Id
@@ -144,11 +144,11 @@
     
 #if NO_SQL
     [Parameter]
-    public List<WebSectionModel> WebSections { get; set; }
+    public List<WebSectionModel> WebSections { get; set; } = default!;
 
     [Parameter]
-    public List<WebPageModel> WebPages { get; set; }
-    
+    public List<WebPageModel> WebPages { get; set; } = default!;
+
 #else
     [Parameter]
     public DbSet<WebSectionModel> WebSections { get; set; }
@@ -159,15 +159,15 @@
 
 
 
-    bool NavOpen = true;
+    bool navOpen = true;
 
     void OnNavClicked(EventArgs eventArgs) {
-        NavOpen = !NavOpen;
+        navOpen = !navOpen;
     }
 
 
     void OnPageClicked(EventArgs eventArgs) {
-        NavOpen = false;
+        navOpen = false;
     }
 
 }

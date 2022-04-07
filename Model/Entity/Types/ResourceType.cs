@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Types;
+﻿namespace Model.Types;
 
-public enum ResourceType {
+public enum ResourceType
+{
     Alloy,
     Ether,
     Pyre

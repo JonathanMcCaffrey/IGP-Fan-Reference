@@ -1,8 +1,9 @@
-﻿using Model.Immortal.Types;
+﻿using Model.Types;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityHarvestModel : IEntityPartInterface {
+public class EntityHarvestModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityHarvestModel";
     public ResourceType Resource { get; set; } = ResourceType.Alloy;
     public float Slots { get; set; }

@@ -11,10 +11,10 @@ else {
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = default!;
 
     [Inject]
-    public NavigationManager MyNavigationManager { get; set; }
+    public NavigationManager MyNavigationManager { get; set; } = default!;
 
     bool isDisplayable;
 

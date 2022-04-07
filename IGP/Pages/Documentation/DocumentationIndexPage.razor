@@ -1,0 +1,115 @@
+﻿@layout PageLayout
+
+@inject IDocumentationService documentationService
+@implements IDisposable
+
+@page "/docs"
+
+@if (!documentationService.IsLoaded())
+{
+    <LoadingComponent/>
+}
+else
+{
+    <LayoutMediumContentComponent>
+        <PaperComponent>
+            @foreach (var docSection in documentationService.DocSectionModels)
+            {
+                <div class="docSectionContainer">
+                    <div class="docSectionTitle">@docSection.Name</div>
+                    <div class="docContentContainer">
+                        @foreach (var docContent in docSection.DocumentationModels)
+                        {
+                            <NavLink class="docContentLink" href="@docContent.GetDocLink()">
+                                <div class="docContentName">@docContent.Name</div>
+                                <div class="docContentDescription">@docContent.Description</div>
+                            </NavLink>
+                        }
+                    </div>
+                </div>
+            }
+        </PaperComponent>
+    </LayoutMediumContentComponent>
+}
+
+<style>
+    .docSectionContainer {
+        width: 100%;
+        padding: 8px;
+    }
+    
+    .docSectionTitle {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    
+    .docContentContainer {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    @@media only screen and (max-width: 1025px) {
+          .docContentContainer {
+           grid-template-columns: 1fr;
+       }
+    }
+    
+    .docContentName {
+        font-weight: bold;
+        font-size: 1.6rem;
+    }
+    
+    .docContentDescription {
+        font-weight: normal;
+    }
+    
+    
+    .docContentLink {
+        background-color: var(--paper);
+        border: 1px solid var(--paper-border);
+        border-radius: 2px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+    
+    
+    .docContentLink:hover {
+        background-color: var(--paper-hover);
+        border-color: var(--paper-border-hover);
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.6);
+        transform: translateY(-2px) scale(1.01);
+    }
+</style>
+
+
+@code {
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    protected override void OnInitialized()
+    {
+        documentationService.Subscribe(StateHasChanged);
+
+        documentationService.Load();
+    }
+
+    public void Dispose()
+    {
+        documentationService.Unsubscribe(StateHasChanged);
+    }
+
+}

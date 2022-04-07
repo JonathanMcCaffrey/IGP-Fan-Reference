@@ -50,9 +50,9 @@
 @code {
 
     [Parameter]
-    public WebSectionModel? Section { get; set; }
+    public WebSectionModel Section { get; set; } = default!;
 
     [Parameter]
-    public List<WebPageModel>? Children { get; set; }
+    public List<WebPageModel> Children { get; set; } = default!;
 
 }

@@ -3,9 +3,9 @@
 
 <div class="dialogBackground" onclick="@CloseDialog">
 
-    <div class="dialogContainer" 
-     @onclick:preventDefault="true"
-     @onclick:stopPropagation="true">
+    <div class="dialogContainer"
+         @onclick:preventDefault="true"
+         @onclick:stopPropagation="true">
         @if (entity == null)
         {
             <div>Entity is null</div>
@@ -26,26 +26,26 @@
 
             </div>
             <div class="dialogContent">
-            <CascadingValue Value="@entity">
-                <EntityVanguardAddedComponent />
-                <EntityInfoComponent />
-                <EntityVanguardsComponent />
-                <EntityProductionComponent />
-                <EntityStatsComponent />
-                <EntityMechanicsComponent />
-                <EntityPassivesComponent />
-                <EntityPyreSpellsComponent />
-                <EntityUpgradesComponent />
-                <EntityWeaponsComponent />
-                <EntityAbilitiesComponent />
-            </CascadingValue>
+                <CascadingValue Value="@entity">
+                    <EntityVanguardAddedComponent/>
+                    <EntityInfoComponent/>
+                    <EntityVanguardsComponent/>
+                    <EntityProductionComponent/>
+                    <EntityStatsComponent/>
+                    <EntityMechanicsComponent/>
+                    <EntityPassivesComponent/>
+                    <EntityPyreSpellsComponent/>
+                    <EntityUpgradesComponent/>
+                    <EntityWeaponsComponent/>
+                    <EntityAbilitiesComponent/>
+                </CascadingValue>
 
             </div>
             <div class="dialogFooter"></div>
         }
 
     </div>
-    
+
 </div>
 
 <style>
@@ -133,19 +133,20 @@
 </style>
 
 @code {
-    
-    EntityModel entity = null;
+
+    EntityModel entity = default!;
 
     private int refresh = 0;
 
     protected override void OnInitialized()
     {
-        entity = DATA.Get()[entityDialogService.GetEntityId()];
-        
+        entity = DATA.Get()[entityDialogService.GetEntityId() ?? string.Empty];
+
         entityDialogService.Subscribe(OnUpdate);
     }
-    
-    public void Dispose() {
+
+    public void Dispose()
+    {
         entityDialogService.Unsubscribe(OnUpdate);
     }
 
@@ -157,11 +158,10 @@
         Console.WriteLine("OnUpdate()");
         StateHasChanged();
     }
-    
+
     public void CloseDialog()
     {
         entityDialogService.CloseDialog();
     }
 
 }
-

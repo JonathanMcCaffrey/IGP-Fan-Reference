@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using Model.Immortal.Entity;
+using Model.Entity;
 
-namespace Model.Immortal.Economy;
+namespace Model.Economy;
 
-public class EconomyModel {
+public class EconomyModel
+{
     public int Interval { get; set; } = 0;
     public float Alloy { get; set; } = 0;
     public float Ether { get; set; } = 0;

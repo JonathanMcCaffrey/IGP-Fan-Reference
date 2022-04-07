@@ -1,9 +1,9 @@
-﻿using System;
-using Model.Immortal.Types;
+﻿using Model.Types;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityWeaponModel : IEntityPartInterface {
+public class EntityWeaponModel : IEntityPartInterface
+{
     public int Id { get; set; } = 1;
     public int EntityModelId { get; set; }
     public virtual EntityModel EntityModel { get; set; }

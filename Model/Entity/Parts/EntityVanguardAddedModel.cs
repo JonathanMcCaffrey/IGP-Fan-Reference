@@ -1,13 +1,12 @@
-﻿using System;
-using Model.Immortal.Entity.Data;
-using Model.Immortal.Types;
+﻿using Model.Entity.Data;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityVanguardAddedModel : IEntityPartInterface {
+public class EntityVanguardAddedModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityVanguardAddedModel";
-    
+
     public string ImmortalId { get; set; } = DataType.IMMORTAL_Ajari;
-    
+
     public string ReplaceId { get; set; } = "";
 }

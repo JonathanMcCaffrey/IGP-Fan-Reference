@@ -1,4 +1,4 @@
-﻿@if (IsOnDev) {
+﻿@if (isOnDev) {
     <div class="devOnlyContainer">
         <div class="devOnlyTitleContainer">
             <div class="devOnlyTitle">
@@ -58,15 +58,15 @@
 @code {
 
     [Inject]
-    NavigationManager NavigationManager { get; set; }
+    NavigationManager NavigationManager { get; set; } = default!;
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = default!;
 
-    bool IsOnDev;
+    bool isOnDev;
 
     protected override void OnInitialized() {
-        IsOnDev = NavigationManager.BaseUri.Contains("https://localhost");
+        isOnDev = NavigationManager.BaseUri.Contains("https://localhost");
     }
 
 }

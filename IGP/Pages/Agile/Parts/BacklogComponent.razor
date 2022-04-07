@@ -1,6 +1,7 @@
 ﻿<div class="sprintContainer">
     <div class="tasksContainer">
-        @foreach (var task in Backlog) {
+        @foreach (var task in Backlog)
+        {
             <div class="taskContainer @task.Status.ToLower()">
                 <div class="taskName">@task.Name</div>
                 <div class="taskDetails">
@@ -17,7 +18,8 @@
                             </div>
                         </LayoutColumnComponent>
                         <LayoutColumnComponent>
-                            @if (task.Finished != null) {
+                            @if (task.Finished != null)
+                            {
                                 <div class="taskFinished">
                                     <b>Finished: </b>@task.Finished
                                 </div>
@@ -49,19 +51,6 @@
         padding-top: 16px;
     }
 
-    .sprintDescription {
-        grid-area: description;
-    }
-
-    .sprintStartDate {
-    }
-
-    .sprintEndDate {
-    }
-
-    .sprintNotes {
-    }
-
 
     @@media only screen and (max-width: 1025px) {
         .sprintContainer {
@@ -72,14 +61,6 @@
             margin-top: 12px;
             box-shadow: none;
             padding: 8px;
-        }
-
-        .sprintStartDate {
-            text-align: left;
-        }
-
-        .sprintEndDate {
-            text-align: left;
         }
     }
 
@@ -197,6 +178,6 @@
 @code {
 
     [Parameter]
-    public List<TaskModel> Backlog { get; set; }
+    public List<AgileTaskModel> Backlog { get; set; } = default!;
 
 }

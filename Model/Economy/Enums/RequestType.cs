@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Economy.Enums;
+﻿namespace Model.Economy.Enums;
 
-public enum RequestType {
+public enum RequestType
+{
     Unit,
     Building
 }

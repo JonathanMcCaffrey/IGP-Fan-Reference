@@ -5,34 +5,39 @@
 
 @page "/agile"
 
-@if (AgileService.IsLoaded()) {
+@if (AgileService.IsLoaded())
+{
     <LayoutMediumContentComponent>
 
         <WebsiteTitleComponent>Agile</WebsiteTitleComponent>
 
         <div class="agileViewContainer">
-            @foreach (var sprint in AgileService.SprintModels.OrderBy(e => e.EndDate).Reverse()) {
+            @foreach (var sprint in AgileService.AgileSprintModels!.OrderBy(e => e.EndDate).Reverse())
+            {
                 <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()" open="@(sprint.GetSprintType() == SprintType.Current)">
                     <summary class="sprintSummary">
                         <div class="sprintTitle">@sprint.Name</div>
                         <div style="flex: 1; flex-grow: 1;"></div>
                         <div class="sprintDates">
                             <div class="sprintStartDate">
-                               @if (sprint.StartDate != null)
-                               {
-                                    <b>Start: </b>@sprint.StartDate.Value.ToString("dd/MM/yyyy")
-                               }
+                                @if (sprint.StartDate != null)
+                                {
+                                    <b>Start: </b>
+                                    @sprint.StartDate.Value.ToString("dd/MM/yyyy")
+                                }
                             </div>
                             <div class="sprintEndDate">
                                 @if (sprint.EndDate != null)
-                               {
-                                    <b>End: </b>@sprint.EndDate.Value.ToString("dd/MM/yyyy")
-                               }
+                                {
+                                    <b>End: </b>
+                                    @sprint.EndDate.Value.ToString("dd/MM/yyyy")
+                                }
 
                             </div>
                         </div>
                     </summary>
-                    <SprintComponent Sprint=sprint Tasks=AgileService.TaskModels></SprintComponent>
+                    <SprintComponent AgileSprint="sprint"></SprintComponent>
+
                 </details>
             }
 
@@ -49,29 +54,31 @@
 
         <ContentDividerComponent></ContentDividerComponent>
 
-        <InfoBodyComponent>
-            <InfoQuestionComponent>What is Agile?</InfoQuestionComponent>
-            <InfoAnswerComponent>
-                Agile is a work methodology for determing task assignment and release deadlines.
-                <br/><br/>
-                My agile practice will be creating tasks in a backlog. Assigning them to weekly sprints. And completing all tasks in the allotted time frame.
-                <br/><br/>
-                Any unfinished tasks are moved into the next sprint, or the sprint will be extended by a week.
-            </InfoAnswerComponent>
-        </InfoBodyComponent>
+        <PaperComponent>
+
+            <InfoBodyComponent>
+                <InfoQuestionComponent>What is Agile?</InfoQuestionComponent>
+                <InfoAnswerComponent>
+                    Agile is a work methodology for determing task assignment and release deadlines.
+                    <br/><br/>
+                    My agile practice will be creating tasks in a backlog. Assigning them to weekly sprints. And completing all tasks in the allotted time frame.
+                    <br/><br/>
+                    Any unfinished tasks are moved into the next sprint, or the sprint will be extended by a week.
+                </InfoAnswerComponent>
+            </InfoBodyComponent>
+        </PaperComponent>
     </LayoutMediumContentComponent>
 }
-else {
-    <LoadingComponent></LoadingComponent>
-    
+else
+{
+    <LoadingComponent/>
 }
 
 
 @code {
 
 #if NO_SQL
-    public List<TaskModel> Tasks => AgileService.TaskModels;
-    public List<SprintModel> Sprints => AgileService.SprintModels;
+
 #else
     [Inject]
     DatabaseContext Database { get; set; }
@@ -83,21 +90,26 @@ else {
     public DbSet<SprintModel> Sprints { get; set; }
 #endif
 
-    private readonly List<TaskModel> backlog = new();
+    private readonly List<AgileTaskModel> backlog = new();
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         AgileService.Subscribe(HasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         AgileService.Unsubscribe(HasChanged);
     }
 
-    void HasChanged() {
+    void HasChanged()
+    {
         backlog.Clear();
 
-        foreach (var task in Tasks) {
-            if (task.SprintModelId == null) {
+        foreach (var task in AgileService.AgileTaskModels!)
+        {
+            if (task.AgileSprintModelId == null)
+            {
                 backlog.Add(task);
             }
         }
@@ -105,7 +117,8 @@ else {
         StateHasChanged();
     }
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
 #if NO_SQL
         await AgileService.Load();
 #else

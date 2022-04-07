@@ -20,31 +20,36 @@
 @code {
 
     [Inject]
-    public ITimingService TimingService { get; set; }
+    public ITimingService TimingService { get; set; } = default!;
 
     [Inject]
-    public IBuildOrderService BuildOrderService { get; set; }
+    public IBuildOrderService BuildOrderService { get; set; } = default!;
 
 
-    void OnTimingChanged(ChangeEventArgs changeEventArgs) {
-        TimingService.SetTiming(int.Parse(changeEventArgs.Value.ToString()));
+    void OnTimingChanged(ChangeEventArgs changeEventArgs)
+    {
+        TimingService.SetTiming(int.Parse(changeEventArgs.Value!.ToString()!));
     }
 
-    void OnTimingChanged(int value) {
+    void OnTimingChanged(int value)
+    {
         TimingService.SetTiming(value);
     }
 
-    void OnNameChanged(ChangeEventArgs changeEventArgs) {
-        BuildOrderService.SetName(changeEventArgs.Value.ToString());
+    void OnNameChanged(ChangeEventArgs changeEventArgs)
+    {
+        BuildOrderService.SetName(changeEventArgs.Value!.ToString()!);
     }
 
-    void OnColorChanged(ChangeEventArgs changeEventArgs) {
-        BuildOrderService.SetColor(changeEventArgs.Value.ToString());
+    void OnColorChanged(ChangeEventArgs changeEventArgs)
+    {
+        BuildOrderService.SetColor(changeEventArgs.Value!.ToString()!);
     }
 
 
-    void OnNotesChanged(ChangeEventArgs changeEventArgs) {
-        BuildOrderService.SetNotes(changeEventArgs.Value.ToString());
+    void OnNotesChanged(ChangeEventArgs changeEventArgs)
+    {
+        BuildOrderService.SetNotes(changeEventArgs.Value!.ToString()!);
     }
 
 }

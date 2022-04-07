@@ -1,22 +1,15 @@
-﻿@if (Markdown == null) {
-    <div>Loading...</div>
-}
-else {
-    @((MarkupString)Markdown)
-}
+﻿@((MarkupString)MarkdownText)
 
 @code {
-
     [Inject]
-    protected HttpClient Http { get; set; }
+    protected HttpClient Http { get; set; } = default!;
 
     [Parameter]
-    public string MarkdownFileName { get; set; }
+    public string MarkdownFileName { get; set; } = default!;
 
-    public string Markdown { get; set; }
+    private string MarkdownText { get; set; } = "";
 
     protected override async Task OnInitializedAsync() {
-        Markdown = Markdig.Markdown.ToHtml(await Http.GetStringAsync($"markdown/{MarkdownFileName}.md"));
+        MarkdownText = Markdig.Markdown.ToHtml(await Http.GetStringAsync($"markdown/{MarkdownFileName}.md"));
     }
-
 }

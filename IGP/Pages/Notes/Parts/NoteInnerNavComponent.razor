@@ -1,0 +1,75 @@
+@if (Note!.NoteContentModels.Count > 0)
+{
+    <div class="noteInnerNavContainer">
+        @foreach (var innerNote in Note.NoteContentModels)
+        {
+            var linkStyle = $"noteInnerNavButton inner_{Layers}";
+            <NavLink class="@linkStyle" href="@innerNote.GetNoteLink()">@innerNote.Name</NavLink>
+            <NoteInnerNavComponent Note="@innerNote" Layers="@IncrementLayers()"/>
+        }
+    </div>
+}
+
+<style>
+ 
+.noteInnerNavContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.noteInnerNavButton a {
+    color: white;
+}
+
+.noteInnerNavButton a:hover {
+    color: white;
+}
+
+.noteInnerNavButton {
+    padding: 8px;
+    margin-left: 8px;
+    color: white;
+}
+
+.noteInnerNavButton:hover {
+    
+}
+
+
+.inner_1 {
+    margin-left: 8px;
+}
+
+.inner_2 {
+    margin-left: 16px;
+}
+
+.inner_3 {
+    margin-left: 24px;
+}
+
+
+
+
+</style>
+
+@code {
+
+    [Parameter]
+    public NoteContentModel? Note { get; set; } = default!;
+
+    [Parameter]
+    public int Layers { get; set; } = 1;
+
+    public int IncrementLayers()
+    {
+        return Layers + 1;
+    }
+
+
+    private string GetLink(NoteContentModel note)
+    {
+        return $"notes/{note.Href}";
+    }
+
+}

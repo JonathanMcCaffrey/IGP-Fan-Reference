@@ -1,6 +1,7 @@
 ﻿namespace Model.Website.Enums;
 
-public class WebPageType {
+public class WebPageType
+{
     //TODO Deprecated
     public static readonly string None = "725d1adb-d5c8-4e51-bafb-09c86a94d0b0";
     public static readonly string IMMORTAL_About = "16e56a46-e593-4de5-a2ff-272b41a28d99";

@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Chart.Enums;
+﻿namespace Model.Chart.Enums;
 
-public enum ChartColorType {
+public enum ChartColorType
+{
     Red,
     LightGreen,
     Cyan,

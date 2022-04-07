@@ -4,8 +4,10 @@
 
 <div class="quizContainer">
     <div class="quizListContainer">
-        @if (entities != null && questions != null) {
-            @foreach (var entityMemory in entities) {
+        @if (entities != null && questions != null)
+        {
+            @foreach (var entityMemory in entities)
+            {
                 <UnitMemory EntityMemory="entityMemory"></UnitMemory>
             }
         }
@@ -57,25 +59,30 @@
 
 
 @code {
-    private List<MemoryEntityModel> entities;
-    private List<MemoryQuestionModel> questions;
+    private List<MemoryEntityModel> entities = null!;
+    private List<MemoryQuestionModel> questions = null!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         MemoryTesterService.Subscribe(OnMemoryEvent);
 
         MemoryTesterService.GenerateQuiz();
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         MemoryTesterService.Unsubscribe(OnMemoryEvent);
     }
 
-    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent) {
-        if (memoryTesterEvent == MemoryTesterEvent.OnVerify) {
+    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent)
+    {
+        if (memoryTesterEvent == MemoryTesterEvent.OnVerify)
+        {
             StateHasChanged();
         }
 
-        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh) {
+        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh)
+        {
             entities = MemoryTesterService.GetEntities();
             questions = MemoryTesterService.GetQuestions();
 
@@ -83,11 +90,13 @@
         }
     }
 
-    void OnSubmitQuiz(EventArgs eventArgs) {
+    void OnSubmitQuiz(EventArgs eventArgs)
+    {
         MemoryTesterService.Verify();
     }
 
-    void OnRefreshQuiz(EventArgs eventArgs) {
+    void OnRefreshQuiz(EventArgs eventArgs)
+    {
         MemoryTesterService.GenerateQuiz();
     }
 

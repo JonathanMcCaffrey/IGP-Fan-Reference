@@ -1,6 +1,6 @@
 ﻿@using Services
 @using Services.Immortal
-@using Model.Immortal.MemoryTester
+@using Model.MemoryTester
 @implements IDisposable
 
 @inject IMemoryTesterService MemoryTesterService
@@ -13,7 +13,7 @@
     }
     <div>
         <input readonly="@MemoryQuestion.IsRevealed"
-               class="formTextInput @(MemoryQuestion.IsRevealed ? "revealed" : IsSubmitted == false ? "guess" : int.Parse(guess) == MemoryQuestion.Answer ? "correct" : "wrong")"
+               class="formTextInput @(MemoryQuestion.IsRevealed ? "revealed" : IsSubmitted == false ? "guess" : int.Parse(guess ?? string.Empty) == MemoryQuestion.Answer ? "correct" : "wrong")"
                placeholder="guess..."
                type="number"
                value="@guess"
@@ -80,16 +80,16 @@
     public string Info { get; set; } = "";
 
     [Parameter]
-    public EventCallback<AnswerEventArgs> OnChange { get; set; }
+    public EventCallback<AnswerEventArgs> OnChange { get; set; } = default!;
 
     [Parameter]
-    public MemoryQuestionModel MemoryQuestion { get; set; }
+    public MemoryQuestionModel MemoryQuestion { get; set; } = default!;
 
     [Parameter]
     public bool IsSubmitted { get; set; }
 
 
-    private string guess { get; set; } = "";
+    private string? guess = "";
 
 
     private string labelId = "";
@@ -142,7 +142,7 @@
     }
 
     void OnGuessChanged(ChangeEventArgs changeEventArgs) {
-        guess = changeEventArgs.Value.ToString();
+        guess = changeEventArgs.Value!.ToString()!;
 
         OnChange.InvokeAsync(new AnswerEventArgs {
             Name = MemoryQuestion.Name,

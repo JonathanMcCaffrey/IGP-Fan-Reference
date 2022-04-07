@@ -1,0 +1,76 @@
+﻿<NavLink Href="@Href" class="contentHighlight">
+    <div class="contentHighlightTitle">
+        @Title
+    </div>
+    <img src="@ImageHref" class="contentHighlightImage" alt="@Title"/>
+    <div class="contentHighlightCallToAction">
+        @Description
+    </div>
+</NavLink>
+
+
+<style>
+    .contentHighlight {
+        background-color: var(--paper);
+        border: 1px solid var(--paper-border);
+        border-radius: 2px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+        
+        .contentHighlight:hover {
+            background-color: var(--paper-hover);
+            border-color: var(--paper-border-hover);
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.6);
+            transform: translateY(-2px) scale(1.01);
+        }
+
+
+    .contentHighlightTitle {
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin: auto;
+    }
+
+    .contentHighlightImage {
+        border: 1px solid rgba(0,0,0,0.5);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        height: 400px;
+        width: 400px;
+        margin: auto;
+    }
+
+    .contentHighlightCallToAction {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: auto;
+        padding: 16px;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public string Href { get; set; } = default!;
+
+    [Parameter]
+    public string Title { get; set; } = default!;
+
+    [Parameter]
+    public string Description { get; set; } = default!;
+
+    [Parameter]
+    public string ImageHref { get; set; } = default!;
+
+
+}

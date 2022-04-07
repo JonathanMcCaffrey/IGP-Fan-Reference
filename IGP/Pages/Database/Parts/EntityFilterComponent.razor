@@ -2,23 +2,27 @@
     <div class="desktopFiltersContainer">
         <div class="filtersContainer">
             <div class="filterContainer">
-                @foreach (var choice in EntityFilterService.GetFactionChoices()) {
+                @foreach (var choice in EntityFilterService.GetFactionChoices())
+                {
                     var styleClass = "";
-                    if (choice.Equals(EntityFilterService.GetFactionType())) {
+                    if (choice.Equals(EntityFilterService.GetFactionType()))
+                    {
                         styleClass = "selected";
                     }
                     <button @onclick="@(e => OnChangeFaction(choice))" class="choiceButton @styleClass">@choice</button>
                 }
             </div>
 
-            @if (EntityFilterService.GetFactionType() != "Any" && EntityFilterService.GetFactionType() != "None") {
+            @if (EntityFilterService.GetFactionType() != "Any" && EntityFilterService.GetFactionType() != "None")
+            {
                 <div class="filterContainer">
                     @foreach (var choice in EntityFilterService.GetImmortalChoices())
                     {
                         var name = DATA.Get()[choice].Info().Name;
-                        
+
                         var styleClass = "";
-                        if (choice.Equals(EntityFilterService.GetImmortalType())) {
+                        if (choice.Equals(EntityFilterService.GetImmortalType()))
+                        {
                             styleClass = "selected";
                         }
                         <button class="choiceButton @styleClass" @onclick="@(e => OnChangeImmortal(choice))">@name</button>
@@ -27,16 +31,18 @@
             }
         </div>
         <div class="filterContainer">
-            @foreach (var choice in EntityFilterService.GetEntityChoices()) {
+            @foreach (var choice in EntityFilterService.GetEntityChoices())
+            {
                 var styleClass = "";
-                if (choice.Equals(EntityFilterService.GetEntityType())) {
+                if (choice.Equals(EntityFilterService.GetEntityType()))
+                {
                     styleClass = "selected";
                 }
 
                 <button class="choiceButton @styleClass" @onclick="@(e => OnChangeEntity(choice))">@choice.Replace("_", " ")</button>
             }
         </div>
-        <FormTextComponent Label="Search Label" Placeholder="Throne..." OnChange="@(e => EntityFilterService.EnterSearchText(e.Value.ToString()))"/>
+        <FormTextComponent Label="Search Label" Placeholder="Throne..." OnChange="@(e => EntityFilterService.EnterSearchText(e.Value!.ToString()!))"/>
     </div>
 </div>
 
@@ -199,40 +205,49 @@
 @code {
 
     [Inject]
-    public IEntityFilterService EntityFilterService { get; set; }
+    public IEntityFilterService EntityFilterService { get; set; } = default!;
 
-    protected override void OnInitialized() { }
+    protected override void OnInitialized()
+    {
+    }
 
-    void OnChangeFaction(string clickedFaction) {
+    void OnChangeFaction(string clickedFaction)
+    {
         EntityFilterService.SelectFactionType(clickedFaction);
 
         StateHasChanged();
     }
 
-    void OnChangeImmortal(string clickedImmortal) {
+    void OnChangeImmortal(string clickedImmortal)
+    {
         EntityFilterService.SelectImmortalType(clickedImmortal);
     }
 
-    void OnChangeEntity(string clickedEntity) {
+    void OnChangeEntity(string clickedEntity)
+    {
         EntityFilterService.SelectEntityType(clickedEntity);
     }
 
-    void OnFactionChanged(ChangeEventArgs e) {
-        EntityFilterService.SelectFactionType(e.Value.ToString());
+    void OnFactionChanged(ChangeEventArgs e)
+    {
+        EntityFilterService.SelectFactionType(e.Value!.ToString()!);
     }
 
-    void OnImmortalChanged(ChangeEventArgs e) {
-        EntityFilterService.SelectImmortalType(e.Value.ToString());
-    }
-
-
-    void OnEntityChanged(ChangeEventArgs e) {
-        EntityFilterService.SelectEntityType(e.Value.ToString());
+    void OnImmortalChanged(ChangeEventArgs e)
+    {
+        EntityFilterService.SelectImmortalType(e.Value!.ToString()!);
     }
 
 
-    void OnSearchTextChanged(ChangeEventArgs e) {
-        EntityFilterService.EnterSearchText(e.Value.ToString());
+    void OnEntityChanged(ChangeEventArgs e)
+    {
+        EntityFilterService.SelectEntityType(e.Value!.ToString()!);
+    }
+
+
+    void OnSearchTextChanged(ChangeEventArgs e)
+    {
+        EntityFilterService.EnterSearchText(e.Value!.ToString()!);
     }
 
 }

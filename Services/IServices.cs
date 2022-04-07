@@ -5,16 +5,16 @@
 using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
-using Model.Documentation;
-using Model.Immortal.BuildOrders;
-using Model.Immortal.Economy;
-using Model.Immortal.Entity;
-using Model.Immortal.Entity.Data;
-using Model.Immortal.MemoryTester;
-using Model.Immortal.Notes;
+using Model.Doc;
+using Model.BuildOrders;
+using Model.Economy;
+using Model.Entity;
+using Model.Entity.Data;
+using Model.MemoryTester;
+using Model.Notes;
 using Model.Website;
 using Model.Website.Enums;
-using Model.Work.Git;
+using Model.Development.Git;
 using Model.Work.Tasks;
 using Services.Immortal;
 
@@ -65,15 +65,15 @@ public interface IWebsiteService {
 public interface IAgileService {
 
 #if NO_SQL
-    public List<SprintModel> SprintModels { get; set; }
-    public List<TaskModel> TaskModels { get; set; }
+    public List<AgileSprintModel>? AgileSprintModels { get; set; }
+    public List<AgileTaskModel>? AgileTaskModels { get; set; }
 #else
     public DbSet<SprintModel> SprintModels { get; }
     public DbSet<TaskModel> TaskModels { get; }
 #endif
 
-    public void Subscribe(Action action);
-    public void Unsubscribe(Action action);
+    public void Subscribe(Action? action);
+    public void Unsubscribe(Action? action);
     public void Update();
     
 #if NO_SQL
@@ -85,7 +85,9 @@ public interface IAgileService {
 }
 
 public interface INoteService {
-    public List<NoteModel> NoteModels { get; set; }
+    public List<NoteContentModel> NoteContentModels { get; set; }
+    public List<NoteConnectionModel> NoteConnectionModels { get; set; }
+    public List<NoteSectionModel> NoteSectionModels { get; set; }
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
@@ -93,10 +95,15 @@ public interface INoteService {
     public bool IsLoaded();
 }
 
-public interface IDocumentationService {
-    public List<DocumentationModel> DocumentationModels { get; set; }
-    public void Subscribe(Action action);
-    public void Unsubscribe(Action action);
+public interface IDocumentationService
+{
+    public List<DocContentModel> DocContentModels { get; set; }
+    public List<DocConnectionModel> DocConnectionModels { get; set; }
+    public List<DocContentModel> DocContentModelsByPageOrder { get; set; }
+    public List<DocSectionModel> DocSectionModels { get; set; }
+
+    public void Subscribe(Action? action);
+    public void Unsubscribe(Action? action);
     public void Update();
     public Task Load();
     public bool IsLoaded();
@@ -106,8 +113,8 @@ public interface IDocumentationService {
 public interface IGitService {
 
 #if NO_SQL
-    public List<ChangeModel> ChangeModels { get; set; }
-    public List<PatchModel> PatchModels { get; set; }
+    public List<GitChangeModel> GitChangeModels { get; set; }
+    public List<GitPatchModel> GitPatchModels { get; set; }
 #else
     public DbSet<ChangeModel> ChangeModels { get; }
     public DbSet<PatchModel> PatchModels { get; }
@@ -143,7 +150,7 @@ public interface INavigationService {
 }
 
 public interface IBuildComparisonService {
-    public void SetBuilds(BuildComparisonModel buildComparison);
+    public void SetBuilds(BuildComparisonModel buildComparisonModel);
     public BuildComparisonModel Get();
     public string BuildOrderAsYaml();
     public string AsJson();
@@ -155,8 +162,8 @@ public interface IBuildComparisonService {
 public interface ITimingService {
     public int GetTiming();
     public void SetTiming(int timing);
-    public void Subscribe(Action action);
-    public void Unsubscribe(Action action);
+    public void Subscribe(Action? action);
+    public void Unsubscribe(Action? action);
 }
 
 public interface IEconomyService {
@@ -218,13 +225,13 @@ public interface IImmortalSelectionService {
 
 public interface IKeyService {
     public List<string> GetAllPressedKeys();
-    public string GetHotkey();
+    public string? GetHotkey();
     public string GetHotkeyGroup();
     public bool IsHoldingSpace();
     public bool AddPressedKey(string key);
     public bool RemovePressedKey(string key);
-    public void Subscribe(Action action);
-    public void Unsubscribe(Action action);
+    public void Subscribe(Action? action);
+    public void Unsubscribe(Action? action);
 }
 
 public interface IMemoryTesterService {

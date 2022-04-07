@@ -1,8 +1,9 @@
-﻿@if (Entity.IdPyreSpells().Count > 0)
+﻿@if (Entity!.IdPyreSpells().Count > 0)
 {
     @if (StyleType.Equals("Plain"))
     {
-        @foreach (var pyreSpell in Entity.IdPyreSpells()) {
+        @foreach (var pyreSpell in Entity.IdPyreSpells())
+        {
             var spell = EntityModel.Get(pyreSpell.Id);
 
             var info = spell.Info();
@@ -16,16 +17,20 @@
                     <b>- Description:</b> @((MarkupString)info.Description)
                 </div>
                 <div>
-                    @if (production != null) {
-                        if (production.Pyre != 0) {
+                    @if (production != null)
+                    {
+                        if (production.Pyre != 0)
+                        {
                             <b>- Pyre: </b>
                             @production.Pyre
                         }
-                        if (production.BuildTime != 0) {
+                        if (production.BuildTime != 0)
+                        {
                             <b>- BuildTime: </b>
                             @production.BuildTime
                         }
-                        if (production.Cooldown != 0) {
+                        if (production.Cooldown != 0)
+                        {
                             <b>- Cooldown: </b>
                             @production.Cooldown
                         }
@@ -33,12 +38,12 @@
                 </div>
             </div>
         }
-  
     }
     else
     {
         <EntityDisplayComponent Title="Pyre Spells">
-            @foreach (var pyreSpell in Entity.IdPyreSpells()) {
+            @foreach (var pyreSpell in Entity.IdPyreSpells())
+            {
                 var spell = EntityModel.Get(pyreSpell.Id);
 
                 var info = spell.Info();
@@ -52,16 +57,20 @@
                         <b>Description:</b> @((MarkupString)info.Description)
                     </div>
                     <div>
-                        @if (production != null) {
-                            if (production.Pyre != 0) {
+                        @if (production != null)
+                        {
+                            if (production.Pyre != 0)
+                            {
                                 <b> Pyre: </b>
                                 @production.Pyre
                             }
-                            if (production.BuildTime != 0) {
+                            if (production.BuildTime != 0)
+                            {
                                 <b> BuildTime: </b>
                                 @production.BuildTime
                             }
-                            if (production.Cooldown != 0) {
+                            if (production.Cooldown != 0)
+                            {
                                 <b> Cooldown: </b>
                                 @production.Cooldown
                             }
@@ -70,7 +79,6 @@
                 </div>
             }
         </EntityDisplayComponent>
-        
     }
 }
 
@@ -78,9 +86,9 @@
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
-    
-    
+    public EntityModel? Entity { get; set; } = default!;
+
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 

@@ -23,27 +23,30 @@
 @code {
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
     [Inject]
-    IEconomyService EconomyService { get; set; }
+    IEconomyService EconomyService { get; set; } = default!;
 
     EconomyModel economy = new();
     int supplyGranted;
     int supplyTaken;
     int extraBuildings;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         BuildOrderService.Subscribe(OnBuildOrderChanged);
         EconomyService.Subscribe(OnBuildOrderChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         BuildOrderService.Unsubscribe(OnBuildOrderChanged);
         EconomyService.Subscribe(OnBuildOrderChanged);
     }
 
-    void OnBuildOrderChanged() {
+    void OnBuildOrderChanged()
+    {
         economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
 
         var ordersOverTime = BuildOrderService.GetOrders();
@@ -61,7 +64,8 @@
             select order.Supply().Grants).Sum();
 
         extraBuildings = 0;
-        if (supplyGranted > 160) {
+        if (supplyGranted > 160)
+        {
             extraBuildings = (supplyGranted - 160) / 16;
             supplyGranted = 160;
         }

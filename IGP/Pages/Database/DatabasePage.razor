@@ -10,27 +10,29 @@
     <WebsiteTitleComponent>Database</WebsiteTitleComponent>
 
     <PaperComponent>
-            <FormDisplayComponent Label="Patch">
-                <Display>
-                    Game Patch: @EntityModel.GameVersion
-                </Display>
-            </FormDisplayComponent>
+        <FormDisplayComponent Label="Patch">
+            <Display>
+                Game Patch: @EntityModel.GameVersion
+            </Display>
+        </FormDisplayComponent>
     </PaperComponent>
-    
+
     <div style="margin-left: 8px">
-        <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
-        </div>
-    
+        <ButtonGroupComponent OnClick="choice => { entityDisplayService.SetDisplayType(choice); }" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+    </div>
+
     <PaperComponent>
         <EntityFilterComponent></EntityFilterComponent>
 
-        @if (searches != null) {
+        @if (searches != null)
+        {
             <div class="databaseItems">
-                @foreach (var entity in searches) {
+                @foreach (var entity in searches)
+                {
                     <CascadingValue Value="entity">
                         <CascadingValue Value="@entityDisplayService.GetDisplayType()">
                             <EntityViewComponent></EntityViewComponent>
-                            </CascadingValue>
+                        </CascadingValue>
                     </CascadingValue>
                 }
             </div>
@@ -112,16 +114,16 @@
 @code {
 
     [Inject]
-    public IEntityFilterService EntityFilterService { get; set; }
+    public IEntityFilterService EntityFilterService { get; set; } = default!;
 
     readonly List<EntityModel> defaults = (from entity in EntityModel.GetList()
         where entity.IsSpeculative == false
         select entity).ToList();
 
-    List<EntityModel> factions;
-    List<EntityModel> immortals;
-    List<EntityModel> entities;
-    List<EntityModel> searches;
+    List<EntityModel> factions = default!;
+    List<EntityModel> immortals = default!;
+    List<EntityModel> entities = default!;
+    List<EntityModel> searches = default!;
 
 
     string selectedFactionType = FactionType.Any;
@@ -129,44 +131,54 @@
     string selectedEntityType = EntityType.Army;
     string searchText = "";
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         RefreshFactionSearch();
 
         EntityFilterService.Subscribe(OnChange);
         entityDisplayService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         EntityFilterService.Unsubscribe(OnChange);
         entityDisplayService.Unsubscribe(StateHasChanged);
     }
 
-    void OnChange(EntityFilterEvent filterEntityEvent) {
-        if (filterEntityEvent == EntityFilterEvent.OnRefreshFaction) {
+    void OnChange(EntityFilterEvent filterEntityEvent)
+    {
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshFaction)
+        {
             RefreshFactionSearch();
         }
 
-        if (filterEntityEvent == EntityFilterEvent.OnRefreshImmortal) {
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshImmortal)
+        {
             RefreshImmortalSearch();
         }
 
-        if (filterEntityEvent == EntityFilterEvent.OnRefreshEntity) {
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshEntity)
+        {
             RefreshEntitySearch();
         }
 
 
-        if (filterEntityEvent == EntityFilterEvent.OnRefreshSearch) {
+        if (filterEntityEvent == EntityFilterEvent.OnRefreshSearch)
+        {
             RefreshTextSearch();
         }
     }
 
-    void RefreshFactionSearch() {
+    void RefreshFactionSearch()
+    {
         selectedFactionType = EntityFilterService.GetFactionType();
 
-        if (selectedFactionType == FactionType.Any) {
+        if (selectedFactionType == FactionType.Any)
+        {
             factions = defaults.ToList();
         }
-        else {
+        else
+        {
             factions = (from entity in defaults
                 where entity.Faction() != null && entity.Faction().Faction == selectedFactionType
                 select entity).ToList();
@@ -176,18 +188,22 @@
     }
 
 
-    void OnImmortalChanged(ChangeEventArgs e) {
-        selectedImmortalType = e.Value.ToString();
+    void OnImmortalChanged(ChangeEventArgs e)
+    {
+        selectedImmortalType = e.Value!.ToString()!;
         RefreshImmortalSearch();
     }
 
-    void RefreshImmortalSearch() {
+    void RefreshImmortalSearch()
+    {
         selectedImmortalType = EntityFilterService.GetImmortalType();
 
-        if (selectedImmortalType == ImmortalType.Any) {
+        if (selectedImmortalType == ImmortalType.Any)
+        {
             immortals = factions.ToList();
         }
-        else {
+        else
+        {
             immortals = (from entity in factions
                 where entity.VanguardAdded() == null || entity.VanguardAdded().ImmortalId == selectedImmortalType
                 select entity).ToList();
@@ -196,18 +212,22 @@
         RefreshEntitySearch();
     }
 
-    void OnEntityChanged(ChangeEventArgs e) {
-        selectedEntityType = e.Value.ToString();
+    void OnEntityChanged(ChangeEventArgs e)
+    {
+        selectedEntityType = e.Value!.ToString()!;
         RefreshEntitySearch();
     }
 
-    void RefreshEntitySearch() {
+    void RefreshEntitySearch()
+    {
         selectedEntityType = EntityFilterService.GetEntityType();
 
-        if (selectedEntityType == EntityType.Any) {
+        if (selectedEntityType == EntityType.Any)
+        {
             entities = immortals.ToList();
         }
-        else {
+        else
+        {
             entities = (from entity in immortals
                 where entity.EntityType == selectedEntityType
                 select entity).ToList();
@@ -216,18 +236,22 @@
         RefreshTextSearch();
     }
 
-    void OnSearchTextChanged(ChangeEventArgs e) {
-        searchText = e.Value.ToString();
+    void OnSearchTextChanged(ChangeEventArgs e)
+    {
+        searchText = e.Value!.ToString()!;
         RefreshTextSearch();
     }
 
-    void RefreshTextSearch() {
+    void RefreshTextSearch()
+    {
         searchText = EntityFilterService.GetSearchText();
 
-        if (searchText.Trim() == "") {
+        if (searchText.Trim() == "")
+        {
             searches = entities.ToList();
         }
-        else {
+        else
+        {
             searches = (from entity in entities
                 where entity.Info().Name.ToLower().Contains(searchText.ToLower())
                 select entity).ToList();

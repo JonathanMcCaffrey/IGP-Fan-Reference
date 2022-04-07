@@ -1,0 +1,58 @@
+﻿
+<div class="layoutWithSidebar">
+    <div class="layoutSidebar">
+        @Sidebar
+    </div>
+    <div class="layoutContent">
+        @Content
+    </div>
+</div>
+
+<style scoped>
+    .layoutWithSidebar {
+        display: grid;
+            
+        gap: 16px;
+        width: 65%;
+        min-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 10px;
+        padding-bottom: 30px;
+        
+         grid-template-columns: 412px 1fr;
+    }
+    
+    .layoutSidebar {
+        background: var(--paper);
+        padding: 16px;
+    }
+    
+    .layoutContent {
+    }
+
+    @@media only screen and (max-width: 1025px) {
+        .layoutWithSidebar {
+            flex-direction: column-reverse;
+            width: 100%;
+            min-width: 350px;
+        }
+    }
+
+
+
+    @@media only screen and (min-width: 1024px) {
+        .layoutWithSidebar {
+            margin-top: 50px;
+        }
+    }
+
+</style>
+
+@code {    
+    [Parameter]
+    public RenderFragment Sidebar { get; set; } = default!;
+       
+    [Parameter]
+    public RenderFragment Content { get; set; } = default!;
+}

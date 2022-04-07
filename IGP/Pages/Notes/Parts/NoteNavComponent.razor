@@ -1,0 +1,43 @@
+<div class="noteNavContainer">
+    @foreach (var note in Notes)
+    {
+        if (note.Parent == null)
+        {
+            <NavLink class="noteNavButton" href="@note.GetNoteLink()">@note.Name</NavLink>
+            <NoteInnerNavComponent Note="@note"/>
+        }
+    }
+</div>
+
+<style>
+ .noteNavContainer {
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ .noteNavButton a {
+     color: white;
+ }
+ 
+ .noteNavButton a:hover {
+      color: white;
+      background-color: var(--primary-hover);
+           
+  }
+ 
+ .noteNavButton {
+     padding: 8px;
+     color: white;
+ }
+
+</style>
+
+@code {
+
+    [Parameter]
+    public List<NoteContentModel> Notes { get; set; } = default!;
+
+    [Parameter]
+    public List<NoteConnectionModel> Connections { get; set; } = default!;
+
+}

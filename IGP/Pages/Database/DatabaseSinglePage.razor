@@ -7,7 +7,7 @@
 @implements IDisposable
 
 <LayoutLargeContentComponent>
-    
+
     <PaperComponent>
         <FormDisplayComponent Label="Patch">
             <Display>
@@ -15,18 +15,19 @@
             </Display>
         </FormDisplayComponent>
     </PaperComponent>
-    
+
     <div style="margin-left: 8px">
-        <ButtonGroupComponent OnClick="((choice => { entityDisplayService.SetDisplayType(choice); }))" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+        <ButtonGroupComponent OnClick="choice => { entityDisplayService.SetDisplayType(choice); }" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
     </div>
 
-    
-    @if(Text.Trim().ToLower().Equals("walter"))
+
+    @if (Text!.Trim().ToLower().Equals("walter"))
     {
         <PaperComponent>
-            <CodeComponent>Unhandled Exception: EXCEPTION_MEMORY_SIZE_VIOLATION
+            <CodeComponent>
+                Unhandled Exception: EXCEPTION_MEMORY_SIZE_VIOLATION
                 UNIT_WALTER too powerful to be displayed.
-                
+
                 This SHOULD NEVER HAPPEN!
             </CodeComponent>
         </PaperComponent>
@@ -37,36 +38,35 @@
             <div>Invalid entity name entered: @Text</div>
             <div>No such entity. Did you mean <b>"Throne"</b>?</div>
         </PaperComponent>
-    } 
-    
+    }
+
     else
     {
         <PaperComponent>
             <CascadingValue Value="entity">
                 <CascadingValue Value="@entityDisplayService.GetDisplayType()">
-                                  
+
                     <EntityViewComponent></EntityViewComponent>
                 </CascadingValue>
             </CascadingValue>
 
-        </PaperComponent>    
+        </PaperComponent>
     }
-    
+
 </LayoutLargeContentComponent>
 
 
-
 @code {
+
     [Parameter]
     public string? Text { get; set; }
 
-    private EntityModel? entity = null;
-    
+    private EntityModel? entity;
+
     protected override void OnInitialized()
     {
-        
         entityDisplayService.Subscribe(StateHasChanged);
-        
+
         foreach (var e in DATA.Get().Values)
         {
             if (e.Info().Name.Equals(Text))
@@ -76,8 +76,9 @@
             }
         }
     }
-    
-    void IDisposable.Dispose() {
+
+    void IDisposable.Dispose()
+    {
         entityDisplayService.Unsubscribe(StateHasChanged);
     }
 

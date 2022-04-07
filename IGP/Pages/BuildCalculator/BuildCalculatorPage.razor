@@ -2,6 +2,12 @@
 
 @layout PageLayout
 
+@inject IKeyService keyService
+@inject IImmortalSelectionService filterService
+@inject IBuildOrderService buildOrderService
+@inject IEconomyService economyService
+@inject ITimingService timingService
+
 @page "/build-calculator"
 
 <LayoutLargeContentComponent>
@@ -20,19 +26,15 @@
     <div class="calculatorGrid">
 
         <div style="grid-area: timing;" class="gridItem">
-            <InfoTooltipComponent InfoText="Enter build details.
-                                           
-<b>Timing Interval:</b> set the max interval length for the build. <i>Ex. 240 (seconds) is 4 minutes, a possible timing for Thrum build order.</i>
-<b>Name:</b> the name of the build for saving purposes. <i>Ex. 'Safe Thrum Opener'</i>
-<b>Notes:</b> additional notes of the build for saving purposes. <i>Ex. 'Thrums are for harassing and defending against a ground Q'Rath army.'</i>
-<b>Color:</b> value to color charts when comparing builds. Not currently implemented.">
+            <InfoTooltipComponent InfoText="">
 
                 <TimingComponent></TimingComponent>
             </InfoTooltipComponent>
         </div>
 
 
-        @if (true) {
+        @if (true)
+        {
             <div style="grid-area: chart;" class="gridItem">
                 <InfoTooltipComponent InfoText="Shows economy at each game interval. Use to determine if spending additional resourcses on harvesters will help or hinder overall timing attack.">
                     <ChartComponent></ChartComponent>
@@ -70,18 +72,15 @@
 
         <div class="gridItem gridKeys">
 
-            <InfoTooltipComponent InfoText="Click on the desired entity to build it. <i>You cannot build entities you cannot afford, construct an ether extractor before spending ether.</i>
-
-You can also use the default Immortal hotkeys, but the above hotkey UI must have focus for this to work. <i>I.e. click on it if hotkeys aren't working, and a white border should appear after key input  to indicate focus.</i>
-
-Additionally, more entities will appear as you build the required technology. You can click or press ` to remove the last made entity. <i>But you cannot remove the starting entities at interval 0.</i>">
+            <InfoTooltipComponent InfoText="">
 
                 <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
             </InfoTooltipComponent>
         </div>
 
 
-        @if (false) {
+        @if (false)
+        {
             <div style="grid-area: timeline;" class="gridItem">
                 <TimelineComponent></TimelineComponent>
             </div>
@@ -216,72 +215,59 @@ Additionally, more entities will appear as you build the required technology. Yo
 
 
 @code {
-
-    [Inject]
-    IKeyService KeyService { get; set; }
-
-    [Inject]
-    IImmortalSelectionService FilterService { get; set; }
-
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
-
-    [Inject]
-    IEconomyService EconomyService { get; set; }
-
-    [Inject]
-    ITimingService TimingService { get; set; }
-
-    Dictionary<int, List<EntityModel>> completedEntities = new();
-
-    List<EntityModel> entities = EntityModel.GetListOnlyHotkey();
-
-    protected override void OnInitialized() {
-        KeyService.Subscribe(HandleClick);
-        FilterService.Subscribe(StateHasChanged);
-        EconomyService.Subscribe(StateHasChanged);
-        TimingService.Subscribe(HandleTimingChanged);
-        EconomyService.Calculate(BuildOrderService, TimingService, 0);
+    protected override void OnInitialized()
+    {
+        keyService.Subscribe(HandleClick);
+        filterService.Subscribe(StateHasChanged);
+        economyService.Subscribe(StateHasChanged);
+        timingService.Subscribe(HandleTimingChanged);
+        economyService.Calculate(buildOrderService, timingService, 0);
     }
 
-    void IDisposable.Dispose() {
-        KeyService.Unsubscribe(HandleClick);
-        FilterService.Unsubscribe(StateHasChanged);
-        TimingService.Unsubscribe(StateHasChanged);
-        EconomyService.Unsubscribe(StateHasChanged);
+    void IDisposable.Dispose()
+    {
+        keyService.Unsubscribe(HandleClick);
+        filterService.Unsubscribe(StateHasChanged);
+        timingService.Unsubscribe(StateHasChanged);
+        economyService.Unsubscribe(StateHasChanged);
     }
 
-
-    protected void HandleTimingChanged() {
-        EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+    private void HandleTimingChanged()
+    {
+        economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
     }
 
-    protected void HandleClick() {
-        var hotkey = KeyService.GetHotkey();
+    private void HandleClick()
+    {
+        var hotkey = keyService.GetHotkey();
 
-        if (hotkey == "") {
+        if (hotkey == "")
+        {
             return;
         }
 
-        if (hotkey == "`") {
-            BuildOrderService.RemoveLast();
-            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+        if (hotkey == "`")
+        {
+            buildOrderService.RemoveLast();
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
             StateHasChanged();
             return;
         }
 
-        var hotkeyGroup = KeyService.GetHotkeyGroup();
-        var isHoldSpace = KeyService.IsHoldingSpace();
-        var faction = FilterService.GetFactionType();
-        var immortal = FilterService.GetImmortalType();
+        var hotkeyGroup = keyService.GetHotkeyGroup();
+        var isHoldSpace = keyService.IsHoldingSpace();
+        var faction = filterService.GetFactionType();
+        var immortal = filterService.GetImmortalType();
 
         var entity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
 
-        if (entity == null) {
+        if (entity == null)
+        {
             return;
         }
-        if (BuildOrderService.Add(entity, EconomyService)) {
-            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
+        if (buildOrderService.Add(entity, economyService))
+        {
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }
     }
 

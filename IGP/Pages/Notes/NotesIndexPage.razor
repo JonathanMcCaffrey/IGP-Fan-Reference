@@ -1,0 +1,140 @@
+﻿@layout PageLayout
+
+@inject INoteService noteService
+@implements IDisposable
+
+@page "/notes"
+
+
+@if (!noteService.IsLoaded())
+{
+    <LoadingComponent/>
+}
+else
+{
+    <LayoutMediumContentComponent>
+
+        <PaperComponent>
+            @foreach (var noteSection in noteService.NoteSectionModels)
+            {
+                <div class="noteSectionContainer">
+                    <div class="noteSectionTitle">@noteSection.Name</div>
+                    <div class="noteContentContainer">
+                        @foreach (var noteContent in noteSection.NoteContentModels)
+                        {
+                            <NavLink class="noteContentLink" href="@noteContent.GetNoteLink()">
+                                <div class="noteContentName">@noteContent.Name</div>
+                                <div class="noteContentDescription">@noteContent.Description</div>
+                            </NavLink>
+                        }
+                    </div>
+                </div>
+            }
+        </PaperComponent>
+    </LayoutMediumContentComponent>
+}
+<style>
+    .noteSectionContainer {
+        width: 100%;
+        padding: 8px;
+    }
+    
+    .noteSectionTitle {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    
+    .noteContentContainer {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    @@media only screen and (max-width: 1025px) {
+          .noteContentContainer {
+           grid-template-columns: 1fr;
+       }
+    }
+    
+    .noteContentName {
+        font-weight: bold;
+        font-size: 1.6rem;
+    }
+    
+    .noteContentDescription {
+        font-weight: normal;
+    }
+    
+    
+    .noteContentLink {
+        background-color: var(--paper);
+        border: 1px solid var(--paper-border);
+        border-radius: 2px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+    
+    
+    .noteContentLink:hover {
+        background-color: var(--paper-hover);
+        border-color: var(--paper-border-hover);
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.6);
+        transform: translateY(-2px) scale(1.01);
+    }
+
+</style>
+
+@code {
+
+    [Parameter]
+    public string? Href1 { get; set; }
+
+    [Parameter]
+    public string? Href2 { get; set; }
+
+    [Parameter]
+    public string? Href3 { get; set; }
+
+    [Parameter]
+    public string? Href4 { get; set; }
+
+    [Parameter]
+    public string? Href5 { get; set; }
+
+    private string Href => Href5 ?? Href4 ?? Href3 ?? Href2 ?? Href1 ?? "";
+
+    string selectedSection = "All";
+
+    protected override void OnInitialized()
+    {
+        noteService.Subscribe(StateHasChanged);
+
+        noteService.Load();
+    }
+
+
+    public void Dispose()
+    {
+        noteService.Unsubscribe(StateHasChanged);
+    }
+
+
+    void OnSectionChanged(ChangeEventArgs e)
+    {
+        selectedSection = e.Value!.ToString()!;
+        StateHasChanged();
+    }
+
+}

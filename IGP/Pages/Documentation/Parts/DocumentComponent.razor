@@ -1,0 +1,35 @@
+<div class="doc">
+    <div class="docHeader">
+        <div class="docTitle">@DocContentModel.Name</div>
+
+        <div class="docDates">
+            <div class="docDateUpdated"><b>Updated</b>: @DocContentModel.UpdatedDate.ToString("MM/dd/yyyy")</div>
+            <div class="docDateCreated"><b>Created</b>: @DocContentModel.CreatedDate.ToString("MM/dd/yyyy")</div>
+        </div>
+    </div>
+    <div class="docContent">@((MarkupString)Markdown.ToHtml(DocContentModel.Content))</div>
+</div>
+
+<style>
+ .docTitle {
+    font-weight: bold;
+ }
+ 
+ .docHeader {
+display: flex;
+justify-content: space-between;
+ }
+ 
+ .docDates {
+ display: flex;
+ flex-direction: column;
+ }
+ 
+</style>
+
+@code {
+
+    [Parameter]
+    public DocContentModel DocContentModel { get; set; } = default!;
+
+}

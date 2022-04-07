@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Entity.Parts;
+﻿namespace Model.Entity.Parts;
 
-public class EntityIdVanguardModel : IEntityPartInterface {
+public class EntityIdVanguardModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityIdVanguardModel";
     public string Id { get; set; }
 }

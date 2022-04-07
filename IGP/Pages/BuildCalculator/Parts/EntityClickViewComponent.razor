@@ -1,35 +1,39 @@
 ﻿@implements IDisposable
 
 <div style="overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;">
-    @if (Entity != null) {
+    @if (entity != null)
+    {
         <EntityViewComponent Entity=Entity></EntityViewComponent>
     }
 </div>
 
 @code {
-    EntityModel Entity;
+    private EntityModel entity = default!;
 
     [Inject]
-    IKeyService KeyService { get; set; }
+    IKeyService KeyService { get; set; } = default!;
 
     [Inject]
-    IImmortalSelectionService FilterService { get; set; }
+    IImmortalSelectionService FilterService { get; set; } = default!;
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         KeyService.Subscribe(HandleClick);
         BuildOrderService.Subscribe(OnBuildOrderChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         KeyService.Unsubscribe(HandleClick);
         BuildOrderService.Unsubscribe(OnBuildOrderChanged);
     }
 
 
-    protected void HandleClick() {
+    protected void HandleClick()
+    {
         var hotkey = KeyService.GetHotkey();
         var hotkeyGroup = KeyService.GetHotkeyGroup();
         var isHoldSpace = KeyService.IsHoldingSpace();
@@ -38,13 +42,15 @@
 
         var foundEntity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
 
-        if (foundEntity != null) {
-            Entity = foundEntity;
+        if (foundEntity != null)
+        {
+            entity = foundEntity;
             StateHasChanged();
         }
     }
 
-    void OnBuildOrderChanged() {
+    void OnBuildOrderChanged()
+    {
         StateHasChanged();
     }
 

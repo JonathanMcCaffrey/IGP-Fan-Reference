@@ -1,15 +1,14 @@
-﻿using System;
+﻿namespace Model.Entity.Data;
 
-namespace Model.Immortal.Entity.Data;
-
-public static class EntityType {
+public static class EntityType
+{
     public static string None = "None";
     public static string Any = "Any";
     public static string Teapot = "Teapot";
     public static string Family = "Family";
     public static string Faction = "Faction";
     public static string Command = "Command";
-    
+
     public static string Worker = "Worker";
     public static string Army = "Army";
     public static string Building = "Building";
