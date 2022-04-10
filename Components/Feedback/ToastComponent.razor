@@ -1,0 +1,114 @@
+﻿@using Services
+@inject IToastService toastService
+
+@implements IDisposable
+
+@if (Toast == null)
+{
+    <div>Add toast object...</div>
+}
+else
+{
+    <div class="toastContainer @Toast.SeverityType.ToLower() @FadeoutStyle">
+            <div class="toastTitle">
+                @Toast.Title
+            </div>
+            <div>
+                @Toast.Message
+            </div>
+    </div>    
+}
+
+<style>
+    .toastContainer {
+        border: 4px solid;
+        border-radius: 4px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-items: stretch;
+        width: 100%;
+        
+        opacity: 1;
+    }
+    
+    .fadeout {
+        transition: opacity 3s ease-in;
+        opacity: 0;
+    }
+
+    .toastContainer.@SeverityType.Warning.ToLower() {
+        background-color: var(--severity-warning-color);
+        border-color: var(--severity-warning-border-color);
+    }
+
+    .toastContainer.@SeverityType.Error.ToLower() {
+        background-color: var(--severity-error-color);
+        border-color: var(--severity-error-border-color);
+    }
+
+    .toastContainer.@SeverityType.Information.ToLower() {
+        background-color: var(--severity-information-color);
+        border-color: var(--severity-information-border-color);
+    }
+
+    .toastContainer.@SeverityType.Success.ToLower() {
+        background-color: var(--severity-success-color);
+        border-color: var(--severity-success-border-color);
+    }
+
+    .toastTitle {
+        font-weight: 800;
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    public ToastModel? Toast { get; set; } = default!;
+
+    private bool isFadingOut = false;
+
+    private string FadeoutStyle => isFadingOut ? "fadeout" : "";
+
+    private int removalTime = 150000;
+    private int fadeoutTime = 4000;
+    
+    //private int fade
+
+    private Timer removalTimer = null!;
+    private Timer fadeoutTimer = null!;
+
+    protected override void OnInitialized()
+    {
+#if DEBUG
+        removalTime = 5000;
+#endif
+
+        removalTimer = new Timer(removalTime);
+        removalTimer.Elapsed += OnRemoval!;
+        removalTimer.Enabled = true;
+        
+        fadeoutTimer = new Timer(removalTime - fadeoutTime);
+        fadeoutTimer.Elapsed += OnFadeout!;
+        fadeoutTimer.Enabled = true;
+    }
+
+    void OnFadeout(object source, ElapsedEventArgs eventArgs)
+    {
+        isFadingOut = true;
+        
+        StateHasChanged();
+    }
+    
+    void OnRemoval(object source, ElapsedEventArgs eventArgs)
+    {
+        toastService.RemoveToast(Toast!);
+    }
+
+    public void Dispose()
+    {
+        removalTimer.Dispose();
+        fadeoutTimer.Dispose();
+    }
+}

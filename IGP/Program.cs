@@ -4,12 +4,18 @@ using Services;
 using Services.Development;
 using Services.Immortal;
 using Services.Website;
+using System.Globalization;
 
 #if NO_SQL
 #else
 using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.SetMinimumLevel(LogLevel.Warning);
@@ -18,6 +24,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddLocalization();
 
 
 builder.Services.AddSingleton<INavigationService, NavigationService>();
@@ -40,6 +48,7 @@ builder.Services.AddSingleton(new HttpClient
 
 
 builder.Services.AddSingleton<IEntityDialogService, EntityDialogService>();
+builder.Services.AddSingleton<IToastService, ToastService>();
 
 #if NO_SQL
 

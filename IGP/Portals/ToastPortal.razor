@@ -1,0 +1,42 @@
+﻿@implements IDisposable;
+
+@inject IToastService toastService
+
+@if (toastService.HasToasts())
+{
+    <div class="toastsContainer">
+
+        @foreach (var toast in toastService.GetToasts())
+        {
+            <ToastComponent Toast="toast"/>
+        }
+    </div>
+}
+
+<style>
+    .toastsContainer {
+        position: fixed;
+        top: 64px;
+        right: 64px;
+    }
+</style>
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        toastService.Subscribe(OnUpdate);
+    }
+
+    public void Dispose()
+    {
+        toastService.Unsubscribe(OnUpdate);
+    }
+
+    void OnUpdate()
+    {
+        StateHasChanged();
+    }
+
+}

@@ -5,7 +5,13 @@
 
 @page "/agile"
 
-@if (AgileService.IsLoaded())
+@if (!AgileService.IsLoaded())
+{
+    <LoadingComponent/>  
+}
+else
+
+    
 {
     <LayoutMediumContentComponent>
 
@@ -68,10 +74,6 @@
             </InfoBodyComponent>
         </PaperComponent>
     </LayoutMediumContentComponent>
-}
-else
-{
-    <LoadingComponent/>
 }
 
 

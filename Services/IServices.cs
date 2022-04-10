@@ -15,10 +15,22 @@ using Model.Notes;
 using Model.Website;
 using Model.Website.Enums;
 using Model.Development.Git;
+using Model.Feedback;
 using Model.Work.Tasks;
 using Services.Immortal;
 
 namespace Services;
+
+public interface IToastService
+{
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    void AddToast(ToastModel toast);
+    void RemoveToast(ToastModel toast);
+    bool HasToasts();
+    List<ToastModel> GetToasts();
+    void ClearAllToasts();
+}
 
 
 public interface IEntityDialogService

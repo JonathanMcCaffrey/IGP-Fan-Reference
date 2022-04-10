@@ -4,6 +4,15 @@
 @import "components/table.css";
 
 :root {
+    --severity-warning-color: #2a2000;
+    --severity-warning-border-color: #755c13;
+    --severity-error-color: #290102;
+    --severity-error-border-color: #4C2C33;
+    --severity-information-color: #030129;
+    --severity-information-border-color: #2c3a4c;
+    --severity-success-color: #042901;
+    --severity-success-border-color: #2E4C2C;
+
     --accent: #432462;
     --primary: #4308a3;
     --primary-border: #2c0b62;
@@ -22,11 +31,13 @@
     --info: #451376;
     --info-border: #210b36;
 
+    --info-hover: #451376;
+    --info-border-hover: #210b36;
+
     --dialog-border-color: black;
     --dialog-border-width: 2px;
     --dialog-radius: 6px;
 }
-
 
 html {
     box-sizing: border-box;

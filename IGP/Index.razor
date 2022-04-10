@@ -1,9 +1,20 @@
 ﻿@page "/"
+@using Microsoft.Extensions.Localization
 
 @layout PageLayout
 
+
+@inject IStringLocalizer<Localizations> Loc
+
 <DevOnlyComponent>
     <DocumentationIndexPage></DocumentationIndexPage>
+
+ @Loc["Greeting"].Value
+@Loc["Greeting"]
+@Loc["Greeting"].Name
+@Loc["Greeting"].ResourceNotFound
 </DevOnlyComponent>
+
+
 
 <HomePage></HomePage>
