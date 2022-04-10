@@ -1,14 +1,25 @@
 ﻿@implements IDisposable
 
-<div style="overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;">
-    @if (entity != null)
-    {
-        <EntityViewComponent Entity=Entity></EntityViewComponent>
+@if (entity != null)
+{
+    <div class="entityClickView">
+        <CascadingValue Value="entity">
+            <CascadingValue Value="@viewType">
+                <EntityViewComponent></EntityViewComponent>
+            </CascadingValue>
+        </CascadingValue>
+        }
+    </div>
+}
+<style>
+    .entityClickView {
+    overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;
     }
-</div>
+</style>
 
 @code {
-    private EntityModel entity = default!;
+    private EntityModel? entity = default!;
+    private string viewType = "Detailed";
 
     [Inject]
     IKeyService KeyService { get; set; } = default!;

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Model.BuildOrders;
 using Model.Entity;
+using Model.Feedback;
 using Model.Types;
 using YamlDotNet.Serialization;
 
@@ -39,7 +40,7 @@ public class BuildOrderService : IBuildOrderService {
         if (atInterval > lastInterval) lastInterval = atInterval;
     }
 
-    public bool Add(EntityModel entity, IEconomyService withEconomy) {
+    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService withToasts) {
         if (entity != null) {
             var production = entity.Production();
 
@@ -49,7 +50,7 @@ public class BuildOrderService : IBuildOrderService {
                     if (economyAtSecond.Alloy >= production.Alloy && economyAtSecond.Ether >= production.Ether &&
                         economyAtSecond.Pyre >= production.Pyre) {
                         if (!MeetsSupply(entity)) {
-                            Console.WriteLine("More Supply Needed");
+                            withToasts.AddToast(new ToastModel {Title = "Supply Cap Reached", Message = "Build more supply!", SeverityType = SeverityType.Error});
                             return false;
                         }
 
@@ -67,6 +68,15 @@ public class BuildOrderService : IBuildOrderService {
 
                         NotifyDataChanged();
                         return true;
+                    }
+                    else if(interval + 1 == withEconomy.GetOverTime().Count)
+                    {
+                        if (economyAtSecond.Ether < production.Ether)
+                        {
+                            withToasts.AddToast(new ToastModel {Title = "Not Enough Ether", Message = "Build more ether extractors!", SeverityType = SeverityType.Error});
+
+                        }
+                        
                     }
                 }
             }

@@ -1,10 +1,10 @@
+using System.Globalization;
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
 using Services;
 using Services.Development;
 using Services.Immortal;
 using Services.Website;
-using System.Globalization;
 
 #if NO_SQL
 #else
@@ -14,8 +14,6 @@ using Microsoft.EntityFrameworkCore;
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
-
-
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.SetMinimumLevel(LogLevel.Warning);

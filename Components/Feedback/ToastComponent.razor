@@ -9,10 +9,10 @@
 }
 else
 {
-    <div class="toastContainer @Toast.SeverityType.ToLower() @FadeoutStyle">
-            <div class="toastTitle">
-                @Toast.Title
-            </div>
+    <div onclick="@Dismiss" class="toastContainer @FadeoutStyle @Toast.SeverityType.ToLower()">
+        <div class="toastTitle">
+            @Toast.Title
+        </div>
             <div>
                 @Toast.Message
             </div>
@@ -27,9 +27,9 @@ else
         display: flex;
         flex-direction: column;
         justify-items: stretch;
-        width: 100%;
-        
+        width: 250px;
         opacity: 1;
+        cursor: pointer;
     }
     
     .fadeout {
@@ -37,22 +37,22 @@ else
         opacity: 0;
     }
 
-    .toastContainer.@SeverityType.Warning.ToLower() {
+    .@SeverityType.Warning.ToLower() {
         background-color: var(--severity-warning-color);
         border-color: var(--severity-warning-border-color);
     }
 
-    .toastContainer.@SeverityType.Error.ToLower() {
+    .@SeverityType.Error.ToLower() {
         background-color: var(--severity-error-color);
         border-color: var(--severity-error-border-color);
     }
 
-    .toastContainer.@SeverityType.Information.ToLower() {
+    .@SeverityType.Information.ToLower() {
         background-color: var(--severity-information-color);
         border-color: var(--severity-information-border-color);
     }
 
-    .toastContainer.@SeverityType.Success.ToLower() {
+    .@SeverityType.Success.ToLower() {
         background-color: var(--severity-success-color);
         border-color: var(--severity-success-border-color);
     }
@@ -64,6 +64,7 @@ else
 </style>
 
 @code {
+        
     [Parameter]
     public ToastModel? Toast { get; set; } = default!;
 
@@ -72,9 +73,7 @@ else
     private string FadeoutStyle => isFadingOut ? "fadeout" : "";
 
     private int removalTime = 150000;
-    private int fadeoutTime = 4000;
-    
-    //private int fade
+    private int fadeoutTime = 1000;
 
     private Timer removalTimer = null!;
     private Timer fadeoutTimer = null!;
@@ -82,7 +81,7 @@ else
     protected override void OnInitialized()
     {
 #if DEBUG
-        removalTime = 5000;
+        removalTime = 8000;
 #endif
 
         removalTimer = new Timer(removalTime);
@@ -92,23 +91,34 @@ else
         fadeoutTimer = new Timer(removalTime - fadeoutTime);
         fadeoutTimer.Elapsed += OnFadeout!;
         fadeoutTimer.Enabled = true;
+        
+        toastService.Subscribe(StateHasChanged);
     }
 
     void OnFadeout(object source, ElapsedEventArgs eventArgs)
     {
-        isFadingOut = true;
+     //   isFadingOut = true;
         
         StateHasChanged();
     }
     
     void OnRemoval(object source, ElapsedEventArgs eventArgs)
     {
+        //toastService.RemoveToast(Toast!);
+        
+        StateHasChanged();
+    }
+
+    void Dismiss()
+    {
         toastService.RemoveToast(Toast!);
     }
 
     public void Dispose()
     {
-        removalTimer.Dispose();
-        fadeoutTimer.Dispose();
+        removalTimer.Elapsed -= OnRemoval!;
+        fadeoutTimer.Elapsed -= OnFadeout!;
+        
+        toastService.Unsubscribe(StateHasChanged);
     }
 }

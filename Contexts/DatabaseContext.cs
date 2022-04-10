@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Model.Doc;
 using Model.Notes;
 using Model.Website;
-using Model.Development.Git;
+using Model.Git;
 using Model.Work.Tasks;
 
 namespace Contexts;

@@ -1,6 +1,8 @@
 ﻿@layout PageLayout
 @implements IDisposable
 
+@inject IToastService toastService
+
 <div style="display:grid; gap: 8px;padding: 16px; height: 94vh; width: 90vw; margin: auto; margin-top: 32px;
 grid-template-columns: 27% 25% 25% 23%; grid-template-rows: auto;
 grid-template-areas: 'loader sand compare compare' ;">
@@ -38,6 +40,7 @@ grid-template-areas: 'loader sand compare compare' ;">
 
     [Inject]
     IEconomyService EconomyService { get; set; } = default!;
+    
 
     [Inject]
     ITimingService TimingService { get; set; } = default!;
@@ -92,7 +95,7 @@ grid-template-areas: 'loader sand compare compare' ;">
         {
             return;
         }
-        if (BuildOrderService.Add(entity, EconomyService))
+        if (BuildOrderService.Add(entity, EconomyService, toastService))
         {
             EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }

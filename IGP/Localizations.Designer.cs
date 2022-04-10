@@ -50,5 +50,59 @@ namespace IGP {
                 return ResourceManager.GetString("Greeting", resourceCulture);
             }
         }
+        
+        internal static string Tooltip_Chart_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Chart Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Filter_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Filter Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Entity_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Entity Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Bank_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Bank Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Army_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Army Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Highlights_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Highlights Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_BuildOrder_Info {
+            get {
+                return ResourceManager.GetString("Tooltip BuildOrder Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Timing_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Timing Info", resourceCulture);
+            }
+        }
+        
+        internal static string Tooltip_Hotkey_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Hotkey Info", resourceCulture);
+            }
+        }
     }
 }

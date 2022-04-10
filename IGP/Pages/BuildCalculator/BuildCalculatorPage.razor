@@ -1,11 +1,15 @@
-﻿@implements IDisposable
+﻿@using Microsoft.Extensions.Localization
+@implements IDisposable
 
 @layout PageLayout
+
+@inject IStringLocalizer<Localizations> locale
 
 @inject IKeyService keyService
 @inject IImmortalSelectionService filterService
 @inject IBuildOrderService buildOrderService
 @inject IEconomyService economyService
+@inject IToastService toastService
 @inject ITimingService timingService
 
 @page "/build-calculator"
@@ -26,7 +30,7 @@
     <div class="calculatorGrid">
 
         <div style="grid-area: timing;" class="gridItem">
-            <InfoTooltipComponent InfoText="">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]" >
 
                 <TimingComponent></TimingComponent>
             </InfoTooltipComponent>
@@ -36,35 +40,35 @@
         @if (true)
         {
             <div style="grid-area: chart;" class="gridItem">
-                <InfoTooltipComponent InfoText="Shows economy at each game interval. Use to determine if spending additional resourcses on harvesters will help or hinder overall timing attack.">
+                <InfoTooltipComponent InfoText="@locale["Tooltip Chart Info"]">
                     <ChartComponent></ChartComponent>
                 </InfoTooltipComponent>
             </div>
         }
 
         <div style="grid-area: filter;" class="gridItem">
-            <InfoTooltipComponent InfoText="Select build details, such as Faction and Immortal. Affects entities you can build.">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
                 <FilterComponent></FilterComponent>
             </InfoTooltipComponent>
         </div>
 
 
         <div style="grid-area: view;" class="gridItem">
-            <InfoTooltipComponent InfoText="Summary of the entity you just selected.">
-                <EntityClickViewComponent></EntityClickViewComponent>
+            <InfoTooltipComponent InfoText="@locale["Tooltip Entity Info"]">
+                <EntityClickViewComponent/>
             </InfoTooltipComponent>
         </div>
 
 
         <div style="grid-area: bank;" class="gridItem">
-            <InfoTooltipComponent InfoText="Bank at time of last requested action. Use this section to determine if your build is floating too much alloy or ether.">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Bank Info"]">
                 <BankComponent></BankComponent>
             </InfoTooltipComponent>
         </div>
 
 
         <div style="grid-area: army;" class="gridItem">
-            <InfoTooltipComponent InfoText="Overview of current army, and when it will be ready to begin an attack.">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Army Info"]">
                 <ArmyComponent></ArmyComponent>
             </InfoTooltipComponent>
         </div>
@@ -72,7 +76,7 @@
 
         <div class="gridItem gridKeys">
 
-            <InfoTooltipComponent InfoText="">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Hotkey Info"]">
 
                 <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
             </InfoTooltipComponent>
@@ -87,13 +91,13 @@
         }
 
         <div style="grid-area: highlights;" class="gridItem">
-            <InfoTooltipComponent InfoText="Timeline highlights of your build order. Shows when you start a new action and when the action is done.">
+            <InfoTooltipComponent InfoText="@locale["Tooltip Highlights Info"]">
                 <HighlightsComponent></HighlightsComponent>
             </InfoTooltipComponent>
         </div>
 
         <div style="grid-area: buildorder;" class="gridItem">
-            <InfoTooltipComponent InfoText="Some raw JSON data to represent your build order.">
+            <InfoTooltipComponent InfoText="@locale["Tooltip BuildOrder Info"]">
                 <BuildOrderComponent></BuildOrderComponent>
             </InfoTooltipComponent>
         </div>
@@ -215,6 +219,7 @@
 
 
 @code {
+
     protected override void OnInitialized()
     {
         keyService.Subscribe(HandleClick);
@@ -265,7 +270,7 @@
         {
             return;
         }
-        if (buildOrderService.Add(entity, economyService))
+        if (buildOrderService.Add(entity, economyService, toastService))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }

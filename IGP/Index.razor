@@ -4,17 +4,16 @@
 @layout PageLayout
 
 
-@inject IStringLocalizer<Localizations> Loc
+@inject IStringLocalizer<Localizations> locale
 
 <DevOnlyComponent>
     <DocumentationIndexPage></DocumentationIndexPage>
 
- @Loc["Greeting"].Value
-@Loc["Greeting"]
-@Loc["Greeting"].Name
-@Loc["Greeting"].ResourceNotFound
+    @locale["Greeting"].Value
+    @locale["Greeting"]
+    @locale["Greeting"].Name
+    @locale["Greeting"].ResourceNotFound
 </DevOnlyComponent>
-
 
 
 <HomePage></HomePage>

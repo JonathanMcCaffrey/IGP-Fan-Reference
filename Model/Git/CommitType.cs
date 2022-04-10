@@ -1,4 +1,4 @@
-﻿namespace Model.Development.Git;
+﻿namespace Model.Git;
 
 public class CommitType
 {

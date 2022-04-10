@@ -15,6 +15,8 @@
         --paper-border: @paper_border;
         --info: @info;
         --info-border: @info_border;
+        --info-secondary: @info_secondary;
+        --info-secondary-border: @info_secondary_border;
     </CodeComponent>
     <br/>
     <div class="color accent">
@@ -71,7 +73,20 @@
         <div>
             Base: <input type="color" value="@info" @onchange="e => info = e.Value!.ToString()!"/>
         </div>
+        <div>
+            Border: <input type="color" value="@info_border" @onchange="e => info_border = e.Value!.ToString()!"/>
+        </div>
     </div>
+    
+     <div class="color info_secondary">
+            <div>Info Secondary</div>
+         <div>
+             Base: <input type="color" value="@info_secondary" @onchange="e => info_secondary = e.Value!.ToString()!"/>
+         </div>
+         <div>
+             Border: <input type="color" value="@info_secondary_border" @onchange="e => info_secondary_border = e.Value!.ToString()!"/>
+         </div>
+        </div>
 </div>
 
 <style>
@@ -89,6 +104,9 @@
         --paper-border: @paper_border;
         --info: @info;
         --info-border: @info_border;
+        
+        --info-secondary: @info_secondary;
+        --info-secondary-border: @info_secondary_border;
     }
 
     .colorContainer {
@@ -139,6 +157,12 @@
 
     .info {
         background-color: var(--info);
+        border: 1px solid var(--info-border);
+    }
+
+    .info_secondary {
+        background-color: var(--info-secondary);
+        border: 1px solid var(--info-secondary-border);
     }
 
 </style>
@@ -156,5 +180,9 @@
     string paper = "#252526";
     string paper_border = "#151516";
     string info = "#451376";
-    readonly string info_border = "#210b36";
+    string info_border = "#210b36";
+    string info_secondary = "#4c3e59";
+    string info_secondary_border = "#7e58a2";
+    
+
 }

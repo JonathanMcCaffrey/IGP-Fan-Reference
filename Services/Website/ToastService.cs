@@ -33,7 +33,8 @@ public class ToastService : IToastService
 
     public void AddToast(ToastModel toast)
     {
-        toasts.Add(toast);
+        toasts.Insert(0, toast);
+        
         NotifyDataChanged();
     }
 

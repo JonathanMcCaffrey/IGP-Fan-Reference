@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root"
+                xmlns="">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -13,12 +14,56 @@
         <value>1.3</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <data name="Greeting" xml:space="preserve">
         <value>Hello</value>
+    </data>
+
+    <data name="Tooltip Chart Info" xml:space="preserve">
+        <value>Shows economy at each game interval. Use to determine if spending additional resources on harvesters will help or hinder overall timing attack.</value>
+    </data>
+
+    <data name="Tooltip Filter Info" xml:space="preserve">
+        <value>Select build details, such as Faction and Immortal.
+
+Affects entities you can build.</value>
+    </data>
+    <data name="Tooltip Entity Info" xml:space="preserve">
+        <value>Summary of the entity you just selected.</value>
+    </data>
+    <data name="Tooltip Bank Info" xml:space="preserve">
+        <value>Bank at time of last requested action. Use this section to determine if your build is floating too much alloy or ether.</value>
+    </data>
+    <data name="Tooltip Army Info" xml:space="preserve">
+        <value>Overview of current army, and when it will be ready to begin an attack.</value>
+    </data>
+    <data name="Tooltip Highlights Info" xml:space="preserve">
+        <value>Timeline highlights of your build order. Shows when you start a new action and when the action is done.</value>
+    </data>
+    <data name="Tooltip BuildOrder Info" xml:space="preserve">
+        <value>Some raw JSON data to represent your build order.</value>
+    </data>
+    <data name="Tooltip Timing Info" xml:space="preserve">
+        <value>Enter build details.
+                                           
+&lt;b&gt;Timing Interval:&lt;/b&gt; set the max interval length for the build. &lt;i&gt;Ex. 240 (seconds) is 4 minutes, a possible timing for Thrum build order.&lt;/i&gt;
+&lt;b&gt;Name:&lt;/b&gt; the name of the build for saving purposes. &lt;i&gt;Ex. 'Safe Thrum Opener'&lt;/i&gt;
+&lt;b&gt;Notes:&lt;/b&gt; additional notes of the build for saving purposes. &lt;i&gt;Ex. 'Thrums are for harassing and defending against a ground Q'Rath army.'&lt;/i&gt;
+&lt;b&gt;Color:&lt;/b&gt; value to color charts when comparing builds. Not currently implemented.</value>
+    </data>
+    <data name="Tooltip Hotkey Info" xml:space="preserve">
+        <value>Click on the desired entity to build it. &lt;i&gt;You cannot build entities you cannot afford, construct an ether extractor before spending ether.&lt;/i&gt;
+
+You can also use the default Immortal hotkeys, but the above hotkey UI must have focus for this to work. &lt;i&gt;I.e. click on it if hotkeys aren't working, and a white border should appear after key input  to indicate focus.&lt;/i&gt;
+
+Additionally, more entities will appear as you build the required technology. You can click or press ` to remove the last made entity. &lt;i&gt;But you cannot remove the starting entities at interval 0.&lt;/i&gt;</value>
     </data>
 </root>

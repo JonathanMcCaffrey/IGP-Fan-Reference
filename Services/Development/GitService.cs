@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using Model.Development.Git;
+using Model.Git;
 
 #if NO_SQL
 

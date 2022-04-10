@@ -14,7 +14,7 @@ using Model.MemoryTester;
 using Model.Notes;
 using Model.Website;
 using Model.Website.Enums;
-using Model.Development.Git;
+using Model.Git;
 using Model.Feedback;
 using Model.Work.Tasks;
 using Services.Immortal;
@@ -263,7 +263,7 @@ public interface IMemoryTesterService {
 }
 
 public interface IBuildOrderService {
-    public bool Add(EntityModel entity, IEconomyService withEconomy);
+    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);
 
     public void SetName(string Name);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Model.Development.Git;
+namespace Model.Git;
 
 public class GitPatchModel
 {

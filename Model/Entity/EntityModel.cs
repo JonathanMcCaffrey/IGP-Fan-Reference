@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Model.Entity.Data;
@@ -12,18 +13,14 @@ public class EntityModel
 {
     public static readonly string GameVersion = "0.0.6.8900a";
 
-    private static Dictionary<string, EntityModel> _database;
+    private static Dictionary<string, EntityModel> _database= null!;
 
-    private static List<EntityModel> entityModels;
+    private static List<EntityModel> _entityModels= null!;
 
-    private static List<EntityModel> entityModelsOnlyHotkey;
+    private static List<EntityModel> _entityModelsOnlyHotkey = null!;
 
-    private static Dictionary<string, List<EntityModel>> entityModelsByHotkey;
+    private static Dictionary<string, List<EntityModel>> _entityModelsByHotkey= null!;
 
-
-    public EntityModel()
-    {
-    }
 
     public EntityModel(string data, string entity, bool isSpeculative = false)
     {
@@ -90,57 +87,59 @@ public class EntityModel
 
     public static List<EntityModel> GetList()
     {
-        if (entityModels == null) entityModels = DATA.Get().Values.ToList();
+        if (_entityModels == null) _entityModels = DATA.Get().Values.ToList();
 
-        return entityModels;
+        return _entityModels;
     }
 
 
     public static List<EntityModel> GetListOnlyHotkey()
     {
-        if (entityModelsOnlyHotkey == null)
+        if (_entityModelsOnlyHotkey == null)
         {
-            entityModelsOnlyHotkey = new List<EntityModel>();
+            _entityModelsOnlyHotkey = new List<EntityModel>();
 
             foreach (var entity in DATA.Get().Values)
                 if (entity.Hotkey() != null)
-                    entityModelsOnlyHotkey.Add(entity);
+                    _entityModelsOnlyHotkey.Add(entity);
         }
 
-        return entityModelsOnlyHotkey;
+        return _entityModelsOnlyHotkey;
     }
 
 
     public static Dictionary<string, List<EntityModel>> GetEntitiesByHotkey()
     {
-        if (entityModelsByHotkey == null)
+        if (_entityModelsByHotkey == null)
         {
-            entityModelsByHotkey = new Dictionary<string, List<EntityModel>>();
+            _entityModelsByHotkey = new Dictionary<string, List<EntityModel>>();
 
             foreach (var entity in GetList())
             {
                 var entityHotkey = entity.Hotkey();
                 if (entityHotkey != null)
                 {
-                    if (!entityModelsByHotkey.ContainsKey(entityHotkey.Hotkey))
-                        entityModelsByHotkey[entityHotkey.Hotkey] = new List<EntityModel>();
+                    if (!_entityModelsByHotkey.ContainsKey(entityHotkey.Hotkey))
+                        _entityModelsByHotkey[entityHotkey.Hotkey] = new List<EntityModel>();
 
-                    entityModelsByHotkey[entityHotkey.Hotkey].Add(entity);
+                    _entityModelsByHotkey[entityHotkey.Hotkey].Add(entity);
                 }
             }
         }
 
 
-        return entityModelsByHotkey;
+        return _entityModelsByHotkey;
     }
 
 
-    public static EntityModel GetFrom(string hotkey, string hotkeyGroup, bool holdSpace, string faction,
+    public static EntityModel? GetFrom(string hotkey, string hotkeyGroup, bool holdSpace, string faction,
         string immortal)
     {
-        if (hotkey == null || hotkey == "") return null;
+        if (string.IsNullOrEmpty(hotkey)) return null;
 
-        //TODO
+        if (!GetEntitiesByHotkey().ContainsKey(hotkey)) return null;
+        
+        
         var foundList = from entity in GetEntitiesByHotkey()[hotkey]
             where entity.Hotkey()?.HotkeyGroup == hotkeyGroup
                   && entity.Hotkey()?.HoldSpace == holdSpace
@@ -151,7 +150,7 @@ public class EntityModel
                       select replace).ToList().Count == 0)
             select entity;
 
-        if (foundList == null || foundList.Count() == 0) return null;
+        if (foundList != null && !foundList.Any()) return null;
 
         var found = foundList.First();
 

@@ -5,8 +5,7 @@
 @if (toastService.HasToasts())
 {
     <div class="toastsContainer">
-
-        @foreach (var toast in toastService.GetToasts())
+        @foreach( var toast in toastService.GetToasts())
         {
             <ToastComponent Toast="toast"/>
         }
@@ -18,12 +17,14 @@
         position: fixed;
         top: 64px;
         right: 64px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 </style>
 
 
 @code {
-
     protected override void OnInitialized()
     {
         toastService.Subscribe(OnUpdate);
@@ -38,5 +39,4 @@
     {
         StateHasChanged();
     }
-
 }
