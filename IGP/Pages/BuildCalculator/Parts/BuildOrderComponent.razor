@@ -1,23 +1,24 @@
-﻿@implements IDisposable
+﻿@inject IBuildOrderService buildOrderService
+
+@implements IDisposable
 
 <FormLayoutComponent>
     <FormTextAreaComponent Label="JSON Data"
                            Rows="14"
-                           Value="@BuildOrderService.AsJson()">
+                           Value="@buildOrderService.AsJson()">
     </FormTextAreaComponent>
 </FormLayoutComponent>
 
 @code {
 
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
-
-    protected override void OnInitialized() {
-        BuildOrderService.Subscribe(StateHasChanged);
+    protected override void OnInitialized()
+    {
+        buildOrderService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
-        BuildOrderService.Unsubscribe(StateHasChanged);
+    void IDisposable.Dispose()
+    {
+        buildOrderService.Unsubscribe(StateHasChanged);
     }
 
 }

@@ -1,4 +1,5 @@
-﻿@if (Entity != null) {
+﻿@if (Entity != null)
+{
     var isVanguard = Entity.VanguardAdded() != null ? " vanguard" : "";
 
     <div class="enititiesContainer @isVanguard">
@@ -47,9 +48,11 @@
 </style>
 
 @code {
+
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
-    
+
     [CascadingParameter]
     public string? StyleType { get; set; }
+
 }

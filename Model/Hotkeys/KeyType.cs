@@ -1,5 +1,6 @@
-﻿namespace Model.Immortal.Hotkeys;
+﻿namespace Model.Hotkeys;
 
-public enum HotKeyType {
+public enum HotKeyType
+{
     SPACE
 }

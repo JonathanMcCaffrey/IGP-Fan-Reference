@@ -1,10 +1,12 @@
 ﻿@implements IDisposable
 
 <div class="chartsContainer">
-    @foreach (var chart in charts) {
+    @foreach (var chart in charts)
+    {
         <div style="width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
             <div style="position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
-                @foreach (var point in chart.Points) {
+                @foreach (var point in chart.Points)
+                {
                     <div style="position: absolute;
 							bottom:@point.GetValue(chart.HighestValuePoint, chart.ValueDisplayMax)px;
 							left:@point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax)px;
@@ -51,10 +53,10 @@
 @code {
 
     [Inject]
-    IEconomyService EconomyService { get; set; }
+    IEconomyService EconomyService { get; set; } = default!;
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
 
     int height = 100;
@@ -70,43 +72,50 @@
     float highestPyrePoint;
     float highestArmyPoint;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         EconomyService.Subscribe(GenerateChart);
         BuildOrderService.Subscribe(GenerateChart);
 
         GenerateChart();
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         EconomyService.Unsubscribe(GenerateChart);
         BuildOrderService.Unsubscribe(GenerateChart);
     }
 
-    void GenerateChart() {
+    void GenerateChart()
+    {
         var economyOverTime = EconomyService.GetOverTime();
 
         charts.Clear();
 
-        var alloyChart = new ChartModel {
+        var alloyChart = new ChartModel
+        {
             IntervalDisplayMax = width,
             ValueDisplayMax = 100,
             ChartColor = "Cyan"
         };
-        var etherChart = new ChartModel {
+        var etherChart = new ChartModel
+        {
             Offset = width,
             IntervalDisplayMax = width,
             ValueDisplayMax = 100,
             ChartColor = "LightGreen"
         };
 
-        var pyreChart = new ChartModel {
+        var pyreChart = new ChartModel
+        {
             Offset = width * 2,
             IntervalDisplayMax = width,
             ValueDisplayMax = 100,
             ChartColor = "Red"
         };
 
-        var armyChart = new ChartModel {
+        var armyChart = new ChartModel
+        {
             Offset = width * 3,
             IntervalDisplayMax = width,
             ValueDisplayMax = 100,
@@ -118,13 +127,15 @@
         highestPyrePoint = 0;
         highestArmyPoint = 0;
 
-        for (var interval = 0; interval < economyOverTime.Count(); interval++) {
+        for (var interval = 0; interval < economyOverTime.Count(); interval++)
+        {
             var army = from unit in BuildOrderService.GetCompletedBefore(interval)
                 where unit.EntityType == EntityType.Army
                 select unit;
 
             var armyValue = 0;
-            foreach (var unit in army) {
+            foreach (var unit in army)
+            {
                 armyValue += unit.Production().Alloy + unit.Production().Ether;
             }
 
@@ -135,7 +146,8 @@
         }
 
 
-        for (var interval = 0; interval < economyOverTime.Count(); interval++) {
+        for (var interval = 0; interval < economyOverTime.Count(); interval++)
+        {
             var alloyPoint = new PointModel { Interval = interval };
             var etherPoint = new PointModel { Interval = interval };
             var pyrePoint = new PointModel { Interval = interval };
@@ -167,26 +179,32 @@
 
             float economySpending = 0;
 
-            foreach (var alloyAutoHarvester in alloyAutomaticHarvesters) {
+            foreach (var alloyAutoHarvester in alloyAutomaticHarvesters)
+            {
                 autoAlloy += alloyAutoHarvester.Harvest().Slots * alloyAutoHarvester.Harvest().HarvestedPerInterval;
                 var production = alloyAutoHarvester.Production();
-                if (production != null) {
+                if (production != null)
+                {
                     economySpending += production.Alloy;
                 }
             }
 
-            foreach (var alloyWorkerHarvester in alloyWorkerHarvesters) {
+            foreach (var alloyWorkerHarvester in alloyWorkerHarvesters)
+            {
                 workerSlots += alloyWorkerHarvester.Harvest().Slots;
                 var production = alloyWorkerHarvester.Production();
-                if (production != null) {
+                if (production != null)
+                {
                     economySpending += production.Alloy;
                 }
             }
 
-            foreach (var etherWorkerHarvester in etherAutomaticHarvesters) {
+            foreach (var etherWorkerHarvester in etherAutomaticHarvesters)
+            {
                 autoEther += etherWorkerHarvester.Harvest().Slots * etherWorkerHarvester.Harvest().HarvestedPerInterval;
                 var production = etherWorkerHarvester.Production();
-                if (production != null) {
+                if (production != null)
+                {
                     economySpending += production.Alloy;
                 }
             }
@@ -200,7 +218,8 @@
             etherPoint.Value = autoEther;
 
 
-            if (interval > 0) {
+            if (interval > 0)
+            {
                 alloyPoint.TempValue += alloyChart.Points.Last().TempValue;
                 etherPoint.Value += etherChart.Points.Last().Value;
                 pyrePoint.Value = pyreChart.Points.Last().Value + 1;

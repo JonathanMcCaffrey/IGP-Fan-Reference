@@ -4,10 +4,10 @@
 @using Microsoft.EntityFrameworkCore
 <div class="mobileFooter">
     <div class="mobileNavSectionsContainer">
-        @foreach (var _section in WebSections) {
-            <div class="mobileNavSectionButton" @onclick="() => OnSectionClicked(_section)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+        @foreach (var webSection in WebSections) {
+            <div class="mobileNavSectionButton" @onclick="() => OnSectionClicked(webSection)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                 <div class="mobileNavSectionButtonText">
-                    @_section.Name
+                    @webSection?.Name
                 </div>
             </div>
         }
@@ -17,18 +17,18 @@
     </div>
 
     @if (selectedSection != null) {
-        var pages = (from page in WebPages
+        List<WebPageModel?> webPages = (from page in WebPages
             where page.WebSectionModelId == selectedSection.Id
-            select page).ToList();
+            select page).ToList()!;
 
         <div class="mobileNavPagesContainer">
-            @foreach (var _page in pages) {
-                if (_page.IsPrivate.Equals("True")) {
+            @foreach (var webPage in webPages) {
+                if (webPage!.IsPrivate.Equals("True")) {
                     continue;
                 }
-                <div class="mobileNavPageButton" @onclick="() => OnPageLinkClicked(_page)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+                <div class="mobileNavPageButton" @onclick="() => OnPageLinkClicked(webPage)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                     <div class="mobileNavPageButtonText">
-                        @_page.Name
+                        @webPage.Name
                     </div>
                 </div>
             }
@@ -38,7 +38,7 @@
 
 
 <style>
-    fullPageButton {
+    .fullPageButton {
         position: fixed;
         width: 100vw;
         height: 100vh;
@@ -140,10 +140,10 @@
 @code {
 #if NO_SQL
     [Parameter]
-    public List<WebSectionModel> WebSections { get; set; }
+    public List<WebSectionModel?> WebSections { get; set; } = default!;
 
     [Parameter]
-    public List<WebPageModel> WebPages { get; set; }
+    public List<WebPageModel> WebPages { get; set; } = default!;
     
 #else
     [Parameter]
@@ -154,22 +154,22 @@
 #endif
     
     [Inject]
-    public NavigationManager NavigationManager { get; set; }
+    public NavigationManager NavigationManager { get; set; } = default!;
 
 
-    public WebSectionModel selectedSection;
-    public WebPageModel selectedPage;
+    private WebSectionModel? selectedSection;
+    private  WebPageModel? selectedPage;
 
 
-    void OnSectionClicked(WebSectionModel webSection) {
+    void OnSectionClicked(WebSectionModel? webSection) {
         selectedSection = webSection;
     }
 
-    void OnPageLinkClicked(WebPageModel webPage) {
+    void OnPageLinkClicked(WebPageModel? webPage) {
         selectedPage = webPage;
         selectedSection = null;
 
-        NavigationManager.NavigateTo(webPage.Href);
+        NavigationManager.NavigateTo(webPage?.Href!);
     }
 
     void OnPageClicked(EventArgs eventArgs) {

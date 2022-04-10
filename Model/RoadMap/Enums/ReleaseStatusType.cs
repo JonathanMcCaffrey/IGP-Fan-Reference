@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.RoadMap.Enums;
+﻿namespace Model.RoadMap.Enums;
 
-public class ReleaseStatusType {
+public class ReleaseStatusType
+{
     public static string In_Development = "In_Development";
     public static string Done = "Done";
     public static string Future_Possibility = "Future_Possibility";

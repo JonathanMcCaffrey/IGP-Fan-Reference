@@ -1,3 +1,5 @@
-﻿namespace Model.Immortal.Entity.Parts;
+﻿namespace Model.Entity.Parts;
 
-public interface IEntityPartInterface { }
+public interface IEntityPartInterface
+{
+}

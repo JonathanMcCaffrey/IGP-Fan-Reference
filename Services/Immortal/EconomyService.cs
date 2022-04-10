@@ -1,22 +1,22 @@
-﻿using Model.Immortal.Economy;
-using Model.Immortal.Entity;
-using Model.Immortal.Types;
+﻿using Model.Economy;
+using Model.Entity;
+using Model.Types;
 
 namespace Services.Immortal;
 
 public class EconomyService : IEconomyService {
-    private List<EconomyModel> _overTime;
+    private List<EconomyModel> _overTime = null!;
 
     public List<EconomyModel> GetOverTime() {
         return _overTime;
     }
 
     public void Subscribe(Action action) {
-        _onChange += action;
+        onChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange -= action;
+        onChange -= action;
     }
 
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval) {
@@ -137,13 +137,13 @@ public class EconomyService : IEconomyService {
         return _overTime[atInterval];
     }
 
-    private event Action _onChange;
+    private event Action onChange = null!;
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        onChange?.Invoke();
     }
 
     public Action OnChange() {
-        return _onChange;
+        return onChange;
     }
 }

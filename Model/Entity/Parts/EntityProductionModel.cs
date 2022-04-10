@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Entity.Parts;
+﻿namespace Model.Entity.Parts;
 
-public class EntityProductionModel : IEntityPartInterface {
+public class EntityProductionModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityProductionModel";
     public int Alloy { get; set; } = 0;
 

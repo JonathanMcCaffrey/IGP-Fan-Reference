@@ -1,4 +1,4 @@
-﻿<div class="roadMapContainer @RoadMap.Status.ToLower()">
+﻿<div class="roadMapContainer @RoadMap!.Status.ToLower()">
     <div class="roadMapTitle">@RoadMap.Name</div>
     <div>
         <b>Priority:</b> @RoadMap.Priority.Replace("_", " ")
@@ -53,6 +53,7 @@
 </style>
 
 @code {
+
     [Parameter]
     public ImmortalRoadMapModel? RoadMap { get; set; }
 

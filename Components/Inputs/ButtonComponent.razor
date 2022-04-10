@@ -37,13 +37,13 @@
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = default!;
 
     [Parameter]
-    public EventCallback<EventArgs> OnClick { get; set; }
+    public EventCallback<EventArgs> OnClick { get; set; } = default!;
 
     [Parameter]
-    public ButtonType ButtonType { get; set; }
+    public ButtonType ButtonType { get; set; } = default!;
 
     private void ButtonClicked(EventArgs eventArgs) {
         OnClick.InvokeAsync(eventArgs);

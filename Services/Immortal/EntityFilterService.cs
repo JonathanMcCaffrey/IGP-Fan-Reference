@@ -1,5 +1,5 @@
-﻿using Model.Immortal.Entity.Data;
-using Model.Immortal.Types;
+﻿using Model.Entity.Data;
+using Model.Types;
 using static Services.IEntityFilterService;
 
 namespace Services.Immortal;
@@ -159,7 +159,7 @@ public class EntityFilterService : IEntityFilterService {
     }
 
 
-    private event EntityFilterAction _onChange;
+    private event EntityFilterAction _onChange = null!;
 
     private void NotifyDataChanged(EntityFilterEvent entityFilterEvent) {
         _onChange?.Invoke(entityFilterEvent);

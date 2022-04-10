@@ -1,4 +1,4 @@
-﻿using Model.Immortal.Types;
+﻿using Model.Types;
 
 namespace Services.Immortal;
 
@@ -7,11 +7,11 @@ public class ImmortalSelectionService : IImmortalSelectionService {
     private string _selectedImmortal = ImmortalType.Orzum;
 
     public void Subscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public string GetFactionType() {
@@ -41,13 +41,10 @@ public class ImmortalSelectionService : IImmortalSelectionService {
         return true;
     }
 
-    private event Action _onChange;
+    private event Action OnChange = null!;
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 
-    public Action OnChange() {
-        return _onChange;
-    }
 }

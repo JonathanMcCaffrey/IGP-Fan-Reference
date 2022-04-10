@@ -5,7 +5,8 @@
 @layout PageLayout
 
 
-@if (GitService.IsLoaded()) {
+@if (GitService.IsLoaded())
+{
     <LayoutMediumContentComponent>
         <WebsiteTitleComponent>Change Log</WebsiteTitleComponent>
 
@@ -20,8 +21,10 @@
         </PaperComponent>
 
         <PaperComponent>
-            @foreach (var patch in Patches.OrderBy(x => x.Date).Reverse()) {
-                @if (!patch.Important.Equals("True") && isViewImportant) {
+            @foreach (var patch in Patches.OrderBy(x => x.Date).Reverse())
+            {
+                @if (!patch.Important.Equals("True") && isViewImportant)
+                {
                     continue;
                 }
 
@@ -33,21 +36,26 @@
                             @patch.Name
                         </div>
                         <div>
-                            @if (daysAgo == 0) {
+                            @if (daysAgo == 0)
+                            {
                                 <i>Today</i>
                             }
-                            else if (daysAgo < 8) {
+                            else if (daysAgo < 8)
+                            {
                                 <i>@daysAgo days ago</i>
                             }
-                            else {
+                            else
+                            {
                                 <i>@patch.Date.ToString("dd/MM/yyyy")</i>
                             }
 
                         </div>
                     </div>
                     <div>
-                        @foreach (var change in Changes.FindAll(e => e.PatchModelId == patch.Id)) {
-                            @if (!change.Important.Equals("True") && isViewImportant) {
+                        @foreach (var change in Changes.FindAll(e => e.GitPatchModelId == patch.Id))
+                        {
+                            @if (!change.Important.Equals("True") && isViewImportant)
+                            {
                                 continue;
                             }
 
@@ -57,7 +65,8 @@
                                         <b>
                                             <span>- @change.Name </span>
 
-                                            @if (change.Commit != CommitType.None) {
+                                            @if (change.Commit != CommitType.None)
+                                            {
                                                 <span>(@change.Commit)</span>
                                             }
                                             <span>: </span>
@@ -68,23 +77,23 @@
                         }
                     </div>
                 </div>
-
             }
 
         </PaperComponent>
     </LayoutMediumContentComponent>
 }
-else {
-    <LoadingComponent></LoadingComponent>
+else
+{
+    <LoadingComponent/>
 }
 
 
 @code {
 
 #if  NO_SQL
-    public List<PatchModel> Patches => GitService.PatchModels;
+    public List<GitPatchModel> Patches => GitService.GitPatchModels;
 
-    public List<ChangeModel> Changes => GitService.ChangeModels; 
+    public List<GitChangeModel> Changes => GitService.GitChangeModels;
 #else
     [Inject]
     DatabaseContext Database { get; set; }
@@ -99,24 +108,29 @@ else {
     private bool isViewImportant = true;
 
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         GitService.Subscribe(HasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         GitService.Unsubscribe(HasChanged);
     }
 
 
-    void OnChangeClicked(ChangeEventArgs changeEventArgs) {
-        isViewImportant = (bool)changeEventArgs.Value;
+    void OnChangeClicked(ChangeEventArgs changeEventArgs)
+    {
+        isViewImportant = (bool)changeEventArgs.Value!;
     }
 
-    void HasChanged() {
+    void HasChanged()
+    {
         StateHasChanged();
     }
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
 #if NO_SQL
         GitService.Load();
 #else

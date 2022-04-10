@@ -2,8 +2,10 @@
 
 <InputPanelComponent>
     <div class="keyContainer">
-        @foreach (var hotkey in hotkeys) {
-            if (hotkey.IsHidden) {
+        @foreach (var hotkey in hotkeys)
+        {
+            if (hotkey.IsHidden)
+            {
                 continue;
             }
 
@@ -14,14 +16,17 @@
             var y = hotkey.PositionY * Size;
 
             var border = "1px solid black";
-            if (hotkey.KeyText.Equals(_key)) {
+            if (hotkey.KeyText.Equals(_key))
+            {
                 border = "5px solid black";
             }
-            if (hotkey.KeyText.Equals(_controlGroup)) {
+            if (hotkey.KeyText.Equals(_controlGroup))
+            {
                 border = "5px solid green";
             }
 
-            if (hotkey.KeyText.Equals("SPACE") && KeyService.IsHoldingSpace()) {
+            if (hotkey.KeyText.Equals("SPACE") && KeyService.IsHoldingSpace())
+            {
                 border = "5px solid green";
             }
 
@@ -39,16 +44,20 @@
 								overflow: hidden;
 								padding: 4px;">
                     @hotkey.KeyText
-                    @foreach (var entity in data.Values) {
-                        if (!BuildOrderService.MeetsRequirements(entity, 9000)) {
+                    @foreach (var entity in data.Values)
+                    {
+                        if (!BuildOrderService.MeetsRequirements(entity, 9000))
+                        {
                             continue;
                         }
 
-                        if (InvalidKey(entity, hotkey) || InvalidKeyGroup(entity, hotkey) || InvalidHoldSpace(entity)) {
+                        if (InvalidKey(entity, hotkey) || InvalidKeyGroup(entity, hotkey) || InvalidHoldSpace(entity))
+                        {
                             continue;
                         }
 
-                        if (InvalidFaction(entity) || InvalidVanguard(entity) || InvalidNonVanguard(entity)) {
+                        if (InvalidFaction(entity) || InvalidVanguard(entity) || InvalidNonVanguard(entity))
+                        {
                             continue;
                         }
 
@@ -77,7 +86,7 @@
     @@media only screen and (max-width: 1025px) {
         .keyContainer {
             transform: scale(0.85) translateX(-20px);
-            background-color: none;
+            background-color: transparent;
             outline: none;
         }
     }
@@ -89,13 +98,13 @@
     public int Size { get; set; } = 100;
 
     [Inject]
-    public IKeyService KeyService { get; set; }
+    public IKeyService KeyService { get; set; } = default!;
 
     [Inject]
-    public IBuildOrderService BuildOrderService { get; set; }
+    public IBuildOrderService BuildOrderService { get; set; } = default!;
 
     [Inject]
-    public IImmortalSelectionService FilterService { get; set; }
+    public IImmortalSelectionService FilterService { get; set; } = default!;
 
     readonly Dictionary<string, EntityModel> data = EntityModel.GetDictionary();
     readonly List<HotkeyModel> hotkeys = HotkeyModel.GetAll();
@@ -103,21 +112,25 @@
     public string _controlGroup = "C";
     public string _key = "";
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         base.OnInitialized();
 
         KeyService.Subscribe(OnKeyPressed);
         FilterService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         KeyService.Unsubscribe(OnKeyPressed);
         FilterService.Unsubscribe(StateHasChanged);
     }
 
     // Move to Filter Service
-    bool InvalidFaction(EntityModel entity) {
-        if (entity.Faction() != null && entity.Faction()?.Faction != FilterService.GetFactionType() && FilterService.GetFactionType() != FactionType.Any) {
+    bool InvalidFaction(EntityModel entity)
+    {
+        if (entity.Faction() != null && entity.Faction()?.Faction != FilterService.GetFactionType() && FilterService.GetFactionType() != FactionType.Any)
+        {
             return true;
         }
 
@@ -125,8 +138,10 @@
     }
 
     // Move to Filter Service
-    bool InvalidVanguard(EntityModel entity) {
-        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != FilterService.GetImmortalType() && FilterService.GetImmortalType() != ImmortalType.Any) {
+    bool InvalidVanguard(EntityModel entity)
+    {
+        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != FilterService.GetImmortalType() && FilterService.GetImmortalType() != ImmortalType.Any)
+        {
             return true;
         }
 
@@ -134,16 +149,21 @@
     }
 
     // Move to Filter Service
-    bool InvalidNonVanguard(EntityModel entity) {
-        if (entity.Replaceds().Count > 0) {
+    bool InvalidNonVanguard(EntityModel entity)
+    {
+        if (entity.Replaceds().Count > 0)
+        {
             var isReplaced = false;
-            foreach (var replaced in entity.Replaceds()) {
-                if (FilterService.GetImmortalType() == replaced.ImmortalId) {
+            foreach (var replaced in entity.Replaceds())
+            {
+                if (FilterService.GetImmortalType() == replaced.ImmortalId)
+                {
                     isReplaced = true;
                     break;
                 }
             }
-            if (isReplaced) {
+            if (isReplaced)
+            {
                 return true;
             }
         }
@@ -151,75 +171,96 @@
         return false;
     }
 
-    bool InvalidRequirements(EntityModel entity) {
+    bool InvalidRequirements(EntityModel entity)
+    {
         return !BuildOrderService.MeetsRequirements(entity, 9000);
     }
 
-    bool InvalidKey(EntityModel entity, HotkeyModel key) {
-        if (entity.Hotkey()?.Hotkey == key.KeyText) {
+    bool InvalidKey(EntityModel entity, HotkeyModel key)
+    {
+        if (entity.Hotkey()?.Hotkey == key.KeyText)
+        {
             return false;
         }
         return true;
     }
 
-    bool InvalidKeyGroup(EntityModel entity, HotkeyModel key) {
-        if (entity.Hotkey()?.HotkeyGroup == _controlGroup) {
+    bool InvalidKeyGroup(EntityModel entity, HotkeyModel key)
+    {
+        if (entity.Hotkey()?.HotkeyGroup == _controlGroup)
+        {
             return false;
         }
 
         return true;
     }
 
-    bool InvalidKey(EntityModel entity) {
-        if (entity.Hotkey()?.Hotkey == _key) {
+    bool InvalidKey(EntityModel entity)
+    {
+        if (entity.Hotkey()?.Hotkey == _key)
+        {
             return false;
         }
         return true;
     }
 
-    bool InvalidKeyGroup(EntityModel entity) {
-        if (entity.Hotkey()?.HotkeyGroup == _controlGroup) {
+    bool InvalidKeyGroup(EntityModel entity)
+    {
+        if (entity.Hotkey()?.HotkeyGroup == _controlGroup)
+        {
             return false;
         }
         return true;
     }
 
-    bool InvalidHoldSpace(EntityModel entity) {
-        if (entity.Hotkey()?.HoldSpace == KeyService.IsHoldingSpace()) {
+    bool InvalidHoldSpace(EntityModel entity)
+    {
+        if (entity.Hotkey()?.HoldSpace == KeyService.IsHoldingSpace())
+        {
             return false;
         }
         return true;
     }
 
-    void OnKeyPressed() {
-        if (KeyService.GetAllPressedKeys().Contains("Z")) {
+    void OnKeyPressed()
+    {
+        if (KeyService.GetAllPressedKeys().Contains("Z"))
+        {
             _controlGroup = "Z";
         }
-        if (KeyService.GetAllPressedKeys().Contains("TAB")) {
+        if (KeyService.GetAllPressedKeys().Contains("TAB"))
+        {
             _controlGroup = "TAB";
         }
-        if (KeyService.GetAllPressedKeys().Contains("C")) {
+        if (KeyService.GetAllPressedKeys().Contains("C"))
+        {
             _controlGroup = "C";
         }
-        if (KeyService.GetAllPressedKeys().Contains("D")) {
+        if (KeyService.GetAllPressedKeys().Contains("D"))
+        {
             _controlGroup = "D";
         }
-        if (KeyService.GetAllPressedKeys().Contains("1")) {
+        if (KeyService.GetAllPressedKeys().Contains("1"))
+        {
             _controlGroup = "1";
         }
     //TODO This could be better. Duplicated code
-        if (KeyService.GetAllPressedKeys().Contains("2")) {
+        if (KeyService.GetAllPressedKeys().Contains("2"))
+        {
             _controlGroup = "2";
         }
-        if (KeyService.GetAllPressedKeys().Contains("SHIFT")) {
+        if (KeyService.GetAllPressedKeys().Contains("SHIFT"))
+        {
             _controlGroup = "SHIFT";
         }
 
-        if (KeyService.GetAllPressedKeys().Contains("CONTROL")) {
+        if (KeyService.GetAllPressedKeys().Contains("CONTROL"))
+        {
             _controlGroup = "CONTROL";
         }
 
-        if (KeyService.GetAllPressedKeys().Count > 0) {
+        if (KeyService.GetAllPressedKeys().Count > 0)
+        {
             _key = KeyService.GetAllPressedKeys().First();
         }
 

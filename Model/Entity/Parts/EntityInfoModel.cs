@@ -1,8 +1,9 @@
-﻿using Model.Immortal.Types;
+﻿using Model.Types;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityInfoModel : IEntityPartInterface {
+public class EntityInfoModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityInfoModel";
     public string Name { get; set; } = "";
     public string Descriptive { get; set; } = DescriptiveType.None;

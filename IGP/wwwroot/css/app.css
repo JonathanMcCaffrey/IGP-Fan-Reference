@@ -15,9 +15,13 @@
     --secondary-border-hover: #a168ff;
     --paper: #252526;
     --paper-border: #151516;
+
+    --paper-hover: #52366f;
+    --paper-border-hover: #653497;
+
     --info: #451376;
     --info-border: #210b36;
-    
+
     --dialog-border-color: black;
     --dialog-border-width: 2px;
     --dialog-radius: 6px;

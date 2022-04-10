@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Entity.Parts;
+﻿namespace Model.Entity.Parts;
 
-public class EntityIdPyreSpellModel : IEntityPartInterface {
+public class EntityIdPyreSpellModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityIdPyreSpellModel";
     public string Id { get; set; }
 }

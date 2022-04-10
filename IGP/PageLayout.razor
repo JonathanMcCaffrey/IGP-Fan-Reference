@@ -1,26 +1,26 @@
 ﻿@inherits LayoutComponentBase;
 
-@inject IWebsiteService WebService;
+@inject IWebsiteService webService;
 @implements IDisposable;
 
-<div class="layoutContainer" @onclick="OnPageClicked">
-    @if (!WebService.IsLoaded()) {
-        <LoadingComponent></LoadingComponent>
-    } else {
+<div class="layoutContainer">
+    @if (!webService.IsLoaded())
+    {
+        <LoadingComponent/>
+    }
+    else
+    {
         <div class="content">
             @Body
         </div>
 
 
-        <DesktopNavComponent WebSections=WebService.WebSectionModels
-                         WebPages=WebService.WebPageModels />
-        <TabletNavComponent WebSections=WebService.WebSectionModels
-                        WebPages=WebService.WebPageModels />
-        <MobileNavComponent WebSections=WebService.WebSectionModels
-                        WebPages=WebService.WebPageModels />
-
-
-
+        <DesktopNavComponent WebSections=webService.WebSectionModels
+                             WebPages=webService.WebPageModels/>
+        <TabletNavComponent WebSections=webService.WebSectionModels
+                            WebPages=webService.WebPageModels/>
+        <MobileNavComponent WebSections=webService.WebSectionModels
+                            WebPages=webService.WebPageModels/>
     }
 </div>
 
@@ -32,32 +32,29 @@
     [Inject]
     DatabaseContext Database { get; set; }
 #endif
-    
-    bool NavOpen = true;
 
-    void OnPageClicked(EventArgs eventArgs) {
-        NavOpen = false;
+
+    protected override void OnInitialized()
+    {
+        webService.Subscribe(HasChanged);
     }
 
-    protected override void OnInitialized() {
-        WebService.Subscribe(HasChanged);
-    }
-
-    protected override async Task OnInitializedAsync() {
-
+    protected override async Task OnInitializedAsync()
+    {
 #if NO_SQL
-        await WebService.Load();
+        await webService.Load();
 #else
         await WebService.Load(Database);
 #endif
-        
     }
 
-    void IDisposable.Dispose() {
-        WebService.Unsubscribe(HasChanged);
+    void IDisposable.Dispose()
+    {
+        webService.Unsubscribe(HasChanged);
     }
 
-    void HasChanged() {
+    void HasChanged()
+    {
         StateHasChanged();
     }
 

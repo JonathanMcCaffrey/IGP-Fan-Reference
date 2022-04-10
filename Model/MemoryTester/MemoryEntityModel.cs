@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Model.Immortal.MemoryTester;
+namespace Model.MemoryTester;
 
-public class MemoryEntityModel {
-    public static List<MemoryEntityModel> TestData = new() {
+public class MemoryEntityModel
+{
+    public static List<MemoryEntityModel> TestData = new()
+    {
         new MemoryEntityModel { Id = 1, Name = "Masked Hunter" },
         new MemoryEntityModel { Id = 2, Name = "Scepter" },
         new MemoryEntityModel { Id = 3, Name = "Wraith Bow" },

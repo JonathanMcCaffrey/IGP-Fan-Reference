@@ -1,8 +1,9 @@
-﻿using Model.Immortal.Types;
+﻿using Model.Types;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityVitalityModel : IEntityPartInterface {
+public class EntityVitalityModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityVitalityModel";
     public int Health { get; set; } = 0;
     public int DefenseLayer { get; set; } = 0;

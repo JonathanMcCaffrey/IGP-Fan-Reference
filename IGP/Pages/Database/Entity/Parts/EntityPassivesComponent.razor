@@ -1,100 +1,106 @@
-﻿@if (Entity.IdPassives().Count > 0) {
+﻿@if (Entity!.IdPassives().Count > 0)
+{
     @if (StyleType.Equals("Plain"))
     {
-        @foreach (var idPassive in Entity.IdPassives()) {
+        @foreach (var idPassive in Entity.IdPassives())
+        {
             var passive = EntityModel.Get(idPassive.Id);
 
             var info = passive.Info();
-            
+
             var production = passive.Production();
 
             <div>
                 <div>
-                    <b>Name:</b> @info.Name 
+                    <b>Name:</b> @info.Name
                 </div>
                 <div>
                     <b>- Description:</b> @((MarkupString)info.Description)
                 </div>
-                
-                @if (!info.Notes.Trim().Equals("")) {
-                
+
+                @if (!info.Notes.Trim().Equals(""))
+                {
                     <div>
                         <b>- Description:</b> @((MarkupString)info.Notes)
-                    </div>    
+                    </div>
                 }
             </div>
-            
-            @if (production != null) {
+
+            @if (production != null)
+            {
                 <div>
-                    @if (production.Pyre != 0) {
+                    @if (production.Pyre != 0)
+                    {
                         <div>
                             <b>- Pyre:</b> @production.Pyre
-                        </div>   
+                        </div>
                     }
-                    @if (production.Cooldown != 0) {
+                    @if (production.Cooldown != 0)
+                    {
                         <div>
                             <b>- Cooldown:</b> @production.Cooldown.ToString()s
-                        </div>   
+                        </div>
                     }
                 </div>
             }
         }
-       
     }
     else
     {
-
         <EntityDisplayComponent Title="Passives">
-            @foreach (var idPassive in Entity.IdPassives()) {
+            @foreach (var idPassive in Entity.IdPassives())
+            {
                 var passive = EntityModel.Get(idPassive.Id);
 
                 var info = passive.Info();
-            
+
                 var production = passive.Production();
 
                 <div>
                     <div>
-                        <b>Name:</b> <EntityLabelComponent EntityId="@passive.DataType"/> 
+                        <b>Name:</b> <EntityLabelComponent EntityId="@passive.DataType"/>
                     </div>
                     <div>
                         <b>Description:</b> @((MarkupString)info.Description)
                     </div>
-                
-                    @if (!info.Notes.Trim().Equals("")) {
-                
+
+                    @if (!info.Notes.Trim().Equals(""))
+                    {
                         <div>
                             <b>Description:</b> @((MarkupString)info.Notes)
-                        </div>    
+                        </div>
                     }
                 </div>
-            
-                @if (production != null) {
+
+                @if (production != null)
+                {
                     <div>
-                        @if (production.Pyre != 0) {
+                        @if (production.Pyre != 0)
+                        {
                             <div>
                                 <b>Pyre:</b> @production.Pyre
-                            </div>   
+                            </div>
                         }
-                        @if (production.Cooldown != 0) {
+                        @if (production.Cooldown != 0)
+                        {
                             <div>
                                 <b>Cooldown:</b> @production.Cooldown.ToString()s
-                            </div>   
+                            </div>
                         }
                     </div>
                 }
             }
-        </EntityDisplayComponent>        
+        </EntityDisplayComponent>
     }
-
 }
 
 
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
+    public EntityModel? Entity { get; set; } = default!;
 
-    
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 

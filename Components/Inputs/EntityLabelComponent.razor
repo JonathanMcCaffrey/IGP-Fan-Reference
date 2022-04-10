@@ -1,7 +1,7 @@
-﻿@using Model.Immortal.Entity
+﻿@using Model.Entity
 @using Services.Website
 @using System.ComponentModel.DataAnnotations
-@using Model.Immortal.Entity.Data
+@using Model.Entity.Data
 @using Services
 
 @inject IEntityDialogService entityDialogService 
@@ -18,7 +18,7 @@ else
 
 @code {
     
-    [Parameter] public string EntityId { get; set; }
+    [Parameter] public string EntityId { get; set; } = default!;
 
     private EntityModel Entity => DATA.Get()[EntityId];
 

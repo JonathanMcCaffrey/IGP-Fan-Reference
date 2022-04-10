@@ -1,6 +1,7 @@
 ﻿namespace Model.Website.Enums;
 
-public class WebSectionType {
+public class WebSectionType
+{
     public static readonly string None = "28eefe79-3808-48da-8665-3eab5aebca1d";
 
     public static readonly string ImmortalGeneral = "1a7dce11-57ff-453e-abac-6eeab01b9a61";

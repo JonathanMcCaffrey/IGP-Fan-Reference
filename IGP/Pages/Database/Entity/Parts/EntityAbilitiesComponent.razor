@@ -1,7 +1,9 @@
-﻿@if (Entity.IdAbilities().Count > 0) {
+﻿@if (Entity!.IdAbilities().Count > 0)
+{
     @if (StyleType.Equals("Plain"))
     {
-        @foreach (var idAbility in Entity.IdAbilities()) {
+        @foreach (var idAbility in Entity.IdAbilities())
+        {
             var spell = EntityModel.Get(idAbility.Id);
 
             var info = spell.Info();
@@ -14,26 +16,31 @@
                 <div>
                     <b>- Description:</b> @((MarkupString)info.Description)
                 </div>
-                
-                @if (!info.Notes.Trim().Equals("")) {
+
+                @if (!info.Notes.Trim().Equals(""))
+                {
                     <div>
                         <b>- Notes:</b> @((MarkupString)info.Notes)
-                    </div>   
+                    </div>
                 }
-                
+
                 <div>
-                    @if (production != null) {
-                        if (production.Energy != 0) {
+                    @if (production != null)
+                    {
+                        if (production.Energy != 0)
+                        {
                             <div>
                                 <b>- Energy: </b> @production.Energy
                             </div>
                         }
-                        if (production.BuildTime != 0) {
+                        if (production.BuildTime != 0)
+                        {
                             <div>
-                                <b>- BuildTime: </b>  @production.BuildTime
+                                <b>- BuildTime: </b> @production.BuildTime
                             </div>
                         }
-                        if (production.Cooldown != 0) {
+                        if (production.Cooldown != 0)
+                        {
                             <div>
                                 <b>- Cooldown: </b> @production.Cooldown
                             </div>
@@ -42,13 +49,12 @@
                 </div>
             </div>
         }
-        
     }
     else
     {
-
         <EntityDisplayComponent Title="Abilities">
-            @foreach (var idAbility in Entity.IdAbilities()) {
+            @foreach (var idAbility in Entity.IdAbilities())
+            {
                 var spell = EntityModel.Get(idAbility.Id);
 
                 var info = spell.Info();
@@ -61,26 +67,31 @@
                     <div>
                         <b>Description:</b> @((MarkupString)info.Description)
                     </div>
-                
-                    @if (!info.Notes.Trim().Equals("")) {
+
+                    @if (!info.Notes.Trim().Equals(""))
+                    {
                         <div>
                             <b>Notes:</b> @((MarkupString)info.Notes)
-                        </div>   
+                        </div>
                     }
-                
+
                     <div>
-                        @if (production != null) {
-                            if (production.Energy != 0) {
+                        @if (production != null)
+                        {
+                            if (production.Energy != 0)
+                            {
                                 <div>
                                     <b> Energy: </b> @production.Energy
                                 </div>
                             }
-                            if (production.BuildTime != 0) {
+                            if (production.BuildTime != 0)
+                            {
                                 <div>
-                                    <b> BuildTime: </b>  @production.BuildTime
+                                    <b> BuildTime: </b> @production.BuildTime
                                 </div>
                             }
-                            if (production.Cooldown != 0) {
+                            if (production.Cooldown != 0)
+                            {
                                 <div>
                                     <b> Cooldown: </b> @production.Cooldown
                                 </div>
@@ -89,19 +100,18 @@
                     </div>
                 </div>
             }
-        </EntityDisplayComponent>        
+        </EntityDisplayComponent>
     }
-
 }
 
 
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
+    public EntityModel? Entity { get; set; } = default!;
 
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 
- 
+
 }

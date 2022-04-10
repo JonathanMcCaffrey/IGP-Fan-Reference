@@ -16,60 +16,60 @@
         --info: @info;
         --info-border: @info_border;
     </CodeComponent>
-    <br />
+    <br/>
     <div class="color accent">
         <div>Accent</div>
         <div>
-            Base: <input type="color" value="@accent" @onchange="e => accent = e.Value.ToString()" />
+            Base: <input type="color" value="@accent" @onchange="e => accent = e.Value!.ToString()!"/>
         </div>
     </div>
     <div class="color primary">
         <div>Primary</div>
         <div>
-            Base: <input type="color" value="@primary" @onchange="e => primary = e.Value.ToString()" />
+            Base: <input type="color" value="@primary" @onchange="e => primary = e.Value!.ToString()!"/>
         </div>
         <div>
-            Border: <input type="color" value="@primary_border" @onchange="e => primary_border = e.Value.ToString()" />
+            Border: <input type="color" value="@primary_border" @onchange="e => primary_border = e.Value!.ToString()!"/>
         </div>
         <div>
-            Hover Base: <input type="color" value="@primary_hover" @onchange="e => primary_hover = e.Value.ToString()" />
+            Hover Base: <input type="color" value="@primary_hover" @onchange="e => primary_hover = e.Value!.ToString()!"/>
         </div>
         <div>
-            Hover Border: <input type="color" value="@primary_border_hover" @onchange="e => primary_border_hover = e.Value.ToString()" />
+            Hover Border: <input type="color" value="@primary_border_hover" @onchange="e => primary_border_hover = e.Value!.ToString()!"/>
         </div>
     </div>
     <div class="color secondary">
         <div>Secondary</div>
         <div>
-            Base: <input type="color" value="@secondary" @onchange="e => secondary = e.Value.ToString()" />
+            Base: <input type="color" value="@secondary" @onchange="e => secondary = e.Value!.ToString()!"/>
         </div>
         <div>
-            Hover Base: <input type="color" value="@secondary_hover" @onchange="e => secondary_hover = e.Value.ToString()" />
+            Hover Base: <input type="color" value="@secondary_hover" @onchange="e => secondary_hover = e.Value!.ToString()!"/>
         </div>
         <div>
-            Hover Border: <input type="color" value="@secondary_border_hover" @onchange="e => secondary_border_hover = e.Value.ToString()" />
+            Hover Border: <input type="color" value="@secondary_border_hover" @onchange="e => secondary_border_hover = e.Value!.ToString()!"/>
         </div>
     </div>
     <div class="color paper">
         <div>Paper</div>
         <div>
-            Base: <input type="color" value="@paper" @onchange="e => paper = e.Value.ToString()" />
+            Base: <input type="color" value="@paper" @onchange="e => paper = e.Value!.ToString()!"/>
         </div>
         <div>
-            Border: <input type="color" value="@paper_border" @onchange="e => paper_border = e.Value.ToString()" />
+            Border: <input type="color" value="@paper_border" @onchange="e => paper_border = e.Value!.ToString()!"/>
         </div>
     </div>
     <div class="color background">
         <div>Background</div>
         <div>
-            Base: <input type="color" value="@background" @onchange="e => background = e.Value.ToString()" />
+            Base: <input type="color" value="@background" @onchange="e => background = e.Value!.ToString()!"/>
         </div>
     </div>
 
     <div class="color info">
         <div>Info</div>
         <div>
-            Base: <input type="color" value="@info" @onchange="e => info = e.Value.ToString()" />
+            Base: <input type="color" value="@info" @onchange="e => info = e.Value!.ToString()!"/>
         </div>
     </div>
 </div>

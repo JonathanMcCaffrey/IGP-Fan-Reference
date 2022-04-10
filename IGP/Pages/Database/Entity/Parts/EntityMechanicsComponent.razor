@@ -1,7 +1,9 @@
-﻿@if (Entity.Mechanics().Count > 0) {
+﻿@if (Entity!.Mechanics().Count > 0)
+{
     <EntityDisplayComponent Title="Mechanics">
         <div>
-            @foreach (var data in Entity.Mechanics()) {
+            @foreach (var data in Entity.Mechanics())
+            {
                 <div>
                     <div>
                         <span>
@@ -22,8 +24,8 @@
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
-    
+    public EntityModel? Entity { get; set; } = default!;
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 

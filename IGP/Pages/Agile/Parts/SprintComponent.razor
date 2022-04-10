@@ -1,16 +1,18 @@
 ﻿<div class="sprintContainer">
     <div class="sprintStatus">
-        <b>Status: </b>@Sprint.GetSprintType()
+        <b>Status: </b>@AgileSprint.GetSprintType()
     </div>
     <div class="sprintDescription">
-        <b>Description: </b>@Sprint.Description
+        <b>Description: </b>@AgileSprint.Description
     </div>
     <div class="sprintNotes">
-        <b>Notes: </b>@Sprint.Notes
+        <b>Notes: </b>@AgileSprint.Notes
     </div>
     <div class="tasksContainer">
-        @if (selectedTasks.Count > 0) {
-            @foreach (var task in selectedTasks) {
+        @if (AgileSprint.AgileTaskModels.Count > 0)
+        {
+            @foreach (var task in AgileSprint.AgileTaskModels)
+            {
                 <div class="taskContainer @task.Status.ToLower() @task.Task.ToLower()">
                     <div class="taskName">@task.Name</div>
                     <div class="taskDetails">
@@ -28,13 +30,14 @@
 
                             </LayoutColumnComponent>
                             <LayoutColumnComponent>
-                                @if (task.Finished != null) {
+                                @if (task.Finished != null)
+                                {
                                     <div class="taskFinished">
                                         <b>Finished: </b>@task.Finished.Value.ToString("dd/MM/yyyy")
                                     </div>
                                 }
                                 <div class="taskCreated">
-                                    <b>Created: </b>@task.Created.Value.ToString("dd/MM/yyyy")
+                                    <b>Created: </b>@task.Created!.Value.ToString("dd/MM/yyyy")
                                 </div>
                             </LayoutColumnComponent>
                         </LayoutRowComponent>
@@ -48,7 +51,8 @@
                 </div>
             }
         }
-        else {
+        else
+        {
             <div>Add Tasks...</div>
         }
     </div>
@@ -66,14 +70,6 @@
         grid-area: description;
     }
 
-    .sprintStartDate {
-    }
-
-    .sprintEndDate {
-    }
-
-    .sprintNotes {
-    }
 
 
     @@media only screen and (max-width: 1025px) {
@@ -221,23 +217,7 @@
 
 @code {
 
-#if NO_SQL
     [Parameter]
-    public List<TaskModel> Tasks { get; set; }
-#else 
-    [Parameter]
-    public DbSet<TaskModel> Tasks { get; set; }
-#endif
-
-    [Parameter]
-    public SprintModel Sprint { get; set; }
-    
-    private List<TaskModel> selectedTasks { get; set; }
-    
-    protected override void OnInitialized() {
-        selectedTasks = (from task in Tasks
-            where task.SprintModelId == Sprint.Id
-            select task).OrderBy(x => x.Created).OrderBy(x => x.Finished).Reverse().OrderBy(x => x.Status).ToList();
-    }
+    public AgileSprintModel AgileSprint { get; set; } = default!;
 
 }

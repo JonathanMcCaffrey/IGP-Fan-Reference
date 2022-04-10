@@ -1,0 +1,82 @@
+﻿@layout PageLayout;
+
+@page "/immortal-home"
+
+<LayoutMediumContentComponent>
+    <PaperComponent>
+        <div class="mainContainer">
+            <div class="mainTitle">
+                Fan Reference
+            </div>
+
+            <div>
+                Refer to various aspects of "IMMORTAL: Gates of Pyre" from this external reference!
+            </div>
+        </div>
+    </PaperComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <PaperComponent>
+        <div class="heroesContainer">
+
+            <ContentHighlightComponent
+                Title="Database"
+                Description="Review the units!"
+                Href="/database"
+                ImageHref="image/hero/Database.png"/>
+
+            <ContentHighlightComponent
+                Title="Build Calculator"
+                Description="Make a build!"
+                Href="/build-calculator"
+                ImageHref="image/hero/Build.png"/>
+
+            <ContentHighlightComponent
+                Title="Notes"
+                Description="Read some notes!"
+                Href="/notes"
+                ImageHref="image/hero/Notes.png"/>
+
+            <ContentHighlightComponent
+                Title="Streams"
+                Description="Watch live development!"
+                Href="/streams"
+                ImageHref="image/hero/Streams.png"/>
+        </div>
+    </PaperComponent>
+
+    <ContentDividerComponent></ContentDividerComponent>
+
+    <AlertComponent>
+        <Title>Under Construction</Title>
+        <Message>Website is still being made. Check out <NavLink Href="/immortal-roadmap">Road Map</NavLink> for future plans, <NavLink Href="/immortal-agile">Agile</NavLink> for present tasks, and <NavLink Href="/immortal-changelog">Change Log</NavLink> for past changes.</Message>
+
+    </AlertComponent>
+
+</LayoutMediumContentComponent>
+
+<style>
+    .mainContainer {
+        padding-bottom: 32px;
+    }
+
+    .mainTitle {
+        font-size: 2.2rem;
+        font-weight: bold;
+    }
+    
+    .heroesContainer {
+        display: grid;
+        gap: 64px;
+        justify-content: center;
+        margin: auto;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    
+    @@media only screen and (max-width: 1025px) {
+       .heroesContainer {
+           grid-template-columns: 1fr;       }
+    }
+</style>

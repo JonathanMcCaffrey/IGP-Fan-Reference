@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Types;
+﻿namespace Model.Types;
 
-public static class ImmortalType {
+public static class ImmortalType
+{
     public static string None = "None";
 
     public static string Any = "Any";

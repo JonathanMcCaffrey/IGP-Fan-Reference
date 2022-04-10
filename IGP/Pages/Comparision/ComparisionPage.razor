@@ -28,19 +28,19 @@ grid-template-areas: 'loader sand compare compare' ;">
 @code {
 
     [Inject]
-    IKeyService KeyService { get; set; }
+    IKeyService KeyService { get; set; } = default!;
 
     [Inject]
-    IImmortalSelectionService FilterService { get; set; }
+    IImmortalSelectionService FilterService { get; set; } = default!;
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
     [Inject]
-    IEconomyService EconomyService { get; set; }
+    IEconomyService EconomyService { get; set; } = default!;
 
     [Inject]
-    ITimingService TimingService { get; set; }
+    ITimingService TimingService { get; set; } = default!;
 
 
     Dictionary<int, List<EntityModel>> completedEntities = new();
@@ -48,7 +48,8 @@ grid-template-areas: 'loader sand compare compare' ;">
 
     List<EntityModel> entities = EntityModel.GetListOnlyHotkey();
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         KeyService.Subscribe(HandleClick);
         FilterService.Subscribe(StateHasChanged);
         EconomyService.Subscribe(StateHasChanged);
@@ -56,7 +57,8 @@ grid-template-areas: 'loader sand compare compare' ;">
         EconomyService.Calculate(BuildOrderService, TimingService, 0);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         KeyService.Unsubscribe(HandleClick);
         FilterService.Unsubscribe(StateHasChanged);
         TimingService.Unsubscribe(StateHasChanged);
@@ -64,18 +66,21 @@ grid-template-areas: 'loader sand compare compare' ;">
     }
 
 
-    protected void HandleTimingChanged() {
+    protected void HandleTimingChanged()
+    {
         EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
     }
 
-    protected void HandleClick() {
+    protected void HandleClick()
+    {
         var hotkey = KeyService.GetHotkey();
         var hotkeyGroup = KeyService.GetHotkeyGroup();
         var isHoldSpace = KeyService.IsHoldingSpace();
         var faction = FilterService.GetFactionType();
         var immortal = FilterService.GetImmortalType();
 
-        if (hotkey == "`") {
+        if (hotkey == "`")
+        {
             BuildOrderService.RemoveLast();
             EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
             StateHasChanged();
@@ -83,10 +88,12 @@ grid-template-areas: 'loader sand compare compare' ;">
         }
 
         var entity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
-        if (entity == null) {
+        if (entity == null)
+        {
             return;
         }
-        if (BuildOrderService.Add(entity, EconomyService)) {
+        if (BuildOrderService.Add(entity, EconomyService))
+        {
             EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }
     }

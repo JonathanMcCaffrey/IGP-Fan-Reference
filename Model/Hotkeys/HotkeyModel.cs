@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Model.Immortal.Hotkeys;
+namespace Model.Hotkeys;
 
-public class HotkeyModel {
+public class HotkeyModel
+{
     public static readonly string[] KeyGroups = { "Z", "1", "2", "TAB", "CONTROL", "SHIFT", "C" };
     public static readonly string[] HotKeys = { "`", "Q", "W", "E", "R", "A", "S", "F", "X", "V" };
     public string KeyText { get; set; }
@@ -11,7 +12,8 @@ public class HotkeyModel {
     public int PositionY { get; set; }
     public bool IsHidden { get; set; }
 
-    public string GetColor() {
+    public string GetColor()
+    {
         return KeyType == KeyType.Action ? "#404146"
             : KeyType == KeyType.Cancel ? "#621b1b"
             : KeyType == KeyType.ControlGroup ? "#443512"
@@ -21,113 +23,133 @@ public class HotkeyModel {
             : "#37393F";
     }
 
-    public static List<HotkeyModel> GetAll() {
-        return new List<HotkeyModel> {
-            new() {
+    public static List<HotkeyModel> GetAll()
+    {
+        return new List<HotkeyModel>
+        {
+            new()
+            {
                 KeyText = "`",
                 KeyType = KeyType.Cancel,
                 PositionX = 0,
                 PositionY = 0
             },
-            new() {
+            new()
+            {
                 KeyText = "TAB",
                 KeyType = KeyType.ControlGroup,
                 PositionX = 0,
                 PositionY = 1
             },
-            new() {
+            new()
+            {
                 KeyText = "1",
                 KeyType = KeyType.ControlGroup,
                 PositionX = 1,
                 PositionY = 0
             },
-            new() {
+            new()
+            {
                 KeyText = "Q",
                 KeyType = KeyType.Action,
                 PositionX = 1,
                 PositionY = 1
             },
-            new() {
+            new()
+            {
                 KeyText = "W",
                 KeyType = KeyType.Action,
                 PositionX = 2,
                 PositionY = 1
             },
-            new() {
+            new()
+            {
                 KeyText = "E",
                 KeyType = KeyType.Action,
                 PositionX = 3,
                 PositionY = 1
             },
-            new() {
+            new()
+            {
                 KeyText = "R",
                 KeyType = KeyType.Action,
                 PositionX = 4,
                 PositionY = 1
             },
-            new() {
+            new()
+            {
                 KeyText = "A",
                 KeyType = KeyType.Action,
                 PositionX = 1,
                 PositionY = 2
             },
-            new() {
+            new()
+            {
                 KeyText = "S",
                 KeyType = KeyType.Action,
                 PositionX = 2,
                 PositionY = 2
             },
-            new() {
+            new()
+            {
                 KeyText = "D",
                 KeyType = KeyType.ControlGroup,
                 PositionX = 3,
                 PositionY = 2
             },
-            new() {
+            new()
+            {
                 KeyText = "F",
                 KeyType = KeyType.Action,
                 PositionX = 4,
                 PositionY = 2
             },
-            new() {
+            new()
+            {
                 KeyText = "Z",
                 KeyType = KeyType.ControlGroup,
                 PositionX = 1,
                 PositionY = 3
             },
-            new() {
+            new()
+            {
                 KeyText = "X",
                 KeyType = KeyType.Action,
                 PositionX = 2,
                 PositionY = 3
             },
-            new() {
+            new()
+            {
                 KeyText = "C",
                 KeyType = KeyType.ControlGroup,
                 PositionX = 3,
                 PositionY = 3
             },
-            new() {
+            new()
+            {
                 KeyText = "V",
                 KeyType = KeyType.Action,
                 PositionX = 4,
                 PositionY = 3
             },
-            new() {
+            new()
+            {
                 KeyText = "SPACE",
                 KeyType = KeyType.Advance,
                 PositionX = 1,
                 PositionY = 4
             },
             // Economy
-            new() {
+            new()
+            {
                 KeyText = "SHIFT", //TODO Update when game changes
                 KeyType = KeyType.Economy,
                 PositionX = 0,
                 PositionY = 2
             },
             // Pyre
-            new() {
+            new()
+            {
                 KeyText = "2",
                 KeyType = KeyType.Pyre,
                 PositionX = 2,
@@ -136,7 +158,8 @@ public class HotkeyModel {
             },
 
             // Morphs
-            new() {
+            new()
+            {
                 KeyText = "CONTROL",
                 KeyType = KeyType.Economy,
                 PositionX = 0,

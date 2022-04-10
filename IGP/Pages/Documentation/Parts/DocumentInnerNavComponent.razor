@@ -1,0 +1,70 @@
+@if (Document!.DocumentationModels.Count > 0)
+{
+    <div class="docInnerNavContainer">
+        @foreach (var innerDoc in Document.DocumentationModels)
+        {
+            var linkStyle = $"docInnerNavButton inner_{Layers}";
+            <NavLink class="@linkStyle" href="@innerDoc.GetDocLink()">@innerDoc.Name</NavLink>
+            <DocumentInnerNavComponent Document="@innerDoc" Layers="@IncrementLayers()"/>
+        }
+    </div>
+}
+
+<style>
+ 
+.docInnerNavContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.docInnerNavButton a {
+    color: white;
+}
+
+.docInnerNavButton a:hover {
+    color: white;
+}
+
+.docInnerNavButton {
+    padding: 8px;
+    margin-left: 8px;
+    color: white;
+}
+
+.inner_1 {
+    margin-left: 8px;
+}
+
+.inner_2 {
+    margin-left: 16px;
+}
+
+.inner_3 {
+    margin-left: 24px;
+}
+
+
+
+
+</style>
+
+@code {
+
+    [Parameter]
+    public DocContentModel? Document { get; set; } = default!;
+
+    [Parameter]
+    public int Layers { get; set; } = 1;
+
+    public int IncrementLayers()
+    {
+        return Layers + 1;
+    }
+
+
+    private string GetLink(DocContentModel doc)
+    {
+        return $"docs/{doc.Href}";
+    }
+
+}

@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Types;
+﻿namespace Model.Types;
 
-public static class ArmorType {
+public static class ArmorType
+{
     public static string Light = "Light";
     public static string Medium = "Medium";
     public static string Heavy = "Heavy";

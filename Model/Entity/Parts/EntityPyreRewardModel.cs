@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Entity.Parts;
+﻿namespace Model.Entity.Parts;
 
-public class EntityPyreRewardModel : IEntityPartInterface {
+public class EntityPyreRewardModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityPyreRewardModel";
 
     public int BaseReward { get; set; } = 0;

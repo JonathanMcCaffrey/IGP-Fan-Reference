@@ -9,13 +9,15 @@
 @code {
 
     [Inject]
-    IBuildComparisonService BuildComparisonService { get; set; }
+    IBuildComparisonService BuildComparisonService { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         BuildComparisonService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         BuildComparisonService.Unsubscribe(StateHasChanged);
     }
 

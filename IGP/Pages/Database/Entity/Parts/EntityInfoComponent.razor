@@ -1,34 +1,38 @@
-﻿
-@if (StyleType.Equals("Plain"))
+﻿@if (StyleType.Equals("Plain"))
 {
-    @if (Entity.Info().Description != "") {
+    @if (Entity!.Info().Description != "")
+    {
         <div>
             <b>Description:</b> @((MarkupString)Entity.Info().Description)
         </div>
     }
 
-    @if (Entity.Info().Notes != "") {
+    @if (Entity.Info().Notes != "")
+    {
         <div>
             <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
         </div>
     }
 
-    
+
     <div class="infoDisplayContainer">
         <div>
-            @if (Entity.Faction() != null) {
+            @if (Entity.Faction() != null)
+            {
                 <div>
                     <b>Faction:</b> @Entity.Faction().Faction
                 </div>
             }
-            @if (Entity.Tier() != null) {
+            @if (Entity.Tier() != null)
+            {
                 <div>
                     <b>Tier:</b> @Entity.Tier().Tier
                 </div>
             }
         </div>
 
-        @if (Entity.Hotkey() != null) {
+        @if (Entity.Hotkey() != null)
+        {
             <div>
                 <div>
                     <b>Hotkey Group:</b> @Entity.Hotkey().HotkeyGroup
@@ -46,34 +50,39 @@
 else
 {
     <EntityDisplayComponent Title="Info">
-        @if (Entity.Info().Description != "") {
+        @if (Entity!.Info().Description != "")
+        {
             <div>
                 <b>Description:</b> @((MarkupString)Entity.Info().Description)
             </div>
         }
 
-        @if (Entity.Info().Notes != "") {
+        @if (Entity.Info().Notes != "")
+        {
             <div>
                 <b>Notes:</b> @((MarkupString)Entity.Info().Notes)
             </div>
         }
 
-    
+
         <div class="infoDisplayContainer">
             <div>
-                @if (Entity.Faction() != null) {
+                @if (Entity.Faction() != null)
+                {
                     <div>
                         <b>Faction:</b> @Entity.Faction().Faction
                     </div>
                 }
-                @if (Entity.Tier() != null) {
+                @if (Entity.Tier() != null)
+                {
                     <div>
                         <b>Tier:</b> @Entity.Tier().Tier
                     </div>
                 }
             </div>
 
-            @if (Entity.Hotkey() != null) {
+            @if (Entity.Hotkey() != null)
+            {
                 <div>
                     <div>
                         <b>Hotkey Group:</b> @Entity.Hotkey().HotkeyGroup
@@ -101,7 +110,7 @@ else
                 gap: 4px;
             }
         }
-</style>    
+</style>
 }
 
 
@@ -109,7 +118,7 @@ else
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
+    public EntityModel? Entity { get; set; } = default!;
 
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";

@@ -4,9 +4,12 @@
     <div>
         <div>Requested</div>
 
-        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--) {
-            @foreach (var order in BuildOrderService.GetOrdersAt(i)) {
-                if (order.EntityType == EntityType.Worker) {
+        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--)
+        {
+            @foreach (var order in BuildOrderService.GetOrdersAt(i))
+            {
+                if (order.EntityType == EntityType.Worker)
+                {
                     continue;
                 }
                 <div>
@@ -22,9 +25,12 @@
     <div>
         <div>Finished</div>
 
-        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--) {
-            @foreach (var order in BuildOrderService.GetCompletedAt(i)) {
-                if (order.EntityType == EntityType.Worker) {
+        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--)
+        {
+            @foreach (var order in BuildOrderService.GetCompletedAt(i))
+            {
+                if (order.EntityType == EntityType.Worker)
+                {
                     continue;
                 }
                 <div>
@@ -54,20 +60,22 @@
 @code {
 
     [Inject]
-    IEconomyService EconomyService { get; set; }
+    IEconomyService EconomyService { get; set; } = default!;
 
     [Inject]
-    IBuildOrderService BuildOrderService { get; set; }
+    IBuildOrderService BuildOrderService { get; set; } = default!;
 
     [Inject]
-    ITimingService TimingService { get; set; }
+    ITimingService TimingService { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         EconomyService.Subscribe(StateHasChanged);
         BuildOrderService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         EconomyService.Unsubscribe(StateHasChanged);
         BuildOrderService.Unsubscribe(StateHasChanged);
     }

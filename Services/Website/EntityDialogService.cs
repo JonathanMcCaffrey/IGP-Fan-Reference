@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DataType = Model.Immortal.Entity.Data.DataType;
+using DataType = Model.Entity.Data.DataType;
 
 namespace Services.Website;
 
@@ -10,18 +10,18 @@ public class EntityDialogService : IEntityDialogService
 
     private List<string> history = new List<string>();
     
-    private event Action _onChange;
+    private event Action OnChange = null!;
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
     
     public void Subscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
     
     public void AddDialog(string id)

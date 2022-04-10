@@ -1,7 +1,9 @@
-﻿@if (Entity.IdUpgrades().Count > 0) {
+﻿@if (Entity!.IdUpgrades().Count > 0)
+{
     @if (StyleType.Equals("Plain"))
     {
-        @foreach (var upgradeId in Entity.IdUpgrades()) {
+        @foreach (var upgradeId in Entity.IdUpgrades())
+        {
             var entity = EntityModel.Get(upgradeId.Id);
             <div>
                 <div>
@@ -12,13 +14,13 @@
                 </div>
             </div>
         }
-           
     }
     else
     {
         <EntityDisplayComponent Title="Upgrades">
             <div class="upgradesContainer">
-                @foreach (var upgradeId in Entity.IdUpgrades()) {
+                @foreach (var upgradeId in Entity.IdUpgrades())
+                {
                     var entity = EntityModel.Get(upgradeId.Id);
                     <div>
                         <div>
@@ -30,9 +32,9 @@
                     </div>
                 }
             </div>
-        </EntityDisplayComponent>  
-        
-        
+        </EntityDisplayComponent>
+
+
         <style>
     .upgradesContainer {
         display: flex;
@@ -47,16 +49,15 @@
     }
 </style>
     }
-
 }
 
 
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
+    public EntityModel? Entity { get; set; } = default!;
 
-    
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 

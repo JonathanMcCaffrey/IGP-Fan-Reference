@@ -9,12 +9,14 @@
 
 
 @code {
+
     protected override void OnInitialized()
     {
         entityDialogService.Subscribe(OnUpdate);
     }
-    
-    public void Dispose() {
+
+    public void Dispose()
+    {
         entityDialogService.Unsubscribe(OnUpdate);
     }
 
@@ -24,4 +26,3 @@
     }
 
 }
-    

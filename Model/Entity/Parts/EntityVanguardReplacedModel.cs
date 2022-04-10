@@ -1,9 +1,9 @@
-﻿using Model.Immortal.Entity.Data;
-using Model.Immortal.Types;
+﻿using Model.Entity.Data;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityVanguardReplacedModel : IEntityPartInterface {
+public class EntityVanguardReplacedModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityVanguardReplacedModel";
     public string ImmortalId { get; set; } = DataType.IMMORTAL_Xol;
     public string ReplacedById { get; set; } = "";

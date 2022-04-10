@@ -35,10 +35,10 @@
 @code {
     //TODO Clean up
     [Parameter]
-    public string Label { get; set; }
+    public string Label { get; set; } = default!;
 
     [Parameter]
-    public string Info { get; set; }
+    public string Info { get; set; } = default!;
 
     [Parameter]
     public RenderFragment? Display { get; set; }

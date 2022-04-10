@@ -31,19 +31,19 @@
                 <FormLayoutComponent>
                     <FormNumberComponent Min="0"
                                          Value="@((int)NumberOfWorkersLostToHarass)"
-                                         OnChange="@(e => { NumberOfWorkersLostToHarass = int.Parse(e.Value.ToString()); Calculate();})">
+                                         OnChange="@(e => { NumberOfWorkersLostToHarass = int.Parse(e.Value!.ToString()!); Calculate();})">
                         <FormLabelComponent>Number of workers lost to harass</FormLabelComponent>
                     </FormNumberComponent>
 
                     <FormNumberComponent Min="0"
                                          Value="@((int)NumberOfTownHallsExisting)"
-                                         OnChange="@(e => { NumberOfTownHallsExisting = int.Parse(e.Value.ToString()); Calculate();})">
+                                         OnChange="@(e => { NumberOfTownHallsExisting = int.Parse(e.Value!.ToString()!); Calculate();})">
                         <FormLabelComponent>Number of townhalls existing</FormLabelComponent>
                     </FormNumberComponent>
 
                     <FormNumberComponent Min="0"
                                          Value="@((int)TravelTime)"
-                                         OnChange="@(e => { TravelTime = int.Parse(e.Value.ToString()); Calculate();})">
+                                         OnChange="@(e => { TravelTime = int.Parse(e.Value!.ToString()!); Calculate();})">
                         <FormLabelComponent>Travel time</FormLabelComponent>
                     </FormNumberComponent>
 
@@ -230,42 +230,51 @@
     float NumberOfWorkersLostToHarass = 1;
     float NumberOfTownHallsExisting = 1;
 
-    float SimultaneousProductionFloor() {
-        if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0) {
+    float SimultaneousProductionFloor()
+    {
+        if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0)
+        {
             return 0;
         }
 
         return (float)Math.Floor(NumberOfWorkersLostToHarass / Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
     }
 
-    float LeftOverWorkersToProduceCount() {
+    float LeftOverWorkersToProduceCount()
+    {
         return NumberOfWorkersLostToHarass % Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass);
     }
 
-    float WorkerReplacementCost() {
+    float WorkerReplacementCost()
+    {
         return CostOfWorker * NumberOfWorkersLostToHarass;
     }
 
 
-    float DelayedMiningCost() {
+    float DelayedMiningCost()
+    {
         return TotalAlloyHarassment - WorkerReplacementCost();
     }
 
-    void Calculate() {
+    void Calculate()
+    {
         TotalAlloyHarassment = WorkerReplacementCost();
 
-        for (var workerProductionIndex = 0; workerProductionIndex < SimultaneousProductionFloor(); workerProductionIndex++) {
+        for (var workerProductionIndex = 0; workerProductionIndex < SimultaneousProductionFloor(); workerProductionIndex++)
+        {
             TotalAlloyHarassment += AlloyMinedPerSecondByWorker * (TimeToProduceWorker + TravelTime) * (workerProductionIndex + 1);
         }
 
         TotalAlloyHarassment += LeftOverWorkersToProduceCount() * (TimeToProduceWorker + TravelTime) * AlloyMinedPerSecondByWorker;
     }
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         Calculate();
     }
 
-    void ValueChanged(float test) {
+    void ValueChanged(float test)
+    {
         Calculate();
     }
 

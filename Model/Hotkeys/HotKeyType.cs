@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Hotkeys;
+﻿namespace Model.Hotkeys;
 
-public enum KeyType {
+public enum KeyType
+{
     Action,
     ControlGroup,
     Cancel,

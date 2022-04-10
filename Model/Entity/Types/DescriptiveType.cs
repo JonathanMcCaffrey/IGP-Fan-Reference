@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Types;
+﻿namespace Model.Types;
 
-public static class DescriptiveType {
+public static class DescriptiveType
+{
     public static string None = "None";
     public static string Frontliner = "Frontliner";
     public static string Force_Multiplier = "Force_Multiplier";

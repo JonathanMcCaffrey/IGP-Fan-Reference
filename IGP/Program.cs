@@ -1,19 +1,15 @@
-
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
+using Services;
+using Services.Development;
+using Services.Immortal;
+using Services.Website;
 
 #if NO_SQL
-
 #else
 using Contexts;
 using Microsoft.EntityFrameworkCore;
 #endif
-
-using Services;
-using Services.Immortal;
-using Services.Website;
-using Services.Development;
-using IEntityDisplayService = Services.IEntityDisplayService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.SetMinimumLevel(LogLevel.Warning);
@@ -37,7 +33,8 @@ builder.Services.AddSingleton<IEntityFilterService, EntityFilterService>();
 builder.Services.AddSingleton<IEntityDisplayService, EntityDisplayService>();
 
 
-builder.Services.AddSingleton(new HttpClient {
+builder.Services.AddSingleton(new HttpClient
+{
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
 

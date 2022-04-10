@@ -1,87 +1,99 @@
-﻿@if (Production != null || Supply != null || Requirements.Count > 0) {
-    
+﻿@if (Production != null || Supply != null || Requirements.Count > 0)
+{
     @if (StyleType.Equals("Plain"))
     {
-            @if (Requirements.Count() > 0) {
+        @if (Requirements.Count() > 0)
+        {
+            <div>
+                @foreach (var requirement in Requirements)
+                {
+                    var replaced = DATA.Get()[requirement.DataType];
                     <div>
-                        @foreach (var requirement in Requirements)
-                        {
-                            var replaced = DATA.Get()[requirement.DataType];
-                            <div>
 
-                                <span>
-                                    <b>@requirement.Requirement.Replace("_", " "):</b> @replaced.Info().Name
-                                </span>
-                            </div>
-                        }
+                        <span>
+                            <b>@requirement.Requirement.Replace("_", " "):</b> @replaced.Info().Name
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (Production != null && (!Production.Alloy.Equals(0)
+                                    || !Production.Ether.Equals(0)
+                                    || !Production.BuildTime.Equals(0)
+                                    || !Production.Cooldown.Equals(0)))
+        {
+            <div>
+                @if (!Production.Alloy.Equals(0))
+                {
+                    <div>
+                        <b>Alloy:</b> @Production.Alloy
+                    </div>
+                }
+                @if (!Production.Ether.Equals(0))
+                {
+                    <div>
+                        <b>Ether:</b> @Production.Ether
+                    </div>
+                }
+                @if (!Production.Pyre.Equals(0))
+                {
+                    <div>
+                        <b>Pyre:</b> @Production.Pyre
                     </div>
                 }
 
-                @if (Production != null && (!Production.Alloy.Equals(0)
-                                            || !Production.Ether.Equals(0)
-                                            || !Production.BuildTime.Equals(0)
-                                            || !Production.Cooldown.Equals(0))) {
-                                                <div>
-                                                    @if (!Production.Alloy.Equals(0)) {
-                                                        <div>
-                                                            <b>Alloy:</b> @Production.Alloy
-                                                        </div>
-                                                    }
-                                                    @if (!Production.Ether.Equals(0)) {
-                                                        <div>
-                                                            <b>Ether:</b> @Production.Ether
-                                                        </div>
-                                                    }
-                                                    @if (!Production.Pyre.Equals(0)) {
-                                                        <div>
-                                                            <b>Pyre:</b> @Production.Pyre
-                                                        </div>
-                                                    }
-
-                                                    @if (!Production.BuildTime.Equals(0)) {
-                                                        <div>
-                                                            <b>Build Time:</b> @Production.BuildTime.ToString()s
-                                                        </div>
-                                                    }
-                    
-                                                    @if (!Production.Energy.Equals(0)) {
-                                                        <div>
-                                                            <b>Energy:</b> @Production.Energy
-                                                        </div>
-                                                    }
-
-
-                                                    @if (!Production.Cooldown.Equals(0)) {
-                                                        <div>
-                                                            <b>Cooldown:</b> @Production.Cooldown.ToString()s
-                                                        </div>
-                                                    }
-                                                </div>
-                                            }
-                @if (Supply != null) {
+                @if (!Production.BuildTime.Equals(0))
+                {
                     <div>
-                        @if (!Supply.Grants.Equals(0)) {
-                            <div>
-                                <b>Grants:</b> @Supply.Grants
-                            </div>
-                        }
-                        @if (!Supply.Takes.Equals(0)) {
-                            <div>
-                                <b>Takes:</b> @Supply.Takes Supply
-                            </div>
-                        }
+                        <b>Build Time:</b> @Production.BuildTime.ToString()s
                     </div>
                 }
+
+                @if (!Production.Energy.Equals(0))
+                {
+                    <div>
+                        <b>Energy:</b> @Production.Energy
+                    </div>
+                }
+
+
+                @if (!Production.Cooldown.Equals(0))
+                {
+                    <div>
+                        <b>Cooldown:</b> @Production.Cooldown.ToString()s
+                    </div>
+                }
+            </div>
+        }
+        @if (Supply != null)
+        {
+            <div>
+                @if (!Supply.Grants.Equals(0))
+                {
+                    <div>
+                        <b>Grants:</b> @Supply.Grants
+                    </div>
+                }
+                @if (!Supply.Takes.Equals(0))
+                {
+                    <div>
+                        <b>Takes:</b> @Supply.Takes Supply
+                    </div>
+                }
+            </div>
+        }
     }
 
     else
     {
-        
         <EntityDisplayComponent Title="Production">
             <div class="ProductionContainer">
-                @if (Requirements.Count() > 0) {
+                @if (Requirements.Count() > 0)
+                {
                     <div>
-                        @foreach (var requirement in Requirements) {
+                        @foreach (var requirement in Requirements)
+                        {
                             <div>
 
                                 <span>
@@ -95,52 +107,62 @@
                 @if (Production != null && (!Production.Alloy.Equals(0)
                                             || !Production.Ether.Equals(0)
                                             || !Production.BuildTime.Equals(0)
-                                            || !Production.Cooldown.Equals(0))) {
-                                                <div>
-                                                    @if (!Production.Alloy.Equals(0)) {
-                                                        <div>
-                                                            <b>Alloy:</b> @Production.Alloy
-                                                        </div>
-                                                    }
-                                                    @if (!Production.Ether.Equals(0)) {
-                                                        <div>
-                                                            <b>Ether:</b> @Production.Ether
-                                                        </div>
-                                                    }
-                                                    @if (!Production.Pyre.Equals(0)) {
-                                                        <div>
-                                                            <b>Pyre:</b> @Production.Pyre
-                                                        </div>
-                                                    }
-
-                                                    @if (!Production.BuildTime.Equals(0)) {
-                                                        <div>
-                                                            <b>Build Time:</b> @Production.BuildTime.ToString()s
-                                                        </div>
-                                                    }
-                    
-                                                    @if (!Production.Energy.Equals(0)) {
-                                                        <div>
-                                                            <b>Energy:</b> @Production.Energy
-                                                        </div>
-                                                    }
-
-
-                                                    @if (!Production.Cooldown.Equals(0)) {
-                                                        <div>
-                                                            <b>Cooldown:</b> @Production.Cooldown.ToString()s
-                                                        </div>
-                                                    }
-                                                </div>
-                                            }
-                @if (Supply != null) {
+                                            || !Production.Cooldown.Equals(0)))
+                {
                     <div>
-                        @if (!Supply.Grants.Equals(0)) {
+                        @if (!Production.Alloy.Equals(0))
+                        {
+                            <div>
+                                <b>Alloy:</b> @Production.Alloy
+                            </div>
+                        }
+                        @if (!Production.Ether.Equals(0))
+                        {
+                            <div>
+                                <b>Ether:</b> @Production.Ether
+                            </div>
+                        }
+                        @if (!Production.Pyre.Equals(0))
+                        {
+                            <div>
+                                <b>Pyre:</b> @Production.Pyre
+                            </div>
+                        }
+
+                        @if (!Production.BuildTime.Equals(0))
+                        {
+                            <div>
+                                <b>Build Time:</b> @Production.BuildTime.ToString()s
+                            </div>
+                        }
+
+                        @if (!Production.Energy.Equals(0))
+                        {
+                            <div>
+                                <b>Energy:</b> @Production.Energy
+                            </div>
+                        }
+
+
+                        @if (!Production.Cooldown.Equals(0))
+                        {
+                            <div>
+                                <b>Cooldown:</b> @Production.Cooldown.ToString()s
+                            </div>
+                        }
+                    </div>
+                }
+                @if (Supply != null)
+                {
+                    <div>
+                        @if (!Supply.Grants.Equals(0))
+                        {
                             <div>
                                 <b>Grants:</b> @Supply.Grants
                             </div>
                         }
-                        @if (!Supply.Takes.Equals(0)) {
+                        @if (!Supply.Takes.Equals(0))
+                        {
                             <div>
                                 <b>Takes:</b> @Supply.Takes Supply
                             </div>
@@ -149,8 +171,8 @@
                 }
             </div>
         </EntityDisplayComponent>
-        
-        
+
+
         <style>
     .ProductionContainer {
         display: flex;
@@ -164,7 +186,6 @@
         }
     }
 </style>
-
     }
 }
 
@@ -173,14 +194,14 @@
     [CascadingParameter]
     public EntityModel? Entity { get; set; }
 
-    
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 
 
-    private EntityProductionModel Production => Entity.Production();
-    private List<EntityRequirementModel> Requirements => Entity.Requirements();
-    private EntitySupplyModel Supply => Entity.Supply();
+    private EntityProductionModel Production => Entity!.Production();
+    private List<EntityRequirementModel> Requirements => Entity!.Requirements();
+    private EntitySupplyModel Supply => Entity!.Supply();
 
 
     protected override void OnParametersSet()

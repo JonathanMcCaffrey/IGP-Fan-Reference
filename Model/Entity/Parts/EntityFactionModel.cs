@@ -1,8 +1,9 @@
-﻿using Model.Immortal.Types;
+﻿using Model.Types;
 
-namespace Model.Immortal.Entity.Parts;
+namespace Model.Entity.Parts;
 
-public class EntityFactionModel : IEntityPartInterface {
+public class EntityFactionModel : IEntityPartInterface
+{
     public string Type { get; set; } = "EntityFactionModel";
     public string Faction { get; set; } = FactionType.QRath;
 }

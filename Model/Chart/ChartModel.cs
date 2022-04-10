@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using Model.Immortal.Chart.Enums;
+using Model.Chart.Enums;
 
-namespace Model.Immortal.Chart;
+namespace Model.Chart;
 
-public class ChartModel {
+public class ChartModel
+{
     public List<PointModel> Points { get; set; } = new();
     public string ChartColor { get; set; } = ChartColorType.Red.ToString();
 
@@ -14,10 +15,12 @@ public class ChartModel {
     public float HighestIntervalPoint { get; set; } = 5000;
     public float HighestValuePoint { get; set; } = 5000;
 
-    public static List<ChartModel> GetAll() {
+    public static List<ChartModel> GetAll()
+    {
         var cs = new List<ChartModel>();
 
-        var c1 = new ChartModel {
+        var c1 = new ChartModel
+        {
             IntervalDisplayMax = 1000,
             ValueDisplayMax = 300,
             ChartColor = "Orange",

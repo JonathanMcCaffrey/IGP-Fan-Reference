@@ -1,6 +1,7 @@
 ﻿namespace Model.Website;
 
-public class WebPageModel {
+public class WebPageModel
+{
     public int Id { get; set; }
     public int WebSectionModelId { get; set; }
     public string Name { get; set; } = "Add name";

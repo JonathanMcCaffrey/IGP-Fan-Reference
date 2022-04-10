@@ -1,6 +1,7 @@
-﻿namespace Model.Immortal.Entity.Data;
+﻿namespace Model.Entity.Data;
 
-public static class DataType {
+public static class DataType
+{
     public static string PYREEVENT_TowerKilled = "9a923928-b016-49f2-8c7d-950abf09e287";
     public static string PYREEVENT_CampTaken = "cc27a9b2-69e2-4322-8102-7a9f8bea7871";
     public static string PYREEVENT_MinerTaken = "5b158cf2-2810-4a2a-8131-c4fe4b392ce9";
@@ -75,10 +76,10 @@ public static class DataType {
     public static string BUILDING_DeepNest = "3076ae6e-89bf-4ea1-a66c-ea45ffcb4046";
     public static string BUILDING_Neurocyte = "90c6e53f-0430-4992-a1eb-4f91699292cb";
     public static string DEFENSE_FireSinger = "c7a90286-6977-4d92-91e0-2a0a46eb13ea";
-    
+
     public static string BUILDING_KeeperOfTheHardenedFlames = "db784823-5199-4bae-bc5e-96174490cd00";
 
-    
+
     public static string DEFENSE_Aerovore = "b68307b7-4759-43a3-8679-d844ac3aa73f";
     public static string UPGRADE_FaithCastBlades = "32087a66-900e-4f25-95f7-de56d5b424c7";
     public static string UPGRADE_RelicOfTheWrathfulGaze = "e6fa5ded-53f5-4914-85bb-1fdff5f32b64";
@@ -98,11 +99,11 @@ public static class DataType {
     public static string UPGRADE_BehemothCapacity = "d0390dd2-d9a5-4b20-9d8b-f554f4c52143";
     public static string UPGRADE_BloodPlague = "9c207e21-f595-49d0-967d-f30ca8cc3745";
     public static string UPGRADE_BirthingStorm = "0cb2f1a4-03b3-491b-9db3-d2d4590ede3a";
-    
+
 
     public static string PASSIVE_Respite = "607c39f4-a957-4a7a-8fc6-a239f9e570ec";
 
-    
+
     public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
 
     public static string PASSIVE_QuenchingScythes = "dbf07db4-e7b6-4f81-9f8e-e5391850eead";
@@ -112,14 +113,14 @@ public static class DataType {
     public static string PASSIVE_GuidingAmber = "9eab6701-0f0d-4858-b8a4-14e3a5dab822";
     public static string PASSIVE_GodstoneBulwark = "482189ac-713d-4870-a960-d2930961c486";
     public static string PASSIVE_Invervention = "3a70d237-1530-455a-b4f8-a626d708334c";
-    
+
     public static string PASSIVE_ThrumAttackSpeed = "356b6c33-a857-489c-8218-68c53d03db90";
-    
+
     public static string PASSIVE_MendingCommand = "25d94c3d-dba9-4f02-abf4-904269b539c6";
     public static string PASSIVE_StabilizeHallowedGround = "0bbbaf06-fd22-4f48-a888-cc1ab6af046e";
     public static string PASSIVE_SpawnQuitl = "80f6b382-da1c-49a1-8235-1ea37983ea54";
     public static string PASSIVE_XacalDamage = "69928f20-5332-418f-ada3-694da3f7b199";
-    
+
     public static string ABILITY_BladesOfTheGodhead = "000154ac-faf5-483d-b0bd-e84335891a27";
     public static string ABILITY_Windstep = "a410b296-39f7-42e0-87c8-6cef11eb967c";
     public static string ABILITY_Leap = "aa155b88-125a-4d25-b63f-77987ea6e519";

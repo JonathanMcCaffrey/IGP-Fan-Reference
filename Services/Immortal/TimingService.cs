@@ -3,11 +3,11 @@
 public class TimingService : ITimingService {
     private int _timing = 360;
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action? action) {
         _onChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action? action) {
         _onChange -= action;
     }
 
@@ -22,13 +22,13 @@ public class TimingService : ITimingService {
         }
     }
 
-    private event Action _onChange;
+    private event Action? _onChange;
 
     private void NotifyDataChanged() {
         _onChange?.Invoke();
     }
 
-    public Action OnChange() {
+    public Action? OnChange() {
         return _onChange;
     }
 }

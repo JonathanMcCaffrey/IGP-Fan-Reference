@@ -1,25 +1,25 @@
-﻿using Model.Immortal.Hotkeys;
+﻿using Model.Hotkeys;
 
 namespace Services.Immortal;
 
 public class KeyService : IKeyService {
-    private static readonly List<string> _pressedKeys = new();
+    private static readonly List<string> PressedKeys = new();
     private string? _hotkey;
     private string _hotkeyGroup = "C";
     private bool _isHoldingSpace;
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action? action) {
         _onChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action? action) {
         _onChange -= action;
     }
 
     public bool AddPressedKey(string key) {
         _hotkey = null;
 
-        if (_pressedKeys.Count > 0) return false;
+        if (PressedKeys.Count > 0) return false;
         var pressedKey = key.ToUpper();
 
         if (pressedKey.Equals(" ") || pressedKey.Equals("SPACE")) {
@@ -31,12 +31,12 @@ public class KeyService : IKeyService {
             return false;
         }
 
-        if (!_pressedKeys.Contains(pressedKey)) {
+        if (!PressedKeys.Contains(pressedKey)) {
             if (HotkeyModel.KeyGroups.Contains(pressedKey)) _hotkeyGroup = pressedKey;
 
             if (HotkeyModel.HotKeys.Contains(pressedKey)) _hotkey = pressedKey;
 
-            _pressedKeys.Add(pressedKey);
+            PressedKeys.Add(pressedKey);
             NotifyDataChanged();
             return true;
         }
@@ -45,7 +45,7 @@ public class KeyService : IKeyService {
     }
 
     public List<string> GetAllPressedKeys() {
-        return _pressedKeys;
+        return PressedKeys;
     }
 
     public bool RemovePressedKey(string key) {
@@ -61,8 +61,8 @@ public class KeyService : IKeyService {
             return false;
         }
 
-        if (_pressedKeys.Contains(pressedKey)) {
-            _pressedKeys.Remove(pressedKey);
+        if (PressedKeys.Contains(pressedKey)) {
+            PressedKeys.Remove(pressedKey);
             NotifyDataChanged();
             return true;
         }
@@ -74,7 +74,7 @@ public class KeyService : IKeyService {
         return _isHoldingSpace;
     }
 
-    public string GetHotkey() {
+    public string? GetHotkey() {
         return _hotkey;
     }
 
@@ -82,13 +82,13 @@ public class KeyService : IKeyService {
         return _hotkeyGroup;
     }
 
-    private event Action _onChange;
+    private event Action? _onChange;
 
     private void NotifyDataChanged() {
         _onChange?.Invoke();
     }
 
-    public Action OnChange() {
+    public Action? OnChange() {
         return _onChange;
     }
 }

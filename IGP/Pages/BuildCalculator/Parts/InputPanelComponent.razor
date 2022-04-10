@@ -10,16 +10,18 @@
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; } = default!;
 
     [Inject]
-    public IKeyService KeyService { get; set; }
+    public IKeyService KeyService { get; set; } = default!;
 
-    private void HandleKeyDown(KeyboardEventArgs e) {
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
         KeyService.AddPressedKey(e.Key);
     }
 
-    private void HandleKeyUp(KeyboardEventArgs e) {
+    private void HandleKeyUp(KeyboardEventArgs e)
+    {
         KeyService.RemovePressedKey(e.Key);
     }
 

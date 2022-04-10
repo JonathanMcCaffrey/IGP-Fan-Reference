@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using Model.Work.Git;
+using Model.Development.Git;
 
 #if NO_SQL
 
@@ -15,13 +15,16 @@ public class GitService : IGitService {
 
     private bool isLoaded;
 
+    private event Action OnChange = default!;
+
+    
     public GitService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
 #if NO_SQL
-    public List<ChangeModel> ChangeModels { get; set; }
-    public List<PatchModel> PatchModels { get; set; }
+    public List<GitChangeModel> GitChangeModels { get; set; } = default!;
+    public List<GitPatchModel> GitPatchModels { get; set; } = default!;
 #else
     public DbSet<ChangeModel> ChangeModels => Database.ChangeModels;
     public DbSet<PatchModel> PatchModels => Database.PatchModels;
@@ -31,11 +34,11 @@ public class GitService : IGitService {
 
 
     public void Subscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public bool IsLoaded() {
@@ -51,8 +54,8 @@ public class GitService : IGitService {
             return;
         }
         
-        ChangeModels =  (await httpClient.GetFromJsonAsync<ChangeModel[]>("generated/ChangeModels.json") ?? Array.Empty<ChangeModel>()).ToList();
-        PatchModels = (await httpClient.GetFromJsonAsync<PatchModel[]>("generated/PatchModels.json") ?? Array.Empty<PatchModel>()).ToList();
+        GitChangeModels =  (await httpClient.GetFromJsonAsync<GitChangeModel[]>("generated/GitChangeModels.json") ?? Array.Empty<GitChangeModel>()).ToList();
+        GitPatchModels = (await httpClient.GetFromJsonAsync<GitPatchModel[]>("generated/GitPatchModels.json") ?? Array.Empty<GitPatchModel>()).ToList();
 
 
         isLoaded = true;
@@ -69,8 +72,8 @@ public class GitService : IGitService {
             return;
         }
         
-        Database.ChangeModels.AddRange(await httpClient.GetFromJsonAsync<ChangeModel[]>("generated/ChangeModels.json"));
-        Database.PatchModels.AddRange(await httpClient.GetFromJsonAsync<PatchModel[]>("generated/PatchModels.json"));
+        Database.ChangeModels.AddRange(await httpClient.GetFromJsonAsync<ChangeModel[]>("generated/GitChangeModels.json"));
+        Database.PatchModels.AddRange(await httpClient.GetFromJsonAsync<PatchModel[]>("generated/GitPatchModels.json"));
         Database.SaveChanges();
 
 
@@ -86,9 +89,7 @@ public class GitService : IGitService {
         NotifyDataChanged();
     }
 
-    private event Action _onChange;
-
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 }

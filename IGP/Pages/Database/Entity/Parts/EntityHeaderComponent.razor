@@ -1,11 +1,12 @@
 ﻿@if (StyleType.Equals("Plain"))
 {
-    <div><b>@Entity?.Info().Name</b>
-            @if (Entity?.Info().Descriptive != DescriptiveType.None)
-                {
-                    <span>, @Entity?.Info().Descriptive.Replace("_", " ")</span>
-                }
-        </div>
+    <div>
+        <b>@Entity?.Info().Name</b>
+        @if (Entity?.Info().Descriptive != DescriptiveType.None)
+        {
+            <span>, @Entity?.Info().Descriptive.Replace("_", " ")</span>
+        }
+    </div>
 }
 else
 {
@@ -18,7 +19,7 @@ else
             @if (Entity?.Info().Descriptive != DescriptiveType.None)
             {
                 <span>
-                    <b>:</b> @Entity.Info().Descriptive.Replace("_", " ")
+                    <b>:</b> @Entity!.Info().Descriptive.Replace("_", " ")
                 </span>
             }
         </div>
@@ -53,9 +54,9 @@ else
 @code {
 
     [CascadingParameter]
-    public EntityModel? Entity { get; set; }
+    public EntityModel? Entity { get; set; } = default!;
 
-    
+
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
 

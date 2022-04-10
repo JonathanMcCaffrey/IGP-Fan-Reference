@@ -15,7 +15,7 @@ public class WebsiteService : IWebsiteService {
     private bool isLoaded;
 
     
-    private event Action _onChange;
+    private event Action OnChange = default!;
 
     
     public WebsiteService(HttpClient httpClient) {
@@ -25,8 +25,8 @@ public class WebsiteService : IWebsiteService {
 
 
 #if NO_SQL
-    public List<WebSectionModel> WebSectionModels { get; set; }
-    public List<WebPageModel> WebPageModels { get; set; }
+    public List<WebSectionModel> WebSectionModels { get; set; } = default!;
+    public List<WebPageModel> WebPageModels { get; set; } = default!;
 #else
 
     private DatabaseContext Database { get; set; }
@@ -38,11 +38,11 @@ public class WebsiteService : IWebsiteService {
 
 
     public void Subscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public bool IsLoaded() {
@@ -54,8 +54,10 @@ public class WebsiteService : IWebsiteService {
     public async Task Load() {
         if (isLoaded) {return;}
         
-        WebPageModels = (await httpClient.GetFromJsonAsync<WebPageModel[]>("generated/WebPageModels.json")).ToList();
-        WebSectionModels =(await httpClient.GetFromJsonAsync<WebSectionModel[]>("generated/WebSectionModels.json")).ToList();
+        
+        
+        WebPageModels = ((await httpClient.GetFromJsonAsync<WebPageModel[]>("generated/WebPageModels.json"))!).ToList();
+        WebSectionModels =((await httpClient.GetFromJsonAsync<WebSectionModel[]>("generated/WebSectionModels.json"))!).ToList();
 
         isLoaded = true;
 
@@ -85,6 +87,6 @@ public class WebsiteService : IWebsiteService {
     }
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 }

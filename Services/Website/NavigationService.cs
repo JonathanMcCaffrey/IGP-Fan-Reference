@@ -7,16 +7,16 @@ public class NavigationService : INavigationService {
 
     private NavSelectionType navSelectionType = NavSelectionType.None;
 
-    private Type renderType;
+    private Type renderType = null!;
     private int webPageType;
     private int webSectionType;
 
     public void Subscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void ChangeNavigationState(string newState) {
@@ -83,13 +83,9 @@ public class NavigationService : INavigationService {
         return renderType;
     }
 
-    private event Action _onChange;
+    private event Action OnChange = null!;
 
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
-    }
-
-    public Action OnChange() {
-        return _onChange;
+        OnChange?.Invoke();
     }
 }
