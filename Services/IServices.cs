@@ -88,11 +88,7 @@ public interface IAgileService {
     public void Unsubscribe(Action? action);
     public void Update();
     
-#if NO_SQL
     public Task Load();
-#else
-    public Task Load(DatabaseContext database);
-#endif
     public bool IsLoaded();
 }
 

@@ -68,7 +68,7 @@ public class DocumentationService : IDocumentationService
 #endif
 
         //TODO Until SQL work in production. Or, why even add SQL?
-        SortSQL();
+        SortSql();
 
         isLoaded = true;
 
@@ -92,7 +92,7 @@ public class DocumentationService : IDocumentationService
         return null;
     }
 
-    private void SortSQL()
+    private void SortSql()
     {
         foreach (var connection in DocConnectionModels)
         {

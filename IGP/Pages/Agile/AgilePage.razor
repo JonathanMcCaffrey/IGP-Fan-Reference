@@ -1,26 +1,24 @@
 ﻿@implements IDisposable;
-@inject IAgileService AgileService;
+@inject IAgileService agileService;
 
 @layout PageLayout
 
 @page "/agile"
 
-@if (!AgileService.IsLoaded())
+@if (!agileService.IsLoaded())
 {
     <LoadingComponent/>
 }
 else
-
-
 {
     <LayoutMediumContentComponent>
-
         <WebsiteTitleComponent>Agile</WebsiteTitleComponent>
-
         <div class="agileViewContainer">
-            @foreach (var sprint in AgileService.AgileSprintModels!.OrderBy(e => e.EndDate).Reverse())
+            @foreach (var sprint in agileService.AgileSprintModels!
+                .OrderBy(e => e.EndDate).Reverse())
             {
-                <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()" open="@(sprint.GetSprintType() == SprintType.Current)">
+                <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()" 
+                         open="@(sprint.GetSprintType() == SprintType.Current)">
                     <summary class="sprintSummary">
                         <div class="sprintTitle">@sprint.Name</div>
                         <div style="flex: 1; flex-grow: 1;"></div>
@@ -78,37 +76,23 @@ else
 
 
 @code {
-
-#if NO_SQL
-
-#else
-    [Inject]
-    DatabaseContext Database { get; set; }
-
-    [Parameter]
-    public DbSet<TaskModel> Tasks { get; set; }
-    
-    [Parameter]
-    public DbSet<SprintModel> Sprints { get; set; }
-#endif
-
     private readonly List<AgileTaskModel> backlog = new();
 
     protected override void OnInitialized()
     {
-        AgileService.Subscribe(HasChanged);
+        agileService.Subscribe(HasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        AgileService.Unsubscribe(HasChanged);
+        agileService.Unsubscribe(HasChanged);
     }
 
     void HasChanged()
     {
         backlog.Clear();
 
-        foreach (var task in AgileService.AgileTaskModels!)
+        foreach (var task in agileService.AgileTaskModels!)
         {
             if (task.AgileSprintModelId == null)
             {
@@ -121,11 +105,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-#if NO_SQL
-        await AgileService.Load();
-#else
-        await AgileService.Load(Database);
-#endif
+        await agileService.Load();
     }
 
 }
