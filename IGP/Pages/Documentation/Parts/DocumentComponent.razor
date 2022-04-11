@@ -7,7 +7,7 @@
             <div class="docDateCreated"><b>Created</b>: @DocContentModel.CreatedDate.ToString("MM/dd/yyyy")</div>
         </div>
     </div>
-    <div class="docContent">@((MarkupString)Markdown.ToHtml(DocContentModel.Content))</div>
+    <div class="docContent">@((MarkupString)Markdown.ToHtml(DocContentModel.Content, pipeline))</div>
 </div>
 
 <style>
@@ -25,11 +25,24 @@ justify-content: space-between;
  flex-direction: column;
  }
  
+ th {
+    padding:  8px;
+    border: 1px solid gray;
+ 
+ }
+  td {
+    padding:  8px;
+    border: 1px solid gray;
+  }
+
+  
 </style>
 
 @code {
 
     [Parameter]
     public DocContentModel DocContentModel { get; set; } = default!;
+    
+    MarkdownPipeline pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 
 }
