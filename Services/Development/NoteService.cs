@@ -27,9 +27,9 @@ public class NoteService : INoteService {
     }
 
     public List<NoteContentModel> NoteContentModels { get; set; } = default!;
-    public List<NoteConnectionModel> NoteConnectionModels { get; set; }
-    public List<NoteSectionModel> NoteSectionModels { get; set; }
-    
+    public List<NoteConnectionModel> NoteConnectionModels { get; set; } = null!;
+    public List<NoteSectionModel> NoteSectionModels { get; set; } = null!;
+
     public List<NoteContentModel> NoteContentModelsByPageOrder { get; set; } = new();
 
 

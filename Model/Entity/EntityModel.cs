@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ public class EntityModel
 
     private static List<EntityModel> _entityModelsOnlyHotkey = null!;
 
-    private static Dictionary<string, List<EntityModel>> _entityModelsByHotkey= null!;
+    private static Dictionary<string, List<EntityModel>>? _entityModelsByHotkey= null!;
 
 
     public EntityModel(string data, string entity, bool isSpeculative = false)
@@ -150,9 +151,9 @@ public class EntityModel
                       select replace).ToList().Count == 0)
             select entity;
 
-        if (foundList != null && !foundList.Any()) return null;
+        if (!foundList.Any()) return null;
 
-        var found = foundList.First();
+        var found = (foundList ?? Array.Empty<EntityModel>()).First();
 
         return found;
     }
@@ -160,37 +161,37 @@ public class EntityModel
 
     public EntityInfoModel Info()
     {
-        return (EntityInfoModel)EntityParts.Find(x => x.GetType() == typeof(EntityInfoModel));
+        return ((EntityInfoModel)EntityParts.Find(x => x.GetType() == typeof(EntityInfoModel))!)!;
     }
 
 
     public EntitySupplyModel Supply()
     {
-        return (EntitySupplyModel)EntityParts.Find(x => x.GetType() == typeof(EntitySupplyModel));
+        return ((EntitySupplyModel)EntityParts.Find(x => x.GetType() == typeof(EntitySupplyModel))!)!;
     }
 
 
     public EntityTierModel Tier()
     {
-        return (EntityTierModel)EntityParts.Find(x => x.GetType() == typeof(EntityTierModel));
+        return ((EntityTierModel)EntityParts.Find(x => x.GetType() == typeof(EntityTierModel))!)!;
     }
 
 
     public EntityProductionModel Production()
     {
-        return (EntityProductionModel)EntityParts.Find(x => x.GetType() == typeof(EntityProductionModel));
+        return ((EntityProductionModel)EntityParts.Find(x => x.GetType() == typeof(EntityProductionModel))!)!;
     }
 
 
     public EntityMovementModel Movement()
     {
-        return (EntityMovementModel)EntityParts.Find(x => x.GetType() == typeof(EntityMovementModel));
+        return ((EntityMovementModel)EntityParts.Find(x => x.GetType() == typeof(EntityMovementModel))!)!;
     }
 
 
     public EntityVitalityModel Vitality()
     {
-        return (EntityVitalityModel)EntityParts.Find(x => x.GetType() == typeof(EntityVitalityModel));
+        return ((EntityVitalityModel)EntityParts.Find(x => x.GetType() == typeof(EntityVitalityModel))!)!;
     }
 
 
@@ -217,25 +218,25 @@ public class EntityModel
 
     public EntityVanguardAddedModel VanguardAdded()
     {
-        return (EntityVanguardAddedModel)EntityParts.Find(x => x.GetType() == typeof(EntityVanguardAddedModel));
+        return ((EntityVanguardAddedModel)EntityParts.Find(x => x.GetType() == typeof(EntityVanguardAddedModel))!)!;
     }
 
 
     public EntityHotkeyModel Hotkey()
     {
-        return (EntityHotkeyModel)EntityParts.Find(x => x.GetType() == typeof(EntityHotkeyModel));
+        return ((EntityHotkeyModel)EntityParts.Find(x => x.GetType() == typeof(EntityHotkeyModel))!);
     }
 
 
     public EntityFactionModel Faction()
     {
-        return (EntityFactionModel)EntityParts.Find(x => x.GetType() == typeof(EntityFactionModel));
+        return ((EntityFactionModel)EntityParts.Find(x => x.GetType() == typeof(EntityFactionModel))!);
     }
 
 
     public EntityHarvestModel Harvest()
     {
-        return (EntityHarvestModel)EntityParts.Find(x => x.GetType() == typeof(EntityHarvestModel));
+        return ((EntityHarvestModel)EntityParts.Find(x => x.GetType() == typeof(EntityHarvestModel))!);
     }
 
 

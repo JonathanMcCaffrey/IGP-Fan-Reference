@@ -50,7 +50,7 @@
         var faction = FilterService.GetFactionType();
         var immortal = FilterService.GetImmortalType();
 
-        var foundEntity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
+        var foundEntity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
         if (foundEntity != null)
         {

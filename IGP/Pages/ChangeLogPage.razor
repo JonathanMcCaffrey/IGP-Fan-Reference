@@ -131,11 +131,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-#if NO_SQL
-        GitService.Load();
-#else
-        GitService.Load(Database);
-#endif
+        await GitService.Load();
     }
 
 }
