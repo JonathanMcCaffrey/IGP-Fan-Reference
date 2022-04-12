@@ -20,10 +20,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Markdig" Version="0.28.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.2.22153.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.2.22153.2" PrivateAssets="all"/>
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0-preview.2.22153.2"/>
+        <PackageReference Include="Markdig" Version="0.28.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.2.22153.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.2.22153.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0-preview.2.22153.2" />
         <!--
                 <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.2.22153.1" />
                 <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0-preview.2.22153.1" />
@@ -32,18 +32,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js"/>
+        <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Components\Components.csproj"/>
-        <ProjectReference Include="..\Contexts\Contexts.csproj"/>
-        <ProjectReference Include="..\Model\Model.csproj"/>
-        <ProjectReference Include="..\Services\Services.csproj"/>
+        <ProjectReference Include="..\Components\Components.csproj" />
+        <ProjectReference Include="..\Contexts\Contexts.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
+        <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot\generated"/>
+        <Folder Include="wwwroot\generated" />
     </ItemGroup>
 
     <ItemGroup>

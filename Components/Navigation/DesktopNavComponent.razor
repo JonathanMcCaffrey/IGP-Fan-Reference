@@ -1,25 +1,20 @@
 ﻿@inherits LayoutComponentBase
-@inject INavigationService NavigationService
-@using Services
-@using Model.Website
-@using Model.Website.Enums
-@using Microsoft.EntityFrameworkCore
+@inject INavigationService navigationService
 @implements IDisposable
 
-
 <div onmouseleave="@HoverOut" class="desktopNavContainer">
-    <div class="menuHeader" @onmouseover="() => NavigationService.ChangeNavigationState(NavigationStateType.Hovering_Menu)">
+    <div class="menuHeader" @onmouseover="() => navigationService.ChangeNavigationState(NavigationStateType.Hovering_Menu)">
         <NavLink href="/" class="websiteTitle">
             IGP Fan Reference
         </NavLink>
 
         @foreach (var webSection in WebSections) {
-            <div>@webSection.Name</div>
+            <div class="sectionButton">@webSection.Name</div>
         }
     </div>
 
     @{
-        var hoveredStyle = NavigationStateType.Hovering_Menu.Equals(NavigationService.GetNavigationState()) ?
+        var hoveredStyle = NavigationStateType.Hovering_Menu.Equals(navigationService.GetNavigationState()) ?
             "navMenuContainerShow" : "";
     }
     <div class="navMenuContainer @hoveredStyle">
@@ -34,6 +29,10 @@
 </div>
 
 <style>
+    .sectionButton {
+        cursor: pointer;    
+    }
+
     .desktopNavContainer {
         position: fixed;
         top: 0;
@@ -98,32 +97,22 @@
 
 @code {
     
-#if NO_SQL
-    [Parameter]
-    public List<WebSectionModel> WebSections { get; set; } = default!;
+    [Parameter] public List<WebSectionModel> WebSections { get; set; } = default!;
 
-    [Parameter]
-    public List<WebPageModel> WebPages { get; set; } = default!;
+    [Parameter] public List<WebPageModel> WebPages { get; set; } = default!;
     
-#else
-    [Parameter]
-    public DbSet<WebSectionModel> WebSections { get; set; } = default!;
-
-    [Parameter]
-    public DbSet<WebPageModel> WebPages { get; set; } = default!;
-#endif
 
     protected override void OnInitialized() {
-        NavigationService.Subscribe(StateHasChanged);
+        navigationService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose() {
-        NavigationService.Unsubscribe(StateHasChanged);
+        navigationService.Unsubscribe(StateHasChanged);
     }
 
     void HoverOut(MouseEventArgs mouseEventArgs) {
         Console.WriteLine(NavigationStateType.Default);
-        NavigationService.ChangeNavigationState(NavigationStateType.Default);
+        navigationService.ChangeNavigationState(NavigationStateType.Default);
     }
 
 }

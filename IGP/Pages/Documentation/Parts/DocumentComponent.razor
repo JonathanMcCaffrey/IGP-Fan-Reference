@@ -1,14 +1,24 @@
-<div class="doc">
-    <div class="docHeader">
-        <div class="docTitle">@DocContentModel.Name</div>
+@using System.Net.Http.Json
+@inject HttpClient httpClient
 
-        <div class="docDates">
-            <div class="docDateUpdated"><b>Updated</b>: @DocContentModel.UpdatedDate.ToString("MM/dd/yyyy")</div>
-            <div class="docDateCreated"><b>Created</b>: @DocContentModel.CreatedDate.ToString("MM/dd/yyyy")</div>
+@if (content == null)
+{
+    <LoadingComponent/>
+}
+else
+{
+    <div class="doc">
+        <div class="docHeader">
+            <div class="docTitle">@DocContentModel.Name</div>
+
+            <div class="docDates">
+                <div class="docDateUpdated"><b>Updated</b>: @DocContentModel.UpdatedDate.ToString("MM/dd/yyyy")</div>
+                <div class="docDateCreated"><b>Created</b>: @DocContentModel.CreatedDate.ToString("MM/dd/yyyy")</div>
+            </div>
         </div>
+        <div class="docContent">@((MarkupString)Markdown.ToHtml(content, pipeline))</div>
     </div>
-    <div class="docContent">@((MarkupString)Markdown.ToHtml(DocContentModel.Content, pipeline))</div>
-</div>
+}
 
 <style>
  .docTitle {
@@ -16,33 +26,32 @@
  }
  
  .docHeader {
-display: flex;
-justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
  }
  
  .docDates {
- display: flex;
- flex-direction: column;
+    display: flex;
+    flex-direction: column;
  }
  
  th {
     padding:  8px;
     border: 1px solid gray;
- 
  }
   td {
     padding:  8px;
     border: 1px solid gray;
-  }
-
-  
+  }  
 </style>
 
 @code {
-
     [Parameter]
     public DocContentModel DocContentModel { get; set; } = default!;
     
     MarkdownPipeline pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-
+    string? content = null;
+    private async Task<string> LoadContent() => content = await httpClient.GetStringAsync($"content/docs/{DocContentModel.Content}.md");
+    protected override async Task OnParametersSetAsync() => await LoadContent();
+    protected override async Task OnInitializedAsync() => await LoadContent();
 }

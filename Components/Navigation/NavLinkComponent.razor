@@ -1,9 +1,8 @@
 ﻿@using Services
 @using Model.Website
 @using Model.Website.Enums
-@inject INavigationService NavigationService;
-@inject NavigationManager NavigationManager;
-
+@inject INavigationService navigationService;
+@inject NavigationManager navigationManager;
 
 @if (isOnPage) {
     <NavLink href="@Page.Href" class="navContainer navLink navSelected">
@@ -13,7 +12,7 @@
     </NavLink>
 }
 else {
-    <NavLink @onclick="() => NavigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="navContainer navLink">
+    <NavLink @onclick="() => navigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="navContainer navLink">
         <div class="navName">
             @Page.Name
         </div>
@@ -67,7 +66,7 @@ else {
     bool isOnPage = false;
 
     protected override Task OnParametersSetAsync() {
-        var uri = NavigationManager.Uri.Remove(0, NavigationManager.BaseUri.Count()).ToLower();
+        var uri = navigationManager.Uri.Remove(0, navigationManager.BaseUri.Count()).ToLower();
 
         isOnPage = Page.Href.ToLower().Equals(uri);
         return Task.CompletedTask;
@@ -79,7 +78,7 @@ else {
     }
 
     void OnBack() {
-        NavigationService.Back();
+        navigationService.Back();
     }
 
 }
