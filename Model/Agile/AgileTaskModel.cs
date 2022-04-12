@@ -13,6 +13,13 @@ public class AgileTaskModel
     public string Status { get; set; } = StatusType.Fun_Idea;
     public string Priority { get; set; } = PriorityType.Medium;
     public string Task { get; set; } = TaskType.Feature;
+    
+    public int OrderPriority => Status == StatusType.In_Progress ? 1
+        : Status == StatusType.Todo ? 2
+        : Status == StatusType.Done ? 3 
+        : Status == StatusType.Canceled ? 4
+        : Status == StatusType.To_Test ? 2 
+        : Status == StatusType.Fun_Idea ? 5 : 6;
 
     public DateTime? Created { get; set; } = null;
     public DateTime? Finished { get; set; } = null;

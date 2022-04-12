@@ -11,7 +11,7 @@
     <div class="tasksContainer">
         @if (AgileSprint.AgileTaskModels.Count > 0)
         {
-            @foreach (var task in AgileSprint.AgileTaskModels)
+            @foreach (var task in AgileSprint.AgileTaskModels.OrderBy(x=>x.OrderPriority))
             {
                 <div class="taskContainer @task.Status.ToLower() @task.Task.ToLower()">
                     <div class="taskName">@task.Name</div>

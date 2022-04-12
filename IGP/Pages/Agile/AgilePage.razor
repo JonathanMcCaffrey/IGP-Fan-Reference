@@ -81,6 +81,7 @@ else
     protected override void OnInitialized()
     {
         agileService.Subscribe(HasChanged);
+        HasChanged();
     }
 
     void IDisposable.Dispose()
@@ -90,6 +91,8 @@ else
 
     void HasChanged()
     {
+        if(!agileService.IsLoaded()) return;
+        
         backlog.Clear();
 
         foreach (var task in agileService.AgileTaskModels!)
