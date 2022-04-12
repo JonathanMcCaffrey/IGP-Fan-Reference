@@ -6,11 +6,6 @@ using Services.Development;
 using Services.Immortal;
 using Services.Website;
 
-#if NO_SQL
-#else
-using Contexts;
-using Microsoft.EntityFrameworkCore;
-#endif
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");

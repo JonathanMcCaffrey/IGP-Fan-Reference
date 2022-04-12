@@ -41,7 +41,6 @@ public class ToastService : IToastService
     public void RemoveToast(ToastModel toast)
     {
         toasts.Remove(toast);
-        NotifyDataChanged();
     }
 
     public bool HasToasts()
@@ -52,6 +51,16 @@ public class ToastService : IToastService
     public List<ToastModel> GetToasts()
     {
         return toasts;
+    }
+
+    public void AgeToasts()
+    {
+        foreach (var toast in toasts)
+        {
+            toast.Age++;
+        }
+        
+        NotifyDataChanged();
     }
 
     public void ClearAllToasts()

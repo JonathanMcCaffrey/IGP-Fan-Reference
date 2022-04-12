@@ -21,6 +21,7 @@ using Services.Immortal;
 
 namespace Services;
 
+
 public interface IToastService
 {
     public void Subscribe(Action action);
@@ -29,6 +30,7 @@ public interface IToastService
     void RemoveToast(ToastModel toast);
     bool HasToasts();
     List<ToastModel> GetToasts();
+    void AgeToasts();
     void ClearAllToasts();
 }
 
