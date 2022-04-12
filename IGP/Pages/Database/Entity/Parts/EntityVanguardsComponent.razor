@@ -14,7 +14,7 @@
 
             var productionBuilding = (from building in requirements
                 where building.Requirement == RequirementType.Production_Building
-                select building).First().DataType;
+                select building).First().Id;
 
             <div>
                 <div>
@@ -40,7 +40,7 @@
                 var vanguard = entity.VanguardAdded();
                 var productionBuilding = (from building in requirements
                     where building.Requirement == RequirementType.Production_Building
-                    select building).First().DataType;
+                    select building).First().Id;
 
                 <div>
                     <div>

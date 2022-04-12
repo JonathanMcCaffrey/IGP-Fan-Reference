@@ -201,7 +201,7 @@ public class BuildOrderService : IBuildOrderService
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
                         (requiredEntity.Production() == null ? 0 : requiredEntity.Production().BuildTime)
-                    where requiredEntity.DataType == requirement.DataType
+                    where requiredEntity.DataType == requirement.Id
                     select requiredEntity;
 
                 var entitiesAlreadyMorphed = from entitiesAtInterval in buildOrder.Orders
@@ -218,7 +218,7 @@ public class BuildOrderService : IBuildOrderService
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
                         (requiredEntity.Production() == null ? 0 : requiredEntity.Production().BuildTime)
-                    where requiredEntity.DataType == requirement.DataType
+                    where requiredEntity.DataType == requirement.Id
                     select requiredEntity;
 
 

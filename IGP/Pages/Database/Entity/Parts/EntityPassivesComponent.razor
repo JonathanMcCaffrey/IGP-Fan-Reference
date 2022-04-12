@@ -10,6 +10,9 @@
 
             var production = passive.Production();
 
+            var requirements = passive.Requirements();
+
+            
             <div>
                 <div>
                     <b>Name:</b> @info.Name
@@ -21,7 +24,7 @@
                 @if (!info.Notes.Trim().Equals(""))
                 {
                     <div>
-                        <b>- Description:</b> @((MarkupString)info.Notes)
+                        <b>- Notes:</b> @((MarkupString)info.Notes)
                     </div>
                 }
             </div>
@@ -43,6 +46,19 @@
                     }
                 </div>
             }
+            
+            @if (requirements.Count > 0)
+            {
+                @foreach (var requirement in requirements)
+                {
+                    var requirementModel = DATA.Get()[requirement.Id];
+                    <div>
+                        <span>
+                            <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
+                        </span>
+                    </div>
+                }
+            }
         }
     }
     else
@@ -55,6 +71,9 @@
                 var info = passive.Info();
 
                 var production = passive.Production();
+                
+                var requirements = passive.Requirements();
+
 
                 <div>
                     <div>
@@ -67,9 +86,23 @@
                     @if (!info.Notes.Trim().Equals(""))
                     {
                         <div>
-                            <b>Description:</b> @((MarkupString)info.Notes)
+                            <b>Notes:</b> @((MarkupString)info.Notes)
                         </div>
                     }
+                    
+                    
+                @if (requirements.Count > 0)
+                {
+                    @foreach (var requirement in requirements)
+                    {
+                        var requirementModel = DATA.Get()[requirement.Id];
+                        <div>
+                            <span>
+                                <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
+                            </span>
+                        </div>
+                    }
+                }
                 </div>
 
                 @if (production != null)
@@ -89,6 +122,7 @@
                         }
                     </div>
                 }
+                
             }
         </EntityDisplayComponent>
     }

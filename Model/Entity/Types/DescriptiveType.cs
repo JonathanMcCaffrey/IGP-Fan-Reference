@@ -26,4 +26,7 @@ public static class DescriptiveType
     public static string Summon = "Summon";
     public static string Upgrade = "Upgrade";
     public static string Ability = "Ability";
+    
+    public static string Passive = "Passive";
+    public static string Applies_Debuff = "Applies_Debuff";
 }

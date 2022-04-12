@@ -7,11 +7,11 @@
             <div>
                 @foreach (var requirement in Requirements)
                 {
-                    var replaced = DATA.Get()[requirement.DataType];
+                    var requirementModel = DATA.Get()[requirement.Id];
                     <div>
 
                         <span>
-                            <b>@requirement.Requirement.Replace("_", " "):</b> @replaced.Info().Name
+                            <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
                         </span>
                     </div>
                 }
@@ -97,7 +97,7 @@
                             <div>
 
                                 <span>
-                                    <b>@requirement.Requirement.Replace("_", " "):</b> <EntityLabelComponent EntityId="@requirement.DataType"/>
+                                    <b>@requirement.Requirement.Replace("_", " "):</b> <EntityLabelComponent EntityId="@requirement.Id"/>
                                 </span>
                             </div>
                         }
