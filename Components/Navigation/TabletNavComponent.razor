@@ -19,23 +19,23 @@
 
 
     <div class="tabletNav @navOpen">
-        @foreach (var _section in WebSections) {
+        @foreach (var webSection in WebSections) {
             var pages = (from page in WebPages
-                where page.WebSectionModelId == _section.Id
+                where page.WebSectionModelId == webSection.Id
                 select page).ToList();
 
             <div>
                 <div>
-                    @_section.Name
+                    @webSection.Name
                 </div>
 
                 <div class="tabletNavItems">
-                    @foreach (var _page in pages) {
-                        if (_page.IsPrivate.Equals("True")) {
+                    @foreach (var webPage in pages) {
+                        if (webPage.IsPrivate.Equals("True")) {
                             continue;
                         }
-                        <NavLink href="@_page.Href" class="tabletNavItem" @onclick="OnPageClicked">
-                            @_page.Name
+                        <NavLink href="@webPage.Href" class="tabletNavItem" @onclick="OnPageClicked">
+                            @webPage.Name
                         </NavLink>
                     }
                 </div>

@@ -1,0 +1,30 @@
+﻿@using Model.Website
+
+<div class="sectionContainer">
+    @foreach (var childPage in Section.WebPageModels) {
+        if (childPage.IsPrivate.Equals("True")) {
+            continue;
+        }
+        <DesktopNavLinkComponent Page=childPage></DesktopNavLinkComponent>
+    }
+</div>
+
+<style>
+    .sectionContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        justify-content: flex-start;
+        position: relative;
+        width: 100%;
+    }
+    
+    
+</style>
+
+@code {
+
+    [Parameter]
+    public WebSectionModel Section { get; set; } = default!;
+
+}

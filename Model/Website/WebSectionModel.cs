@@ -1,4 +1,7 @@
-﻿namespace Model.Website;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Model.Website;
 
 public class WebSectionModel
 {
@@ -8,4 +11,6 @@ public class WebSectionModel
     public string Href { get; set; } = null;
     public int Order { get; set; } = 0;
     public string IsPrivate { get; set; } = "True";
+
+    [NotMapped] public List<WebPageModel> WebPageModels { get; set; } = new List<WebPageModel>();
 }

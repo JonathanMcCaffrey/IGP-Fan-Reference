@@ -177,7 +177,7 @@ public class EntityModel
     }
 
 
-    public EntityProductionModel Production()
+    public EntityProductionModel? Production()
     {
         return ((EntityProductionModel)EntityParts.Find(x => x.GetType() == typeof(EntityProductionModel))!)!;
     }

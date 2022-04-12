@@ -5,10 +5,10 @@ using Model.Types;
 namespace Services.Immortal;
 
 public class EconomyService : IEconomyService {
-    private List<EconomyModel> _overTime = null!;
+    private List<EconomyModel> _economyOverTime = null!;
 
     public List<EconomyModel> GetOverTime() {
-        return _overTime;
+        return _economyOverTime;
     }
 
     public void Subscribe(Action action) {
@@ -20,28 +20,32 @@ public class EconomyService : IEconomyService {
     }
 
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval) {
-        if (_overTime == null) {
-            _overTime = new List<EconomyModel>();
+        
+        //TODO Break all this up
+        if (_economyOverTime == null) {
+            _economyOverTime = new List<EconomyModel>();
             for (var interval = 0; interval < timing.GetTiming(); interval++)
-                _overTime.Add(new EconomyModel { Interval = interval });
+                _economyOverTime.Add(new EconomyModel { Interval = interval });
         }
 
-        if (_overTime.Count > timing.GetTiming())
-            _overTime.RemoveRange(timing.GetTiming(), _overTime.Count - timing.GetTiming());
+        
+        
+        if (_economyOverTime.Count > timing.GetTiming())
+            _economyOverTime.RemoveRange(timing.GetTiming(), _economyOverTime.Count - timing.GetTiming());
 
-        while (_overTime.Count < timing.GetTiming()) _overTime.Add(new EconomyModel { Interval = _overTime.Count - 1 });
+        while (_economyOverTime.Count < timing.GetTiming()) _economyOverTime.Add(new EconomyModel { Interval = _economyOverTime.Count - 1 });
 
         for (var interval = fromInterval; interval < timing.GetTiming(); interval++) {
-            var economyAtSecond = _overTime[interval];
+            var economyAtSecond = _economyOverTime[interval];
             if (interval > 0) {
-                economyAtSecond.Alloy = _overTime[interval - 1].Alloy;
-                economyAtSecond.Ether = _overTime[interval - 1].Ether;
-                economyAtSecond.Pyre = _overTime[interval - 1].Pyre;
-                economyAtSecond.WorkerCount = _overTime[interval - 1].WorkerCount;
-                economyAtSecond.BusyWorkerCount = _overTime[interval - 1].BusyWorkerCount;
-                economyAtSecond.CreatingWorkerCount = _overTime[interval - 1].CreatingWorkerCount;
-                economyAtSecond.Harvesters = _overTime[interval - 1].Harvesters.ToList();
-                economyAtSecond.CreatingWorkerDelays = _overTime[interval - 1].CreatingWorkerDelays.ToList();
+                economyAtSecond.Alloy = _economyOverTime[interval - 1].Alloy;
+                economyAtSecond.Ether = _economyOverTime[interval - 1].Ether;
+                economyAtSecond.Pyre = _economyOverTime[interval - 1].Pyre;
+                economyAtSecond.WorkerCount = _economyOverTime[interval - 1].WorkerCount;
+                economyAtSecond.BusyWorkerCount = _economyOverTime[interval - 1].BusyWorkerCount;
+                economyAtSecond.CreatingWorkerCount = _economyOverTime[interval - 1].CreatingWorkerCount;
+                economyAtSecond.Harvesters = _economyOverTime[interval - 1].Harvesters.ToList();
+                economyAtSecond.CreatingWorkerDelays = _economyOverTime[interval - 1].CreatingWorkerDelays.ToList();
             }
 
             economyAtSecond.Interval = interval;
@@ -134,7 +138,7 @@ public class EconomyService : IEconomyService {
 
 
     public EconomyModel GetEconomy(int atInterval) {
-        return _overTime[atInterval];
+        return _economyOverTime[atInterval];
     }
 
     private event Action onChange = null!;

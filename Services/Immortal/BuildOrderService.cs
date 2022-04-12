@@ -9,29 +9,34 @@ using YamlDotNet.Serialization;
 
 namespace Services.Immortal;
 
-public class BuildOrderService : IBuildOrderService {
-    private int HumanMicro = 2;
-
+public class BuildOrderService : IBuildOrderService
+{
     private readonly BuildOrderModel buildOrder = new();
-    private int lastInterval = 0;
-    
-    public int GetLastRequestInterval() {
+    private readonly int HumanMicro = 2;
+    private int lastInterval;
+
+    public int GetLastRequestInterval()
+    {
         return lastInterval;
     }
 
-    public Dictionary<int, List<EntityModel>> GetOrders() {
+    public Dictionary<int, List<EntityModel>> GetOrders()
+    {
         return buildOrder.Orders;
     }
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
     }
 
-    public void Add(EntityModel entity, int atInterval) {
+    public void Add(EntityModel entity, int atInterval)
+    {
         if (!buildOrder.Orders.ContainsKey(atInterval))
             buildOrder.Orders.Add(atInterval, new List<EntityModel> { entity.Clone() });
         else
@@ -40,64 +45,76 @@ public class BuildOrderService : IBuildOrderService {
         if (atInterval > lastInterval) lastInterval = atInterval;
     }
 
-    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService withToasts) {
-        if (entity != null) {
-            var production = entity.Production();
+    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService withToasts)
+    {
+        var production = entity.Production();
 
-            if (production != null) {
-                for (var interval = lastInterval; interval < withEconomy.GetOverTime().Count; interval++) {
-                    var economyAtSecond = withEconomy.GetOverTime()[interval];
-                    if (economyAtSecond.Alloy >= production.Alloy && economyAtSecond.Ether >= production.Ether &&
-                        economyAtSecond.Pyre >= production.Pyre) {
-                        if (!MeetsSupply(entity)) {
-                            withToasts.AddToast(new ToastModel {Title = "Supply Cap Reached", Message = "Build more supply!", SeverityType = SeverityType.Error});
-                            return false;
-                        }
-
-                        if (!MeetsRequirements(entity, interval)) continue;
-
-                        //Account for human Micro delay
-                        interval += HumanMicro;
-
-                        if (!buildOrder.Orders.ContainsKey(interval))
-                            buildOrder.Orders.Add(interval, new List<EntityModel> { entity.Clone() });
-                        else
-                            buildOrder.Orders[interval].Add(entity.Clone());
-
-                        lastInterval = interval;
-
-                        NotifyDataChanged();
-                        return true;
-                    }
-                    else if(interval + 1 == withEconomy.GetOverTime().Count)
+        if (production != null)
+        {
+            for (var interval = lastInterval; interval < withEconomy.GetOverTime().Count; interval++)
+            {
+                var economyAtSecond = withEconomy.GetOverTime()[interval];
+                if (economyAtSecond.Alloy >= production.Alloy && economyAtSecond.Ether >= production.Ether &&
+                    economyAtSecond.Pyre >= production.Pyre)
+                {
+                    if (!MeetsSupply(entity))
                     {
-                        if (economyAtSecond.Ether < production.Ether)
+                        withToasts.AddToast(new ToastModel
                         {
-                            withToasts.AddToast(new ToastModel {Title = "Not Enough Ether", Message = "Build more ether extractors!", SeverityType = SeverityType.Error});
-
-                        }
-                        
+                            Title = "Supply Cap Reached", Message = "Build more supply!",
+                            SeverityType = SeverityType.Error
+                        });
+                        return false;
                     }
+
+                    if (!MeetsRequirements(entity, interval)) continue;
+
+                    //Account for human Micro delay
+                    interval += HumanMicro;
+
+                    if (!buildOrder.Orders.ContainsKey(interval))
+                        buildOrder.Orders.Add(interval, new List<EntityModel> { entity.Clone() });
+                    else
+                        buildOrder.Orders[interval].Add(entity.Clone());
+
+                    lastInterval = interval;
+
+                    NotifyDataChanged();
+                    return true;
+                }
+
+                if (interval + 1 == withEconomy.GetOverTime().Count)
+                {
+                    if (economyAtSecond.Ether < production.Ether)
+                        withToasts.AddToast(new ToastModel
+                        {
+                            Title = "Not Enough Ether", Message = "Build more ether extractors!",
+                            SeverityType = SeverityType.Error
+                        });
                 }
             }
-            else {
-                Add(entity, 0);
-                NotifyDataChanged();
-                return true;
-            }
+        }
+        else
+        {
+            Add(entity, 0);
+            NotifyDataChanged();
+            return true;
         }
 
         return false;
     }
 
-    public void RemoveLast() {
+    public void RemoveLast()
+    {
         EntityModel entityRemoved = null!;
 
 
-        if (buildOrder.Orders.Keys.Count > 1) {
+        if (buildOrder.Orders.Keys.Count > 1)
+        {
             var last = buildOrder.Orders.Keys.Last();
 
-            if (buildOrder.Orders[last].Count > 0) {
+            if (buildOrder.Orders[last].Count > 0)
+            {
                 entityRemoved = buildOrder.Orders[last].Last();
                 buildOrder.Orders[last].Remove(buildOrder.Orders[last].Last());
             }
@@ -109,7 +126,8 @@ public class BuildOrderService : IBuildOrderService {
             else
                 lastInterval = 1;
 
-            if (entityRemoved?.Info()?.Descriptive == DescriptiveType.Worker) {
+            if (entityRemoved?.Info()?.Descriptive == DescriptiveType.Worker)
+            {
                 RemoveLast();
                 return;
             }
@@ -119,15 +137,18 @@ public class BuildOrderService : IBuildOrderService {
     }
 
 
-    public string AsJson() {
-        var options = new JsonSerializerOptions {
+    public string AsJson()
+    {
+        var options = new JsonSerializerOptions
+        {
             WriteIndented = true
         };
         options.Converters.Add(new JsonStringEnumConverter());
         return JsonSerializer.Serialize(buildOrder, options);
     }
 
-    public string BuildOrderAsYaml() {
+    public string BuildOrderAsYaml()
+    {
         var stringBuilder = new StringBuilder();
         var serializer = new Serializer();
         stringBuilder.AppendLine(serializer.Serialize(buildOrder));
@@ -135,28 +156,32 @@ public class BuildOrderService : IBuildOrderService {
         return buildOrderText;
     }
 
-    public List<EntityModel> GetOrdersAt(int interval) {
+    public List<EntityModel> GetOrdersAt(int interval)
+    {
         return (from ordersAtTime in buildOrder.Orders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key == interval
             select orders).ToList();
     }
 
-    public List<EntityModel> GetCompletedAt(int interval) {
+    public List<EntityModel> GetCompletedAt(int interval)
+    {
         return (from ordersAtTime in buildOrder.Orders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) == interval
             select orders).ToList();
     }
 
-    public List<EntityModel> GetCompletedBefore(int interval) {
+    public List<EntityModel> GetCompletedBefore(int interval)
+    {
         return (from ordersAtTime in buildOrder.Orders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             select orders).ToList();
     }
 
-    public List<EntityModel> GetHarvestersCompletedBefore(int interval) {
+    public List<EntityModel> GetHarvestersCompletedBefore(int interval)
+    {
         return (from ordersAtTime in buildOrder.Orders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
@@ -164,12 +189,14 @@ public class BuildOrderService : IBuildOrderService {
             select orders).ToList();
     }
 
-    public bool MeetsRequirements(EntityModel entity, int requestedInterval) {
+    public bool MeetsRequirements(EntityModel entity, int requestedInterval)
+    {
         var requirements = entity.Requirements();
         if (requirements.Count == 0) return true;
 
         foreach (var requirement in requirements)
-            if (requirement.Requirement == RequirementType.Morph) {
+            if (requirement.Requirement == RequirementType.Morph)
+            {
                 var entitiesNeeded = from entitiesAtInterval in buildOrder.Orders
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
@@ -185,7 +212,8 @@ public class BuildOrderService : IBuildOrderService {
                 if (entitiesAlreadyMorphed.Count() >= entitiesNeeded.Count())
                     return false;
             }
-            else {
+            else
+            {
                 var entitiesNeeded = from entitiesAtInterval in buildOrder.Orders
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
@@ -204,40 +232,48 @@ public class BuildOrderService : IBuildOrderService {
         return true;
     }
 
-    public void SetName(string Name) {
+    public void SetName(string Name)
+    {
         buildOrder.Name = Name;
         NotifyDataChanged();
     }
 
-    public string GetName() {
+    public string GetName()
+    {
         return buildOrder.Name;
     }
 
-    public void SetNotes(string Notes) {
+    public void SetNotes(string Notes)
+    {
         buildOrder.Notes = Notes;
         NotifyDataChanged();
     }
 
-    public string GetNotes() {
+    public string GetNotes()
+    {
         return buildOrder.Notes;
     }
 
-    public void SetColor(string color) {
+    public void SetColor(string color)
+    {
         buildOrder.Color = color;
         NotifyDataChanged();
     }
 
-    public string GetColor() {
+    public string GetColor()
+    {
         return buildOrder.Color;
     }
 
     private event Action OnChange = null!;
 
-    private void NotifyDataChanged() {
+    private void NotifyDataChanged()
+    {
         OnChange?.Invoke();
     }
 
-    public bool MeetsSupply(EntityModel entity) {
+    public bool MeetsSupply(EntityModel entity)
+    {
         var supply = entity.Supply();
         if (supply == null || supply.Takes == 0) return true;
 

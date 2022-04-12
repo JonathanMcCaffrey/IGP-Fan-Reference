@@ -2,33 +2,53 @@
 @inject INavigationService navigationService
 @implements IDisposable
 
-<div onmouseleave="@HoverOut" class="desktopNavContainer">
-    <div class="menuHeader" @onmouseover="() => navigationService.ChangeNavigationState(NavigationStateType.Hovering_Menu)">
+@{
+    var visibleStyle = navigationService.GetNavigationSectionId() > 0 ? "clickOffVisible" : "";
+}
+
+<div onclick="@MenuClosed" class="clickOffBackground @visibleStyle">
+
+</div>
+
+<div class="desktopNavContainer">
+    <div class="menuHeader">
         <NavLink href="/" class="websiteTitle">
             IGP Fan Reference
         </NavLink>
 
-        @foreach (var webSection in WebSections) {
-            <div class="sectionButton">@webSection.Name</div>
-        }
-    </div>
+        @foreach (var webSection in WebSections)
+        {
+            <div>
+                <button onclick="@(() => MenuClicked(webSection.Id))" class="sectionButton">@webSection.Name</button>
 
-    @{
-        var hoveredStyle = NavigationStateType.Hovering_Menu.Equals(navigationService.GetNavigationState()) ?
-            "navMenuContainerShow" : "";
-    }
-    <div class="navMenuContainer @hoveredStyle">
-        @foreach (var section in WebSections) {
-            var pages = (from page in WebPages
-                where page.WebSectionModelId == section.Id
-                select page).ToList();
 
-            <NavSectionComponent Section=section Children=pages/>
+                @if (webSection.Id.Equals(navigationService.GetNavigationSectionId()))
+                {
+                    <div class="navMenuPosition">
+                        <div class="navMenuContainer">
+                            <DesktopNavSectionComponent Section=webSection/>
+                        </div>
+                    </div>
+                }
+            </div>
         }
     </div>
 </div>
 
 <style>
+    .clickOffBackground {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        visibility: hidden;
+    }
+    
+    .clickOffBackground.clickOffVisible {
+        visibility:visible;
+    }
+
     .sectionButton {
         cursor: pointer;    
     }
@@ -60,26 +80,31 @@
         color: white;
     }
 
+    .navMenuPosition {
+       position: relative;
+            
+       top: calc(100% - 18px);
+       left: -64px;
+       width: 0;
+       height: 0;
+    }
+
     .navMenuContainer {
-        display: none;
-        position: fixed;
-        top: 50px;
+        width: 330px;
         flex-direction: row;
         gap: 20px;
-        width: 100%;
         align-items: flex-start;
         justify-content: center;
         flex-wrap: wrap;
-        border-bottom: 4px solid black;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 4px;
+        padding-right: 4px;
         background-color: rgba(22, 22, 24, 0.95);
-    }
-
-    .navMenuContainerShow {
+        border: 1px solid black;
+        border-radius: 4px;
         display: flex;
     }
-
 
     @@media only screen and (max-width: 1025px) {
         .desktopNavContainer {
@@ -96,21 +121,37 @@
 </style>
 
 @code {
-    
-    [Parameter] public List<WebSectionModel> WebSections { get; set; } = default!;
 
-    [Parameter] public List<WebPageModel> WebPages { get; set; } = default!;
-    
+    [Parameter]
+    public List<WebSectionModel> WebSections { get; set; } = default!;
 
-    protected override void OnInitialized() {
+    [Parameter]
+    public List<WebPageModel> WebPages { get; set; } = default!;
+
+
+    protected override void OnInitialized()
+    {
         navigationService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         navigationService.Unsubscribe(StateHasChanged);
     }
 
-    void HoverOut(MouseEventArgs mouseEventArgs) {
+    void MenuClicked(int menuName)
+    {
+        Console.WriteLine($"MenuClicked {menuName}");
+        navigationService.ChangeNavigationSectionId(menuName);
+    }
+
+    void MenuClosed()
+    {
+        navigationService.ChangeNavigationSectionId(-1);
+    }
+
+    void HoverOut(MouseEventArgs mouseEventArgs)
+    {
         Console.WriteLine(NavigationStateType.Default);
         navigationService.ChangeNavigationState(NavigationStateType.Default);
     }

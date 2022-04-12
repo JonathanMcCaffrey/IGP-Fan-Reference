@@ -1,10 +1,5 @@
 ﻿using System.Net.Http.Json;
 
-#if !NO_SQL
-using Contexts;
-using Microsoft.EntityFrameworkCore;
-#endif
-
 using Model.Website;
 
 namespace Services.Development;
@@ -24,17 +19,8 @@ public class WebsiteService : IWebsiteService {
 
 
 
-#if NO_SQL
     public List<WebSectionModel> WebSectionModels { get; set; } = default!;
     public List<WebPageModel> WebPageModels { get; set; } = default!;
-#else
-
-    private DatabaseContext Database { get; set; }
-
-    
-    public DbSet<WebSectionModel> WebSectionModels => Database.WebSectionModels;
-    public DbSet<WebPageModel> WebPageModels => Database.WebPageModels;
-#endif
 
 
     public void Subscribe(Action action) {
@@ -49,39 +35,35 @@ public class WebsiteService : IWebsiteService {
         return isLoaded;
     }
     
-#if NO_SQL
-    
     public async Task Load() {
         if (isLoaded) {return;}
-        
-        
         
         WebPageModels = ((await httpClient.GetFromJsonAsync<WebPageModel[]>("generated/WebPageModels.json"))!).ToList();
         WebSectionModels =((await httpClient.GetFromJsonAsync<WebSectionModel[]>("generated/WebSectionModels.json"))!).ToList();
 
         isLoaded = true;
 
+        SortSql();
+
         NotifyDataChanged();
     }
-#else
-    public async Task Load(DatabaseContext database) {
-        Database = database;
 
-        if (isLoaded) {return;}
+    void SortSql()
+    {
+        foreach (var page in WebPageModels)
+        {
 
-        Database.WebPageModels.AddRange(await httpClient.GetFromJsonAsync<WebPageModel[]>("generated/WebPageModels.json"));
-        Database.WebSectionModels.AddRange(
-            await httpClient.GetFromJsonAsync<WebSectionModel[]>("generated/WebSectionModels.json"));
-
-        Database.SaveChanges();
-
-        isLoaded = true;
-
-        NotifyDataChanged();
-    }    
-#endif
-
-
+            if (page.WebSectionModelId != null)
+            {
+                WebSectionModel webSection = 
+                    WebSectionModels.Find(webSection => webSection.Id == page.WebSectionModelId);
+                
+                webSection.WebPageModels.Add(page);
+            }
+        }
+        
+    }
+    
     public void Update() {
         NotifyDataChanged();
     }

@@ -1,18 +1,15 @@
-﻿@using Services
-@using Model.Website
-@using Model.Website.Enums
-@inject INavigationService navigationService;
+﻿@inject INavigationService navigationService;
 @inject NavigationManager navigationManager;
 
 @if (isOnPage) {
-    <NavLink href="@Page.Href" class="navContainer navLink navSelected">
+    <NavLink href="@Page.Href" class="desktopNavLink navSelected">
         <div class="navName">
             @Page.Name
         </div>
     </NavLink>
 }
 else {
-    <NavLink @onclick="() => navigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="navContainer navLink">
+    <NavLink @onclick="() => navigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="desktopNavLink">
         <div class="navName">
             @Page.Name
         </div>
@@ -20,16 +17,6 @@ else {
 }
 
 <style>
-    .navContainer {
-        cursor: pointer;
-        border: 2px solid black;
-        border: none;
-        height: 60px;
-        width: 100%;
-        display: block;
-        display: flex;
-        border: none;
-    }
 
     .navName {
         margin: auto;
@@ -40,12 +27,27 @@ else {
     }
 
 
-    .navLink {
+    .desktopNavLink {
+        cursor: pointer;
+        height: 60px;
+        width: 100%;
+        display: flex;
+    
         background-color: var(--primary);
         border: 1px solid var(--primary);
     }
-
-        .navLink:hover {
+    
+    .desktopNavLink:first-of-type {    
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    
+    .desktopNavLink:last-of-type {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+   
+        .desktopNavLink:hover {
             color: #8EC3FF;
             background-color: var(--primary-hover);
             border-color: var(--primary-border-hover);

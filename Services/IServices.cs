@@ -1,15 +1,8 @@
 ﻿
-#if NO_SQL
-
-#else
-using Contexts;
-using Microsoft.EntityFrameworkCore;
-#endif
 using Model.Doc;
 using Model.BuildOrders;
 using Model.Economy;
 using Model.Entity;
-using Model.Entity.Data;
 using Model.MemoryTester;
 using Model.Notes;
 using Model.Website;
@@ -52,26 +45,15 @@ public interface IEntityDialogService
 }
 
 public interface IWebsiteService {
-#if NO_SQL
     public List<WebPageModel> WebPageModels { get; set; }
     public List<WebSectionModel> WebSectionModels { get; set; }
-#else
-    public DbSet<WebPageModel> WebPageModels { get; }
-    public DbSet<WebSectionModel> WebSectionModels { get; }
-#endif
 
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
     
     
-#if NO_SQL
     public Task Load();
-#else
-    
-    public Task Load(DatabaseContext database);
-#endif
-    
     
     public bool IsLoaded();
 }
@@ -146,6 +128,8 @@ public interface INavigationService {
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
 
+    public void ChangeNavigationSectionId(int newState);
+    public int GetNavigationSectionId();
     public void ChangeNavigationState(string newState);
     public string GetNavigationState();
 

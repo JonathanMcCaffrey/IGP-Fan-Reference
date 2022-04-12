@@ -41,11 +41,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-#if NO_SQL
         await webService.Load();
-#else
-        await WebService.Load(Database);
-#endif
     }
 
     void IDisposable.Dispose()

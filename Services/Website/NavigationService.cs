@@ -4,19 +4,35 @@ namespace Services.Website;
 
 public class NavigationService : INavigationService {
     private string navigationStateType = NavigationStateType.Default;
-
+    private int navigationStateId = -1;
+    
     private NavSelectionType navSelectionType = NavSelectionType.None;
 
+    
+    
     private Type renderType = null!;
     private int webPageType;
     private int webSectionType;
 
+    
+    
     public void Subscribe(Action action) {
         OnChange += action;
     }
 
     public void Unsubscribe(Action action) {
         OnChange += action;
+    }
+
+    public void ChangeNavigationSectionId(int newState)
+    {
+        navigationStateId = newState;
+        NotifyDataChanged();
+    }
+
+    public int GetNavigationSectionId()
+    {
+        return navigationStateId;
     }
 
     public void ChangeNavigationState(string newState) {
