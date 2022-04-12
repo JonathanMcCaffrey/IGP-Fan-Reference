@@ -1,3 +1,10 @@
+---
+title: Project Data
+summary: Using data in this project.
+created_date: 2022-04-11
+updated_date: 2022-04-11
+---
+
 # Overview
 
 This document will contain general information on data in this project.
@@ -87,12 +94,6 @@ Most text isn't using localized strings yet. And English is the only plan of sup
 
 ## Markdown Files
 
-Documents are currently handled in the SQL database. But ideally, they will be markdown documents instead, with links to GitHub.
+Documents and Notes are markdown files located in the `wwwroot/content` folder.
 
-Basically long term, this website will perhaps also act as a public wiki. Who knows? With GitHub as the public CMS.
-
-So if Blazor WASM doesn't support some markdown generation that is not cumbersome, then the `IGP_Convert` tool will need to be extended to convert Markup files to files Blazor WASM can use.
-
-And ideally, any generation systems we write will use any front-matter in the markdown documents.
-
-Each of these pages will have one of those `edit on github` buttons.
+Navigation to these pages is handled via the SQL data. 

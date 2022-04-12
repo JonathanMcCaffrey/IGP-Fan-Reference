@@ -1,0 +1,28 @@
+﻿<a href="@Href" class="editLinkButton">
+    Edit on GitHub
+</a>
+
+<style>
+    .editLinkButton {
+        color: white;
+        background-color: var(--info);
+        border: 1px solid var(--info-border);
+        padding: 16px;
+        border-radius: 3px;
+        display: block;
+        width: 180px;
+        text-align: center;
+    }
+    
+    .editLinkButton:hover {
+        color: white;
+        background-color: var(--info-hover);
+        border: 2px solid var(--info-border-hover);
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public string Href { get; set; } = "";
+}

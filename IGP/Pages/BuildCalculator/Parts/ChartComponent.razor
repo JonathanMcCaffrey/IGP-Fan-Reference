@@ -58,9 +58,7 @@
     [Inject]
     IBuildOrderService BuildOrderService { get; set; } = default!;
 
-
-    int height = 100;
-    readonly int width = 250;
+    private readonly int width = 250;
 
     List<int> valueList = new();
 

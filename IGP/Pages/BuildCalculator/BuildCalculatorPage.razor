@@ -207,8 +207,7 @@
             padding-left: 2px;
             padding-right: 2px;
         }
-
-
+        
         .gridItem {
             padding: 0px;
             border: 0px;
@@ -264,12 +263,13 @@
         var faction = filterService.GetFactionType();
         var immortal = filterService.GetImmortalType();
 
-        var entity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
+        EntityModel? entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
         if (entity == null)
         {
             return;
         }
+        
         if (buildOrderService.Add(entity, economyService, toastService))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());

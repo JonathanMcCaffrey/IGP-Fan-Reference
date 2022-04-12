@@ -54,13 +54,7 @@ public class DocumentationService : IDocumentationService
         DocSectionModels =
             (await httpClient.GetFromJsonAsync<DocSectionModel[]>("generated/DocSectionModels.json") ??
              Array.Empty<DocSectionModel>()).ToList();
-
-
-#if DEBUG
-        AddTestCode();
-#endif
-
-        //TODO Until SQL work in production. Or, why even add SQL?
+        
         SortSql();
 
         isLoaded = true;
@@ -138,39 +132,6 @@ public class DocumentationService : IDocumentationService
         }
 
         DocContentModelsByPageOrder = DocContentModelsByPageOrder.OrderBy(docContent => docContent.PageOrder).ToList();
-    }
-
-
-    private void AddTestCode()
-    {
-        DocContentModels.Add(new DocContentModel
-        {
-            Id = -110, Name = "Root Parent", Href = "root-parent", CreatedDate = DateTime.Now,
-            UpdatedDate = DateTime.Now, Content = "Example root parent"
-        });
-        DocContentModels.Add(new DocContentModel
-        {
-            Id = -109, Name = "Child Parent", Href = "child-parent", CreatedDate = DateTime.Now,
-            UpdatedDate = DateTime.Now, Content = "Example child parent"
-        });
-        DocContentModels.Add(new DocContentModel
-        {
-            Id = -108, Name = "Child Child 2", Href = "child-child", CreatedDate = DateTime.Now,
-            UpdatedDate = DateTime.Now, Content = "Example child child"
-        });
-        DocContentModels.Add(new DocContentModel
-        {
-            Id = -107, Name = "A", Href = "A", CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now, Content = "A"
-        });
-        DocContentModels.Add(new DocContentModel
-        {
-            Id = -106, Name = "B", Href = "B", CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now, Content = "B"
-        });
-
-        DocConnectionModels.Add(new DocConnectionModel { Id = -110, ParentId = -110, ChildId = -109 });
-        DocConnectionModels.Add(new DocConnectionModel { Id = -109, ParentId = -109, ChildId = -108 });
-        DocConnectionModels.Add(new DocConnectionModel { Id = -108, ParentId = -108, ChildId = -106 });
-        DocConnectionModels.Add(new DocConnectionModel { Id = -107, ParentId = -108, ChildId = -107 });
     }
 
 

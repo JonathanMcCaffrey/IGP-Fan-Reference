@@ -21,7 +21,7 @@ grid-template-areas: 'loader sand compare compare' ;">
 
     <div style="grid-area: compare; border: 2px solid black; padding: 20px;">
         Comparision Charts
-        <ComparisonChartsComponent></ComparisonChartsComponent>
+        
     </div>
 
 
@@ -90,7 +90,7 @@ grid-template-areas: 'loader sand compare compare' ;">
             return;
         }
 
-        var entity = EntityModel.GetFrom(hotkey, hotkeyGroup, isHoldSpace, faction, immortal);
+        var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
         if (entity == null)
         {
             return;

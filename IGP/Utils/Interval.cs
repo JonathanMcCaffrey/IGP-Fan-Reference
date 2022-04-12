@@ -1,4 +1,4 @@
-﻿namespace Components.Utils;
+﻿namespace IGP.Utils;
 
 public static class Interval {
     public static string ToTime(int interval) {

@@ -1,4 +1,7 @@
 @using System.Net.Http.Json
+@using Markdig.Extensions.Yaml
+@using Markdig.Syntax
+@using YamlDotNet.Serialization
 @inject HttpClient httpClient
 
 @if (content == null)
@@ -9,15 +12,17 @@ else
 {
     <div class="doc">
         <div class="docHeader">
-            <div class="docTitle">@DocContentModel.Name</div>
-
+            <div class="docTitle">@docFrontMatter.Title</div>
             <div class="docDates">
-                <div class="docDateUpdated"><b>Updated</b>: @DocContentModel.UpdatedDate.ToString("MM/dd/yyyy")</div>
-                <div class="docDateCreated"><b>Created</b>: @DocContentModel.CreatedDate.ToString("MM/dd/yyyy")</div>
+                <div class="docDateUpdated"><b>Updated</b>: @docFrontMatter.UpdatedDate.ToString("MM/dd/yyyy")</div>
+                <div class="docDateCreated"><b>Created</b>: @docFrontMatter.CreatedDate.ToString("MM/dd/yyyy")</div>
             </div>
         </div>
-        <div class="docContent">@((MarkupString)Markdown.ToHtml(content, pipeline))</div>
+        <div class="docContent">@((MarkupString)Markdown.ToHtml(content, Pipeline))</div>
+        <div class="docFooter"><EditLinkComponent Href="@GitUrl"></EditLinkComponent></div>
     </div>
+    
+    
 }
 
 <style>
@@ -35,6 +40,11 @@ else
     flex-direction: column;
  }
  
+ .docFooter {
+    display: flex;
+    justify-content: flex-end;
+ }
+ 
  th {
     padding:  8px;
     border: 1px solid gray;
@@ -46,12 +56,22 @@ else
 </style>
 
 @code {
-    [Parameter]
-    public DocContentModel DocContentModel { get; set; } = default!;
+    [Parameter] public DocContentModel DocContentModel { get; set; } = default!;
+
+    DocFrontMatterModel docFrontMatter = null!;
+    private string? content = null;
     
-    MarkdownPipeline pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-    string? content = null;
-    private async Task<string> LoadContent() => content = await httpClient.GetStringAsync($"content/docs/{DocContentModel.Content}.md");
+    private string Filepath => $"content/docs/{DocContentModel.Content}.md";
+    private string GitUrl => $"{Project.GitResourcesUrl}/{Filepath}";
+    private MarkdownPipeline Pipeline => MarkdownFiles.Pipeline;
+
+    private async Task<DocFrontMatterModel> LoadContent() {
+        content = await MarkdownFiles.LoadMarkdown(httpClient, Filepath);
+        
+        return docFrontMatter =
+            await MarkdownFiles.LoadFrontMatter<DocFrontMatterModel>(httpClient, Filepath);
+    }
+
     protected override async Task OnParametersSetAsync() => await LoadContent();
     protected override async Task OnInitializedAsync() => await LoadContent();
 }

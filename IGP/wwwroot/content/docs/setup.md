@@ -1,3 +1,11 @@
+---
+title: Setup
+summary: Get set up on developing this web project.
+created_date: 3/30/2022
+updated_date: 4/7/2022
+---
+
+
 # Overview
 
 This document will contain general setup notes for the project.
