@@ -55,8 +55,8 @@ public class DATA
                 DataType.TEAPOT_FlyingTeapot, new EntityModel(DataType.TEAPOT_FlyingTeapot, EntityType.Teapot)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Flying Teapot", Description = "Basic observer. Can fly and see hidden units",
-                        Notes = @"Much flying, Wow!"
+                        Name = "Flying Teapot", Description = "Basic observer. Can fly and see hidden units within 1000 range.",
+                        Notes = @"Doesn't take up a scout slot."
                     })
                     .AddPart(new EntityRequirementModel { Id = DataType.TEAPOT_Teapot })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 50 })
@@ -259,6 +259,7 @@ public class DATA
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_MarkPrey })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_TheGreatHunt })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_BoneStalker_Xol })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_WhiteWoodReaper_Xol })
@@ -319,7 +320,12 @@ public class DATA
                 DataType.IPASSIVE_MothersHunger,
                 new EntityModel(DataType.IPASSIVE_MothersHunger, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Mother's Hunger", Description = "Mala's Blood Wells grant you pyre for nearby non-quitl deaths." })
+                        { 
+                            Name = "Mother's Hunger", 
+                            Description = "Mala's Blood Wells grant you pyre for nearby non-quitl deaths, based on the supply.",
+                            Notes = "+1 per supply"
+                            
+                        })
             },
             {
                 DataType.IPASSIVE_StalkersSense,
@@ -458,7 +464,10 @@ public class DATA
                 DataType.VANGUARD_Sceptre_Orzum,
                 new EntityModel(DataType.VANGUARD_Sceptre_Orzum, EntityType.Army)
                     .AddPart(new EntityInfoModel
-                        { Name = "Sceptre", Descriptive = DescriptiveType.Harrier, Description = "" })
+                    {
+                        Name = "Sceptre", Descriptive = DescriptiveType.Harrier, Description = "",
+                        Notes = "Loses 16 energy per second when moving."
+                    })
                     .AddPart(new EntityTierModel { Tier = 3 })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
@@ -631,7 +640,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_MaskedHunter, ImmortalId = DataType.IMMORTAL_Xol })
-                    .AddPart(new EntityProductionModel { Alloy = 50, Ether = 0, BuildTime = 40 })
+                    .AddPart(new EntityProductionModel { Alloy = 50, Ether = 0, BuildTime = 35 })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel
                         { Health = 85, DefenseLayer = 10, Armor = ArmorType.Light, IsEtheric = false })
@@ -687,6 +696,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 400, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 5, Range = 50, AttacksPerSecond = 1.887f, Targets = TargetType.Ground })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HarvestAlloy })
             },
             {
                 DataType.UNIT_Sipari,
@@ -790,6 +800,8 @@ public class DATA
                         Damage = 20, MediumDamage = 24, HeavyDamage = 28, Range = 500, AttacksPerSecond = 0.667f,
                         Targets = TargetType.All
                     })
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WindStep })
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_ZephyrRange })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Windstep })
             },
             {
@@ -815,11 +827,13 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 20, LightDamage = 40, MediumDamage = 30, Range = 250, AttacksPerSecond = 0.5f,
+                        LightDamage = 32, MediumDamage = 24, Damage = 16, Range = 250, AttacksPerSecond = 0.5f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_SiroccoScript })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_RadiantWard})
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_RadiantWard })
+                    .AddPart(new EntityIdAbilityModel {Id = DataType.ABILITY_RadiantWard})
+                    .AddPart(new EntityIdPassiveModel(){Id  = DataType.PASSIVE_SiroccoScript})
                 
             },
             {
@@ -829,7 +843,8 @@ public class DATA
                     {
                         Name = "Absolver", Descriptive = DescriptiveType.Zone_Control,
                         Description =
-                            "Zone Control (Ground Unit) - Deploys to gain increased rate of fire to hold a position. Can only attack ground."
+                            "Zone Control (Ground Unit) - Deploys to gain increased rate of fire to hold a position. Can only attack ground.",
+                        Notes = "Deploy time is 2 seconds. Mobilize time is 1.5 seconds."
                     })
                     .AddPart(new EntityTierModel { Tier = 2 })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "Z" })
@@ -886,7 +901,7 @@ public class DATA
                     .AddPart(new EntityWeaponModel
                         { Damage = 8, Range = 500, AttacksPerSecond = 1.429f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_RelicOfTheWrathfulGaze })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Maledictions })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Maledictions })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_RelicOfTheWrathfulGaze })
             },
             {
@@ -922,6 +937,8 @@ public class DATA
                         Damage = 60, MediumDamage = 80, HeavyDamage = 100, Range = 1300, AttacksPerSecond = 0.143f,
                         Targets = TargetType.Ground
                     })
+                
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedRuin })
             },
             {
                 DataType.UNIT_Sentinel,
@@ -1059,6 +1076,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 400, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 8, Range = 40, AttacksPerSecond = 1.25f, Targets = TargetType.Ground })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HarvestAlloy })
             },
             {
                 DataType.UNIT_MaskedHunter,
@@ -1088,6 +1106,7 @@ public class DATA
                         { Damage = 7, Range = 400, AttacksPerSecond = 1.4f, Targets = TargetType.All, HeavyDamage = 6 })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_Offering })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BloodMothersFevor })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.ABILITY_Offering })
             },
             {
                 DataType.UNIT_Xacal,
@@ -1148,6 +1167,8 @@ public class DATA
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_QuenchingScythes })
+                
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.ABILITY_CullingStrike })
             },
             {
                 DataType.UNIT_RedSeer,
@@ -1311,6 +1332,8 @@ public class DATA
                             TargetType.Air
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_AaroxBurn })
+                
+                    .AddPart(new EntityIdAbilityModel() { Id = DataType.ABILITY_DiveBomb })
             },
             {
                 DataType.UNIT_Thrum,
@@ -1355,6 +1378,7 @@ public class DATA
                     .AddPart(new EntityWeaponModel
                         { Damage = 9, Range = 500, AttacksPerSecond = 0.714f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_GuidingAmber })
+                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_WraithBowRange })
             },
             {
                 DataType.UNIT_Behemoth,
@@ -1383,7 +1407,7 @@ public class DATA
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BehemothCapacity })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_QuitlStorage })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_BehemothCapacity })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_QuitlStorage2 })
 
                     
@@ -1415,6 +1439,19 @@ public class DATA
                     {
                         Requirement = RequirementType.Production_Building
                     })
+            },
+            
+            {
+                DataType.UPGRADE_RadiantWard,
+                new EntityModel(DataType.UPGRADE_RadiantWard, EntityType.Tech)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Research Radiant Ward", Descriptive = DescriptiveType.Upgrade,
+                        Description = "Unlocks the dervish's Radiant Ward ability"
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB" })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+                    .AddPart(new EntityProductionModel { Alloy = 80, Ether = 80, BuildTime = 34 })
             },
             
             {
@@ -1498,7 +1535,7 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Sirocco Script", Descriptive = DescriptiveType.Upgrade,
-                        Description = "Increases the Dervish's movement speed by 50%."
+                        Description = "Grant's the Dervish Sirocco Script"
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
@@ -1563,7 +1600,10 @@ public class DATA
                 DataType.UPGRADE_Offering,
                 new EntityModel(DataType.UPGRADE_Offering, EntityType.Tech)
                     .AddPart(new EntityInfoModel
-                        { Name = "Offering", Descriptive = DescriptiveType.Upgrade, Description = "Unlocks Offering" })
+                        { 
+                            Name = "Offering", 
+                            Descriptive = DescriptiveType.Upgrade, 
+                            Description = "Unlocks Offering" })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityRequirementModel
@@ -1684,9 +1724,47 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 29 })
-                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WraithBowRange })
-                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_WraithBowRange })
             },
+            
+            {
+                DataType.UPGRADE_Stalk,
+                new EntityModel(DataType.UPGRADE_Stalk, EntityType.Tech)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Research Stalk",
+                        Description = "Unlocks the Bone Stalker's Stabilize",
+                        Descriptive = DescriptiveType.Upgrade
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB", HoldSpace = false })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_Neurocyte,
+                        Requirement = RequirementType.Research_Building
+                    })
+                    .AddPart(new EntityProductionModel { Alloy = 100, Ether = 80, BuildTime = 60 })
+            },
+            
+            {
+                DataType.UPGRADE_Ambush,
+                new EntityModel(DataType.UPGRADE_Ambush, EntityType.Tech)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Research Ambush",
+                        Description = "When Hidden, the Bone Stalker's next attack deals double damage",
+                        Descriptive = DescriptiveType.Upgrade
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB", HoldSpace = false })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_RedVale,
+                        Requirement = RequirementType.Research_Building
+                    })
+                    .AddPart(new EntityProductionModel { Alloy = 100, Ether = 125, BuildTime = 80 })
+            },
+            
+            
             {
                 DataType.UPGRADE_BloodPlague,
                 new EntityModel(DataType.UPGRADE_BloodPlague, EntityType.Tech)
@@ -1726,7 +1804,7 @@ public class DATA
             // Neutral
             {
                 DataType.PASSIVE_BastionPassives,
-                new EntityModel(DataType.PASSIVE_Respite, EntityType.Passive)
+                new EntityModel(DataType.PASSIVE_BastionPassives, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "(Scouts and Pyre)", Descriptive = DescriptiveType.Passive,
@@ -1742,7 +1820,7 @@ public class DATA
                     {
                         Name = "Respite", Descriptive = DescriptiveType.Passive,
                         Description =
-                            @"Nearby units will slowly heal after not attacking for several seconds."
+                            @"Nearby units will slowly heal after not attacking or being attacked for 10 seconds."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Any })
             },
@@ -1855,6 +1933,18 @@ public class DATA
             },
             
             {
+                DataType.PASSIVE_SiroccoScript,
+                new EntityModel(DataType.PASSIVE_SiroccoScript, EntityType.Passive)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Sirocco Script Rites", Descriptive = DescriptiveType.Passive,
+                        Description = @"Increases the derish's movement speed"
+                    })
+                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_SiroccoScript})
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            },
+            
+            {
                 DataType.PASSIVE_HallowingRites,
                 new EntityModel(DataType.PASSIVE_HallowingRites, EntityType.Passive)
                     .AddPart(new EntityInfoModel
@@ -1956,8 +2046,8 @@ public class DATA
             },
             
             {
-                DataType.PASSIVE_QuitlStorage,
-                new EntityModel(DataType.PASSIVE_QuitlStorage, EntityType.Passive)
+                DataType.PASSIVE_BehemothCapacity,
+                new EntityModel(DataType.PASSIVE_BehemothCapacity, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Quitl Storage", Descriptive = DescriptiveType.Passive,
@@ -2000,17 +2090,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
             
-            {
-                DataType.PASSIVE_RadiantWard,
-                new EntityModel(DataType.PASSIVE_RadiantWard, EntityType.Passive)
-                    .AddPart(new EntityInfoModel
-                    {
-                        Name = "Radiant Ward", Descriptive = DescriptiveType.Applies_Debuff,
-                        Description = @"This unit is revealed?",
-                        Notes = "Not implemented."
-                    })
-                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-            },
+            
             
             {
                 DataType.PASSIVE_Stalk,
@@ -2018,10 +2098,11 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Stalk", Descriptive = DescriptiveType.Passive,
-                        Description = @"This unit has hidden when stabilized.",
-                        Notes = "Not implemented."
+                        Description = @"After remaining stationary for several seconds, gain Hidden 3 and a movement speed boost.",
+                        Notes = "Lose hidden on attacking"
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityRequirementModel{Id=DataType.UPGRADE_Stalk})
             },
             
             {
@@ -2029,9 +2110,20 @@ public class DATA
                 new EntityModel(DataType.PASSIVE_Stalk, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Stalk", Descriptive = DescriptiveType.Passive,
+                        Name = "Ambush", Descriptive = DescriptiveType.Passive,
                         Description = @"This unit deals double damage when attacking from hidden.",
-                        Notes = "Not implemented."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityRequirementModel(){Id=DataType.UPGRADE_Ambush})
+            },
+            
+            {
+                DataType.PASSIVE_HiddenX,
+                new EntityModel(DataType.PASSIVE_HiddenX, EntityType.Passive)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Hidden X", Descriptive = DescriptiveType.Passive,
+                        Description = @"This unit cannot be seen unless enemies units are within X.",
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
@@ -2085,19 +2177,6 @@ public class DATA
                     .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_FortifiedIcons, Requirement = RequirementType.Research_Upgrade})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
-            {
-                DataType.PASSIVE_Maledictions,
-                new EntityModel(DataType.PASSIVE_Maledictions, EntityType.Passive)
-                    .AddPart(new EntityInfoModel
-                    {
-                        Name = "Maledictions", Descriptive = DescriptiveType.Applies_Debuff,
-                        Description = @"Stun ground unit? With Maledictions spell.",
-                        Notes = "Not implemented"
-                    })
-                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-            },
-            
             {
                 DataType.PASSIVE_MendingCommand,
                 new EntityModel(DataType.PASSIVE_MendingCommand, EntityType.Passive)
@@ -2247,6 +2326,32 @@ public class DATA
             // Abilities
             // Q'Rath
             {
+                DataType.ABILITY_RadiantWard,
+                new EntityModel(DataType.ABILITY_RadiantWard, EntityType.Ability)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Radiant Ward", Descriptive = DescriptiveType.Ability,
+                        Description = @"Spawns a mine that reveals enemy units, slows them, and makes them take increased damage for a duration.",
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+                    .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40} )
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_RadiantWard })
+                    .AddPart(new EntityVitalityModel {Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light, IsStructure = true})
+            },
+            
+            {
+                DataType.ABILITY_Maledictions,
+                new EntityModel(DataType.ABILITY_Maledictions, EntityType.Ability)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Maledictions", Descriptive = DescriptiveType.Ability,
+                        Description = @"Stun ground unit? With Maledictions spell.",
+                        Notes = "Not implemented"
+                    })
+                    .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+            },
+
+            {
                 DataType.ABILITY_BladesOfTheGodhead,
                 new EntityModel(DataType.ABILITY_BladesOfTheGodhead, EntityType.Ability)
                     .AddPart(new EntityInfoModel
@@ -2368,10 +2473,12 @@ public class DATA
                     {
                         Name = "Offering", Descriptive = DescriptiveType.Ability,
                         Description =
-                            "Sacrifices 10 life to increase range, speed, and attack speed for several seconds."
+                            "Sacrifices 10 life to give Masked Hunters +3 damage for 3 shots. And increased speed and attack speed."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityRequirementModel(){ Id= DataType.UPGRADE_Offering})
+                    
             },
             {
                 DataType.ABILITY_DiveBomb,
@@ -2405,7 +2512,7 @@ public class DATA
                     {
                         Name = "Lethal Bond", Descriptive = DescriptiveType.Ability,
                         Description =
-                            "After a short delay, enemy units in the target area receive a debuff which causes them to take double damage from all attacks for a duration."
+                            "After a short delay, enemy units in the target area receive a debuff which causes them to take double damage from all attacks for a duration. Also gives the White Wood Reaper invisibility if it affects at least 1 enemy"
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel
@@ -2484,7 +2591,7 @@ public class DATA
                         Description =
                             "Deals damage over time in an area and marks affected units for several seconds. Units that die while marked spawn a quitl.",
                         Notes =
-                            "Deals 20 damage + 15% of max life of the target immediately upon affecting the enemy unit. It deals the same damage again after 8 seconds. If the unit dies during those 8 seconds (including the final burst), spawns 1 quitl every 2 supply of the dead unit, rounded up"
+                            "Deals 10 damage + 5% of max life of the target immediately upon affecting the enemy unit. It deals 15 damage + 15% after 8 seconds. If the unit dies during those 8 seconds (including the final burst), spawns 1 quitl every 2 supply of the dead unit, rounded up. Stacking only refreshes duration of debuff."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
@@ -2530,6 +2637,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 125, Range = 1500, AttacksPerSecond = 0.175f, Targets = TargetType.Ground })
+                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HiddenX})
             },
             // Pyre Spells
             // Q'Rath
@@ -2691,16 +2799,19 @@ public class DATA
             {
                 DataType.ISPELL_MarkPrey,
                 new EntityModel(DataType.ISPELL_MarkPrey, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel { Name = "Mark Prey", Description = "Knowing where things are lets you hunt them?", Notes = "Not implemented."})
+                    .AddPart(new EntityInfoModel { Name = "Mark Prey", 
+                        Description = @"Enemy units in the target area are <b>Revealed</b> through fog of war. Units still in the area after a short delay are marked for 10 seconds to take bonus damage and provide Pyre when killed.",
+                        Notes = "+3 pyre for kills"
+                    })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "1" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
-                    .AddPart(new EntityProductionModel {  })
+                    .AddPart(new EntityProductionModel {  Cooldown = 15, Pyre = 25})
             },
             {
                 DataType.ISPELL_TheGreatHunt,
                 new EntityModel(DataType.ISPELL_TheGreatHunt, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel { Name = "The Great Hunt", Description = "Reduces enemy vision to 300."})
+                    .AddPart(new EntityInfoModel { Name = "The Great Hunt", Description = "Enemy unit and structures have their vision reduce to 3 for a short time."})
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "1" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })

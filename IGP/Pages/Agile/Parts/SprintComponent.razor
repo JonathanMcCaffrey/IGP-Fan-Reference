@@ -110,9 +110,6 @@
     }
 
 
-
-
-
     .taskContainer.@StatusType.In_Progress.ToLower() {
         border-color: #030129;
         background-color: #2c3a4c;
@@ -144,6 +141,10 @@
         border-width: 8px;
     }
 
+.taskContainer.@TaskType.Document.ToLower() {
+        border-style: dashed;
+        border-width: 2px;
+    }
 
     .taskName {
         font-weight: bold;

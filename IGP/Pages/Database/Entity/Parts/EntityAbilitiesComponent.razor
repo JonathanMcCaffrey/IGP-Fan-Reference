@@ -33,6 +33,12 @@
                                 <b>- Energy: </b> @production.Energy
                             </div>
                         }
+                        @if (!production.DefensiveLayer.Equals(0))
+                        {
+                            <div>
+                                <b>- Shields:</b> @production.DefensiveLayer
+                            </div>
+                        }
                         if (production.BuildTime != 0)
                         {
                             <div>
@@ -82,6 +88,12 @@
                             {
                                 <div>
                                     <b> Energy: </b> @production.Energy
+                                </div>
+                            }
+                            @if (!production.DefensiveLayer.Equals(0))
+                            {
+                                <div>
+                                    <b>Shields:</b> @production.DefensiveLayer
                                 </div>
                             }
                             if (production.BuildTime != 0)

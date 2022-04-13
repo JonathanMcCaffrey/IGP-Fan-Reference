@@ -26,7 +26,7 @@
                 {
                     <div class="navMenuPosition">
                         <div class="navMenuContainer">
-                            <DesktopNavSectionComponent Section=webSection/>
+                            <DesktopNavSectionComponent Section=webSection> </DesktopNavSectionComponent>
                         </div>
                     </div>
                 }
@@ -141,7 +141,6 @@
 
     void MenuClicked(int menuName)
     {
-        Console.WriteLine($"MenuClicked {menuName}");
         navigationService.ChangeNavigationSectionId(menuName);
     }
 
@@ -152,7 +151,6 @@
 
     void HoverOut(MouseEventArgs mouseEventArgs)
     {
-        Console.WriteLine(NavigationStateType.Default);
         navigationService.ChangeNavigationState(NavigationStateType.Default);
     }
 

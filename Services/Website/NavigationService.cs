@@ -63,7 +63,6 @@ public class NavigationService : INavigationService {
         webSectionType = section;
         navSelectionType = NavSelectionType.Section;
 
-        Console.WriteLine(webSectionType);
         NotifyDataChanged();
     }
 

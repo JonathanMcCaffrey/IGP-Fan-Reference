@@ -72,7 +72,7 @@ public class BuildComparisionService : IBuildComparisonService {
 
     public void HydratedLoadedJson() {
         foreach (var build in buildComparison.Builds)
-        foreach (var orders in build.Orders.Values)
+        foreach (var orders in build.StartedOrders.Values)
         foreach (var order in orders)
             order.Copy(EntityModel.Get(order.DataType));
     }

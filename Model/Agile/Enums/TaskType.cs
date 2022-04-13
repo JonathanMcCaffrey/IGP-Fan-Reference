@@ -4,4 +4,5 @@ public class TaskType
 {
     public const string Feature = "Feature";
     public const string Bug = "Bug";
+    public const string Document = "Document";
 }

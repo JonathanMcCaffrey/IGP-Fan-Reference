@@ -23,6 +23,13 @@
                         <b>Energy:</b> @Vitality.Energy
                     </div>
                 }
+                @if (!Vitality.Lasts.Equals(0))
+                {
+                    <div>
+                        <b>Lasts:</b> @Vitality.Lasts.ToString()s
+                    </div>
+                }
+
                 @if (Vitality.Armor != "")
                 {
                     <div>
@@ -90,6 +97,12 @@
                         {
                             <div>
                                 <b>Energy:</b> @Vitality.Energy
+                            </div>
+                        }
+                        @if (!Vitality.Lasts.Equals(0))
+                        {
+                            <div>
+                                <b>Lasts:</b> @Vitality.Lasts.ToString()s
                             </div>
                         }
                         @if (Vitality.Armor != "")

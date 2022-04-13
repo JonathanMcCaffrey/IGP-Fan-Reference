@@ -12,8 +12,8 @@ namespace Model.Entity;
 
 public class EntityModel
 {
-    public static readonly string GameVersion = "0.0.6.8900a";
-
+    public static readonly string GameVersion = "0.0.6.9121a";
+    
     private static Dictionary<string, EntityModel> _database= null!;
 
     private static List<EntityModel> _entityModels= null!;

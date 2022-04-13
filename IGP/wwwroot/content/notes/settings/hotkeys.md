@@ -7,7 +7,7 @@ updated_date: 4/13/2022
 
 In the pre-alpha, IGP comes with some Unreal default hotkey setup.
 
-This document will explain how to setup, modify, and use a new hotkey setup.
+This document will explain how to set up, modify, and use a new hotkey setup.
 
 ## Save the "Input.ini" file
 
@@ -104,7 +104,7 @@ You can notice a single line of this file can be broken down like this.
 
 ## Modify the Input.ini file
 
-Your now going to want to modify the file with your own hotkey setup.
+You are now going to want to modify the file with your own hotkey setup.
 
 To do this, replace any of the Key=`VALUE` mapped to the desired actions with any value from the list below.
 

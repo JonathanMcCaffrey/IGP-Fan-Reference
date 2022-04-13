@@ -42,6 +42,12 @@
                         <b>Pyre:</b> @Production.Pyre
                     </div>
                 }
+                @if (!Production.Pyre.Equals(0))
+                {
+                    <div>
+                        <b>Shields:</b> @Production.DefensiveLayer
+                        </div>
+                }
 
                 @if (!Production.BuildTime.Equals(0))
                 {
@@ -126,6 +132,12 @@
                         {
                             <div>
                                 <b>Pyre:</b> @Production.Pyre
+                            </div>
+                        }
+                        @if (!Production.DefensiveLayer.Equals(0))
+                        {
+                            <div>
+                                <b>Shields:</b> @Production.DefensiveLayer
                             </div>
                         }
 

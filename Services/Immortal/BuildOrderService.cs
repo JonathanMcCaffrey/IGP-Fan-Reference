@@ -22,7 +22,7 @@ public class BuildOrderService : IBuildOrderService
 
     public Dictionary<int, List<EntityModel>> GetOrders()
     {
-        return buildOrder.Orders;
+        return buildOrder.StartedOrders;
     }
 
     public void Subscribe(Action action)
@@ -37,11 +37,27 @@ public class BuildOrderService : IBuildOrderService
 
     public void Add(EntityModel entity, int atInterval)
     {
-        if (!buildOrder.Orders.ContainsKey(atInterval))
-            buildOrder.Orders.Add(atInterval, new List<EntityModel> { entity.Clone() });
-        else
-            buildOrder.Orders[atInterval].Add(entity.Clone());
+        if (!buildOrder.StartedOrders.ContainsKey(atInterval))
+        {
+            buildOrder.StartedOrders.Add(atInterval, new List<EntityModel> { });
+        }
 
+        var production = entity.Production();
+
+        var completedTime = atInterval;
+        if (production != null)
+        {
+            completedTime += production.BuildTime;
+        }
+        
+        if (!buildOrder.CompletedOrders.ContainsKey(atInterval))
+        {
+            buildOrder.CompletedOrders.Add(completedTime, new List<EntityModel> { });
+        }
+
+        buildOrder.StartedOrders[atInterval].Add(entity.Clone());
+        buildOrder.CompletedOrders[completedTime].Add(entity.Clone());
+        
         if (atInterval > lastInterval) lastInterval = atInterval;
     }
 
@@ -72,10 +88,10 @@ public class BuildOrderService : IBuildOrderService
                     //Account for human Micro delay
                     interval += HumanMicro;
 
-                    if (!buildOrder.Orders.ContainsKey(interval))
-                        buildOrder.Orders.Add(interval, new List<EntityModel> { entity.Clone() });
+                    if (!buildOrder.StartedOrders.ContainsKey(interval))
+                        buildOrder.StartedOrders.Add(interval, new List<EntityModel> { entity.Clone() });
                     else
-                        buildOrder.Orders[interval].Add(entity.Clone());
+                        buildOrder.StartedOrders[interval].Add(entity.Clone());
 
                     lastInterval = interval;
 
@@ -109,20 +125,20 @@ public class BuildOrderService : IBuildOrderService
         EntityModel entityRemoved = null!;
 
 
-        if (buildOrder.Orders.Keys.Count > 1)
+        if (buildOrder.StartedOrders.Keys.Count > 1)
         {
-            var last = buildOrder.Orders.Keys.Last();
+            var last = buildOrder.StartedOrders.Keys.Last();
 
-            if (buildOrder.Orders[last].Count > 0)
+            if (buildOrder.StartedOrders[last].Count > 0)
             {
-                entityRemoved = buildOrder.Orders[last].Last();
-                buildOrder.Orders[last].Remove(buildOrder.Orders[last].Last());
+                entityRemoved = buildOrder.StartedOrders[last].Last();
+                buildOrder.StartedOrders[last].Remove(buildOrder.StartedOrders[last].Last());
             }
 
-            if (buildOrder.Orders[last].Count == 0) buildOrder.Orders.Remove(last);
+            if (buildOrder.StartedOrders[last].Count == 0) buildOrder.StartedOrders.Remove(last);
 
-            if (buildOrder.Orders.Keys.Count > 0)
-                lastInterval = buildOrder.Orders.Keys.Last() + 1;
+            if (buildOrder.StartedOrders.Keys.Count > 0)
+                lastInterval = buildOrder.StartedOrders.Keys.Last() + 1;
             else
                 lastInterval = 1;
 
@@ -158,23 +174,27 @@ public class BuildOrderService : IBuildOrderService
 
     public List<EntityModel> GetOrdersAt(int interval)
     {
-        return (from ordersAtTime in buildOrder.Orders
-            from orders in ordersAtTime.Value
-            where ordersAtTime.Key == interval
-            select orders).ToList();
+        if (!buildOrder.StartedOrders.ContainsKey(interval))
+        {
+            return new List<EntityModel>();
+        }
+        
+        return buildOrder.StartedOrders[interval].ToList();
     }
 
     public List<EntityModel> GetCompletedAt(int interval)
     {
-        return (from ordersAtTime in buildOrder.Orders
-            from orders in ordersAtTime.Value
-            where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) == interval
-            select orders).ToList();
+        if (!buildOrder.CompletedOrders.ContainsKey(interval))
+        {
+            return new List<EntityModel>();
+        }
+        
+        return buildOrder.CompletedOrders[interval].ToList();
     }
 
     public List<EntityModel> GetCompletedBefore(int interval)
-    {
-        return (from ordersAtTime in buildOrder.Orders
+    { 
+        return (from ordersAtTime in buildOrder.StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             select orders).ToList();
@@ -182,7 +202,7 @@ public class BuildOrderService : IBuildOrderService
 
     public List<EntityModel> GetHarvestersCompletedBefore(int interval)
     {
-        return (from ordersAtTime in buildOrder.Orders
+        return (from ordersAtTime in buildOrder.StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             where orders.Harvest() != null
@@ -197,14 +217,14 @@ public class BuildOrderService : IBuildOrderService
         foreach (var requirement in requirements)
             if (requirement.Requirement == RequirementType.Morph)
             {
-                var entitiesNeeded = from entitiesAtInterval in buildOrder.Orders
+                var entitiesNeeded = from entitiesAtInterval in buildOrder.StartedOrders
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
                         (requiredEntity.Production() == null ? 0 : requiredEntity.Production().BuildTime)
                     where requiredEntity.DataType == requirement.Id
                     select requiredEntity;
 
-                var entitiesAlreadyMorphed = from entitiesAtInterval in buildOrder.Orders
+                var entitiesAlreadyMorphed = from entitiesAtInterval in buildOrder.StartedOrders
                     from existingEntity in entitiesAtInterval.Value
                     where existingEntity.DataType == entity.DataType
                     select existingEntity;
@@ -214,7 +234,7 @@ public class BuildOrderService : IBuildOrderService
             }
             else
             {
-                var entitiesNeeded = from entitiesAtInterval in buildOrder.Orders
+                var entitiesNeeded = from entitiesAtInterval in buildOrder.StartedOrders
                     from requiredEntity in entitiesAtInterval.Value
                     where requestedInterval > entitiesAtInterval.Key +
                         (requiredEntity.Production() == null ? 0 : requiredEntity.Production().BuildTime)
@@ -279,14 +299,14 @@ public class BuildOrderService : IBuildOrderService
 
 
         var supplyTakenTotal = 0;
-        var supplyTakens = from entitiesAtInterval in buildOrder.Orders
+        var supplyTakens = from entitiesAtInterval in buildOrder.StartedOrders
             from supplyTakingEntity in entitiesAtInterval.Value
             where supplyTakingEntity.Supply()?.Takes > 0
             select supplyTakingEntity.Supply().Takes;
         foreach (var supplyTaken in supplyTakens) supplyTakenTotal += supplyTaken;
 
         var supplyGrantedTotal = 0;
-        var supplyGranteds = from entitiesAtInterval in buildOrder.Orders
+        var supplyGranteds = from entitiesAtInterval in buildOrder.StartedOrders
             from supplyGrantingEntity in entitiesAtInterval.Value
             where supplyGrantingEntity.Supply()?.Grants > 0
             select supplyGrantingEntity.Supply().Grants;

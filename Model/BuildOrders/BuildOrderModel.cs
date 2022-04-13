@@ -10,7 +10,19 @@ public class BuildOrderModel
     public string Name { get; set; } = "";
     public string Color { get; set; } = "red";
 
-    public Dictionary<int, List<EntityModel>> Orders { get; set; } = new()
+    public Dictionary<int, List<EntityModel>> StartedOrders { get; set; } = new()
+    {
+        {
+            0,
+            new List<EntityModel>
+            {
+                EntityModel.Get(DataType.STARTING_Bastion),
+                EntityModel.Get(DataType.STARTING_TownHall_Aru)
+            }
+        }
+    };
+    
+    public Dictionary<int, List<EntityModel>> CompletedOrders { get; set; } = new()
     {
         {
             0,
@@ -29,7 +41,7 @@ public class BuildOrderModel
 
     public List<EntityModel> GetOrdersAt(int interval)
     {
-        return (from ordersAtTime in Orders
+        return (from ordersAtTime in StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key == interval
             select orders).ToList();
@@ -37,7 +49,7 @@ public class BuildOrderModel
 
     public List<EntityModel> GetCompletedAt(int interval)
     {
-        return (from ordersAtTime in Orders
+        return (from ordersAtTime in StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) == interval
             select orders).ToList();
@@ -45,15 +57,16 @@ public class BuildOrderModel
 
     public List<EntityModel> GetCompletedBefore(int interval)
     {
-        return (from ordersAtTime in Orders
+        return (from ordersAtTime in StartedOrders
             from orders in ordersAtTime.Value
+            where ordersAtTime.Key >= interval
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             select orders).ToList();
     }
 
     public List<EntityModel> GetHarvestersCompletedBefore(int interval)
     {
-        return (from ordersAtTime in Orders
+        return (from ordersAtTime in StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             where orders.Harvest() != null

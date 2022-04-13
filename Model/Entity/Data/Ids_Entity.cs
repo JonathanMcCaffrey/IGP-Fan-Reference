@@ -114,9 +114,17 @@ public static class DataType
     public static string UPGRADE_BehemothCapacity = "d0390dd2-d9a5-4b20-9d8b-f554f4c52143";
     public static string UPGRADE_BloodPlague = "9c207e21-f595-49d0-967d-f30ca8cc3745";
     public static string UPGRADE_BirthingStorm = "0cb2f1a4-03b3-491b-9db3-d2d4590ede3a";
+    
+    public static string UPGRADE_RadiantWard = "c8acc6d0-9f26-475a-aff4-4e2b2f9657f2";
 
+    public static string UPGRADE_Stalk = "36fbc2c0-e9e3-4f54-a79a-981db908c25c";
+    public static string UPGRADE_Ambush = "6cf83dc9-717f-4fa9-b417-a3371474a1da";
+    
     public static string PASSIVE_WraithBowRange = "196dd8a6-2044-44e1-aac4-fbaa40552699";
 
+    
+    public static string PASSIVE_HiddenX = "7b819996-ffc0-4e07-9c11-c91c5f9d467b";
+    
     
     public static string PASSIVE_Respite = "607c39f4-a957-4a7a-8fc6-a239f9e570ec";
     public static string PASSIVE_BastionPassives = "ea42b9cb-2456-4ed2-b490-fcfde12c6153";
@@ -124,7 +132,6 @@ public static class DataType
     public static string PASSIVE_GreavesOfAhqar = "3c408d75-7bee-4089-84c0-74620ac708b6";
     public static string PASSIVE_FortifiedIcons = "35f3f02f-e22e-44be-b2ea-82972c383308";
 
-    public static string PASSIVE_Maledictions = "6cdc109c-157d-433a-b225-192e39c0b613";
     public static string PASSIVE_HarvestAlloy = "84bacf5a-b106-455c-8cff-66c3998404f8";
     public static string PASSIVE_RelicOfTheWrathfulGaze = "ccebc0c9-cfd5-465a-8a5d-2495bd745a83";
 
@@ -139,6 +146,8 @@ public static class DataType
     
     public static string PASSIVE_ThroneMovingShot = "699423ed-7410-4daf-8b07-9dc733a8bf55";
     
+    public static string PASSIVE_SiroccoScript = "11c21afa-ff88-4e42-9f97-a1d1595b115c";
+    
     public static string PASSIVE_HallowingRites = "9c8ae47b-954e-4a17-8f35-f128c9114b61";
     public static string PASSIVE_RegentsWrath = "f111f004-6548-4430-9d13-ef44ab108ae7";
     public static string PASSIVE_PsalmOfFire = "d28f6b7c-d319-4fb8-bdd4-92ede40a0751";
@@ -146,10 +155,9 @@ public static class DataType
     public static string PASSIVE_HallowedGround = "bdb28984-246f-4642-84ab-9e83c02b3e2e";
     public static string PASSIVE_CastFromLife = "3cc734de-f8e7-4e69-9fa5-bdf725c4941b";
     public static string PASSIVE_Rootway = "46768d4a-5047-4973-b5ca-995cda25ee8d";
-    public static string PASSIVE_QuitlStorage = "a210f109-d3ac-44d4-9724-601c795a2394";
+    public static string PASSIVE_BehemothCapacity = "a210f109-d3ac-44d4-9724-601c795a2394";
     public static string PASSIVE_QuitlStorage2 = "0b27b863-fce5-40e4-96c7-6df94bdd92b9";
     public static string PASSIVE_Temporary = "940c04f1-df0b-4cf7-9514-09dfd9009554";
-    public static string PASSIVE_RadiantWard = "db1fc8bd-d86a-4eda-b83c-16e8d0ce4f81";
     public static string PASSIVE_Stalk = "9c107bfd-0050-4670-91b8-f9a8d771225d";
     public static string PASSIVE_Ambush = "9d0a9482-0303-4a15-bb88-972f6ae60a39";
 
@@ -177,6 +185,10 @@ public static class DataType
     public static string PASSIVE_FireQuitl = "80f6b382-da1c-49a1-8235-1ea37983ea54";
     public static string PASSIVE_XacalDamage = "69928f20-5332-418f-ada3-694da3f7b199";
 
+    public static string ABILITY_RadiantWard = "db1fc8bd-d86a-4eda-b83c-16e8d0ce4f81";
+
+    public static string ABILITY_Maledictions = "6cdc109c-157d-433a-b225-192e39c0b613";
+    
     public static string ABILITY_BladesOfTheGodhead = "000154ac-faf5-483d-b0bd-e84335891a27";
     public static string ABILITY_Windstep = "a410b296-39f7-42e0-87c8-6cef11eb967c";
     public static string ABILITY_Leap = "aa155b88-125a-4d25-b63f-77987ea6e519";

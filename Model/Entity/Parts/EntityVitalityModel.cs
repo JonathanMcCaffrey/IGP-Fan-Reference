@@ -7,6 +7,8 @@ public class EntityVitalityModel : IEntityPartInterface
     public string Type { get; set; } = "EntityVitalityModel";
     public int Health { get; set; } = 0;
     public int DefenseLayer { get; set; } = 0;
+    
+    public int Lasts { get; set; } = 0;
     public string Defense { get; set; } = DefenseType.None;
     public string Armor { get; set; } = ArmorType.Light;
     public bool IsEtheric { get; set; } = false;

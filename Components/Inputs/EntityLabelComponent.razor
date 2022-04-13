@@ -22,15 +22,8 @@ else
 
     private EntityModel Entity => DATA.Get()[EntityId];
 
-    protected override void OnInitialized()
-    {
-        Console.Write(Entity.Info().Name);
-    }
-
     void EntityLabelClicked()
     {
-        Console.WriteLine("EntityLabelClicked()");
-        
         entityDialogService.AddDialog(EntityId);
     }
 }

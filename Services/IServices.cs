@@ -244,6 +244,17 @@ public interface IMemoryTesterService {
     public void Unsubscribe(MemoryAction memoryAction);
 }
 
+public interface IGameLogicService
+{
+    public bool Add(EntityModel entity, int atInterval);
+    public int MeetsRequirements(EntityModel entity, int interval);
+    public int MeetsAlloy(EntityModel entity, int interval);
+    public int MeetsEther(EntityModel entity, int interval);
+    public int MeetsPyre(EntityModel entity, int interval);
+    public int MeetsSupply(EntityModel entity, int interval);
+    public int MeetsTrainingQueue(EntityModel entity, int interval);
+}
+
 public interface IBuildOrderService {
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);

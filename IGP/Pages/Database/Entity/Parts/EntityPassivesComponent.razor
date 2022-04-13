@@ -15,7 +15,7 @@
             
             <div>
                 <div>
-                    <b>Name:</b> @info.Name
+                    <b>Passive Name:</b> @info.Name
                 </div>
                 <div>
                     <b>- Description:</b> @((MarkupString)info.Description)
@@ -54,7 +54,7 @@
                     var requirementModel = DATA.Get()[requirement.Id];
                     <div>
                         <span>
-                            <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
+                            <b>- @requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
                         </span>
                     </div>
                 }
