@@ -1,4 +1,7 @@
-﻿@inject IBuildOrderService buildOrderService
+﻿@inject IJSRuntime jsRuntime;
+
+
+@inject IBuildOrderService buildOrderService
 
 @implements IDisposable
 
@@ -21,4 +24,19 @@
         buildOrderService.Unsubscribe(StateHasChanged);
     }
 
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "BuildOrderComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "BuildOrderComponent");
+#endif
+    }
 }

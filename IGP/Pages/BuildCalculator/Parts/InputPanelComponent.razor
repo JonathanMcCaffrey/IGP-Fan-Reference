@@ -1,4 +1,9 @@
-﻿<div tabindex="0"
+﻿@inject IKeyService keyService 
+
+@inject IJSRuntime jsRuntime;
+
+
+<div tabindex="0"
      style="margin: auto;"
      @onkeydown="HandleKeyDown"
      @onkeyup="HandleKeyUp"
@@ -8,21 +13,32 @@
 </div>
 
 @code {
-
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
-
-    [Inject]
-    public IKeyService KeyService { get; set; } = default!;
-
+    
     private void HandleKeyDown(KeyboardEventArgs e)
     {
-        KeyService.AddPressedKey(e.Key);
+        keyService.AddPressedKey(e.Key);
     }
 
     private void HandleKeyUp(KeyboardEventArgs e)
     {
-        KeyService.RemovePressedKey(e.Key);
+        keyService.RemovePressedKey(e.Key);
     }
 
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "InputPanelComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "InputPanelComponent");
+#endif
+    }
 }

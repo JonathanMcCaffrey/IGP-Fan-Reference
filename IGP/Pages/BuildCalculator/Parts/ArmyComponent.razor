@@ -1,4 +1,8 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+@inject IBuildOrderService BuildOrder 
+
+@implements IDisposable
 
 <FormLayoutComponent>
     <FormDisplayComponent Label="Army ready at">
@@ -22,8 +26,6 @@
 
 @code {
 
-    [Inject]
-    public IBuildOrderService BuildOrder { get; set; } = default!;
 
     private int lastInterval;
 
@@ -41,8 +43,29 @@
         BuildOrder.Unsubscribe(OnBuildOrderChanged);
     }
 
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "ArmyComponent");
+#endif
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "ArmyComponent");
+#endif
+    }
+    
     void OnBuildOrderChanged()
     {
+        int armyCountWas = 0;
+        foreach (var army in armyCount)
+        {
+            armyCountWas += army.Value;
+        }
+        
         armyCount.Clear();
 
         lastInterval = 0;
@@ -68,7 +91,19 @@
             }
         }
 
-        StateHasChanged();
+        //TODO Better
+        int armyCountIs = 0;
+        foreach (var army in armyCount)
+        {
+            armyCountIs += army.Value;
+        }
+
+        
+        if (armyCountWas != armyCountIs)
+        {
+            StateHasChanged();            
+        }
+
     }
 
 }

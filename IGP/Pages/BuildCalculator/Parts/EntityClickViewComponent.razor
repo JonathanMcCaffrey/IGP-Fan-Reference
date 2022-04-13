@@ -1,4 +1,11 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+
+    @inject IKeyService keyService 
+    @inject IImmortalSelectionService filterService
+    @inject IBuildOrderService buildOrderService 
+
+@implements IDisposable
 
 @if (entity != null)
 {
@@ -20,48 +27,45 @@
     private EntityModel? entity = default!;
     private string viewType = "Detailed";
 
-    [Inject]
-    IKeyService KeyService { get; set; } = default!;
-
-    [Inject]
-    IImmortalSelectionService FilterService { get; set; } = default!;
-
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; } = default!;
-
     protected override void OnInitialized()
     {
-        KeyService.Subscribe(HandleClick);
-        BuildOrderService.Subscribe(OnBuildOrderChanged);
+        keyService.Subscribe(HandleClick);
     }
 
     void IDisposable.Dispose()
     {
-        KeyService.Unsubscribe(HandleClick);
-        BuildOrderService.Unsubscribe(OnBuildOrderChanged);
+        keyService.Unsubscribe(HandleClick);
     }
 
-
-    protected void HandleClick()
+    protected override bool ShouldRender()
     {
-        var hotkey = KeyService.GetHotkey();
-        var hotkeyGroup = KeyService.GetHotkeyGroup();
-        var isHoldSpace = KeyService.IsHoldingSpace();
-        var faction = FilterService.GetFactionType();
-        var immortal = FilterService.GetImmortalType();
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "EntityClickViewComponent");
+#endif
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "EntityClickViewComponent");
+#endif
+    }
+
+    private void HandleClick()
+    {
+        var hotkey = keyService.GetHotkey();
+        var hotkeyGroup = keyService.GetHotkeyGroup();
+        var isHoldSpace = keyService.IsHoldingSpace();
+        var faction = filterService.GetFactionType();
+        var immortal = filterService.GetImmortalType();
 
         var foundEntity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
-        if (foundEntity != null)
+        if (foundEntity != null && entity != foundEntity)
         {
             entity = foundEntity;
             StateHasChanged();
         }
     }
-
-    void OnBuildOrderChanged()
-    {
-        StateHasChanged();
-    }
-
 }

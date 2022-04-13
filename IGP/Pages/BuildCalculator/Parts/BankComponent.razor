@@ -1,4 +1,9 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+@inject IEconomyService economyService
+
+
+@implements IDisposable
 
 <FormLayoutComponent>
     <FormDisplayComponent Label="Time">
@@ -10,11 +15,6 @@
     <FormDisplayComponent Label="Ether">
         <Display>@economy.Ether</Display>
     </FormDisplayComponent>
-    <DevOnlyComponent>
-        <FormDisplayComponent Label="Pyre">
-            <Display>@economy.Pyre</Display>
-        </FormDisplayComponent>
-    </DevOnlyComponent>
     <FormDisplayComponent Label="Supply">
         <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
     </FormDisplayComponent>
@@ -36,13 +36,27 @@
     protected override void OnInitialized()
     {
         BuildOrderService.Subscribe(OnBuildOrderChanged);
-        EconomyService.Subscribe(OnBuildOrderChanged);
+    }
+
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "BankComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "BankComponent");
+#endif
     }
 
     void IDisposable.Dispose()
     {
         BuildOrderService.Unsubscribe(OnBuildOrderChanged);
-        EconomyService.Subscribe(OnBuildOrderChanged);
     }
 
     void OnBuildOrderChanged()

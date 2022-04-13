@@ -1435,10 +1435,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 100 })
-                    .AddPart(new EntityRequirementModel
-                    {
-                        Requirement = RequirementType.Production_Building
-                    })
+                   
             },
             
             {
@@ -1465,10 +1462,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB", HoldSpace = true})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 43 })
-                    .AddPart(new EntityRequirementModel
-                    {
-                        Requirement = RequirementType.Production_Building
-                    })
+                   
             },
             
             {
@@ -1482,10 +1476,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
-                    .AddPart(new EntityRequirementModel
-                    {
-                        Requirement = RequirementType.Production_Building
-                    })
+                   
             },
             {
                 DataType.UPGRADE_RelicOfTheWrathfulGaze,
@@ -1512,7 +1503,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 55 })
-                    .AddPart(new EntityRequirementModel { Requirement = RequirementType.Production_Building })
+                    .AddPart(new EntityRequirementModel { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building })
             },
             {
                 DataType.UPGRADE_ZephyrRange,
@@ -1525,7 +1516,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 100, BuildTime = 43 })
-                    .AddPart(new EntityRequirementModel { Requirement = RequirementType.Production_Building })
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_ZephyrRange, Requirement = RequirementType.Production_Building })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WindStep })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_ZephyrRange })
             },
@@ -1559,6 +1550,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 43 })
                     .AddPart(new EntityRequirementModel
                     {
+                        Id = DataType.BUILDING_EyeOfAros,
                         Requirement = RequirementType.Production_Building
                     })
             },
@@ -2632,7 +2624,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 25 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
-                    .AddPart(new EntityRequirementModel { Requirement = RequirementType.Morph })
+                    .AddPart(new EntityRequirementModel { Id = DataType.UNIT_RedSeer, Requirement = RequirementType.Morph })
                     .AddPart(new EntityVitalityModel { Health = 200, DefenseLayer = 60, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
@@ -2853,6 +2845,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityRequirementModel
                     {
+                        Id = DataType.BUILDING_Acropolis,
                         Requirement = RequirementType.Morph
                     })
                     .AddPart(new EntityProductionModel { Alloy = 75, BuildTime = 20, RequiresWorker = false })
@@ -3245,7 +3238,9 @@ public class DATA
                     .AddPart(new EntityInfoModel { Name = "Omnivore", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "SHIFT" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel { Requirement = RequirementType.Morph })
+                    .AddPart(new EntityRequirementModel {
+                        Id = DataType.DEFENSE_Aerovore,
+                     Requirement = RequirementType.Morph })
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 18, RequiresWorker = false })
                     .AddPart(new EntityVitalityModel
                         { Health = 400, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })

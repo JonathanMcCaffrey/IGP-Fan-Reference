@@ -165,7 +165,7 @@ public class EntityModel
     }
 
 
-    public EntitySupplyModel Supply()
+    public EntitySupplyModel? Supply()
     {
         return ((EntitySupplyModel)EntityParts.Find(x => x.GetType() == typeof(EntitySupplyModel))!)!;
     }

@@ -244,18 +244,15 @@ public interface IMemoryTesterService {
     public void Unsubscribe(MemoryAction memoryAction);
 }
 
-public interface IGameLogicService
-{
-    public bool Add(EntityModel entity, int atInterval);
-    public int MeetsRequirements(EntityModel entity, int interval);
-    public int MeetsAlloy(EntityModel entity, int interval);
-    public int MeetsEther(EntityModel entity, int interval);
-    public int MeetsPyre(EntityModel entity, int interval);
-    public int MeetsSupply(EntityModel entity, int interval);
-    public int MeetsTrainingQueue(EntityModel entity, int interval);
-}
-
 public interface IBuildOrderService {
+
+    public Dictionary<int, List<EntityModel>> StartedOrders { get; }
+    public Dictionary<int, List<EntityModel>> CompletedOrders { get; }
+    public Dictionary<string, int> UniqueCompletedTimes { get; }
+    
+    public Dictionary<int, int> SupplyCountTimes { get; }
+
+    
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);
 
@@ -268,10 +265,9 @@ public interface IBuildOrderService {
     public void SetColor(string Color);
     public string GetColor();
 
-    public bool MeetsRequirements(EntityModel entity, int interval);
+    public int? WillMeetRequirements(EntityModel entity);
+    public int? WillMeetSupply(EntityModel entity);
     public Dictionary<int, List<EntityModel>> GetOrders();
-    public List<EntityModel> GetOrdersAt(int interval);
-    public List<EntityModel> GetCompletedAt(int interval);
     public List<EntityModel> GetCompletedBefore(int interval);
     public List<EntityModel> GetHarvestersCompletedBefore(int interval);
 

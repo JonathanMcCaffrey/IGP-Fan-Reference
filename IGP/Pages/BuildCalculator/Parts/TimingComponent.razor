@@ -1,55 +1,69 @@
-﻿<FormLayoutComponent>
+﻿@inject IJSRuntime jsRuntime;
+
+@inject IBuildOrderService buildOrderService
+@inject IEconomyService economyService
+@inject IToastService toastService
+@inject ITimingService timingService
+
+
+
+<FormLayoutComponent>
     <FormNumberComponent ReadOnly="true"
                          Max="600"
                          Min="0"
-                         Value="@TimingService.GetTiming()"
+                         Value="@timingService.GetTiming()"
                          OnChange="@OnTimingChanged">
         <FormLabelComponent>Timing interval</FormLabelComponent>
         <FormInfoComponent>Altering the time interval is currently disabled.</FormInfoComponent>
     </FormNumberComponent>
 
-    <FormTextComponent Label="Name" Placeholder="Fast Thrones..." Value="@BuildOrderService.GetName()" OnChange="OnNameChanged"/>
+    <FormTextComponent Label="Name" Placeholder="Fast Thrones..." Value="@buildOrderService.GetName()" OnChange="OnNameChanged"/>
 
     <FormTextAreaComponent Label="Notes"
-                           Value="@BuildOrderService.GetNotes()"
+                           Value="@buildOrderService.GetNotes()"
                            OnChange="@OnNotesChanged">
     </FormTextAreaComponent>
-    <FormTextComponent Label="Color" Placeholder="red..." Value="@BuildOrderService.GetColor()" OnChange="OnColorChanged"/>
+    <FormTextComponent Label="Color" Placeholder="red..." Value="@buildOrderService.GetColor()" OnChange="OnColorChanged"/>
 </FormLayoutComponent>
 
 @code {
-
-    [Inject]
-    public ITimingService TimingService { get; set; } = default!;
-
-    [Inject]
-    public IBuildOrderService BuildOrderService { get; set; } = default!;
-
-
     void OnTimingChanged(ChangeEventArgs changeEventArgs)
     {
-        TimingService.SetTiming(int.Parse(changeEventArgs.Value!.ToString()!));
-    }
-
-    void OnTimingChanged(int value)
-    {
-        TimingService.SetTiming(value);
+        timingService.SetTiming(int.Parse(changeEventArgs.Value!.ToString()!));
+        economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
     }
 
     void OnNameChanged(ChangeEventArgs changeEventArgs)
     {
-        BuildOrderService.SetName(changeEventArgs.Value!.ToString()!);
+        buildOrderService.SetName(changeEventArgs.Value!.ToString()!);
     }
 
     void OnColorChanged(ChangeEventArgs changeEventArgs)
     {
-        BuildOrderService.SetColor(changeEventArgs.Value!.ToString()!);
+        buildOrderService.SetColor(changeEventArgs.Value!.ToString()!);
     }
 
 
     void OnNotesChanged(ChangeEventArgs changeEventArgs)
     {
-        BuildOrderService.SetNotes(changeEventArgs.Value!.ToString()!);
+        buildOrderService.SetNotes(changeEventArgs.Value!.ToString()!);
     }
+    
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "TimingComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
+#endif
+    }
+
 
 }

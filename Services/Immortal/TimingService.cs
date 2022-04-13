@@ -1,7 +1,7 @@
 ﻿namespace Services.Immortal;
 
 public class TimingService : ITimingService {
-    private int _timing = 360;
+    private int _timing = 1500;
 
     public void Subscribe(Action? action) {
         _onChange += action;

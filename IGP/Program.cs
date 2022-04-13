@@ -29,7 +29,6 @@ builder.Services.AddSingleton<IEconomyService, EconomyService>();
 builder.Services.AddSingleton<ITimingService, TimingService>();
 builder.Services.AddSingleton<IMemoryTesterService, MemoryTesterService>();
 builder.Services.AddSingleton<IEntityFilterService, EntityFilterService>();
-builder.Services.AddSingleton<IGameLogicService, GameLogicService>();
 builder.Services.AddSingleton<IEntityDisplayService, EntityDisplayService>();
 builder.Services.AddSingleton<IEntityDialogService, EntityDialogService>();
 builder.Services.AddSingleton<IToastService, ToastService>();

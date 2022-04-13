@@ -1,27 +1,38 @@
-﻿@implements IDisposable
+﻿@inject IEconomyService economyService
+@inject IBuildOrderService buildOrderService
+@inject IJSRuntime jsRuntime;
+@implements IDisposable
 
-<div class="chartsContainer">
-    @foreach (var chart in charts)
-    {
-        <div style="width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
-            <div style="position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
-                @foreach (var point in chart.Points)
-                {
-                    <div style="position: absolute;
+@if (lastRequestedRefreshIndex != requestedRefreshIndex)
+{
+    <LoadingComponent/>
+    
+}
+else
+{
+    <div class="chartsContainer">
+        @foreach (var chart in charts)
+        {
+            <div style="width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
+                <div style="position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
+                    @foreach (var point in chart.Points)
+                    {
+                        <div style="position: absolute;
 							bottom:@point.GetValue(chart.HighestValuePoint, chart.ValueDisplayMax)px;
 							left:@point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax)px;
 							width: 0px;
 							height: 0px;">
-                        <div style="width:1px; height: 1px; border-top-right-radius:10px; border-top-left-radius:10px; border: 2px solid @chart.ChartColor; background-color:@chart.ChartColor">
+                            <div style="width:1px; height: 1px; border-top-right-radius:10px; border-top-left-radius:10px; border: 2px solid @chart.ChartColor; background-color:@chart.ChartColor">
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
-        </div>
-    }
-</div>
-
-<style>
+        }
+    </div>
+    
+    
+    <style>
     .chartsContainer {
         position: relative;
         display: flex;
@@ -30,33 +41,30 @@
         justify-content: center;
         margin-bottom: 20px;
     }
+    
 </style>
 
-<FormLayoutComponent>
-    <FormDisplayComponent Label="Highest Alloy">
-        <Display>@highestAlloyPoint</Display>
-    </FormDisplayComponent>
-    <FormDisplayComponent Label="Highest Ether">
-        <Display>@highestEtherPoint</Display>
-    </FormDisplayComponent>
-    <DevOnlyComponent>
-        <FormDisplayComponent Label="Highest Pyre">
+    <FormLayoutComponent>
+        <FormDisplayComponent Label="Highest Alloy">
+            <Display>@highestAlloyPoint</Display>
+        </FormDisplayComponent>
+        <FormDisplayComponent Label="Highest Ether">
             <Display>@highestEtherPoint</Display>
         </FormDisplayComponent>
-    </DevOnlyComponent>
-    <FormDisplayComponent Label="Highest Army">
-        <Display>@highestArmyPoint</Display>
-    </FormDisplayComponent>
-</FormLayoutComponent>
+        <DevOnlyComponent>
+            <FormDisplayComponent Label="Highest Pyre">
+                <Display>@highestEtherPoint</Display>
+            </FormDisplayComponent>
+        </DevOnlyComponent>
+        <FormDisplayComponent Label="Highest Army">
+            <Display>@highestArmyPoint</Display>
+        </FormDisplayComponent>
+    </FormLayoutComponent>
 
+
+}
 
 @code {
-
-    [Inject]
-    IEconomyService EconomyService { get; set; } = default!;
-
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; } = default!;
 
     private readonly int width = 250;
 
@@ -70,23 +78,75 @@
     float highestPyrePoint;
     float highestArmyPoint;
 
+    private Timer ageTimer = null!;
+
+    
     protected override void OnInitialized()
     {
-        EconomyService.Subscribe(GenerateChart);
-        BuildOrderService.Subscribe(GenerateChart);
+        buildOrderService.Subscribe(OnBuilderOrderChanged);
 
+        ageTimer = new Timer(3000);
+        ageTimer.Elapsed += OnAge!;
+        ageTimer.Enabled = true;
+
+        
         GenerateChart();
     }
 
+
+    int lastRequestedRefreshIndex = 0;
+    void OnAge(object? sender, ElapsedEventArgs elapsedEventArgs)
+    {
+        if (requestedRefreshIndex > 0)
+        {
+            if (requestedRefreshIndex == lastRequestedRefreshIndex)
+            {
+                GenerateChart();
+                requestedRefreshIndex = 0;
+                lastRequestedRefreshIndex = 0;
+            }
+            
+            lastRequestedRefreshIndex = requestedRefreshIndex;
+        }
+        
+        ageTimer.Enabled = true;
+    }
+    
+    
+
     void IDisposable.Dispose()
     {
-        EconomyService.Unsubscribe(GenerateChart);
-        BuildOrderService.Unsubscribe(GenerateChart);
+        buildOrderService.Unsubscribe(OnBuilderOrderChanged);
     }
 
+
+    int requestedRefreshIndex = 0;
+    void OnBuilderOrderChanged()
+    {
+        requestedRefreshIndex++;
+        StateHasChanged();
+    }
+
+
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "ChartComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "ChartComponent");
+#endif
+    }
+    
     void GenerateChart()
     {
-        var economyOverTime = EconomyService.GetOverTime();
+        var economyOverTime = economyService.GetOverTime();
 
         charts.Clear();
 
@@ -127,7 +187,7 @@
 
         for (var interval = 0; interval < economyOverTime.Count(); interval++)
         {
-            var army = from unit in BuildOrderService.GetCompletedBefore(interval)
+            var army = from unit in buildOrderService.GetCompletedBefore(interval)
                 where unit.EntityType == EntityType.Army
                 select unit;
 

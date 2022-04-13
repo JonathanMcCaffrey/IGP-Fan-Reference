@@ -1,4 +1,6 @@
-﻿<FormLayoutComponent>
+﻿@inject IJSRuntime jsRuntime;
+
+<FormLayoutComponent>
     <FormSelectComponent OnChange="@OnFactionChanged">
         <FormLabelComponent>Faction</FormLabelComponent>
         <ChildContent>
@@ -39,4 +41,19 @@
         FilterService.SelectImmortalType(e.Value!.ToString()!);
     }
 
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "FilterComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "FilterComponent");
+#endif
+    }
 }

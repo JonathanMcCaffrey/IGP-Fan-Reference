@@ -1,40 +1,37 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+
+@implements IDisposable
 
 <div class="highlightsContainer">
     <div>
         <div>Requested</div>
-
-        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--)
-        {
-            @foreach (var order in BuildOrderService.GetOrdersAt(i))
-            {
-                if (order.EntityType == EntityType.Worker)
-                {
-                    continue;
+        
+        @foreach (var ordersAtTime in BuildOrderService.StartedOrders.Reverse()) {
+                    foreach (var order in ordersAtTime.Value)
+                    {
+                        <div>
+                                
+                            @ordersAtTime.Key | T @Interval.ToTime(ordersAtTime.Key)
+                        </div>
+                        <div>
+                            @order.Info().Name
+                        </div>
+                        <br/>
+                    }
                 }
-                <div>
-                    @i | T @Interval.ToTime(i)
-                </div>
-                <div>
-                    @order.Info().Name
-                </div>
-                <br/>
-            }
-        }
+
     </div>
     <div>
         <div>Finished</div>
-
-        @for (var i = TimingService.GetTiming() - 1; i >= 0; i--)
+        
+        @foreach (var ordersAtTime in BuildOrderService.CompletedOrders.Reverse())
         {
-            @foreach (var order in BuildOrderService.GetCompletedAt(i))
+            foreach (var order in ordersAtTime.Value)
             {
-                if (order.EntityType == EntityType.Worker)
-                {
-                    continue;
-                }
                 <div>
-                    @i | T @Interval.ToTime(i)
+                        
+                    @ordersAtTime.Key | T @Interval.ToTime(ordersAtTime.Key)
                 </div>
                 <div>
                     @order.Info().Name
@@ -78,6 +75,22 @@
     {
         EconomyService.Unsubscribe(StateHasChanged);
         BuildOrderService.Unsubscribe(StateHasChanged);
+    }
+    
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "HighlightsComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "HighlightsComponent");
+#endif
     }
 
 }

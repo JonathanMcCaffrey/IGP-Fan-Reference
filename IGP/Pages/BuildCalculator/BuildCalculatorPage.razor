@@ -1,7 +1,4 @@
-﻿@using Microsoft.Extensions.Localization
-@implements IDisposable
-
-@layout PageLayout
+﻿@layout PageLayout
 
 @inject IStringLocalizer<Localizations> locale
 
@@ -13,6 +10,9 @@
 @inject ITimingService timingService
 
 @page "/build-calculator"
+@using Microsoft.Extensions.Localization
+
+@implements IDisposable
 
 <LayoutLargeContentComponent>
     <WebsiteTitleComponent>Build Calculator</WebsiteTitleComponent>
@@ -30,7 +30,7 @@
     <div class="calculatorGrid">
 
         <div style="grid-area: timing;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]" >
+            <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]">
 
                 <TimingComponent></TimingComponent>
             </InfoTooltipComponent>
@@ -52,27 +52,32 @@
             </InfoTooltipComponent>
         </div>
 
+        @if (true)
+        {
+            <div style="grid-area: view;" class="gridItem">
+                <InfoTooltipComponent InfoText="@locale["Tooltip Entity Info"]">
+                    <EntityClickViewComponent/>
+                </InfoTooltipComponent>
+            </div>
+        }
 
-        <div style="grid-area: view;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Entity Info"]">
-                <EntityClickViewComponent/>
-            </InfoTooltipComponent>
-        </div>
+        @if (true)
+        {
+            <div style="grid-area: bank;" class="gridItem">
+                <InfoTooltipComponent InfoText="@locale["Tooltip Bank Info"]">
+                    <BankComponent></BankComponent>
+                </InfoTooltipComponent>
+            </div>
+        }
 
-
-        <div style="grid-area: bank;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Bank Info"]">
-                <BankComponent></BankComponent>
-            </InfoTooltipComponent>
-        </div>
-
-
-        <div style="grid-area: army;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Army Info"]">
-                <ArmyComponent></ArmyComponent>
-            </InfoTooltipComponent>
-        </div>
-
+        @if (true)
+        {
+            <div style="grid-area: army;" class="gridItem">
+                <InfoTooltipComponent InfoText="@locale["Tooltip Army Info"]">
+                    <ArmyComponent></ArmyComponent>
+                </InfoTooltipComponent>
+            </div>
+        }
 
         <div class="gridItem gridKeys">
 
@@ -82,25 +87,22 @@
             </InfoTooltipComponent>
         </div>
 
-
-        @if (false)
+        @if (true)
         {
-            <div style="grid-area: timeline;" class="gridItem">
-                <TimelineComponent></TimelineComponent>
+            <div style="grid-area: highlights;" class="gridItem">
+                <InfoTooltipComponent InfoText="@locale["Tooltip Highlights Info"]">
+                    <HighlightsComponent></HighlightsComponent>
+                </InfoTooltipComponent>
             </div>
         }
-
-        <div style="grid-area: highlights;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Highlights Info"]">
-                <HighlightsComponent></HighlightsComponent>
-            </InfoTooltipComponent>
-        </div>
-
-        <div style="grid-area: buildorder;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip BuildOrder Info"]">
-                <BuildOrderComponent></BuildOrderComponent>
-            </InfoTooltipComponent>
-        </div>
+        @if (true)
+        {
+            <div style="grid-area: buildorder;" class="gridItem">
+                <InfoTooltipComponent InfoText="@locale["Tooltip BuildOrder Info"]">
+                    <BuildOrderComponent></BuildOrderComponent>
+                </InfoTooltipComponent>
+            </div>
+        }
     </div>
 
     <ContentDividerComponent></ContentDividerComponent>
@@ -218,29 +220,19 @@
 
 
 @code {
-
     protected override void OnInitialized()
     {
-        keyService.Subscribe(HandleClick);
-        filterService.Subscribe(StateHasChanged);
-        economyService.Subscribe(StateHasChanged);
-        timingService.Subscribe(HandleTimingChanged);
         economyService.Calculate(buildOrderService, timingService, 0);
+        
+        keyService.Subscribe(HandleClick);
     }
-
+    
     void IDisposable.Dispose()
     {
         keyService.Unsubscribe(HandleClick);
-        filterService.Unsubscribe(StateHasChanged);
-        timingService.Unsubscribe(StateHasChanged);
-        economyService.Unsubscribe(StateHasChanged);
     }
 
-    private void HandleTimingChanged()
-    {
-        economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
-    }
-
+    
     private void HandleClick()
     {
         var hotkey = keyService.GetHotkey();
@@ -254,7 +246,6 @@
         {
             buildOrderService.RemoveLast();
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
-            StateHasChanged();
             return;
         }
 
@@ -275,5 +266,4 @@
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }
     }
-
 }

@@ -1,4 +1,14 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+@implements IDisposable
+@inject IKeyService keyService 
+@inject IBuildOrderService buildOrderService
+@inject IImmortalSelectionService filterService
+
+@inject IEconomyService economyService
+@inject ITimingService timingService
+@inject IToastService toastService
+
 
 <InputPanelComponent>
     <div class="keyContainer">
@@ -9,7 +19,7 @@
                 continue;
             }
 
-            var color = hotkey.KeyText.Equals("SPACE") && KeyService.IsHoldingSpace() || KeyService.GetAllPressedKeys().Contains(hotkey.KeyText)
+            var color = hotkey.KeyText.Equals("SPACE") && keyService.IsHoldingSpace() || keyService.GetAllPressedKeys().Contains(hotkey.KeyText)
                 ? "#0a0f12" : hotkey.GetColor();
 
             var x = hotkey.PositionX * Size;
@@ -25,7 +35,7 @@
                 border = "5px solid green";
             }
 
-            if (hotkey.KeyText.Equals("SPACE") && KeyService.IsHoldingSpace())
+            if (hotkey.KeyText.Equals("SPACE") && keyService.IsHoldingSpace())
             {
                 border = "5px solid green";
             }
@@ -37,7 +47,7 @@
 							width: 0px;
 							height: 0px;">
 
-                <div @onclick="x => { if (hotkey.KeyText.Equals(HotKeyType.SPACE.ToString())) { if (KeyService.IsHoldingSpace()) { KeyService.RemovePressedKey(hotkey.KeyText); } else { KeyService.AddPressedKey(hotkey.KeyText); } } else { KeyService.AddPressedKey(hotkey.KeyText); KeyService.RemovePressedKey(hotkey.KeyText); }}" style="background-color:@color;
+                <div @onclick="x => { if (hotkey.KeyText.Equals(HotKeyType.SPACE.ToString())) { if (keyService.IsHoldingSpace()) { keyService.RemovePressedKey(hotkey.KeyText); } else { keyService.AddPressedKey(hotkey.KeyText); } } else { keyService.AddPressedKey(hotkey.KeyText); keyService.RemovePressedKey(hotkey.KeyText); }}" style="background-color:@color;
 								border: @border;
 								width: @Size.ToString()px;
 								height: @Size.ToString()px;
@@ -46,7 +56,7 @@
                     @hotkey.KeyText
                     @foreach (var entity in data.Values)
                     {
-                        if (!BuildOrderService.MeetsRequirements(entity, 9000))
+                        if (buildOrderService.WillMeetRequirements(entity) == null)
                         {
                             continue;
                         }
@@ -97,15 +107,6 @@
     [Parameter]
     public int Size { get; set; } = 100;
 
-    [Inject]
-    public IKeyService KeyService { get; set; } = default!;
-
-    [Inject]
-    public IBuildOrderService BuildOrderService { get; set; } = default!;
-
-    [Inject]
-    public IImmortalSelectionService FilterService { get; set; } = default!;
-
     readonly Dictionary<string, EntityModel> data = EntityModel.GetDictionary();
     readonly List<HotkeyModel> hotkeys = HotkeyModel.GetAll();
 
@@ -116,20 +117,48 @@
     {
         base.OnInitialized();
 
-        KeyService.Subscribe(OnKeyPressed);
-        FilterService.Subscribe(StateHasChanged);
+        keyService.Subscribe(OnKeyPressed);
+        filterService.Subscribe(StateHasChanged);
+        buildOrderService.Subscribe(OnBuilderOrderChanged);
     }
 
     void IDisposable.Dispose()
     {
-        KeyService.Unsubscribe(OnKeyPressed);
-        FilterService.Unsubscribe(StateHasChanged);
+        keyService.Unsubscribe(OnKeyPressed);
+        filterService.Unsubscribe(StateHasChanged);
+        buildOrderService.Unsubscribe(OnBuilderOrderChanged);
+    }
+
+    int completedTimeCount = 0;
+    void OnBuilderOrderChanged()
+    {
+        if (buildOrderService.UniqueCompletedTimes.Count != completedTimeCount)
+        {
+            completedTimeCount = buildOrderService.UniqueCompletedTimes.Count;
+            StateHasChanged();
+        }
+    }
+    
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "HotKeyViewerComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "HotKeyViewerComponent");
+#endif
     }
 
     // Move to Filter Service
     bool InvalidFaction(EntityModel entity)
     {
-        if (entity.Faction() != null && entity.Faction()?.Faction != FilterService.GetFactionType() && FilterService.GetFactionType() != FactionType.Any)
+        if (entity.Faction() != null && entity.Faction()?.Faction != filterService.GetFactionType() && filterService.GetFactionType() != FactionType.Any)
         {
             return true;
         }
@@ -140,7 +169,7 @@
     // Move to Filter Service
     bool InvalidVanguard(EntityModel entity)
     {
-        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != FilterService.GetImmortalType() && FilterService.GetImmortalType() != ImmortalType.Any)
+        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType() && filterService.GetImmortalType() != ImmortalType.Any)
         {
             return true;
         }
@@ -156,7 +185,7 @@
             var isReplaced = false;
             foreach (var replaced in entity.Replaceds())
             {
-                if (FilterService.GetImmortalType() == replaced.ImmortalId)
+                if (filterService.GetImmortalType() == replaced.ImmortalId)
                 {
                     isReplaced = true;
                     break;
@@ -169,11 +198,6 @@
         }
 
         return false;
-    }
-
-    bool InvalidRequirements(EntityModel entity)
-    {
-        return !BuildOrderService.MeetsRequirements(entity, 9000);
     }
 
     bool InvalidKey(EntityModel entity, HotkeyModel key)
@@ -215,7 +239,7 @@
 
     bool InvalidHoldSpace(EntityModel entity)
     {
-        if (entity.Hotkey()?.HoldSpace == KeyService.IsHoldingSpace())
+        if (entity.Hotkey()?.HoldSpace == keyService.IsHoldingSpace())
         {
             return false;
         }
@@ -224,47 +248,93 @@
 
     void OnKeyPressed()
     {
-        if (KeyService.GetAllPressedKeys().Contains("Z"))
+       
+        string controlGroupWas = _controlGroup;
+        string keyWas = _key;
+        
+        
+        if (keyService.GetAllPressedKeys().Contains("Z"))
         {
             _controlGroup = "Z";
         }
-        if (KeyService.GetAllPressedKeys().Contains("TAB"))
+        if (keyService.GetAllPressedKeys().Contains("TAB"))
         {
             _controlGroup = "TAB";
         }
-        if (KeyService.GetAllPressedKeys().Contains("C"))
+        if (keyService.GetAllPressedKeys().Contains("C"))
         {
             _controlGroup = "C";
         }
-        if (KeyService.GetAllPressedKeys().Contains("D"))
+        if (keyService.GetAllPressedKeys().Contains("D"))
         {
             _controlGroup = "D";
         }
-        if (KeyService.GetAllPressedKeys().Contains("1"))
+        if (keyService.GetAllPressedKeys().Contains("1"))
         {
             _controlGroup = "1";
         }
     //TODO This could be better. Duplicated code
-        if (KeyService.GetAllPressedKeys().Contains("2"))
+        if (keyService.GetAllPressedKeys().Contains("2"))
         {
             _controlGroup = "2";
         }
-        if (KeyService.GetAllPressedKeys().Contains("SHIFT"))
+        if (keyService.GetAllPressedKeys().Contains("SHIFT"))
         {
             _controlGroup = "SHIFT";
         }
 
-        if (KeyService.GetAllPressedKeys().Contains("CONTROL"))
+        if (keyService.GetAllPressedKeys().Contains("CONTROL"))
         {
             _controlGroup = "CONTROL";
         }
 
-        if (KeyService.GetAllPressedKeys().Count > 0)
+        if (keyService.GetAllPressedKeys().Count > 0)
         {
-            _key = KeyService.GetAllPressedKeys().First();
+            _key = keyService.GetAllPressedKeys().First();
         }
 
-        StateHasChanged();
-    }
+//        HandleClick();
 
+        if (controlGroupWas != _controlGroup || keyWas != _key)
+        {
+        
+            StateHasChanged();    
+        }
+        
+    }
+    
+    
+    private void HandleClick()
+    {
+        var hotkey = keyService.GetHotkey();
+
+        if (hotkey == "")
+        {
+            return;
+        }
+
+        if (hotkey == "`")
+        {
+            buildOrderService.RemoveLast();
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+            return;
+        }
+
+        var hotkeyGroup = keyService.GetHotkeyGroup();
+        var isHoldSpace = keyService.IsHoldingSpace();
+        var faction = filterService.GetFactionType();
+        var immortal = filterService.GetImmortalType();
+
+        EntityModel? entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
+
+        if (entity == null)
+        {
+            return;
+        }
+        
+        if (buildOrderService.Add(entity, economyService, toastService))
+        {
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+        }
+    }
 }

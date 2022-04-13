@@ -1,4 +1,7 @@
-﻿@implements IDisposable
+﻿@inject IJSRuntime jsRuntime;
+
+
+@implements IDisposable
 
 <Virtualize Items="@EconomyService.GetOverTime()" Context="economyAtSecond" ItemSize="400" OverscanCount="4">
     <div style="display: grid; gap: 8px; grid-template-columns: 1fr 1fr;">
@@ -24,17 +27,26 @@
             <br/>
         </div>
         <div>
-            @foreach (var order in BuildOrderService.GetOrdersAt(economyAtSecond.Interval))
+            
+            @if (BuildOrderService.StartedOrders.TryGetValue(economyAtSecond.Interval, out var ordersAtTime))
             {
-                <div>
-                    Requested: @order.Info().Name
-                </div>
+                @foreach (var order in ordersAtTime)
+                {
+    <div>
+        Requested: @order.Info().Name
+    </div>
+}
             }
-            @foreach (var order in BuildOrderService.GetCompletedAt(economyAtSecond.Interval))
+            
+            
+            @if (BuildOrderService.CompletedOrders.TryGetValue(economyAtSecond.Interval, out var ordersCompletedAtTime))
             {
-                <div>
-                    New: @order.Info().Name
-                </div>
+                @foreach (var order in ordersCompletedAtTime)
+                {
+                    <div>
+                        New: @order.Info().Name
+                    </div>
+                }
             }
         </div>
     </div>
@@ -59,6 +71,22 @@
     {
         EconomyService.Unsubscribe(StateHasChanged);
         BuildOrderService.Unsubscribe(StateHasChanged);
+    }
+    
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "TimelineComponent");
+#endif
+        
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "TimelineComponent");
+#endif
     }
 
 }
