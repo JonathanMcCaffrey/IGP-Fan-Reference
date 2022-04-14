@@ -1435,9 +1435,13 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 100 })
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_Reliquary,
+                        Requirement = RequirementType.Production_Building
+                    })
                    
             },
-            
             {
                 DataType.UPGRADE_RadiantWard,
                 new EntityModel(DataType.UPGRADE_RadiantWard, EntityType.Tech)
@@ -1449,6 +1453,11 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 80, Ether = 80, BuildTime = 34 })
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_HouseOfFadingSaints,
+                        Requirement = RequirementType.Production_Building
+                    })
             },
             
             {
@@ -1462,6 +1471,11 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB", HoldSpace = true})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 43 })
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_EyeOfAros,
+                        Requirement = RequirementType.Production_Building
+                    })
                    
             },
             
@@ -1476,6 +1490,8 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
+                    .AddPart(new EntityVanguardAddedModel
+                        { ReplaceId = DataType.UPGRADE_GreavesOfAhqar, ImmortalId = DataType.IMMORTAL_Orzum })
                    
             },
             {
@@ -1528,7 +1544,7 @@ public class DATA
                         Name = "Sirocco Script", Descriptive = DescriptiveType.Upgrade,
                         Description = "Grant's the Dervish Sirocco Script"
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "TAB" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 75, Ether = 100, BuildTime = 60 })
                     .AddPart(new EntityRequirementModel
@@ -1553,6 +1569,10 @@ public class DATA
                         Id = DataType.BUILDING_EyeOfAros,
                         Requirement = RequirementType.Production_Building
                     })
+                    .AddPart(new EntityVanguardAddedModel
+                        { ReplaceId = DataType.UPGRADE_FortifiedIcons, ImmortalId = DataType.IMMORTAL_Orzum })
+                
+                
             },
             {
                 DataType.UPGRADE_BladesOfTheGodhead,
@@ -1735,6 +1755,9 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 80, BuildTime = 60 })
+                    .AddPart(new EntityVanguardAddedModel
+                        { ReplaceId = DataType.UPGRADE_Offering, ImmortalId = DataType.IMMORTAL_Xol })
+
             },
             
             {
@@ -1748,12 +1771,14 @@ public class DATA
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB", HoldSpace = false })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityProductionModel { Alloy = 100, Ether = 125, BuildTime = 80 })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_RedVale,
                         Requirement = RequirementType.Research_Building
                     })
-                    .AddPart(new EntityProductionModel { Alloy = 100, Ether = 125, BuildTime = 80 })
+                    .AddPart(new EntityVanguardAddedModel
+                        { ReplaceId = DataType.UPGRADE_BloodMothersFevor, ImmortalId = DataType.IMMORTAL_Xol })
             },
             
             
@@ -1911,6 +1936,7 @@ public class DATA
                     })
                     .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_FaithCastBlades, Requirement = RequirementType.Research_Upgrade})
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
+
             },
             
             {
@@ -2329,6 +2355,11 @@ public class DATA
                     .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40} )
                     .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_RadiantWard })
                     .AddPart(new EntityVitalityModel {Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light, IsStructure = true})
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.BUILDING_HouseOfFadingSaints,
+                        Requirement = RequirementType.Production_Building
+                    })
             },
             
             {

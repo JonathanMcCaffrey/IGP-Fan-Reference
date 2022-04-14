@@ -26,11 +26,11 @@
             var y = hotkey.PositionY * Size;
 
             var border = "1px solid black";
-            if (hotkey.KeyText.Equals(_key))
+            if (hotkey.KeyText.Equals(key))
             {
                 border = "5px solid black";
             }
-            if (hotkey.KeyText.Equals(_controlGroup))
+            if (hotkey.KeyText.Equals(controlGroup))
             {
                 border = "5px solid green";
             }
@@ -56,23 +56,30 @@
                     @hotkey.KeyText
                     @foreach (var entity in data.Values)
                     {
-                        if (buildOrderService.WillMeetRequirements(entity) == null)
-                        {
-                            continue;
-                        }
-
+                       
                         if (InvalidKey(entity, hotkey) || InvalidKeyGroup(entity, hotkey) || InvalidHoldSpace(entity))
                         {
                             continue;
                         }
 
-                        if (InvalidFaction(entity) || InvalidVanguard(entity) || InvalidNonVanguard(entity))
+                        if (InvalidFaction(entity))
+                        {
+                            continue;
+                        }
+                        
+                        if (InvalidVanguard(entity) || InvalidNonVanguard(entity))
                         {
                             continue;
                         }
 
                         var isVanguard = entity.VanguardAdded() != null;
                         var style = isVanguard ? "font-weight: bold;" : "";
+                        
+                        if (buildOrderService.WillMeetRequirements(entity) == null)
+                        {
+                            style += "color:gray; font-style: italic;";
+                        }
+
 
                         <div style="@style">@entity.Info()?.Name</div>
                     }
@@ -110,8 +117,8 @@
     readonly Dictionary<string, EntityModel> data = EntityModel.GetDictionary();
     readonly List<HotkeyModel> hotkeys = HotkeyModel.GetAll();
 
-    public string _controlGroup = "C";
-    public string _key = "";
+    private string controlGroup = "C";
+    private string key = "";
 
     protected override void OnInitialized()
     {
@@ -211,7 +218,7 @@
 
     bool InvalidKeyGroup(EntityModel entity, HotkeyModel key)
     {
-        if (entity.Hotkey()?.HotkeyGroup == _controlGroup)
+        if (entity.Hotkey()?.HotkeyGroup == controlGroup)
         {
             return false;
         }
@@ -221,7 +228,7 @@
 
     bool InvalidKey(EntityModel entity)
     {
-        if (entity.Hotkey()?.Hotkey == _key)
+        if (entity.Hotkey()?.Hotkey == key)
         {
             return false;
         }
@@ -230,7 +237,7 @@
 
     bool InvalidKeyGroup(EntityModel entity)
     {
-        if (entity.Hotkey()?.HotkeyGroup == _controlGroup)
+        if (entity.Hotkey()?.HotkeyGroup == controlGroup)
         {
             return false;
         }
@@ -249,53 +256,51 @@
     void OnKeyPressed()
     {
        
-        string controlGroupWas = _controlGroup;
-        string keyWas = _key;
+        string controlGroupWas = controlGroup;
+        string keyWas = key;
         
         
         if (keyService.GetAllPressedKeys().Contains("Z"))
         {
-            _controlGroup = "Z";
+            controlGroup = "Z";
         }
         if (keyService.GetAllPressedKeys().Contains("TAB"))
         {
-            _controlGroup = "TAB";
+            controlGroup = "TAB";
         }
         if (keyService.GetAllPressedKeys().Contains("C"))
         {
-            _controlGroup = "C";
+            controlGroup = "C";
         }
         if (keyService.GetAllPressedKeys().Contains("D"))
         {
-            _controlGroup = "D";
+            controlGroup = "D";
         }
         if (keyService.GetAllPressedKeys().Contains("1"))
         {
-            _controlGroup = "1";
+            controlGroup = "1";
         }
     //TODO This could be better. Duplicated code
         if (keyService.GetAllPressedKeys().Contains("2"))
         {
-            _controlGroup = "2";
+            controlGroup = "2";
         }
         if (keyService.GetAllPressedKeys().Contains("SHIFT"))
         {
-            _controlGroup = "SHIFT";
+            controlGroup = "SHIFT";
         }
 
         if (keyService.GetAllPressedKeys().Contains("CONTROL"))
         {
-            _controlGroup = "CONTROL";
+            controlGroup = "CONTROL";
         }
 
         if (keyService.GetAllPressedKeys().Count > 0)
         {
-            _key = keyService.GetAllPressedKeys().First();
+            key = keyService.GetAllPressedKeys().First();
         }
 
-//        HandleClick();
-
-        if (controlGroupWas != _controlGroup || keyWas != _key)
+        if (controlGroupWas != controlGroup || keyWas != key)
         {
         
             StateHasChanged();    

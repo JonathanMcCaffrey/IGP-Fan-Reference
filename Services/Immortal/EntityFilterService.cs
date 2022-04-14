@@ -20,19 +20,20 @@ public class EntityFilterService : IEntityFilterService {
     private string _searchText = "";
     private string _selectedFaction = FactionType.Any;
     private string _selectedImmortal = ImmortalType.Any;
-
     
+    private event EntityFilterAction OnChange = null!;
+
     public EntityFilterService() {
         RefreshImmortalChoices();
         RefreshEntityChoices();
     }
 
     public void Subscribe(EntityFilterAction action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(EntityFilterAction action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public string GetEntityType() {
@@ -159,14 +160,8 @@ public class EntityFilterService : IEntityFilterService {
     }
 
 
-    private event EntityFilterAction _onChange = null!;
-
     private void NotifyDataChanged(EntityFilterEvent entityFilterEvent) {
-        _onChange?.Invoke(entityFilterEvent);
-    }
-
-    public EntityFilterAction OnChange() {
-        return _onChange;
+        OnChange?.Invoke(entityFilterEvent);
     }
 
     public void Subscribe(Action action) {
