@@ -6,31 +6,32 @@
 <div class="highlightsContainer">
     <div>
         <div>Requested</div>
-        
-        @foreach (var ordersAtTime in BuildOrderService.StartedOrders.Reverse()) {
-                    foreach (var order in ordersAtTime.Value)
-                    {
-                        <div>
-                                
-                            @ordersAtTime.Key | T @Interval.ToTime(ordersAtTime.Key)
-                        </div>
-                        <div>
-                            @order.Info().Name
-                        </div>
-                        <br/>
-                    }
-                }
+
+        @foreach (var ordersAtTime in BuildOrderService.StartedOrders.Reverse())
+        {
+            foreach (var order in ordersAtTime.Value)
+            {
+                <div>
+
+                    @ordersAtTime.Key | T @Interval.ToTime(ordersAtTime.Key)
+                </div>
+                <div>
+                    @order.Info().Name
+                </div>
+                <br/>
+            }
+        }
 
     </div>
     <div>
         <div>Finished</div>
-        
+
         @foreach (var ordersAtTime in BuildOrderService.CompletedOrders.Reverse())
         {
             foreach (var order in ordersAtTime.Value)
             {
                 <div>
-                        
+
                     @ordersAtTime.Key | T @Interval.ToTime(ordersAtTime.Key)
                 </div>
                 <div>
@@ -76,13 +77,13 @@
         EconomyService.Unsubscribe(StateHasChanged);
         BuildOrderService.Unsubscribe(StateHasChanged);
     }
-    
+
     protected override bool ShouldRender()
     {
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "HighlightsComponent");
 #endif
-        
+
         return true;
     }
 
