@@ -43,6 +43,13 @@ public class BuildOrderModel
         }
     };
     
+    public Dictionary<string, int> UniqueCompletedCount { get; set; } = new()
+    {
+        {
+            DataType.STARTING_Bastion, 1
+        }
+    };
+    
     
     
     public Dictionary<int, int> SupplyCountTimes { get; set; } = new()

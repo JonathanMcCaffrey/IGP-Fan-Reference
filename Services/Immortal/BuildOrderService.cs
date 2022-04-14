@@ -65,6 +65,11 @@ public class BuildOrderService : IBuildOrderService
         if (!buildOrder.UniqueCompletedTimes.ContainsKey(entity.DataType))
             buildOrder.UniqueCompletedTimes.Add(entity.DataType, atInterval);
 
+        if (!buildOrder.UniqueCompletedCount.ContainsKey(entity.DataType))
+            buildOrder.UniqueCompletedCount.Add(entity.DataType, 1);
+        else
+            buildOrder.UniqueCompletedCount[entity.DataType]++;
+
         if (supply != null)
         {
             if (!supply.Takes.Equals(0)) buildOrder.CurrentSupplyUsed += supply.Takes;
@@ -159,8 +164,11 @@ public class BuildOrderService : IBuildOrderService
             if (entityRemoved.Supply()?.Takes > 0)
                 buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
 
-            if (UniqueCompletedTimes[entityRemoved!.DataType].Equals(lastInterval + entityRemoved.Production()!.BuildTime))
+
+            buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
+            if (buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0) {
                 UniqueCompletedTimes.Remove(entityRemoved.DataType);
+            }
             
             if (entityRemoved.Info().Descriptive == DescriptiveType.Worker)
             {

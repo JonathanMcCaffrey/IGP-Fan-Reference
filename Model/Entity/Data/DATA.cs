@@ -1496,7 +1496,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
-                    .AddPart(new EntityRequirementModel() { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Research_Building})
+                    .AddPart(new EntityRequirementModel { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Research_Building})
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_GreavesOfAhqar, ImmortalId = DataType.IMMORTAL_Orzum })
                    
