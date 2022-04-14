@@ -40,6 +40,9 @@ public class BuildOrderModel
     {
         {
             DataType.STARTING_Bastion, 0
+        },
+        {
+            DataType.STARTING_TownHall_Aru, 0
         }
     };
     
@@ -47,6 +50,9 @@ public class BuildOrderModel
     {
         {
             DataType.STARTING_Bastion, 1
+        },
+        {
+            DataType.STARTING_TownHall_Aru, 1
         }
     };
     
