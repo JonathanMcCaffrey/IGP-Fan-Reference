@@ -1,5 +1,6 @@
 ﻿@inject IJSRuntime jsRuntime;
 
+@using System.Diagnostics
 @implements IDisposable
 @inject IKeyService keyService 
 @inject IBuildOrderService buildOrderService
@@ -176,7 +177,9 @@
     // Move to Filter Service
     bool InvalidVanguard(EntityModel entity)
     {
-        if (entity.VanguardAdded() != null && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType() && filterService.GetImmortalType() != ImmortalType.Any)
+        if (entity.VanguardAdded() != null 
+            && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType() 
+            && filterService.GetImmortalType() != ImmortalType.Any)
         {
             return true;
         }
@@ -189,18 +192,12 @@
     {
         if (entity.Replaceds().Count > 0)
         {
-            var isReplaced = false;
             foreach (var replaced in entity.Replaceds())
             {
                 if (filterService.GetImmortalType() == replaced.ImmortalId)
                 {
-                    isReplaced = true;
-                    break;
+                    return true;
                 }
-            }
-            if (isReplaced)
-            {
-                return true;
             }
         }
 

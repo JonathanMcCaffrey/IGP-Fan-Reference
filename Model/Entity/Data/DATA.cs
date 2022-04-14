@@ -229,7 +229,7 @@ public class DATA
             {
                 DataType.IMMORTAL_Mala,
                 new EntityModel(DataType.IMMORTAL_Mala, EntityType.Immortal)
-                    .AddPart(new EntityInfoModel { Name = ImmortalType.Mala })
+                    .AddPart(new EntityInfoModel { Name = "Mala" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityHarvestModel
                     {
@@ -248,7 +248,7 @@ public class DATA
             {
                 DataType.IMMORTAL_Xol,
                 new EntityModel(DataType.IMMORTAL_Xol, EntityType.Immortal)
-                    .AddPart(new EntityInfoModel { Name = ImmortalType.Xol })
+                    .AddPart(new EntityInfoModel { Name = "Xol" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityHarvestModel
                     {
@@ -269,7 +269,7 @@ public class DATA
             {
                 DataType.IMMORTAL_Ajari,
                 new EntityModel(DataType.IMMORTAL_Ajari, EntityType.Immortal)
-                    .AddPart(new EntityInfoModel { Name = ImmortalType.Ajari })
+                    .AddPart(new EntityInfoModel { Name = "Ajari" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityHarvestModel
                     {
@@ -287,7 +287,7 @@ public class DATA
             {
                 DataType.IMMORTAL_Orzum,
                 new EntityModel(DataType.IMMORTAL_Orzum, EntityType.Immortal)
-                    .AddPart(new EntityInfoModel { Name = ImmortalType.Orzum })
+                    .AddPart(new EntityInfoModel { Name = "Orzum" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityHarvestModel
                     {
@@ -1440,6 +1440,9 @@ public class DATA
                         Id = DataType.BUILDING_Reliquary,
                         Requirement = RequirementType.Production_Building
                     })
+                    .AddPart(new EntityVanguardReplacedModel
+                        { ImmortalId = DataType.IMMORTAL_Orzum, ReplacedById = DataType.UPGRADE_FaithCastBlades })
+
                    
             },
             {
@@ -1476,6 +1479,9 @@ public class DATA
                         Id = DataType.BUILDING_EyeOfAros,
                         Requirement = RequirementType.Production_Building
                     })
+                    .AddPart(new EntityVanguardReplacedModel
+                        { ImmortalId = DataType.IMMORTAL_Orzum, ReplacedById = DataType.UPGRADE_IconOfKhastEem })
+
                    
             },
             
@@ -1490,6 +1496,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
+                    .AddPart(new EntityRequirementModel() { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Research_Building})
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_GreavesOfAhqar, ImmortalId = DataType.IMMORTAL_Orzum })
                    
@@ -1618,6 +1625,9 @@ public class DATA
                             Description = "Unlocks Offering" })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityVanguardReplacedModel
+                        { ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.UPGRADE_Stalk })
+
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_AltarOfTheWorthy,
@@ -1637,6 +1647,9 @@ public class DATA
                         { Name = "Blood Mother's Fevor", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "V", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
+                    .AddPart(new EntityVanguardReplacedModel
+                        { ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.UPGRADE_Ambush })
+
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_AmberWomb,

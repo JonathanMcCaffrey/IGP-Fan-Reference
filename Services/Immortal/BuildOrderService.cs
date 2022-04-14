@@ -16,6 +16,8 @@ public class BuildOrderService : IBuildOrderService
     private readonly int HumanMicro = 2;
     private int lastInterval;
 
+    private event Action OnChange = null!;
+
     public Dictionary<int, List<EntityModel>> StartedOrders => buildOrder.StartedOrders;
     public Dictionary<int, List<EntityModel>> CompletedOrders => buildOrder.CompletedOrders;
     public Dictionary<string, int> UniqueCompletedTimes => buildOrder.UniqueCompletedTimes;
@@ -321,8 +323,6 @@ public class BuildOrderService : IBuildOrderService
 
         return true;
     }
-
-    private event Action OnChange = null!;
 
     private void NotifyDataChanged()
     {

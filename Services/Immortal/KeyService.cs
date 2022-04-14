@@ -7,13 +7,16 @@ public class KeyService : IKeyService {
     private string? _hotkey;
     private string _hotkeyGroup = "C";
     private bool _isHoldingSpace;
+    
+    private event Action? OnChange;
+
 
     public void Subscribe(Action? action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action? action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public bool AddPressedKey(string key) {
@@ -82,13 +85,8 @@ public class KeyService : IKeyService {
         return _hotkeyGroup;
     }
 
-    private event Action? _onChange;
-
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 
-    public Action? OnChange() {
-        return _onChange;
-    }
 }

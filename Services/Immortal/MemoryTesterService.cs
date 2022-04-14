@@ -17,6 +17,10 @@ public class MemoryTesterService : IMemoryTesterService {
 
     private readonly Random random = new();
 
+    
+    private event MemoryAction OnChange = null!;
+
+    
     public void Subscribe(MemoryAction action) {
         OnChange += action;
     }
@@ -87,8 +91,6 @@ public class MemoryTesterService : IMemoryTesterService {
 
 
     //public delegate void MemoryAction(MemoryTesterActions memoryAction);
-
-    private event MemoryAction OnChange = null!;
 
     private void NotifyDataChanged(MemoryTesterEvent memoryAction) {
         OnChange?.Invoke(memoryAction);

@@ -14,6 +14,8 @@ public class NavigationService : INavigationService {
     private int webPageType;
     private int webSectionType;
 
+    private event Action OnChange = null!;
+
     
     
     public void Subscribe(Action action) {
@@ -97,8 +99,6 @@ public class NavigationService : INavigationService {
     public Type GetRenderType() {
         return renderType;
     }
-
-    private event Action OnChange = null!;
 
     private void NotifyDataChanged() {
         OnChange?.Invoke();

@@ -216,7 +216,7 @@ public class EntityModel
     }
 
 
-    public EntityVanguardAddedModel VanguardAdded()
+    public EntityVanguardAddedModel? VanguardAdded()
     {
         return ((EntityVanguardAddedModel)EntityParts.Find(x => x.GetType() == typeof(EntityVanguardAddedModel))!)!;
     }

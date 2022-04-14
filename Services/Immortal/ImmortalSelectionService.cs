@@ -1,10 +1,11 @@
-﻿using Model.Types;
+﻿using Model.Entity.Data;
+using Model.Types;
 
 namespace Services.Immortal;
 
 public class ImmortalSelectionService : IImmortalSelectionService {
     private string _selectedFaction = FactionType.QRath;
-    private string _selectedImmortal = ImmortalType.Orzum;
+    private string _selectedImmortal = DataType.IMMORTAL_Orzum;
 
     public void Subscribe(Action action) {
         OnChange += action;
@@ -26,9 +27,9 @@ public class ImmortalSelectionService : IImmortalSelectionService {
         if (_selectedFaction == factionType) return false;
         _selectedFaction = factionType;
 
-        if (_selectedFaction == FactionType.QRath) _selectedImmortal = ImmortalType.Orzum;
+        if (_selectedFaction == FactionType.QRath) _selectedImmortal = DataType.IMMORTAL_Orzum;
 
-        if (_selectedFaction == FactionType.Aru) _selectedImmortal = ImmortalType.Mala;
+        if (_selectedFaction == FactionType.Aru) _selectedImmortal = DataType.IMMORTAL_Mala;
 
         NotifyDataChanged();
         return true;

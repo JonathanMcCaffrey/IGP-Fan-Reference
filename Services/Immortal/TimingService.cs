@@ -3,12 +3,14 @@
 public class TimingService : ITimingService {
     private int _timing = 1500;
 
+    private event Action? OnChange;
+
     public void Subscribe(Action? action) {
-        _onChange += action;
+        OnChange += action;
     }
 
     public void Unsubscribe(Action? action) {
-        _onChange -= action;
+        OnChange -= action;
     }
 
     public int GetTiming() {
@@ -22,13 +24,8 @@ public class TimingService : ITimingService {
         }
     }
 
-    private event Action? _onChange;
-
     private void NotifyDataChanged() {
-        _onChange?.Invoke();
+        OnChange?.Invoke();
     }
 
-    public Action? OnChange() {
-        return _onChange;
-    }
 }
