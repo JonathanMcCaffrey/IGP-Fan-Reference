@@ -11,7 +11,9 @@
                          Value="@timingService.GetAttackTime()"
                          OnChange="@OnAttackTimeChanged">
         <FormLabelComponent>Attack Time</FormLabelComponent>
-        <FormInfoComponent><i>&emsp; T @Interval.ToTime(timingService.GetAttackTime())</i></FormInfoComponent>
+        <FormInfoComponent>
+            <i>&emsp; T @Interval.ToTime(timingService.GetAttackTime())</i>
+        </FormInfoComponent>
     </FormNumberComponent>
 
     <FormNumberComponent Max="2048"
@@ -19,7 +21,9 @@
                          Value="@timingService.GetTravelTime()"
                          OnChange="@OnTravelTimeChanged">
         <FormLabelComponent>Travel Time</FormLabelComponent>
-        <FormInfoComponent><i>&emsp; T @Interval.ToTime(timingService.GetTravelTime())</i></FormInfoComponent>
+        <FormInfoComponent>
+            <i>&emsp; T @Interval.ToTime(timingService.GetTravelTime())</i>
+        </FormInfoComponent>
     </FormNumberComponent>
 
 </FormLayoutComponent>
@@ -36,7 +40,7 @@
             Message = "Attack Time has changed.",
             SeverityType = SeverityType.Success
         });
-        
+
         StateHasChanged();
     }
 
@@ -50,7 +54,7 @@
             Message = "Travel Time has changed.",
             SeverityType = SeverityType.Success
         });
-        
+
         StateHasChanged();
     }
 

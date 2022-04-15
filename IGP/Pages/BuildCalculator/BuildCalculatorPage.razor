@@ -33,17 +33,17 @@
                     <TimingComponent></TimingComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
-             <PanelComponent>
-                            <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
-                                <FilterComponent></FilterComponent>
-                            </InfoTooltipComponent>
-                        </PanelComponent>
-                        
-                        <PanelComponent>
-                            <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
-                                <OptionsComponent></OptionsComponent>
-                            </InfoTooltipComponent>
-                        </PanelComponent>
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
+                    <FilterComponent></FilterComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
+
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
+                    <OptionsComponent></OptionsComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
         </div>
 
 
@@ -228,11 +228,13 @@
 
     private void OnResetClicked()
     {
-        toastService.AddToast(new ToastModel(){ 
-            SeverityType = SeverityType.Success, 
-            Message = "Build order has been cleared.", 
-            Title = "Reset"});
-        
+        toastService.AddToast(new ToastModel
+        {
+            SeverityType = SeverityType.Success,
+            Message = "Build order has been cleared.",
+            Title = "Reset"
+        });
+
         buildOrderService.Reset();
     }
 

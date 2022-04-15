@@ -13,16 +13,16 @@
         <FormLabelComponent>Building Input Delay</FormLabelComponent>
         <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
     </FormNumberComponent>
-    
+
     <FormNumberComponent Max="600"
-                             Min="0"
-                             Value="30"
-                             OnChange="@OnWaitTimeChanged">
-            <FormLabelComponent>Wait Time</FormLabelComponent>
-            <FormInfoComponent>Not implemented</FormInfoComponent>
-        </FormNumberComponent>
-        
-    
+                         Min="0"
+                         Value="30"
+                         OnChange="@OnWaitTimeChanged">
+        <FormLabelComponent>Wait Time</FormLabelComponent>
+        <FormInfoComponent>Not implemented</FormInfoComponent>
+    </FormNumberComponent>
+
+
     <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
 
 </FormLayoutComponent>
@@ -33,15 +33,15 @@
     {
         buildOrderService.BuildingInputDelay = int.Parse(changeEventArgs.Value!.ToString()!);
     }
-    
+
     void OnWaitTimeChanged(ChangeEventArgs changeEventArgs)
     {
-        toastService.AddToast(new ToastModel(){Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet."});
+        toastService.AddToast(new ToastModel { Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet." });
     }
 
     public void OnWaitClicked()
     {
-        toastService.AddToast(new ToastModel(){Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet."});
+        toastService.AddToast(new ToastModel { Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet." });
     }
 
     protected override bool ShouldRender()
@@ -59,4 +59,5 @@
         jsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
 #endif
     }
+
 }
