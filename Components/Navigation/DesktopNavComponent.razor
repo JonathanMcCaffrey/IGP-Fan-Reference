@@ -18,15 +18,21 @@
 
         @foreach (var webSection in WebSections)
         {
+            var isSelected = navigationService.GetNavigationSectionId().Equals(webSection.Id);
+            var sectionButtonStyle = "sectionButton";
+            if (isSelected)
+            {
+                sectionButtonStyle += " sectionButtonSelected";
+            }
+            
             <div>
-                <button onclick="@(() => MenuClicked(webSection.Id))" class="sectionButton">@webSection.Name</button>
+                <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
 
-
-                @if (webSection.Id.Equals(navigationService.GetNavigationSectionId()))
+                @if (isSelected)
                 {
                     <div class="navMenuPosition">
                         <div class="navMenuContainer">
-                            <DesktopNavSectionComponent Section=webSection> </DesktopNavSectionComponent>
+                            <DesktopNavSectionComponent Section=webSection /> 
                         </div>
                     </div>
                 }
@@ -50,7 +56,13 @@
     }
 
     .sectionButton {
-        cursor: pointer;    
+        cursor: pointer;  
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 10px;
+        top: -11px;
+        position: relative;
+        z-index: 50000;
     }
 
     .desktopNavContainer {
@@ -69,7 +81,7 @@
         padding: 12px;
         display: flex;
         justify-content: center;
-        gap: 32px;
+        gap: 8px;
         height: 50px;
         background-color: var(--accent);
     }
@@ -78,13 +90,13 @@
     .websiteTitle {
         font-weight: bold;
         color: white;
+        margin-right: 32px;
     }
 
     .navMenuPosition {
        position: relative;
-            
-       top: calc(100% - 18px);
-       left: -64px;
+       top: calc(100% - 36px);
+       left: calc(50% + -330px / 2);
        width: 0;
        height: 0;
     }
@@ -104,6 +116,13 @@
         border: 1px solid black;
         border-radius: 4px;
         display: flex;
+    }
+    
+    .sectionButtonSelected {
+        padding-bottom: 14px;
+        box-shadow: 0 2px 3px black;
+        background-color: var(--info);
+        transform: translateY(-1px) scale(1.08);
     }
 
     @@media only screen and (max-width: 1025px) {

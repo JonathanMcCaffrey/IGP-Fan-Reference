@@ -11,7 +11,9 @@
 }
 else
 {
-    <NavLink @onclick="() => navigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="desktopNavLink">
+    <NavLink @onclick="() => { 
+        navigationService.ChangeNavigationState(NavigationStateType.Default); 
+        navigationService.ChangeNavigationSectionId(-1); }" href="@Page.Href" class="desktopNavLink">
         <div class="navName">
             @Page.Name
         </div>
