@@ -74,8 +74,6 @@ else
         return 1.0f - (Toast.Age - fadeoutTime) / (removalTime - fadeoutTime);
     }
 
-    int elapsed = 0;
-
     protected override void OnInitialized()
     {
         toastService.Subscribe(OnUpdate);

@@ -1,11 +1,11 @@
 ﻿@page "/changelog"
 @implements IDisposable;
-@inject IGitService GitService;
+@inject IGitService gitService;
 
 @layout PageLayout
 
 
-@if (GitService.IsLoaded())
+@if (gitService.IsLoaded())
 {
     <LayoutMediumContentComponent>
         <WebsiteTitleComponent>Change Log</WebsiteTitleComponent>
@@ -90,32 +90,21 @@ else
 
 @code {
 
-#if  NO_SQL
-    public List<GitPatchModel> Patches => GitService.GitPatchModels;
+    private IEnumerable<GitPatchModel> Patches => gitService.GitPatchModels;
 
-    public List<GitChangeModel> Changes => GitService.GitChangeModels;
-#else
-    [Inject]
-    DatabaseContext Database { get; set; }
-    
-    [Parameter]
-    public DbSet<PatchModel> Patches { get; set; }
-
-    [Parameter]
-    public DbSet<ChangeModel> Changes { get; set; }
-#endif
+    private List<GitChangeModel> Changes => gitService.GitChangeModels;
 
     private bool isViewImportant = true;
 
 
     protected override void OnInitialized()
     {
-        GitService.Subscribe(HasChanged);
+        gitService.Subscribe(HasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        GitService.Unsubscribe(HasChanged);
+        gitService.Unsubscribe(HasChanged);
     }
 
 
@@ -131,7 +120,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await GitService.Load();
+        await gitService.Load();
     }
 
 }
