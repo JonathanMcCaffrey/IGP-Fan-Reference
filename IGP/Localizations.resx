@@ -53,12 +53,7 @@ Affects entities you can build.</value>
         <value>Some raw JSON data to represent your build order.</value>
     </data>
     <data name="Tooltip Timing Info" xml:space="preserve">
-        <value>Enter build details.
-                                           
-&lt;b&gt;Timing Interval:&lt;/b&gt; set the max interval length for the build. &lt;i&gt;Ex. 240 (seconds) is 4 minutes, a possible timing for Thrum build order.&lt;/i&gt;
-&lt;b&gt;Name:&lt;/b&gt; the name of the build for saving purposes. &lt;i&gt;Ex. 'Safe Thrum Opener'&lt;/i&gt;
-&lt;b&gt;Notes:&lt;/b&gt; additional notes of the build for saving purposes. &lt;i&gt;Ex. 'Thrums are for harassing and defending against a ground Q'Rath army.'&lt;/i&gt;
-&lt;b&gt;Color:&lt;/b&gt; value to color charts when comparing builds. Not currently implemented.</value>
+        <value>Enter build details.</value>
     </data>
     <data name="Tooltip Hotkey Info" xml:space="preserve">
         <value>Click on the desired entity to build it. &lt;i&gt;You cannot build entities you cannot afford, construct an ether extractor before spending ether.&lt;/i&gt;

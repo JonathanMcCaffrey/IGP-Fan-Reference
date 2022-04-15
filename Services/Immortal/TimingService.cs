@@ -2,7 +2,8 @@
 
 public class TimingService : ITimingService
 {
-    private int _timing = 1500;
+    private int attackTime = 1500;
+    private int travelTime = 30;
 
     public void Subscribe(Action? action)
     {
@@ -14,16 +15,30 @@ public class TimingService : ITimingService
         OnChange -= action;
     }
 
-    public int GetTiming()
+    public int GetAttackTime()
     {
-        return _timing;
+        return attackTime;
     }
 
-    public void SetTiming(int timing)
+    public void SetAttackTime(int timing)
     {
-        if (_timing != timing)
+        if (attackTime != timing)
         {
-            _timing = timing;
+            attackTime = timing;
+            NotifyDataChanged();
+        }
+    }
+    
+    public int GetTravelTime()
+    {
+        return travelTime;
+    }
+
+    public void SetTravelTime(int timing)
+    {
+        if (travelTime != timing)
+        {
+            travelTime = timing;
             NotifyDataChanged();
         }
     }

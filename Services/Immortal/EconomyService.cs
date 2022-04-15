@@ -8,12 +8,12 @@ namespace Services.Immortal;
 
 public class EconomyService : IEconomyService
 {
-    private List<EconomyModel> _economyOverTime = null!;
+    private List<EconomyModel> economyOverTime = null!;
 
 
     public List<EconomyModel> GetOverTime()
     {
-        return _economyOverTime;
+        return economyOverTime;
     }
 
     public void Subscribe(Action action)
@@ -29,33 +29,33 @@ public class EconomyService : IEconomyService
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval)
     {
         //TODO Break all this up
-        if (_economyOverTime == null)
+        if (economyOverTime == null)
         {
-            _economyOverTime = new List<EconomyModel>();
-            for (var interval = 0; interval < timing.GetTiming(); interval++)
-                _economyOverTime.Add(new EconomyModel { Interval = interval });
+            economyOverTime = new List<EconomyModel>();
+            for (var interval = 0; interval < timing.GetAttackTime(); interval++)
+                economyOverTime.Add(new EconomyModel { Interval = interval });
         }
 
 
-        if (_economyOverTime.Count > timing.GetTiming())
-            _economyOverTime.RemoveRange(timing.GetTiming(), _economyOverTime.Count - timing.GetTiming());
+        if (economyOverTime.Count > timing.GetAttackTime())
+            economyOverTime.RemoveRange(timing.GetAttackTime(), economyOverTime.Count - timing.GetAttackTime());
 
-        while (_economyOverTime.Count < timing.GetTiming())
-            _economyOverTime.Add(new EconomyModel { Interval = _economyOverTime.Count - 1 });
+        while (economyOverTime.Count < timing.GetAttackTime())
+            economyOverTime.Add(new EconomyModel { Interval = economyOverTime.Count - 1 });
 
-        for (var interval = fromInterval; interval < timing.GetTiming(); interval++)
+        for (var interval = fromInterval; interval < timing.GetAttackTime(); interval++)
         {
-            var economyAtSecond = _economyOverTime[interval];
+            var economyAtSecond = economyOverTime[interval];
             if (interval > 0)
             {
-                economyAtSecond.Alloy = _economyOverTime[interval - 1].Alloy;
-                economyAtSecond.Ether = _economyOverTime[interval - 1].Ether;
-                economyAtSecond.Pyre = _economyOverTime[interval - 1].Pyre;
-                economyAtSecond.WorkerCount = _economyOverTime[interval - 1].WorkerCount;
-                economyAtSecond.BusyWorkerCount = _economyOverTime[interval - 1].BusyWorkerCount;
-                economyAtSecond.CreatingWorkerCount = _economyOverTime[interval - 1].CreatingWorkerCount;
-                economyAtSecond.Harvesters = _economyOverTime[interval - 1].Harvesters.ToList();
-                economyAtSecond.CreatingWorkerDelays = _economyOverTime[interval - 1].CreatingWorkerDelays.ToList();
+                economyAtSecond.Alloy = economyOverTime[interval - 1].Alloy;
+                economyAtSecond.Ether = economyOverTime[interval - 1].Ether;
+                economyAtSecond.Pyre = economyOverTime[interval - 1].Pyre;
+                economyAtSecond.WorkerCount = economyOverTime[interval - 1].WorkerCount;
+                economyAtSecond.BusyWorkerCount = economyOverTime[interval - 1].BusyWorkerCount;
+                economyAtSecond.CreatingWorkerCount = economyOverTime[interval - 1].CreatingWorkerCount;
+                economyAtSecond.Harvesters = economyOverTime[interval - 1].Harvesters.ToList();
+                economyAtSecond.CreatingWorkerDelays = economyOverTime[interval - 1].CreatingWorkerDelays.ToList();
             }
 
             economyAtSecond.Interval = interval;
@@ -159,12 +159,12 @@ public class EconomyService : IEconomyService
 
     public EconomyModel GetEconomy(int atInterval)
     {
-        if (atInterval >= _economyOverTime.Count)
+        if (atInterval >= economyOverTime.Count)
         {
-            return _economyOverTime.Last();
+            return economyOverTime.Last();
         }
         
-        return _economyOverTime[atInterval];
+        return economyOverTime[atInterval];
     }
 
 

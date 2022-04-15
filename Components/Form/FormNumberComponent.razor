@@ -10,7 +10,7 @@
                min="@Min"
                max="@Max"
                value="@Value"
-               @onchange="OnChange"/>
+               @onchange="OnInputChanged"/>
     </div>
     @if (FormInfoComponent != null)
     {
@@ -46,16 +46,39 @@
     [Parameter]
     public EventCallback<ChangeEventArgs> OnChange { get; set; }
 
-    [Parameter]
-    public bool? ReadOnly { get; set; }
+    void OnInputChanged(ChangeEventArgs changeEventArgs)
+    {
+        int valueWas = Value;
+        int newValue = int.Parse(changeEventArgs.Value!.ToString()!);
+        
+            if (newValue > Max)
+            {
+                newValue = Max;
+            }
+        
+            if (newValue < Min)
+            {
+                newValue = Min;
+            }
+
+            if (valueWas != newValue)
+            {
+                Value = newValue;
+                changeEventArgs.Value = newValue;
+                OnChange.InvokeAsync(changeEventArgs);            
+            }
+    }
 
     [Parameter]
-    public int? Value { get; set; }
+    public bool ReadOnly { get; set; } = false;
 
     [Parameter]
-    public int? Min { get; set; }
+    public int Value { get; set; } = 0;
 
     [Parameter]
-    public int? Max { get; set; }
+    public int Min { get; set; } = 0;
+
+    [Parameter]
+    public int Max { get; set; } = 2048;
 
 }

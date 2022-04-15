@@ -8,33 +8,50 @@
 <FormLayoutComponent>
     <FormNumberComponent Max="2048"
                          Min="0"
-                         Value="@timingService.GetTiming()"
-                         OnChange="@OnTimingChanged">
-        <FormLabelComponent>Timing interval</FormLabelComponent>
-        <FormInfoComponent>Altering the time interval is currently disabled.</FormInfoComponent>
+                         Value="@timingService.GetAttackTime()"
+                         OnChange="@OnAttackTimeChanged">
+        <FormLabelComponent>Attack Time</FormLabelComponent>
+        <FormInfoComponent><i>&emsp; T @Interval.ToTime(timingService.GetAttackTime())</i></FormInfoComponent>
     </FormNumberComponent>
 
-    <FormTextComponent Label="Name" Placeholder="Fast Thrones..." Value="@buildOrderService.GetName()" OnChange="OnNameChanged"/>
+    <FormNumberComponent Max="2048"
+                         Min="0"
+                         Value="@timingService.GetTravelTime()"
+                         OnChange="@OnTravelTimeChanged">
+        <FormLabelComponent>Travel Time</FormLabelComponent>
+        <FormInfoComponent><i>&emsp; T @Interval.ToTime(timingService.GetTravelTime())</i></FormInfoComponent>
+    </FormNumberComponent>
 
-    <FormTextAreaComponent Label="Notes"
-                           Value="@buildOrderService.GetNotes()"
-                           OnChange="@OnNotesChanged">
-    </FormTextAreaComponent>
-    <FormTextComponent Label="Color" Placeholder="red..." Value="@buildOrderService.GetColor()" OnChange="OnColorChanged"/>
 </FormLayoutComponent>
 
 @code {
 
-    void OnTimingChanged(ChangeEventArgs changeEventArgs)
+    void OnAttackTimeChanged(ChangeEventArgs changeEventArgs)
     {
-        timingService.SetTiming(int.Parse(changeEventArgs.Value!.ToString()!));
+        timingService.SetAttackTime(int.Parse(changeEventArgs.Value!.ToString()!));
         economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
-        toastService.AddToast(new ToastModel()
+        toastService.AddToast(new ToastModel
         {
-            Title = "Timing Interval", 
-            Message = "Timing interval has changed.", 
+            Title = "Attack Time",
+            Message = "Attack Time has changed.",
             SeverityType = SeverityType.Success
         });
+        
+        StateHasChanged();
+    }
+
+    void OnTravelTimeChanged(ChangeEventArgs changeEventArgs)
+    {
+        timingService.SetTravelTime(int.Parse(changeEventArgs.Value!.ToString()!));
+        economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+        toastService.AddToast(new ToastModel
+        {
+            Title = "Travel Time",
+            Message = "Travel Time has changed.",
+            SeverityType = SeverityType.Success
+        });
+        
+        StateHasChanged();
     }
 
     void OnNameChanged(ChangeEventArgs changeEventArgs)

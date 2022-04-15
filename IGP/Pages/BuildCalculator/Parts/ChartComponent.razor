@@ -1,5 +1,6 @@
 ﻿@inject IEconomyService economyService
 @inject IBuildOrderService buildOrderService
+@inject ITimingService timingService
 @inject IJSRuntime jsRuntime;
 @implements IDisposable
 
@@ -81,8 +82,9 @@ else
     protected override void OnInitialized()
     {
         buildOrderService.Subscribe(OnBuilderOrderChanged);
+        timingService.Subscribe(OnBuilderOrderChanged);
 
-        ageTimer = new Timer(3000);
+        ageTimer = new Timer(1000);
         ageTimer.Elapsed += OnAge!;
         ageTimer.Enabled = true;
 
@@ -114,6 +116,7 @@ else
     void IDisposable.Dispose()
     {
         buildOrderService.Unsubscribe(OnBuilderOrderChanged);
+        timingService.Unsubscribe(OnBuilderOrderChanged);
     }
 
 

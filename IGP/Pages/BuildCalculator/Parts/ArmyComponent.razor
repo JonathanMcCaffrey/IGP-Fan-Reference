@@ -1,20 +1,28 @@
 ﻿@inject IJSRuntime jsRuntime
 
 @inject IBuildOrderService buildOrder
+@inject ITimingService timingService
 
 @implements IDisposable
 
 <FormLayoutComponent>
-    <FormDisplayComponent Label="Army ready at">
-        <Display>@lastInterval | T @Interval.ToTime(lastInterval)</Display>
-    </FormDisplayComponent>
+    <div style="display: flex; gap: 24px;">
+        <FormDisplayComponent Label="Army Completed At">
+            <Display>@lastInterval | T @Interval.ToTime(lastInterval)</Display>
+        </FormDisplayComponent>
+        <FormDisplayComponent Label="Army Attacking At">
+            <Display>@(lastInterval + timingService.GetTravelTime()) | T @Interval.ToTime(lastInterval + timingService.GetTravelTime())</Display>
+        </FormDisplayComponent>
+    </div>
     <FormDisplayComponent Label="Army units built">
         <Display>
-            <div style="display: flex; width: 100%; gap: 12px;  flex-wrap: wrap;">
+            <div class="armyCardsContainer">
                 @foreach (var unit in armyCount)
                 {
-                    <div style="width:90px; height: 60px; border: 1px solid gray; padding: 8px;">
-                        <div>@unit.Value.ToString()x</div>
+                    <div class="armyCard">
+                        <div class="armyCountPosition">
+                            <div class="armyCount">@unit.Value.ToString()x</div>
+                        </div>
                         <div>@unit.Key</div>
                     </div>
                 }
@@ -24,9 +32,33 @@
 
 </FormLayoutComponent>
 
+<style>
+.armyCardsContainer {
+    display: flex; 
+    width: 100%; 
+    gap: 16px;  
+    flex-wrap: wrap;
+}
+
+    .armyCard {
+        width:100px; 
+        height: 80px; 
+        padding: 16px;
+    }
+    
+    .armyCountPosition {
+        height: 0;
+        top: -20px;
+        left: -16px;
+        position: relative;
+    }
+    .armyCount {
+        font-weight: bolder;
+    }
+    
+</style>
+
 @code {
-
-
     private int lastInterval;
 
     readonly Dictionary<string, int> armyCount = new();
@@ -36,11 +68,13 @@
     protected override void OnInitialized()
     {
         buildOrder.Subscribe(OnBuildOrderChanged);
+        timingService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
         buildOrder.Unsubscribe(OnBuildOrderChanged);
+        timingService.Unsubscribe(StateHasChanged);
     }
 
     protected override bool ShouldRender()

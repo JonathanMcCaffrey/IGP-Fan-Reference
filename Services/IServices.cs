@@ -155,8 +155,10 @@ public interface IBuildComparisonService
 
 public interface ITimingService
 {
-    public int GetTiming();
-    public void SetTiming(int timing);
+    public int GetAttackTime();
+    public void SetAttackTime(int timing);
+    public int GetTravelTime();
+    public void SetTravelTime(int timing);
     public void Subscribe(Action? action);
     public void Unsubscribe(Action? action);
 }

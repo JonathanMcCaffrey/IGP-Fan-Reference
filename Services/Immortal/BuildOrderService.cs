@@ -326,8 +326,7 @@ public class BuildOrderService : IBuildOrderService
                 atInterval = interval;
 
                 if (entity.EntityType != EntityType.Army) atInterval += BuildingInputDelay;
-
-
+                
                 return true;
             }
         }

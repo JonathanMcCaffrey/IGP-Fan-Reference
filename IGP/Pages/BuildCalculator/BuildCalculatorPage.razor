@@ -27,12 +27,23 @@
 
     <div class="calculatorGrid">
         <div class="gridItem" style="grid-area: timing;">
-            <ButtonComponent OnClick="OnResetClicked">Clear Build Order</ButtonComponent>
+            <ButtonComponent ButtonType="ButtonType.Secondary" OnClick="OnResetClicked">Clear Build Order</ButtonComponent>
             <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]">
                     <TimingComponent></TimingComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
+             <PanelComponent>
+                            <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
+                                <FilterComponent></FilterComponent>
+                            </InfoTooltipComponent>
+                        </PanelComponent>
+                        
+                        <PanelComponent>
+                            <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
+                                <OptionsComponent></OptionsComponent>
+                            </InfoTooltipComponent>
+                        </PanelComponent>
         </div>
 
 
@@ -40,20 +51,6 @@
             <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Chart Info"]">
                     <ChartComponent></ChartComponent>
-                </InfoTooltipComponent>
-            </PanelComponent>
-        </div>
-
-        <div class="gridItem" style="grid-area: filter;">
-            <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
-                    <FilterComponent></FilterComponent>
-                </InfoTooltipComponent>
-            </PanelComponent>
-            
-            <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
-                    <OptionsComponent></OptionsComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
         </div>
@@ -182,7 +179,7 @@
         grid-template-rows: 600px 400px 450px;
         grid-template-areas:
             'timing view view view'
-            'filter bank army army'
+            'timing bank army army'
             'keys keys highlights buildorder'
             'chart chart chart chart';
     }
@@ -202,7 +199,6 @@
             grid-template-areas:
                 'timing'
                 'view'
-                'filter'
                 'keys'
                 'bank'
                 'army'
