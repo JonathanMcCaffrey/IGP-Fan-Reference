@@ -6,7 +6,6 @@ using Services.Development;
 using Services.Immortal;
 using Services.Website;
 
-
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
 
@@ -44,13 +43,11 @@ builder.Services.AddSingleton(new HttpClient
 });
 
 
-
 #if NO_SQL
 
 #else
 //builder.Services.AddDbContext<DatabaseContext>(options => { options.UseSqlite("Data Source=./Database.db"); });
 #endif
-
 
 
 await builder.Build().RunAsync();

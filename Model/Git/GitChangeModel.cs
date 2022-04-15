@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Model.Git;
+﻿namespace Model.Git;
 
 public class GitChangeModel
 {

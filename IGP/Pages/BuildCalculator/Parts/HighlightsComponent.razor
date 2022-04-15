@@ -1,5 +1,7 @@
 ﻿@inject IJSRuntime jsRuntime;
-
+@inject IEconomyService economyService
+@inject IBuildOrderService buildOrderService
+@inject ITimingService timingService
 
 @implements IDisposable
 
@@ -7,7 +9,7 @@
     <div>
         <div>Requested</div>
 
-        @foreach (var ordersAtTime in BuildOrderService.StartedOrders.Reverse())
+        @foreach (var ordersAtTime in buildOrderService.StartedOrders.Reverse())
         {
             foreach (var order in ordersAtTime.Value)
             {
@@ -26,7 +28,7 @@
     <div>
         <div>Finished</div>
 
-        @foreach (var ordersAtTime in BuildOrderService.CompletedOrders.Reverse())
+        @foreach (var ordersAtTime in buildOrderService.CompletedOrders.Reverse())
         {
             foreach (var order in ordersAtTime.Value)
             {
@@ -57,25 +59,16 @@
 
 @code {
 
-    [Inject]
-    IEconomyService EconomyService { get; set; } = default!;
-
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; } = default!;
-
-    [Inject]
-    ITimingService TimingService { get; set; } = default!;
-
     protected override void OnInitialized()
     {
-        EconomyService.Subscribe(StateHasChanged);
-        BuildOrderService.Subscribe(StateHasChanged);
+        economyService.Subscribe(StateHasChanged);
+        buildOrderService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        EconomyService.Unsubscribe(StateHasChanged);
-        BuildOrderService.Unsubscribe(StateHasChanged);
+        economyService.Unsubscribe(StateHasChanged);
+        buildOrderService.Unsubscribe(StateHasChanged);
     }
 
     protected override bool ShouldRender()

@@ -12,7 +12,7 @@
 
             var requirements = passive.Requirements();
 
-            
+
             <div>
                 <div>
                     <b>Passive Name:</b> @info.Name
@@ -46,7 +46,7 @@
                     }
                 </div>
             }
-            
+
             @if (requirements.Count > 0)
             {
                 @foreach (var requirement in requirements)
@@ -71,7 +71,7 @@
                 var info = passive.Info();
 
                 var production = passive.Production();
-                
+
                 var requirements = passive.Requirements();
 
 
@@ -89,20 +89,20 @@
                             <b>Notes:</b> @((MarkupString)info.Notes)
                         </div>
                     }
-                    
-                    
-                @if (requirements.Count > 0)
-                {
-                    @foreach (var requirement in requirements)
+
+
+                    @if (requirements.Count > 0)
                     {
-                        var requirementModel = DATA.Get()[requirement.Id];
-                        <div>
-                            <span>
-                                <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
-                            </span>
-                        </div>
+                        @foreach (var requirement in requirements)
+                        {
+                            var requirementModel = DATA.Get()[requirement.Id];
+                            <div>
+                                <span>
+                                    <b>@requirement.Requirement.Replace("_", " "):</b> @requirementModel.Info().Name
+                                </span>
+                            </div>
+                        }
                     }
-                }
                 </div>
 
                 @if (production != null)
@@ -122,7 +122,6 @@
                         }
                     </div>
                 }
-                
             }
         </EntityDisplayComponent>
     }

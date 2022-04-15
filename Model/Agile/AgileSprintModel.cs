@@ -10,7 +10,7 @@ public class AgileSprintModel
     public int Id { get; set; }
     public string Name { get; set; } = "Add name...";
     public string Description { get; set; } = "Add description...";
-    
+
     public DateTime? StartDate { get; set; } = null;
     public DateTime? EndDate { get; set; } = null;
 

@@ -5,36 +5,21 @@ namespace Services.Website;
 public class ToastService : IToastService
 {
     private readonly List<ToastModel> toasts = new();
-    
-    private event Action OnChange = null!;
 
-    #if DEBUG
-    public ToastService()
+    public void Subscribe(Action action)
     {
-        toasts.Add(new ToastModel(){Message = "Example message", SeverityType = SeverityType.Error, Title = "Example Error"});
-        toasts.Add(new ToastModel(){Message = "Example message", SeverityType = SeverityType.Information, Title = "Example Information"});
-        toasts.Add(new ToastModel(){Message = "Example message", SeverityType = SeverityType.Success, Title = "Example Success"});
-        toasts.Add(new ToastModel(){Message = "Example message", SeverityType = SeverityType.Warning, Title = "Example Warning"});
-    }
-    #endif
-
-
-    private void NotifyDataChanged() {
-        OnChange();
-    }
-    
-    public void Subscribe(Action action) {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange += action;
     }
 
     public void AddToast(ToastModel toast)
     {
         toasts.Insert(0, toast);
-        
+
         NotifyDataChanged();
     }
 
@@ -55,11 +40,8 @@ public class ToastService : IToastService
 
     public void AgeToasts()
     {
-        foreach (var toast in toasts)
-        {
-            toast.Age++;
-        }
-        
+        foreach (var toast in toasts) toast.Age++;
+
         NotifyDataChanged();
     }
 
@@ -69,6 +51,10 @@ public class ToastService : IToastService
         NotifyDataChanged();
     }
 
+    private event Action OnChange = null!;
+
+    private void NotifyDataChanged()
+    {
+        OnChange();
+    }
 }
-
-

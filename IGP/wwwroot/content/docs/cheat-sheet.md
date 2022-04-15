@@ -1,8 +1,6 @@
 ---
-title: Cheat Sheet
-summary: Handy links or quick information on this project.
-created_date: 2022-04-11
-updated_date: 2022-04-11
+title: Cheat Sheet summary: Handy links or quick information on this project. created_date: 2022-04-11 updated_date:
+2022-04-11
 ---
 
 # Overview

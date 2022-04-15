@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <root>
-    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root"
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
                 xmlns="">
         <xsd:element name="root" msdata:IsDataSet="true">
 
@@ -65,5 +66,8 @@ Affects entities you can build.</value>
 You can also use the default Immortal hotkeys, but the above hotkey UI must have focus for this to work. &lt;i&gt;I.e. click on it if hotkeys aren't working, and a white border should appear after key input  to indicate focus.&lt;/i&gt;
 
 Additionally, more entities will appear as you build the required technology. You can click or press ` to remove the last made entity. &lt;i&gt;But you cannot remove the starting entities at interval 0.&lt;/i&gt;</value>
+    </data>
+    <data name="Tooltip Options Info" xml:space="preserve">
+        <value>Misc calculator controls.</value>
     </data>
 </root>

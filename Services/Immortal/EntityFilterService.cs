@@ -4,14 +4,16 @@ using static Services.IEntityFilterService;
 
 namespace Services.Immortal;
 
-public enum EntityFilterEvent {
+public enum EntityFilterEvent
+{
     OnRefreshFaction,
     OnRefreshImmortal,
     OnRefreshEntity,
     OnRefreshSearch
 }
 
-public class EntityFilterService : IEntityFilterService {
+public class EntityFilterService : IEntityFilterService
+{
     private readonly List<string> _entityChoices = new();
 
     private readonly List<string> _factionChoices = new() { FactionType.Any, FactionType.QRath, FactionType.Aru };
@@ -20,37 +22,43 @@ public class EntityFilterService : IEntityFilterService {
     private string _searchText = "";
     private string _selectedFaction = FactionType.Any;
     private string _selectedImmortal = ImmortalType.Any;
-    
-    private event EntityFilterAction OnChange = null!;
 
-    public EntityFilterService() {
+    public EntityFilterService()
+    {
         RefreshImmortalChoices();
         RefreshEntityChoices();
     }
 
-    public void Subscribe(EntityFilterAction action) {
+    public void Subscribe(EntityFilterAction action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(EntityFilterAction action) {
+    public void Unsubscribe(EntityFilterAction action)
+    {
         OnChange -= action;
     }
 
-    public string GetEntityType() {
+    public string GetEntityType()
+    {
         return _entityType;
     }
 
-    public string GetFactionType() {
+    public string GetFactionType()
+    {
         return _selectedFaction;
     }
 
-    public string GetImmortalType() {
+    public string GetImmortalType()
+    {
         return _selectedImmortal;
     }
-    
 
-    public bool SelectFactionType(string factionType) {
-        if (_selectedFaction == factionType) {
+
+    public bool SelectFactionType(string factionType)
+    {
+        if (_selectedFaction == factionType)
+        {
             _selectedFaction = FactionType.None;
             _selectedImmortal = ImmortalType.None;
 
@@ -72,8 +80,10 @@ public class EntityFilterService : IEntityFilterService {
         return true;
     }
 
-    public bool SelectImmortalType(string immortalType) {
-        if (_selectedImmortal == immortalType) {
+    public bool SelectImmortalType(string immortalType)
+    {
+        if (_selectedImmortal == immortalType)
+        {
             _selectedImmortal = ImmortalType.None;
             NotifyDataChanged(EntityFilterEvent.OnRefreshImmortal);
             return true;
@@ -84,14 +94,16 @@ public class EntityFilterService : IEntityFilterService {
         return true;
     }
 
-    public bool SelectEntityType(string entityType) {
+    public bool SelectEntityType(string entityType)
+    {
         if (_entityType == entityType) return false;
         _entityType = entityType;
         NotifyDataChanged(EntityFilterEvent.OnRefreshEntity);
         return true;
     }
 
-    public bool EnterSearchText(string searchText) {
+    public bool EnterSearchText(string searchText)
+    {
         if (_searchText.Equals(searchText))
             return false;
         _searchText = searchText;
@@ -99,23 +111,30 @@ public class EntityFilterService : IEntityFilterService {
         return true;
     }
 
-    public List<string> GetFactionChoices() {
+    public List<string> GetFactionChoices()
+    {
         return _factionChoices;
     }
 
-    public List<string> GetImmortalChoices() {
+    public List<string> GetImmortalChoices()
+    {
         return _immortalChoices;
     }
 
-    public List<string> GetEntityChoices() {
+    public List<string> GetEntityChoices()
+    {
         return _entityChoices;
     }
 
-    public string GetSearchText() {
+    public string GetSearchText()
+    {
         return _searchText;
     }
 
-    private void RefreshImmortalChoices() {
+    private event EntityFilterAction OnChange = null!;
+
+    private void RefreshImmortalChoices()
+    {
         _immortalChoices.Clear();
 
         //TODO Consider getting these values from the database
@@ -128,22 +147,27 @@ public class EntityFilterService : IEntityFilterService {
             _immortalChoices.Add(ImmortalType.Mala);
             _immortalChoices.Add(ImmortalType.Xol);
         }*/
-        
-         if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any) {
+
+        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any)
+        {
             _immortalChoices.Add(DataType.IMMORTAL_Orzum);
             _immortalChoices.Add(DataType.IMMORTAL_Ajari);
         }
 
-        if (_selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any) {
+        if (_selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any)
+        {
             _immortalChoices.Add(DataType.IMMORTAL_Mala);
             _immortalChoices.Add(DataType.IMMORTAL_Xol);
         }
     }
 
-    private void RefreshEntityChoices() {
+    private void RefreshEntityChoices()
+    {
         _entityChoices.Clear();
 
-        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any) {
+        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Aru ||
+            _selectedFaction == FactionType.Any)
+        {
             _entityChoices.Add(EntityType.Army);
             _entityChoices.Add(EntityType.Immortal);
             _entityChoices.Add(EntityType.Passive);
@@ -154,21 +178,22 @@ public class EntityFilterService : IEntityFilterService {
             _entityChoices.Add(EntityType.Worker);
         }
 
-        if (_selectedFaction == FactionType.Any) {
-            _entityChoices.Add(EntityType.Any);
-        }
+        if (_selectedFaction == FactionType.Any) _entityChoices.Add(EntityType.Any);
     }
 
 
-    private void NotifyDataChanged(EntityFilterEvent entityFilterEvent) {
+    private void NotifyDataChanged(EntityFilterEvent entityFilterEvent)
+    {
         OnChange?.Invoke(entityFilterEvent);
     }
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         throw new NotImplementedException();
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         throw new NotImplementedException();
     }
 }

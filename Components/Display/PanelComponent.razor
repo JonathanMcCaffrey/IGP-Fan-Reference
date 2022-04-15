@@ -1,0 +1,21 @@
+﻿<div class="panelDisplay">
+    @ChildContent
+</div>
+
+<style>
+    .panelDisplay {
+        border: 2px solid var(--paper-border);
+        padding: 20px;
+        background-color: var(--paper);
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+}

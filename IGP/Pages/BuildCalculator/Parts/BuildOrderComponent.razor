@@ -1,6 +1,5 @@
 ﻿@inject IJSRuntime jsRuntime;
 
-
 @inject IBuildOrderService buildOrderService
 
 @implements IDisposable
@@ -29,7 +28,7 @@
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "BuildOrderComponent");
 #endif
-        
+
         return true;
     }
 
@@ -39,4 +38,5 @@
         jsRuntime.InvokeVoidAsync("console.timeEnd", "BuildOrderComponent");
 #endif
     }
+
 }

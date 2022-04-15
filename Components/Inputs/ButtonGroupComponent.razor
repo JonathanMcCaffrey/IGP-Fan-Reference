@@ -1,13 +1,15 @@
 ﻿<div class="groupButtonContainerContainer">
-<div class="groupButtonContainer">
-    @foreach (var choice in Choices) {
-        var styleClass = "";
-        if (choice.Equals(Choice)) {
-            styleClass = "selected";
+    <div class="groupButtonContainer">
+        @foreach (var choice in Choices)
+        {
+            var styleClass = "";
+            if (choice.Equals(Choice))
+            {
+                styleClass = "selected";
+            }
+            <button @onclick="@(e => OnChangeChoice(choice))" class="groupChoiceButton @styleClass">@choice</button>
         }
-        <button @onclick="@(e => OnChangeChoice(choice))" class="groupChoiceButton @styleClass">@choice</button>
-    }
-</div>
+    </div>
 </div>
 <style>
 
@@ -76,12 +78,15 @@
     [Parameter]
     public EventCallback<string> OnClick { get; set; }
 
-    
-    protected override void OnInitialized() { }
+
+    protected override void OnInitialized()
+    {
+    }
 
     void OnChangeChoice(string choice)
     {
         Choice = choice;
         OnClick.InvokeAsync(choice);
     }
+
 }

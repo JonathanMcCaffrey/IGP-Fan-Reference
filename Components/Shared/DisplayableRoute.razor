@@ -1,8 +1,9 @@
-﻿@using Model.Website
-@if (isDisplayable) {
+﻿@if (isDisplayable)
+{
     @ChildContent
 }
-else {
+else
+{
     <LayoutView Layout="@typeof(MainLayout)">
         <p>Sorry, there's nothing at this address.</p>
     </LayoutView>
@@ -18,7 +19,8 @@ else {
 
     bool isDisplayable;
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         var page = MyNavigationManager.Uri.Remove(0, MyNavigationManager.BaseUri.Length);
         isDisplayable = WebDeploymentModel.Get().Contains(page);
     }

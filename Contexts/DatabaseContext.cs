@@ -1,18 +1,19 @@
 ﻿#if NO_SQL
-
 #else
 
 using Microsoft.EntityFrameworkCore;
 using Model.Doc;
+using Model.Git;
 using Model.Notes;
 using Model.Website;
-using Model.Git;
 using Model.Work.Tasks;
 
 namespace Contexts;
 
-public class DatabaseContext : DbContext {
-    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
+public class DatabaseContext : DbContext
+{
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+    {
         Database.EnsureCreated();
     }
 

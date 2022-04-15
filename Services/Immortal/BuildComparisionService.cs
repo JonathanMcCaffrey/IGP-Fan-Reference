@@ -3,48 +3,51 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Model.BuildOrders;
 using Model.Entity;
-using Model.Entity.Data;
 using YamlDotNet.Serialization;
 
 namespace Services.Immortal;
 
-public class BuildComparisionService : IBuildComparisonService {
-    private event Action OnChange = default!;
-    
+public class BuildComparisionService : IBuildComparisonService
+{
     private BuildComparisonModel buildComparison = new();
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
     }
 
-    private void NotifyDataChanged() {
-        OnChange?.Invoke();
-    }
-    
-    public void SetBuilds(BuildComparisonModel buildComparisonModel) {
+    public void SetBuilds(BuildComparisonModel buildComparisonModel)
+    {
         buildComparison = buildComparisonModel;
         NotifyDataChanged();
     }
 
-    public BuildComparisonModel Get() {
+    public BuildComparisonModel Get()
+    {
         return buildComparison;
     }
 
-    public string AsJson() {
-        var options = new JsonSerializerOptions {
+    public string AsJson()
+    {
+        var options = new JsonSerializerOptions
+        {
             WriteIndented = true
         };
         options.Converters.Add(new JsonStringEnumConverter());
         return JsonSerializer.Serialize(buildComparison, options);
     }
 
-    public bool LoadJson(string data) {
-        try {
-            var options = new JsonSerializerOptions {
+    public bool LoadJson(string data)
+    {
+        try
+        {
+            var options = new JsonSerializerOptions
+            {
                 WriteIndented = true
             };
             options.Converters.Add(new JsonStringEnumConverter());
@@ -56,12 +59,14 @@ public class BuildComparisionService : IBuildComparisonService {
             NotifyDataChanged();
             return true;
         }
-        catch {
+        catch
+        {
             return false;
         }
     }
 
-    public string BuildOrderAsYaml() {
+    public string BuildOrderAsYaml()
+    {
         var stringBuilder = new StringBuilder();
         var serializer = new Serializer();
         stringBuilder.AppendLine(serializer.Serialize(buildComparison));
@@ -69,8 +74,16 @@ public class BuildComparisionService : IBuildComparisonService {
         return buildOrderText;
     }
 
+    private event Action OnChange = default!;
 
-    public void HydratedLoadedJson() {
+    private void NotifyDataChanged()
+    {
+        OnChange?.Invoke();
+    }
+
+
+    public void HydratedLoadedJson()
+    {
         foreach (var build in buildComparison.Builds)
         foreach (var orders in build.StartedOrders.Values)
         foreach (var order in orders)

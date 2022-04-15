@@ -10,7 +10,6 @@
 @inject ITimingService timingService
 
 @page "/build-calculator"
-@using Microsoft.Extensions.Localization
 
 @implements IDisposable
 
@@ -20,89 +19,93 @@
     <AlertComponent Type="@SeverityType.Warning">
         <Title>Work In Progress and Not Fully Tested</Title>
         <Message>
-            Currently not considering training queue times. Lacking error toasts for invalid actions. Performance needs to be optimized. Calculations haven't been thoroughly compared against real gameplay. Added a 2 second delay to actions to account for casual micro (will probably tweak later).
+            Currently not considering training queue times.
         </Message>
     </AlertComponent>
 
     <ContentDividerComponent></ContentDividerComponent>
 
-
     <div class="calculatorGrid">
-
-        <div style="grid-area: timing;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]">
-
-                <TimingComponent></TimingComponent>
-            </InfoTooltipComponent>
+        <div class="gridItem" style="grid-area: timing;">
+            <ButtonComponent OnClick="OnResetClicked">Clear Build Order</ButtonComponent>
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]">
+                    <TimingComponent></TimingComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
         </div>
 
 
-        @if (true)
-        {
-            <div style="grid-area: chart;" class="gridItem">
+        <div class="gridItem" style="grid-area: chart;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Chart Info"]">
                     <ChartComponent></ChartComponent>
                 </InfoTooltipComponent>
-            </div>
-        }
-
-        <div style="grid-area: filter;" class="gridItem">
-            <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
-                <FilterComponent></FilterComponent>
-            </InfoTooltipComponent>
+            </PanelComponent>
         </div>
 
-        @if (true)
-        {
-            <div style="grid-area: view;" class="gridItem">
+        <div class="gridItem" style="grid-area: filter;">
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
+                    <FilterComponent></FilterComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
+            
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
+                    <OptionsComponent></OptionsComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
+        </div>
+
+        <div class="gridItem" style="grid-area: view;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Entity Info"]">
                     <EntityClickViewComponent/>
                 </InfoTooltipComponent>
-            </div>
-        }
 
-        @if (true)
-        {
-            <div style="grid-area: bank;" class="gridItem">
+            </PanelComponent>
+        </div>
+
+        <div class="gridItem" style="grid-area: bank;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Bank Info"]">
                     <BankComponent></BankComponent>
                 </InfoTooltipComponent>
-            </div>
-        }
+            </PanelComponent>
+        </div>
 
-        @if (true)
-        {
-            <div style="grid-area: army;" class="gridItem">
+        <div class="gridItem" style="grid-area: army;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Army Info"]">
                     <ArmyComponent></ArmyComponent>
                 </InfoTooltipComponent>
-            </div>
-        }
-
-        <div class="gridItem gridKeys">
-
-            <InfoTooltipComponent InfoText="@locale["Tooltip Hotkey Info"]">
-
-                <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
-            </InfoTooltipComponent>
+            </PanelComponent>
         </div>
 
-        @if (true)
-        {
-            <div style="grid-area: highlights;" class="gridItem">
+        <div class="gridItem gridKeys">
+            <PanelComponent>
+                <InfoTooltipComponent InfoText="@locale["Tooltip Hotkey Info"]">
+                    <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
+                </InfoTooltipComponent>
+            </PanelComponent>
+        </div>
+
+        <div class="gridItem" style="grid-area: highlights;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip Highlights Info"]">
                     <HighlightsComponent></HighlightsComponent>
                 </InfoTooltipComponent>
-            </div>
-        }
-        @if (true)
-        {
-            <div style="grid-area: buildorder;" class="gridItem">
+            </PanelComponent>
+        </div>
+
+        <div class="gridItem" style="grid-area: buildorder;">
+            <PanelComponent>
                 <InfoTooltipComponent InfoText="@locale["Tooltip BuildOrder Info"]">
                     <BuildOrderComponent></BuildOrderComponent>
                 </InfoTooltipComponent>
-            </div>
-        }
+            </PanelComponent>
+        </div>
     </div>
 
     <ContentDividerComponent></ContentDividerComponent>
@@ -135,7 +138,7 @@
 
             <InfoBodyComponent>
                 <InfoQuestionComponent>
-                    What is CONTROl key for?
+                    What is CONTROL key for?
                 </InfoQuestionComponent>
                 <InfoAnswerComponent>
                     Economy and tech related upgrades for townhalls.
@@ -165,6 +168,12 @@
 
 
 <style>
+    .gridItem {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
     .calculatorGrid {
         display: grid;
         gap: 8px;
@@ -176,12 +185,6 @@
             'filter bank army army'
             'keys keys highlights buildorder'
             'chart chart chart chart';
-    }
-
-    .gridItem {
-        border: 2px solid var(--paper-border);
-        padding: 20px;
-        background-color: var(--paper);
     }
 
     .gridKeys {
@@ -209,30 +212,35 @@
             padding-left: 2px;
             padding-right: 2px;
         }
-        
-        .gridItem {
-            padding: 0px;
-            border: 0px;
-            width: 100%;
-        }
     }
 </style>
 
 
 @code {
+
     protected override void OnInitialized()
     {
         economyService.Calculate(buildOrderService, timingService, 0);
-        
+
         keyService.Subscribe(HandleClick);
     }
-    
+
     void IDisposable.Dispose()
     {
         keyService.Unsubscribe(HandleClick);
     }
 
-    
+    private void OnResetClicked()
+    {
+        toastService.AddToast(new ToastModel(){ 
+            SeverityType = SeverityType.Success, 
+            Message = "Build order has been cleared.", 
+            Title = "Reset"});
+        
+        buildOrderService.Reset();
+    }
+
+
     private void HandleClick()
     {
         var hotkey = keyService.GetHotkey();
@@ -254,16 +262,17 @@
         var faction = filterService.GetFactionType();
         var immortal = filterService.GetImmortalType();
 
-        EntityModel? entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
+        var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
         if (entity == null)
         {
             return;
         }
-        
+
         if (buildOrderService.Add(entity, economyService, toastService))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }
     }
+
 }

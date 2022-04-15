@@ -12,11 +12,14 @@ namespace Services.Immortal;
 
 public class BuildOrderService : IBuildOrderService
 {
-    private readonly BuildOrderModel buildOrder = new();
-    private readonly int HumanMicro = 2;
-    private int lastInterval;
+    private BuildOrderModel buildOrder = new();
+    public int BuildingInputDelay { get; set; } = 2;
+    private int lastInterval = 0;
 
-    private event Action OnChange = null!;
+    public BuildOrderService()
+    {
+        Reset();
+    }
 
     public Dictionary<int, List<EntityModel>> StartedOrders => buildOrder.StartedOrders;
     public Dictionary<int, List<EntityModel>> CompletedOrders => buildOrder.CompletedOrders;
@@ -92,7 +95,6 @@ public class BuildOrderService : IBuildOrderService
 
         var metTime = 0;
         foreach (var requiredEntity in requirements)
-        {
             if (buildOrder.UniqueCompletedTimes.TryGetValue(requiredEntity.Id, out var completedTime))
             {
                 if (completedTime > metTime) metTime = completedTime;
@@ -101,7 +103,6 @@ public class BuildOrderService : IBuildOrderService
             {
                 return null;
             }
-        }
 
         return metTime;
     }
@@ -135,7 +136,6 @@ public class BuildOrderService : IBuildOrderService
 
     public void RemoveLast()
     {
-        
         if (buildOrder.StartedOrders.Keys.Count > 1)
         {
             var lastStarted = buildOrder.StartedOrders.Keys.Last();
@@ -160,16 +160,15 @@ public class BuildOrderService : IBuildOrderService
 
             if (entityRemoved.Supply()?.Grants > 0)
                 SupplyCountTimes.Remove(SupplyCountTimes.Last().Key);
-            
+
             if (entityRemoved.Supply()?.Takes > 0)
                 buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
 
 
             buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
-            if (buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0) {
+            if (buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0)
                 UniqueCompletedTimes.Remove(entityRemoved.DataType);
-            }
-            
+
             if (entityRemoved.Info().Descriptive == DescriptiveType.Worker)
             {
                 RemoveLast();
@@ -252,6 +251,65 @@ public class BuildOrderService : IBuildOrderService
         return buildOrder.Color;
     }
 
+    public void Reset()
+    {
+        lastInterval = 0;
+        
+        buildOrder = new BuildOrderModel
+        {
+            StartedOrders = new Dictionary<int, List<EntityModel>>
+            {
+                {
+                    0,
+                    new List<EntityModel>
+                    {
+                        EntityModel.Get(DataType.STARTING_Bastion),
+                        EntityModel.Get(DataType.STARTING_TownHall_Aru)
+                    }
+                }
+            },
+            CompletedOrders = new Dictionary<int, List<EntityModel>>
+            {
+                {
+                    0,
+                    new List<EntityModel>
+                    {
+                        EntityModel.Get(DataType.STARTING_Bastion),
+                        EntityModel.Get(DataType.STARTING_TownHall_Aru)
+                    }
+                }
+            },
+            UniqueCompletedTimes = new Dictionary<string, int>
+            {
+                {
+                    DataType.STARTING_Bastion, 0
+                },
+                {
+                    DataType.STARTING_TownHall_Aru, 0
+                }
+            },
+            UniqueCompletedCount = new Dictionary<string, int>
+            {
+                {
+                    DataType.STARTING_Bastion, 1
+                },
+                {
+                    DataType.STARTING_TownHall_Aru, 1
+                }
+            },
+            SupplyCountTimes = new Dictionary<int, int>
+            {
+                {
+                    0, 0
+                }
+            }
+        };
+        
+        NotifyDataChanged();
+    }
+
+    private event Action OnChange = null!;
+
     private bool HandleEconomy(EntityModel entity, IEconomyService withEconomy, IToastService withToasts,
         ref int atInterval)
     {
@@ -266,12 +324,9 @@ public class BuildOrderService : IBuildOrderService
                 economyAtSecond.Pyre >= production.Pyre)
             {
                 atInterval = interval;
-                
-                if (entity.EntityType != EntityType.Army)
-                {
-                    atInterval += HumanMicro;    
-                }
-                
+
+                if (entity.EntityType != EntityType.Army) atInterval += BuildingInputDelay;
+
 
                 return true;
             }

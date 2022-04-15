@@ -19,7 +19,8 @@
 
 
     <div class="tabletNav @navOpen">
-        @foreach (var webSection in WebSections) {
+        @foreach (var webSection in WebSections)
+        {
             var pages = (from page in WebPages
                 where page.WebSectionModelId == webSection.Id
                 select page).ToList();
@@ -30,8 +31,10 @@
                 </div>
 
                 <div class="tabletNavItems">
-                    @foreach (var webPage in pages) {
-                        if (webPage.IsPrivate.Equals("True")) {
+                    @foreach (var webPage in pages)
+                    {
+                        if (webPage.IsPrivate.Equals("True"))
+                        {
                             continue;
                         }
                         <NavLink href="@webPage.Href" class="tabletNavItem" @onclick="OnPageClicked">
@@ -139,7 +142,7 @@
 </style>
 
 @code {
-    
+
 #if NO_SQL
     [Parameter]
     public List<WebSectionModel> WebSections { get; set; } = default!;
@@ -156,15 +159,16 @@
 #endif
 
 
-
     bool navOpen = true;
 
-    void OnNavClicked(EventArgs eventArgs) {
+    void OnNavClicked(EventArgs eventArgs)
+    {
         navOpen = !navOpen;
     }
 
 
-    void OnPageClicked(EventArgs eventArgs) {
+    void OnPageClicked(EventArgs eventArgs)
+    {
         navOpen = false;
     }
 

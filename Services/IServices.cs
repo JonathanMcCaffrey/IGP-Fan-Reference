@@ -1,19 +1,17 @@
-﻿
+﻿using Model.BuildOrders;
 using Model.Doc;
-using Model.BuildOrders;
 using Model.Economy;
 using Model.Entity;
+using Model.Feedback;
+using Model.Git;
 using Model.MemoryTester;
 using Model.Notes;
 using Model.Website;
 using Model.Website.Enums;
-using Model.Git;
-using Model.Feedback;
 using Model.Work.Tasks;
 using Services.Immortal;
 
 namespace Services;
-
 
 public interface IToastService
 {
@@ -27,15 +25,14 @@ public interface IToastService
     void ClearAllToasts();
 }
 
-
 public interface IEntityDialogService
 {
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
-    
+
     public void AddDialog(string entityId);
     public void CloseDialog();
-    
+
     public void BackDialog();
 
     public string? GetEntityId();
@@ -44,22 +41,23 @@ public interface IEntityDialogService
     public bool HasHistory();
 }
 
-public interface IWebsiteService {
+public interface IWebsiteService
+{
     public List<WebPageModel> WebPageModels { get; set; }
     public List<WebSectionModel> WebSectionModels { get; set; }
 
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
     public void Update();
-    
-    
+
+
     public Task Load();
-    
+
     public bool IsLoaded();
 }
 
-public interface IAgileService {
-
+public interface IAgileService
+{
 #if NO_SQL
     public List<AgileSprintModel>? AgileSprintModels { get; set; }
     public List<AgileTaskModel>? AgileTaskModels { get; set; }
@@ -71,12 +69,13 @@ public interface IAgileService {
     public void Subscribe(Action? action);
     public void Unsubscribe(Action? action);
     public void Update();
-    
+
     public Task Load();
     public bool IsLoaded();
 }
 
-public interface INoteService {
+public interface INoteService
+{
     public List<NoteContentModel> NoteContentModels { get; set; }
     public List<NoteConnectionModel> NoteConnectionModels { get; set; }
     public List<NoteSectionModel> NoteSectionModels { get; set; }
@@ -101,9 +100,8 @@ public interface IDocumentationService
     public bool IsLoaded();
 }
 
-
-public interface IGitService {
-
+public interface IGitService
+{
 #if NO_SQL
     public List<GitChangeModel> GitChangeModels { get; set; }
     public List<GitPatchModel> GitPatchModels { get; set; }
@@ -124,7 +122,8 @@ public interface IGitService {
     public bool IsLoaded();
 }
 
-public interface INavigationService {
+public interface INavigationService
+{
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
 
@@ -143,7 +142,8 @@ public interface INavigationService {
     public Type GetRenderType();
 }
 
-public interface IBuildComparisonService {
+public interface IBuildComparisonService
+{
     public void SetBuilds(BuildComparisonModel buildComparisonModel);
     public BuildComparisonModel Get();
     public string BuildOrderAsYaml();
@@ -153,14 +153,16 @@ public interface IBuildComparisonService {
     public void Unsubscribe(Action action);
 }
 
-public interface ITimingService {
+public interface ITimingService
+{
     public int GetTiming();
     public void SetTiming(int timing);
     public void Subscribe(Action? action);
     public void Unsubscribe(Action? action);
 }
 
-public interface IEconomyService {
+public interface IEconomyService
+{
     public List<EconomyModel> GetOverTime();
     public EconomyModel GetEconomy(int atInterval);
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval);
@@ -168,7 +170,8 @@ public interface IEconomyService {
     public void Unsubscribe(Action action);
 }
 
-public interface IEntityFilterService {
+public interface IEntityFilterService
+{
     public delegate void EntityFilterAction(EntityFilterEvent entityFilterEvent);
 
     public string GetFactionType();
@@ -191,24 +194,23 @@ public interface IEntityFilterService {
     public void Unsubscribe(EntityFilterAction action);
 }
 
-
-public interface IEntityService {
+public interface IEntityService
+{
     public List<EntityModel> GetEntities();
 }
-
-
 
 public interface IEntityDisplayService
 {
     public List<string> DefaultChoices();
-    
+
     public string GetDisplayType();
     public void SetDisplayType(string displayType);
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
 }
 
-public interface IImmortalSelectionService {
+public interface IImmortalSelectionService
+{
     public string GetFactionType();
     public string GetImmortalType();
     public bool SelectFactionType(string factionType);
@@ -217,7 +219,8 @@ public interface IImmortalSelectionService {
     public void Unsubscribe(Action action);
 }
 
-public interface IKeyService {
+public interface IKeyService
+{
     public List<string> GetAllPressedKeys();
     public string? GetHotkey();
     public string GetHotkeyGroup();
@@ -228,7 +231,8 @@ public interface IKeyService {
     public void Unsubscribe(Action? action);
 }
 
-public interface IMemoryTesterService {
+public interface IMemoryTesterService
+{
     public delegate void MemoryAction(MemoryTesterEvent memoryEvent);
 
     public List<MemoryEntityModel> GetEntities();
@@ -244,15 +248,16 @@ public interface IMemoryTesterService {
     public void Unsubscribe(MemoryAction memoryAction);
 }
 
-public interface IBuildOrderService {
-
+public interface IBuildOrderService
+{
+    public int BuildingInputDelay { get; set; }
     public Dictionary<int, List<EntityModel>> StartedOrders { get; }
     public Dictionary<int, List<EntityModel>> CompletedOrders { get; }
     public Dictionary<string, int> UniqueCompletedTimes { get; }
-    
+
     public Dictionary<int, int> SupplyCountTimes { get; }
 
-    
+
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);
 
@@ -272,6 +277,7 @@ public interface IBuildOrderService {
     public List<EntityModel> GetHarvestersCompletedBefore(int interval);
 
     public void RemoveLast();
+    public void Reset();
 
     public int GetLastRequestInterval();
     public string BuildOrderAsYaml();

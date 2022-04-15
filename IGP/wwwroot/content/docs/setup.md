@@ -1,10 +1,6 @@
 ---
-title: Setup
-summary: Get set up on developing this web project.
-created_date: 3/30/2022
-updated_date: 4/7/2022
+title: Setup summary: Get set up on developing this web project. created_date: 3/30/2022 updated_date: 4/7/2022
 ---
-
 
 # Overview
 
@@ -12,7 +8,8 @@ This document will contain general setup notes for the project.
 
 ## Prerequisite
 
-To understand content in this document, it is recommended to have some software development experience. Particularly using GitHub and Visual Studio.
+To understand content in this document, it is recommended to have some software development experience. Particularly
+using GitHub and Visual Studio.
 
 - [GitHub Documentation](https://docs.github.com/en/get-started)
 
@@ -24,10 +21,13 @@ To make updates to this website, it is recommended to understand HTML/CSS and C#
 - [Mozilla's HTML Documentation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started)
 - [W3SCHOOLS' HTML Documentation](https://www.w3schools.com/html/)
 
-Further, you should understand the product and clients this website is for. So it is recommended to play "Immortal: Gates of Pyre".
+Further, you should understand the product and clients this website is for. So it is recommended to play "Immortal:
+Gates of Pyre".
 
 - [IGP Website](https://gatesofpyre.com/)
-    - **Please Note:** This product currently has restricted access with it is in a pre-alpha state. If you are not aware or interested in IGP, I recommend to wait for product release. Otherwise, check out their discord for steps of getting access.
+    - **Please Note:** This product currently has restricted access with it is in a pre-alpha state. If you are not
+      aware or interested in IGP, I recommend to wait for product release. Otherwise, check out their discord for steps
+      of getting access.
 
 ## Installation
 
@@ -37,7 +37,8 @@ Download and install Visual Studio preview.
 
 [https://visualstudio.microsoft.com/vs/preview/](https://visualstudio.microsoft.com/vs/preview/)
 
-When installing, ensure you have selected "Workloads | **ASP.NET and web development**" and "Individual components | **.NET WebAssembly build tools**".
+When installing, ensure you have selected "Workloads | **ASP.NET and web development**" and "Individual components | **
+.NET WebAssembly build tools**".
 
 ## Download Project
 
@@ -77,11 +78,13 @@ C:.
 
 Code committed to the `main` branch will automatically be deployed to [production](https://www.igpfanreference.com/).
 
-Code committed to the `develop` branch will automatically be deployed to [development](https://calm-mud-04916b210.1.azurestaticapps.net/).
+Code committed to the `develop` branch will automatically be deployed
+to [development](https://calm-mud-04916b210.1.azurestaticapps.net/).
 
-_This is handle via the files in `.github/workflow`. Look into these [GitHub Actions Documents](https://docs.github.com/en/actions) if curious about how this CI system works._
+_This is handle via the files in `.github/workflow`. Look into
+these [GitHub Actions Documents](https://docs.github.com/en/actions) if curious about how this CI system works._
 
 ## Troubleshooting
 
-
-Nothing that some good internet searches cannot resolved. But you can also contact the project maintainer on [Discord](https://discord.gg/uMq8bMGeeN).
+Nothing that some good internet searches cannot resolved. But you can also contact the project maintainer
+on [Discord](https://discord.gg/uMq8bMGeeN).

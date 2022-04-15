@@ -5,9 +5,8 @@
 @if (toastService.HasToasts())
 {
     <div class="toastsContainer">
-        @foreach(var toast in Toasts)
+        @foreach (var toast in Toasts)
         {
-            
             <ToastComponent Toast="toast"/>
         }
     </div>
@@ -27,25 +26,24 @@
 
 @code {
     private List<ToastModel> Toasts => toastService.GetToasts();
-    
+
     private Timer ageTimer = null!;
-    
+
     protected override void OnInitialized()
     {
         toastService.Subscribe(OnUpdate);
-        
+
         ageTimer = new Timer(10);
         ageTimer.Elapsed += OnAge!;
         ageTimer.Enabled = true;
-
     }
 
     public void Dispose()
     {
         toastService.Unsubscribe(OnUpdate);
     }
-    
-    
+
+
     void OnAge(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         toastService.AgeToasts();
@@ -57,4 +55,5 @@
     {
         StateHasChanged();
     }
+
 }

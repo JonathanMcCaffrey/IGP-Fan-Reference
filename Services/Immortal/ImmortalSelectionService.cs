@@ -3,27 +3,33 @@ using Model.Types;
 
 namespace Services.Immortal;
 
-public class ImmortalSelectionService : IImmortalSelectionService {
+public class ImmortalSelectionService : IImmortalSelectionService
+{
     private string _selectedFaction = FactionType.QRath;
     private string _selectedImmortal = DataType.IMMORTAL_Orzum;
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
     }
 
-    public string GetFactionType() {
+    public string GetFactionType()
+    {
         return _selectedFaction;
     }
 
-    public string GetImmortalType() {
+    public string GetImmortalType()
+    {
         return _selectedImmortal;
     }
 
-    public bool SelectFactionType(string factionType) {
+    public bool SelectFactionType(string factionType)
+    {
         if (_selectedFaction == factionType) return false;
         _selectedFaction = factionType;
 
@@ -35,7 +41,8 @@ public class ImmortalSelectionService : IImmortalSelectionService {
         return true;
     }
 
-    public bool SelectImmortalType(string immortalType) {
+    public bool SelectImmortalType(string immortalType)
+    {
         if (_selectedImmortal == immortalType) return false;
         _selectedImmortal = immortalType;
         NotifyDataChanged();
@@ -44,8 +51,8 @@ public class ImmortalSelectionService : IImmortalSelectionService {
 
     private event Action OnChange = null!;
 
-    private void NotifyDataChanged() {
+    private void NotifyDataChanged()
+    {
         OnChange?.Invoke();
     }
-
 }

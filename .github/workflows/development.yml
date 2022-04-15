@@ -5,7 +5,7 @@ on:
     branches:
       - develop
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [ opened, synchronize, reopened, closed ]
     branches:
       - develop
 
@@ -27,8 +27,8 @@ jobs:
           action: "upload"
           app_location: "IGP"
           api_location: ""
-          output_location: "./wwwroot" 
-
+          output_location: "./wwwroot"
+  
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest

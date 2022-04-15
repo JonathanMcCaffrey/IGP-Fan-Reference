@@ -100,27 +100,23 @@ public class EconomyOverTimeModel
 
             // Remove Funds from Build Order
             if (buildOrder.StartedOrders.TryGetValue(interval, out var ordersAtTime))
-            {
-            foreach (var order in ordersAtTime)
-            {
-                var foundEntity = EntityModel.GetDictionary()[order.DataType];
-                var production = foundEntity.Production();
-
-                if (production != null)
+                foreach (var order in ordersAtTime)
                 {
-                    economyAtSecond.Alloy -= production.Alloy;
-                    economyAtSecond.Ether -= production.Ether;
-                    var finishedAt = interval + production.BuildTime;
+                    var foundEntity = EntityModel.GetDictionary()[order.DataType];
+                    var production = foundEntity.Production();
 
-                    if (production.RequiresWorker) economyAtSecond.BusyWorkerCount += 1;
+                    if (production != null)
+                    {
+                        economyAtSecond.Alloy -= production.Alloy;
+                        economyAtSecond.Ether -= production.Ether;
+                        var finishedAt = interval + production.BuildTime;
+
+                        if (production.RequiresWorker) economyAtSecond.BusyWorkerCount += 1;
+                    }
                 }
-            }
-            
-            }
 
             // Handle new entities
             if (buildOrder.StartedOrders.TryGetValue(interval, out var ordersCompletedAtTime))
-            {
                 foreach (var newEntity in ordersCompletedAtTime)
                 {
                     var harvest = newEntity;
@@ -129,7 +125,6 @@ public class EconomyOverTimeModel
                     var production = newEntity.Production();
                     if (production != null && production.RequiresWorker) economyAtSecond.BusyWorkerCount -= 1;
                 }
-            }
         }
     }
 }

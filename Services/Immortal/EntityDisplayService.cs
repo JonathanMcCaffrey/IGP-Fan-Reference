@@ -1,26 +1,22 @@
-﻿using Model.Types;
+﻿namespace Services.Immortal;
 
-namespace Services.Immortal;
-
-public class EntityDisplayService : IEntityDisplayService {
+public class EntityDisplayService : IEntityDisplayService
+{
     private string displayType = "Detailed";
-    private event Action OnChange = null!;
 
     public List<string> DefaultChoices()
     {
-        return new List<string>() { "Detailed", "Plain" };
+        return new List<string> { "Detailed", "Plain" };
     }
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
-    }
-
-    private void NotifyDataChanged() {
-        OnChange?.Invoke();
     }
 
     public string GetDisplayType()
@@ -34,4 +30,10 @@ public class EntityDisplayService : IEntityDisplayService {
         NotifyDataChanged();
     }
 
+    private event Action OnChange = null!;
+
+    private void NotifyDataChanged()
+    {
+        OnChange?.Invoke();
+    }
 }

@@ -2,27 +2,26 @@
 
 namespace Services.Website;
 
-public class NavigationService : INavigationService {
-    private string navigationStateType = NavigationStateType.Default;
+public class NavigationService : INavigationService
+{
     private int navigationStateId = -1;
-    
+    private string navigationStateType = NavigationStateType.Default;
+
     private NavSelectionType navSelectionType = NavSelectionType.None;
 
-    
-    
+
     private Type renderType = null!;
     private int webPageType;
     private int webSectionType;
 
-    private event Action OnChange = null!;
 
-    
-    
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange += action;
     }
 
@@ -37,7 +36,8 @@ public class NavigationService : INavigationService {
         return navigationStateId;
     }
 
-    public void ChangeNavigationState(string newState) {
+    public void ChangeNavigationState(string newState)
+    {
         if (newState.Equals(navigationStateType))
             return;
 
@@ -46,12 +46,15 @@ public class NavigationService : INavigationService {
         NotifyDataChanged();
     }
 
-    public string GetNavigationState() {
+    public string GetNavigationState()
+    {
         return navigationStateType;
     }
 
-    public void SelectPage(int pageType, Type page) {
-        if (renderType != page) {
+    public void SelectPage(int pageType, Type page)
+    {
+        if (renderType != page)
+        {
             renderType = page;
             webPageType = pageType;
             navSelectionType = NavSelectionType.Page;
@@ -60,7 +63,8 @@ public class NavigationService : INavigationService {
     }
 
 
-    public void SelectSection(int section) {
+    public void SelectSection(int section)
+    {
         if (section == webSectionType) return;
         webSectionType = section;
         navSelectionType = NavSelectionType.Section;
@@ -68,15 +72,18 @@ public class NavigationService : INavigationService {
         NotifyDataChanged();
     }
 
-    public void Back() {
-        if (navSelectionType == NavSelectionType.Page) {
+    public void Back()
+    {
+        if (navSelectionType == NavSelectionType.Page)
+        {
             navSelectionType = NavSelectionType.Section;
             webPageType = 0;
             NotifyDataChanged();
             return;
         }
 
-        if (navSelectionType == NavSelectionType.Section) {
+        if (navSelectionType == NavSelectionType.Section)
+        {
             navSelectionType = NavSelectionType.None;
             webSectionType = 0;
             webPageType = 0;
@@ -84,23 +91,30 @@ public class NavigationService : INavigationService {
         }
     }
 
-    public NavSelectionType GetNavSelectionType() {
+    public NavSelectionType GetNavSelectionType()
+    {
         return navSelectionType;
     }
 
-    public int GetWebPageId() {
+    public int GetWebPageId()
+    {
         return webPageType;
     }
 
-    public int GetWebSectionId() {
+    public int GetWebSectionId()
+    {
         return webSectionType;
     }
 
-    public Type GetRenderType() {
+    public Type GetRenderType()
+    {
         return renderType;
     }
 
-    private void NotifyDataChanged() {
+    private event Action OnChange = null!;
+
+    private void NotifyDataChanged()
+    {
         OnChange?.Invoke();
     }
 }

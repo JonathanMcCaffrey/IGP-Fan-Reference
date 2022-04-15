@@ -1,5 +1,4 @@
-﻿
-<div class="layoutWithSidebar">
+﻿<div class="layoutWithSidebar">
     <div class="layoutSidebar">
         @Sidebar
     </div>
@@ -49,10 +48,12 @@
 
 </style>
 
-@code {    
+@code {
+
     [Parameter]
     public RenderFragment Sidebar { get; set; } = default!;
-       
+
     [Parameter]
     public RenderFragment Content { get; set; } = default!;
+
 }

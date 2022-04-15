@@ -1,0 +1,41 @@
+﻿@inject IJSRuntime jsRuntime;
+
+@inject IBuildOrderService buildOrderService
+@inject IEconomyService economyService
+@inject IToastService toastService
+@inject ITimingService timingService
+
+<FormLayoutComponent>
+    <FormNumberComponent Max="600"
+                         Min="0"
+                         Value="@buildOrderService.BuildingInputDelay"
+                         OnChange="@OnBuildingInputDelayChanged">
+        <FormLabelComponent>Building Input Delay</FormLabelComponent>
+        <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
+    </FormNumberComponent>
+
+</FormLayoutComponent>
+
+@code {
+
+    void OnBuildingInputDelayChanged(ChangeEventArgs changeEventArgs)
+    {
+        buildOrderService.BuildingInputDelay = int.Parse(changeEventArgs.Value!.ToString()!);
+    }
+
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "TimingComponent");
+#endif
+
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
+#endif
+    }
+}

@@ -22,7 +22,6 @@ public class DocumentationService : IDocumentationService
     public List<DocConnectionModel> DocConnectionModels { get; set; } = new();
 
 
-
     public void Subscribe(Action? action)
     {
         OnChange += action;
@@ -54,7 +53,7 @@ public class DocumentationService : IDocumentationService
         DocSectionModels =
             (await httpClient.GetFromJsonAsync<DocSectionModel[]>("generated/DocSectionModels.json") ??
              Array.Empty<DocSectionModel>()).ToList();
-        
+
         SortSql();
 
         isLoaded = true;
@@ -88,28 +87,20 @@ public class DocumentationService : IDocumentationService
         }
 
         foreach (var content in DocContentModels)
-        {
             if (content.DocSectionModelId != null)
-            {
                 foreach (var section in DocSectionModels)
-                {
                     if (section.Id == content.DocSectionModelId)
-                    {
                         section.DocumentationModels.Add(content);
-                    }
-                }
-            }
-        }
-        
+
         ByPageOrder();
     }
 
-    
+
     private void ByPageOrder()
     {
         DocContentModelsByPageOrder = new List<DocContentModel>();
 
-        int order = 1;
+        var order = 1;
         foreach (var documentation in DocContentModels)
         {
             if (documentation.Parent != null) continue;

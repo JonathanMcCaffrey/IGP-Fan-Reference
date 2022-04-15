@@ -1,9 +1,10 @@
-﻿@inject IJSRuntime jsRuntime;
-
+﻿@inject IJSRuntime jsRuntime
+@inject IEconomyService economyService
+@inject IBuildOrderService buildOrderService
 
 @implements IDisposable
 
-<Virtualize Items="@EconomyService.GetOverTime()" Context="economyAtSecond" ItemSize="400" OverscanCount="4">
+<Virtualize Items="@economyService.GetOverTime()" Context="economyAtSecond" ItemSize="400" OverscanCount="4">
     <div style="display: grid; gap: 8px; grid-template-columns: 1fr 1fr;">
         <div>
             <div>
@@ -27,19 +28,19 @@
             <br/>
         </div>
         <div>
-            
-            @if (BuildOrderService.StartedOrders.TryGetValue(economyAtSecond.Interval, out var ordersAtTime))
+
+            @if (buildOrderService.StartedOrders.TryGetValue(economyAtSecond.Interval, out var ordersAtTime))
             {
                 @foreach (var order in ordersAtTime)
                 {
-    <div>
-        Requested: @order.Info().Name
-    </div>
-}
+                    <div>
+                        Requested: @order.Info().Name
+                    </div>
+                }
             }
-            
-            
-            @if (BuildOrderService.CompletedOrders.TryGetValue(economyAtSecond.Interval, out var ordersCompletedAtTime))
+
+
+            @if (buildOrderService.CompletedOrders.TryGetValue(economyAtSecond.Interval, out var ordersCompletedAtTime))
             {
                 @foreach (var order in ordersCompletedAtTime)
                 {
@@ -55,30 +56,24 @@
 
 @code {
 
-    [Inject]
-    IEconomyService EconomyService { get; set; } = default!;
-
-    [Inject]
-    IBuildOrderService BuildOrderService { get; set; } = default!;
-
     protected override void OnInitialized()
     {
-        EconomyService.Subscribe(StateHasChanged);
-        BuildOrderService.Subscribe(StateHasChanged);
+        economyService.Subscribe(StateHasChanged);
+        buildOrderService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        EconomyService.Unsubscribe(StateHasChanged);
-        BuildOrderService.Unsubscribe(StateHasChanged);
+        economyService.Unsubscribe(StateHasChanged);
+        buildOrderService.Unsubscribe(StateHasChanged);
     }
-    
+
     protected override bool ShouldRender()
     {
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "TimelineComponent");
 #endif
-        
+
         return true;
     }
 

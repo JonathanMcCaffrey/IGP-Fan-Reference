@@ -13,14 +13,14 @@ namespace Model.Entity;
 public class EntityModel
 {
     public static readonly string GameVersion = "0.0.6.9121a";
-    
-    private static Dictionary<string, EntityModel> _database= null!;
 
-    private static List<EntityModel> _entityModels= null!;
+    private static Dictionary<string, EntityModel> _database = null!;
+
+    private static List<EntityModel> _entityModels = null!;
 
     private static List<EntityModel> _entityModelsOnlyHotkey = null!;
 
-    private static Dictionary<string, List<EntityModel>>? _entityModelsByHotkey= null!;
+    private static Dictionary<string, List<EntityModel>>? _entityModelsByHotkey;
 
 
     public EntityModel(string data, string entity, bool isSpeculative = false)
@@ -139,8 +139,8 @@ public class EntityModel
         if (string.IsNullOrEmpty(hotkey)) return null;
 
         if (!GetEntitiesByHotkey().ContainsKey(hotkey)) return null;
-        
-        
+
+
         var foundList = from entity in GetEntitiesByHotkey()[hotkey]
             where entity.Hotkey()?.HotkeyGroup == hotkeyGroup
                   && entity.Hotkey()?.HoldSpace == holdSpace
@@ -224,19 +224,19 @@ public class EntityModel
 
     public EntityHotkeyModel Hotkey()
     {
-        return ((EntityHotkeyModel)EntityParts.Find(x => x.GetType() == typeof(EntityHotkeyModel))!);
+        return (EntityHotkeyModel)EntityParts.Find(x => x.GetType() == typeof(EntityHotkeyModel))!;
     }
 
 
     public EntityFactionModel Faction()
     {
-        return ((EntityFactionModel)EntityParts.Find(x => x.GetType() == typeof(EntityFactionModel))!);
+        return (EntityFactionModel)EntityParts.Find(x => x.GetType() == typeof(EntityFactionModel))!;
     }
 
 
     public EntityHarvestModel Harvest()
     {
-        return ((EntityHarvestModel)EntityParts.Find(x => x.GetType() == typeof(EntityHarvestModel))!);
+        return (EntityHarvestModel)EntityParts.Find(x => x.GetType() == typeof(EntityHarvestModel))!;
     }
 
 

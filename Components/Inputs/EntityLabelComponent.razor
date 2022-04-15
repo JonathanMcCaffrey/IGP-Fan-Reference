@@ -1,10 +1,6 @@
 ﻿@using Model.Entity
-@using Services.Website
-@using System.ComponentModel.DataAnnotations
 @using Model.Entity.Data
-@using Services
-
-@inject IEntityDialogService entityDialogService 
+@inject IEntityDialogService entityDialogService
 
 
 @if (EntityId == null)
@@ -17,8 +13,9 @@ else
 }
 
 @code {
-    
-    [Parameter] public string EntityId { get; set; } = default!;
+
+    [Parameter]
+    public string EntityId { get; set; } = default!;
 
     private EntityModel Entity => DATA.Get()[EntityId];
 
@@ -26,4 +23,5 @@ else
     {
         entityDialogService.AddDialog(EntityId);
     }
+
 }

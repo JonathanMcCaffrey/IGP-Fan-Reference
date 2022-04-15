@@ -62,13 +62,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\content\notes\coop\image\notes\map-lostprovince\Map_LostProvince.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\CoopBaseLarge.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\DefendPoints.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\EnemySpawns.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\Multipliers.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\OpenBases.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\Pyre.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\content\notes\coop\image\notes\map-lostprovince\Map_LostProvince.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\CoopBaseLarge.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\DefendPoints.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\EnemySpawns.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\Multipliers.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\OpenBases.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\image\notes\coop-holdout\Pyre.png" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿<div class="formContainer">
-    @if (Label != "") {
+    @if (Label != "")
+    {
         <div class="formLabel">
             @Label
         </div>
@@ -13,7 +14,8 @@
                id="@labelId"
                @onchange="OnChange"/>
     </div>
-    @if (Info != "") {
+    @if (Info != "")
+    {
         <div class="formInfo">
             @Info
         </div>
@@ -68,7 +70,8 @@
 
     private string labelId = "";
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         labelId = Label.ToLower().Replace(" ", "_");
     }
 

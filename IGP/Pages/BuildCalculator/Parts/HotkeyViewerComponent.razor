@@ -1,8 +1,6 @@
 ﻿@inject IJSRuntime jsRuntime;
-
-@using System.Diagnostics
 @implements IDisposable
-@inject IKeyService keyService 
+@inject IKeyService keyService
 @inject IBuildOrderService buildOrderService
 @inject IImmortalSelectionService filterService
 
@@ -57,7 +55,6 @@
                     @hotkey.KeyText
                     @foreach (var entity in data.Values)
                     {
-                       
                         if (InvalidKey(entity, hotkey) || InvalidKeyGroup(entity, hotkey) || InvalidHoldSpace(entity))
                         {
                             continue;
@@ -67,7 +64,7 @@
                         {
                             continue;
                         }
-                        
+
                         if (InvalidVanguard(entity) || InvalidNonVanguard(entity))
                         {
                             continue;
@@ -75,7 +72,7 @@
 
                         var isVanguard = entity.VanguardAdded() != null;
                         var style = isVanguard ? "font-weight: bold;" : "";
-                        
+
                         if (buildOrderService.WillMeetRequirements(entity) == null)
                         {
                             style += "color:gray; font-style: italic;";
@@ -138,6 +135,7 @@
     }
 
     int completedTimeCount = 0;
+
     void OnBuilderOrderChanged()
     {
         if (buildOrderService.UniqueCompletedTimes.Count != completedTimeCount)
@@ -146,13 +144,13 @@
             StateHasChanged();
         }
     }
-    
+
     protected override bool ShouldRender()
     {
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "HotKeyViewerComponent");
 #endif
-        
+
         return true;
     }
 
@@ -177,8 +175,8 @@
     // Move to Filter Service
     bool InvalidVanguard(EntityModel entity)
     {
-        if (entity.VanguardAdded() != null 
-            && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType() 
+        if (entity.VanguardAdded() != null
+            && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType()
             && filterService.GetImmortalType() != ImmortalType.Any)
         {
             return true;
@@ -252,11 +250,10 @@
 
     void OnKeyPressed()
     {
-       
-        string controlGroupWas = controlGroup;
-        string keyWas = key;
-        
-        
+        var controlGroupWas = controlGroup;
+        var keyWas = key;
+
+
         if (keyService.GetAllPressedKeys().Contains("Z"))
         {
             controlGroup = "Z";
@@ -299,13 +296,11 @@
 
         if (controlGroupWas != controlGroup || keyWas != key)
         {
-        
-            StateHasChanged();    
+            StateHasChanged();
         }
-        
     }
-    
-    
+
+
     private void HandleClick()
     {
         var hotkey = keyService.GetHotkey();
@@ -327,16 +322,17 @@
         var faction = filterService.GetFactionType();
         var immortal = filterService.GetImmortalType();
 
-        EntityModel? entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
+        var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
         if (entity == null)
         {
             return;
         }
-        
+
         if (buildOrderService.Add(entity, economyService, toastService))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }
     }
+
 }

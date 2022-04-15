@@ -77,16 +77,16 @@
             Border: <input type="color" value="@info_border" @onchange="e => info_border = e.Value!.ToString()!"/>
         </div>
     </div>
-    
-     <div class="color info_secondary">
-            <div>Info Secondary</div>
-         <div>
-             Base: <input type="color" value="@info_secondary" @onchange="e => info_secondary = e.Value!.ToString()!"/>
-         </div>
-         <div>
-             Border: <input type="color" value="@info_secondary_border" @onchange="e => info_secondary_border = e.Value!.ToString()!"/>
-         </div>
+
+    <div class="color info_secondary">
+        <div>Info Secondary</div>
+        <div>
+            Base: <input type="color" value="@info_secondary" @onchange="e => info_secondary = e.Value!.ToString()!"/>
         </div>
+        <div>
+            Border: <input type="color" value="@info_secondary_border" @onchange="e => info_secondary_border = e.Value!.ToString()!"/>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -183,6 +183,6 @@
     string info_border = "#210b36";
     string info_secondary = "#4c3e59";
     string info_secondary_border = "#7e58a2";
-    
+
 
 }

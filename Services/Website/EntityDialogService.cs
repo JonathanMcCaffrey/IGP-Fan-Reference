@@ -1,29 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DataType = Model.Entity.Data.DataType;
-
-namespace Services.Website;
+﻿namespace Services.Website;
 
 //TODO Move to a database folder, with EntityService, EntityFilterService
 public class EntityDialogService : IEntityDialogService
 {
-    private string? entityId = null;
+    private string? entityId;
 
-    private List<string> history = new List<string>();
-    
-    private event Action OnChange = null!;
+    private readonly List<string> history = new();
 
-    private void NotifyDataChanged() {
-        OnChange?.Invoke();
-    }
-    
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange += action;
     }
-    
+
     public void AddDialog(string id)
     {
         entityId = id;
@@ -36,7 +29,7 @@ public class EntityDialogService : IEntityDialogService
     {
         entityId = null;
         history.Clear();
-        
+
         NotifyDataChanged();
     }
 
@@ -45,20 +38,20 @@ public class EntityDialogService : IEntityDialogService
         if (history.Count > 1)
         {
             history.RemoveAt(history.Count - 1);
-            
+
             if (history.Count == 0)
             {
                 entityId = null;
                 NotifyDataChanged();
-                
+
                 return;
             }
-            
+
             entityId = history.Last();
             NotifyDataChanged();
         }
     }
-    
+
 
     public bool HasDialog()
     {
@@ -74,6 +67,11 @@ public class EntityDialogService : IEntityDialogService
     {
         return entityId;
     }
+
+    private event Action OnChange = null!;
+
+    private void NotifyDataChanged()
+    {
+        OnChange?.Invoke();
+    }
 }
-
-

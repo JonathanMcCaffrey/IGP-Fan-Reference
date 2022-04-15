@@ -1,14 +1,16 @@
 ﻿@inject INavigationService navigationService;
 @inject NavigationManager navigationManager;
 
-@if (isOnPage) {
+@if (isOnPage)
+{
     <NavLink href="@Page.Href" class="desktopNavLink navSelected">
         <div class="navName">
             @Page.Name
         </div>
     </NavLink>
 }
-else {
+else
+{
     <NavLink @onclick="() => navigationService.ChangeNavigationState(NavigationStateType.Default)" href="@Page.Href" class="desktopNavLink">
         <div class="navName">
             @Page.Name
@@ -67,7 +69,8 @@ else {
 
     bool isOnPage = false;
 
-    protected override Task OnParametersSetAsync() {
+    protected override Task OnParametersSetAsync()
+    {
         var uri = navigationManager.Uri.Remove(0, navigationManager.BaseUri.Count()).ToLower();
 
         isOnPage = Page.Href.ToLower().Equals(uri);
@@ -75,11 +78,13 @@ else {
     }
 
 
-    void OnNavigationChanged() {
+    void OnNavigationChanged()
+    {
         StateHasChanged();
     }
 
-    void OnBack() {
+    void OnBack()
+    {
         navigationService.Back();
     }
 

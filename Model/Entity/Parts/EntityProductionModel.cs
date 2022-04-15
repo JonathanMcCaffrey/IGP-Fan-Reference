@@ -10,7 +10,7 @@ public class EntityProductionModel : IEntityPartInterface
     public int Pyre { get; set; } = 0;
 
     public int Energy { get; set; } = 0;
-    
+
     public int DefensiveLayer { get; set; } = 0;
     public int BuildTime { get; set; } = 0;
 

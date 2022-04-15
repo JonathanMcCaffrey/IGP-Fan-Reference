@@ -17,7 +17,7 @@ else
             @foreach (var sprint in agileService.AgileSprintModels!
                 .OrderBy(e => e.EndDate).Reverse())
             {
-                <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()" 
+                <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()"
                          open="@(sprint.GetSprintType() == SprintType.Current)">
                     <summary class="sprintSummary">
                         <div class="sprintTitle">@sprint.Name</div>
@@ -91,8 +91,8 @@ else
 
     void HasChanged()
     {
-        if(!agileService.IsLoaded()) return;
-        
+        if (!agileService.IsLoaded()) return;
+
         backlog.Clear();
 
         foreach (var task in agileService.AgileTaskModels!)

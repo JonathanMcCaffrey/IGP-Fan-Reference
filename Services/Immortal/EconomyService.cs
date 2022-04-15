@@ -1,43 +1,47 @@
 ﻿using Model.Economy;
 using Model.Entity;
+using Model.Feedback;
 using Model.Types;
+using Services.Website;
 
 namespace Services.Immortal;
 
-public class EconomyService : IEconomyService {
+public class EconomyService : IEconomyService
+{
     private List<EconomyModel> _economyOverTime = null!;
 
-    
-    private event Action OnChange = null!;
 
-    
-    public List<EconomyModel> GetOverTime() {
+    public List<EconomyModel> GetOverTime()
+    {
         return _economyOverTime;
     }
 
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
     }
 
-    public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval) {
-        
+    public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval)
+    {
         //TODO Break all this up
-        if (_economyOverTime == null) {
+        if (_economyOverTime == null)
+        {
             _economyOverTime = new List<EconomyModel>();
             for (var interval = 0; interval < timing.GetTiming(); interval++)
                 _economyOverTime.Add(new EconomyModel { Interval = interval });
         }
 
-        
-        
+
         if (_economyOverTime.Count > timing.GetTiming())
             _economyOverTime.RemoveRange(timing.GetTiming(), _economyOverTime.Count - timing.GetTiming());
 
-        while (_economyOverTime.Count < timing.GetTiming()) _economyOverTime.Add(new EconomyModel { Interval = _economyOverTime.Count - 1 });
+        while (_economyOverTime.Count < timing.GetTiming())
+            _economyOverTime.Add(new EconomyModel { Interval = _economyOverTime.Count - 1 });
 
         for (var interval = fromInterval; interval < timing.GetTiming(); interval++)
         {
@@ -119,8 +123,6 @@ public class EconomyService : IEconomyService {
             // Remove Funds from Build Order
 
             if (buildOrder.StartedOrders.TryGetValue(interval, out var ordersAtTime))
-            {
-
                 foreach (var order in ordersAtTime)
                 {
                     var foundEntity = EntityModel.GetDictionary()[order.DataType];
@@ -138,31 +140,38 @@ public class EconomyService : IEconomyService {
                         if (production.ConsumesWorker) economyAtSecond.WorkerCount -= 1;
                     }
                 }
-            }
 
             // Handle new entities
             if (buildOrder.CompletedOrders.TryGetValue(interval, out var completedAtInterval))
-            {
                 foreach (var newEntity in completedAtInterval)
-            {
-                var harvest = newEntity;
-                if (harvest != null) economyAtSecond.Harvesters.Add(harvest);
+                {
+                    var harvest = newEntity;
+                    if (harvest != null) economyAtSecond.Harvesters.Add(harvest);
 
-                var production = newEntity.Production();
-                if (production != null && production.RequiresWorker) economyAtSecond.BusyWorkerCount -= 1;
-            }
+                    var production = newEntity.Production();
+                    if (production != null && production.RequiresWorker) economyAtSecond.BusyWorkerCount -= 1;
+                }
         }
-    }
 
         NotifyDataChanged();
     }
 
 
-    public EconomyModel GetEconomy(int atInterval) {
+    public EconomyModel GetEconomy(int atInterval)
+    {
+        if (atInterval >= _economyOverTime.Count)
+        {
+            return _economyOverTime.Last();
+        }
+        
         return _economyOverTime[atInterval];
     }
 
-    private void NotifyDataChanged() {
+
+    private event Action OnChange = null!;
+
+    private void NotifyDataChanged()
+    {
         OnChange?.Invoke();
     }
 }

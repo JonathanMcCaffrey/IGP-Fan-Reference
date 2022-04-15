@@ -20,7 +20,8 @@
 @code {
     string Output = "";
 
-    public void OnChange(ChangeEventArgs changeEventArgs) {
+    public void OnChange(ChangeEventArgs changeEventArgs)
+    {
         var encoded = HttpUtility.HtmlEncode(changeEventArgs.Value!.ToString());
         Output = encoded?.Replace("@", "@@")!;
         Output = Output.Replace("\n", "<br />");

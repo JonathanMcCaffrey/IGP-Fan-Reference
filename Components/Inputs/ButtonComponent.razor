@@ -45,7 +45,8 @@
     [Parameter]
     public ButtonType ButtonType { get; set; } = default!;
 
-    private void ButtonClicked(EventArgs eventArgs) {
+    private void ButtonClicked(EventArgs eventArgs)
+    {
         OnClick.InvokeAsync(eventArgs);
     }
 

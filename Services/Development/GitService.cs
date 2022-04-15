@@ -10,15 +10,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Development;
 
-public class GitService : IGitService {
+public class GitService : IGitService
+{
     private readonly HttpClient httpClient;
 
     private bool isLoaded;
 
     private event Action OnChange = default!;
 
-    
-    public GitService(HttpClient httpClient) {
+
+    public GitService(HttpClient httpClient)
+    {
         this.httpClient = httpClient;
     }
 
@@ -32,30 +34,32 @@ public class GitService : IGitService {
 #endif
 
 
-
-    public void Subscribe(Action action) {
+    public void Subscribe(Action action)
+    {
         OnChange += action;
     }
 
-    public void Unsubscribe(Action action) {
+    public void Unsubscribe(Action action)
+    {
         OnChange -= action;
     }
 
-    public bool IsLoaded() {
+    public bool IsLoaded()
+    {
         return isLoaded;
     }
 
-    
+
 #if NO_SQL
 
-    public async Task Load() {
+    public async Task Load()
+    {
+        if (isLoaded) return;
 
-        if (isLoaded) {
-            return;
-        }
-        
-        GitChangeModels =  (await httpClient.GetFromJsonAsync<GitChangeModel[]>("generated/GitChangeModels.json") ?? Array.Empty<GitChangeModel>()).ToList();
-        GitPatchModels = (await httpClient.GetFromJsonAsync<GitPatchModel[]>("generated/GitPatchModels.json") ?? Array.Empty<GitPatchModel>()).ToList();
+        GitChangeModels = (await httpClient.GetFromJsonAsync<GitChangeModel[]>("generated/GitChangeModels.json") ??
+                           Array.Empty<GitChangeModel>()).ToList();
+        GitPatchModels = (await httpClient.GetFromJsonAsync<GitPatchModel[]>("generated/GitPatchModels.json") ??
+                          Array.Empty<GitPatchModel>()).ToList();
 
 
         isLoaded = true;
@@ -64,7 +68,6 @@ public class GitService : IGitService {
     }
 
 #else
-
     public async Task Load(DatabaseContext database) {
         Database = database;
 
@@ -84,12 +87,14 @@ public class GitService : IGitService {
 
 #endif
 
-    
-    public void Update() {
+
+    public void Update()
+    {
         NotifyDataChanged();
     }
 
-    private void NotifyDataChanged() {
+    private void NotifyDataChanged()
+    {
         OnChange?.Invoke();
     }
 }

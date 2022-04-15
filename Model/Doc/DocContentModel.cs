@@ -8,11 +8,14 @@ namespace Model.Doc;
 public class DocContentModel
 {
     [Key] public int Id { get; set; } = 1;
-    
+
     public int? ParentId { get; set; } = null;
     public int? DocSectionModelId { get; set; } = null;
     public string Href { get; set; }
-    [NotMapped] public virtual ICollection<DocContentModel> DocumentationModels { get; set; } = new List<DocContentModel>();
+
+    [NotMapped]
+    public virtual ICollection<DocContentModel> DocumentationModels { get; set; } = new List<DocContentModel>();
+
     [NotMapped] public virtual DocContentModel Parent { get; set; }
     [NotMapped] public virtual int PageOrder { get; set; }
     public DateTime CreatedDate { get; set; }

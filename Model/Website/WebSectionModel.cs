@@ -12,5 +12,5 @@ public class WebSectionModel
     public int Order { get; set; } = 0;
     public string IsPrivate { get; set; } = "True";
 
-    [NotMapped] public List<WebPageModel> WebPageModels { get; set; } = new List<WebPageModel>();
+    [NotMapped] public List<WebPageModel> WebPageModels { get; set; } = new();
 }

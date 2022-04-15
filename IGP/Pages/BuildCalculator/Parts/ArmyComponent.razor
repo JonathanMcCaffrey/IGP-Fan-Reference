@@ -1,6 +1,6 @@
-﻿@inject IJSRuntime jsRuntime;
+﻿@inject IJSRuntime jsRuntime
 
-@inject IBuildOrderService BuildOrder 
+@inject IBuildOrderService buildOrder
 
 @implements IDisposable
 
@@ -35,12 +35,12 @@
 
     protected override void OnInitialized()
     {
-        BuildOrder.Subscribe(OnBuildOrderChanged);
+        buildOrder.Subscribe(OnBuildOrderChanged);
     }
 
     void IDisposable.Dispose()
     {
-        BuildOrder.Unsubscribe(OnBuildOrderChanged);
+        buildOrder.Unsubscribe(OnBuildOrderChanged);
     }
 
     protected override bool ShouldRender()
@@ -57,20 +57,20 @@
         jsRuntime.InvokeVoidAsync("console.timeEnd", "ArmyComponent");
 #endif
     }
-    
+
     void OnBuildOrderChanged()
     {
-        int armyCountWas = 0;
+        var armyCountWas = 0;
         foreach (var army in armyCount)
         {
             armyCountWas += army.Value;
         }
-        
+
         armyCount.Clear();
 
         lastInterval = 0;
 
-        var entitiesOverTime = BuildOrder.GetOrders();
+        var entitiesOverTime = buildOrder.GetOrders();
 
         foreach (var entitiesAtTime in entitiesOverTime)
         {
@@ -91,19 +91,18 @@
             }
         }
 
-        //TODO Better
-        int armyCountIs = 0;
+    //TODO Better
+        var armyCountIs = 0;
         foreach (var army in armyCount)
         {
             armyCountIs += army.Value;
         }
 
-        
+
         if (armyCountWas != armyCountIs)
         {
-            StateHasChanged();            
+            StateHasChanged();
         }
-
     }
 
 }

@@ -55,7 +55,8 @@ public class DATA
                 DataType.TEAPOT_FlyingTeapot, new EntityModel(DataType.TEAPOT_FlyingTeapot, EntityType.Teapot)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Flying Teapot", Description = "Basic observer. Can fly and see hidden units within 1000 range.",
+                        Name = "Flying Teapot",
+                        Description = "Basic observer. Can fly and see hidden units within 1000 range.",
                         Notes = @"Doesn't take up a scout slot."
                     })
                     .AddPart(new EntityRequirementModel { Id = DataType.TEAPOT_Teapot })
@@ -236,7 +237,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.IPASSIVE_MothersHunger})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MothersHunger })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
@@ -255,7 +256,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.IPASSIVE_StalkersSense})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_StalkersSense })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
@@ -276,7 +277,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.IPASSIVE_HealingGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_HealingGround })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
@@ -294,7 +295,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.IPASSIVE_Expansionist})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_Expansionist })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_EmpireUnbroken })
@@ -320,20 +321,23 @@ public class DATA
                 DataType.IPASSIVE_MothersHunger,
                 new EntityModel(DataType.IPASSIVE_MothersHunger, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { 
-                            Name = "Mother's Hunger", 
-                            Description = "Mala's Blood Wells grant you pyre for nearby non-quitl deaths, based on the supply.",
-                            Notes = "+1 per supply"
-                            
-                        })
+                    {
+                        Name = "Mother's Hunger",
+                        Description =
+                            "Mala's Blood Wells grant you pyre for nearby non-quitl deaths, based on the supply.",
+                        Notes = "+1 per supply"
+                    })
             },
             {
                 DataType.IPASSIVE_StalkersSense,
                 new EntityModel(DataType.IPASSIVE_StalkersSense, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Stalker's Sense", Description = "Xol's units sense nearby enemies in the fog of war.", Notes = "Not implemented."})
+                    {
+                        Name = "Stalker's Sense", Description = "Xol's units sense nearby enemies in the fog of war.",
+                        Notes = "Not implemented."
+                    })
             },
-            
+
             // Keys
             {
                 DataType.COMMAND_Attack,
@@ -369,7 +373,7 @@ public class DATA
                     .AddPart(new EntityVitalityModel { Health = 500, Armor = ArmorType.Heavy })
                     .AddPart(new EntityWeaponModel
                         { Damage = 30, AttacksPerSecond = 1.401f, Targets = TargetType.All, Range = 700 })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_BastionPassives})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_BastionPassives })
             },
             {
                 DataType.STARTING_Tower,
@@ -389,7 +393,7 @@ public class DATA
                         MediumDamage = 25, HeavyDamage = 30
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Respite })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             // Starting Structures
             // Aru
@@ -406,7 +410,7 @@ public class DATA
                         HarvestedPerInterval = 1, RequiresWorker = true, Resource = ResourceType.Alloy, Slots = 6,
                         TotalAmount = 6000
                     })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             // Starting Structures
             // Q'Rath
@@ -423,7 +427,7 @@ public class DATA
                         HarvestedPerInterval = 6, RequiresWorker = false, Resource = ResourceType.Alloy, Slots = 1,
                         TotalAmount = 6000
                     })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
 
             // Vanguard
@@ -457,7 +461,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_FaithCastBlades })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_IconOfKhastEem })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_IconOfKhastEem})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_IconOfKhastEem })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_FaithCastBlades })
             },
             {
@@ -589,8 +593,6 @@ public class DATA
                         { Damage = 16, Range = 700, AttacksPerSecond = 0.606f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_ProjectileGestation })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_FallenHarvest })
-
-                
             },
             {
                 DataType.VANGUARD_DreadSister_Mala,
@@ -647,8 +649,8 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 11, Range = 400, AttacksPerSecond = 1.02f, Targets = TargetType.All })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Stalk})
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Ambush})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Stalk })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Ambush })
             },
             {
                 DataType.VANGUARD_WhiteWoodReaper_Xol,
@@ -726,10 +728,10 @@ public class DATA
                         Damage = 20, HeavyDamage = 18, Range = 180, AttacksPerSecond = 0.699f,
                         SecondsBetweenAttacks = 1.43f, Targets = TargetType.Ground
                     })
-                    .AddPart(new EntityIdUpgradeModel() { Id = DataType.UPGRADE_GreavesOfAhqar})
-                    .AddPart(new EntityIdUpgradeModel() { Id = DataType.UPGRADE_FortifiedIcons})
-                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_GreavesOfAhqar})
-                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_FortifiedIcons})
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_GreavesOfAhqar })
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_FortifiedIcons })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_GreavesOfAhqar })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_FortifiedIcons })
             },
             {
                 DataType.UNIT_Magi,
@@ -832,9 +834,8 @@ public class DATA
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_SiroccoScript })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_RadiantWard })
-                    .AddPart(new EntityIdAbilityModel {Id = DataType.ABILITY_RadiantWard})
-                    .AddPart(new EntityIdPassiveModel(){Id  = DataType.PASSIVE_SiroccoScript})
-                
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_RadiantWard })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_SiroccoScript })
             },
             {
                 DataType.UNIT_Absolver,
@@ -937,7 +938,6 @@ public class DATA
                         Damage = 60, MediumDamage = 80, HeavyDamage = 100, Range = 1300, AttacksPerSecond = 0.143f,
                         Targets = TargetType.Ground
                     })
-                
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedRuin })
             },
             {
@@ -1026,9 +1026,9 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 420, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                         { Damage = 32, Range = 600, AttacksPerSecond = 0.556f, Targets = TargetType.Ground })
-                    .AddPart(new EntityIdUpgradeModel(){Id = DataType.UPGRADE_WingsOfTheKenLatir})
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_WingsOfTheKenLatir})
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_ExecutionRites})
+                    .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WingsOfTheKenLatir })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_WingsOfTheKenLatir })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_ExecutionRites })
             },
             {
                 DataType.UNIT_SharU,
@@ -1167,7 +1167,6 @@ public class DATA
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_QuenchingScythes })
-                
                     .AddPart(new EntityIdPassiveModel { Id = DataType.ABILITY_CullingStrike })
             },
             {
@@ -1267,7 +1266,7 @@ public class DATA
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_DenInstinct })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_PursuitLigaments })
-                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_ExternalDigestion })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_ExternalDigestion })
             },
             {
                 DataType.UNIT_Resinant,
@@ -1332,8 +1331,7 @@ public class DATA
                             TargetType.Air
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_AaroxBurn })
-                
-                    .AddPart(new EntityIdAbilityModel() { Id = DataType.ABILITY_DiveBomb })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DiveBomb })
             },
             {
                 DataType.UNIT_Thrum,
@@ -1378,7 +1376,7 @@ public class DATA
                     .AddPart(new EntityWeaponModel
                         { Damage = 9, Range = 500, AttacksPerSecond = 0.714f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_GuidingAmber })
-                    .AddPart(new EntityIdPassiveModel() { Id = DataType.PASSIVE_WraithBowRange })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_WraithBowRange })
             },
             {
                 DataType.UNIT_Behemoth,
@@ -1409,8 +1407,6 @@ public class DATA
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BehemothCapacity })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_BehemothCapacity })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_QuitlStorage2 })
-
-                    
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_FireQuitl })
             },
             {
@@ -1420,7 +1416,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVitalityModel { Health = 65, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 168, Movement = MovementType.Ground })
-                    .AddPart(new EntityIdPassiveModel() {Id = DataType.PASSIVE_Temporary})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Temporary })
             },
             // Upgrades
             // Q'Rath
@@ -1442,8 +1438,6 @@ public class DATA
                     })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Orzum, ReplacedById = DataType.UPGRADE_FaithCastBlades })
-
-                   
             },
             {
                 DataType.UPGRADE_RadiantWard,
@@ -1462,7 +1456,7 @@ public class DATA
                         Requirement = RequirementType.Production_Building
                     })
             },
-            
+
             {
                 DataType.UPGRADE_FortifiedIcons,
                 new EntityModel(DataType.UPGRADE_FortifiedIcons, EntityType.Tech)
@@ -1471,7 +1465,7 @@ public class DATA
                         Name = "Fortified Icons", Descriptive = DescriptiveType.Upgrade,
                         Description = "Sipari gain +20 shields, and Hallowed Ground grants an additional +20 shields."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB", HoldSpace = true})
+                    .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB", HoldSpace = true })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 100, BuildTime = 43 })
                     .AddPart(new EntityRequirementModel
@@ -1481,10 +1475,8 @@ public class DATA
                     })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Orzum, ReplacedById = DataType.UPGRADE_IconOfKhastEem })
-
-                   
             },
-            
+
             {
                 DataType.UPGRADE_FaithCastBlades,
                 new EntityModel(DataType.UPGRADE_FaithCastBlades, EntityType.Tech)
@@ -1496,10 +1488,10 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 100, BuildTime = 60 })
-                    .AddPart(new EntityRequirementModel { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Research_Building})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Research_Building })
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_GreavesOfAhqar, ImmortalId = DataType.IMMORTAL_Orzum })
-                   
             },
             {
                 DataType.UPGRADE_RelicOfTheWrathfulGaze,
@@ -1526,7 +1518,8 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 55 })
-                    .AddPart(new EntityRequirementModel { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building })
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.BUILDING_Reliquary, Requirement = RequirementType.Production_Building })
             },
             {
                 DataType.UPGRADE_ZephyrRange,
@@ -1539,7 +1532,8 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityProductionModel { Alloy = 150, Ether = 100, BuildTime = 43 })
-                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_ZephyrRange, Requirement = RequirementType.Production_Building })
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_ZephyrRange, Requirement = RequirementType.Production_Building })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WindStep })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_ZephyrRange })
             },
@@ -1578,8 +1572,6 @@ public class DATA
                     })
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_FortifiedIcons, ImmortalId = DataType.IMMORTAL_Orzum })
-                
-                
             },
             {
                 DataType.UPGRADE_BladesOfTheGodhead,
@@ -1619,15 +1611,15 @@ public class DATA
                 DataType.UPGRADE_Offering,
                 new EntityModel(DataType.UPGRADE_Offering, EntityType.Tech)
                     .AddPart(new EntityInfoModel
-                        { 
-                            Name = "Offering", 
-                            Descriptive = DescriptiveType.Upgrade, 
-                            Description = "Unlocks Offering" })
+                    {
+                        Name = "Offering",
+                        Descriptive = DescriptiveType.Upgrade,
+                        Description = "Unlocks Offering"
+                    })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.UPGRADE_Stalk })
-
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_AltarOfTheWorthy,
@@ -1649,7 +1641,6 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Xol, ReplacedById = DataType.UPGRADE_Ambush })
-
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_AmberWomb,
@@ -1750,7 +1741,7 @@ public class DATA
                     })
                     .AddPart(new EntityProductionModel { Alloy = 50, Ether = 75, BuildTime = 29 })
             },
-            
+
             {
                 DataType.UPGRADE_Stalk,
                 new EntityModel(DataType.UPGRADE_Stalk, EntityType.Tech)
@@ -1770,9 +1761,8 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 80, BuildTime = 60 })
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_Offering, ImmortalId = DataType.IMMORTAL_Xol })
-
             },
-            
+
             {
                 DataType.UPGRADE_Ambush,
                 new EntityModel(DataType.UPGRADE_Ambush, EntityType.Tech)
@@ -1793,8 +1783,8 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UPGRADE_BloodMothersFevor, ImmortalId = DataType.IMMORTAL_Xol })
             },
-            
-            
+
+
             {
                 DataType.UPGRADE_BloodPlague,
                 new EntityModel(DataType.UPGRADE_BloodPlague, EntityType.Tech)
@@ -1854,14 +1844,14 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Any })
             },
-            
+
             {
                 DataType.PASSIVE_HarvestAlloy,
                 new EntityModel(DataType.PASSIVE_HarvestAlloy, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Harvest Alloy", Descriptive = DescriptiveType.Passive,
-                        Description =  "This unit can harvest alloy."
+                        Description = "This unit can harvest alloy."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Any })
             },
@@ -1880,7 +1870,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_GreavesOfAhqar,
                 new EntityModel(DataType.PASSIVE_GreavesOfAhqar, EntityType.Passive)
@@ -1889,10 +1879,11 @@ public class DATA
                         Name = "Greaves Of Ahqar", Descriptive = DescriptiveType.Ability,
                         Description = @"+75 Sipari Speed"
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_GreavesOfAhqar, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_GreavesOfAhqar, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_RelicOfTheWrathfulGaze,
                 new EntityModel(DataType.PASSIVE_RelicOfTheWrathfulGaze, EntityType.Passive)
@@ -1901,7 +1892,10 @@ public class DATA
                         Name = "Relic Of The Wrathful Gaze", Descriptive = DescriptiveType.Ability,
                         Description = @"Increases Castigator range against air."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_RelicOfTheWrathfulGaze, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                    {
+                        Id = DataType.UPGRADE_RelicOfTheWrathfulGaze, Requirement = RequirementType.Research_Upgrade
+                    })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
             {
@@ -1912,10 +1906,11 @@ public class DATA
                         Name = "Wings of the Ken'Latir", Descriptive = DescriptiveType.Passive,
                         Description = @"Increases the Warden's speed and shields significantly."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_WingsOfTheKenLatir, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_WingsOfTheKenLatir, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_ExecutionRites,
                 new EntityModel(DataType.PASSIVE_ExecutionRites, EntityType.Passive)
@@ -1926,7 +1921,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_IconOfKhastEem,
                 new EntityModel(DataType.PASSIVE_IconOfKhastEem, EntityType.Passive)
@@ -1935,10 +1930,11 @@ public class DATA
                         Name = "Icon Of Khast'Eem", Descriptive = DescriptiveType.Passive,
                         Description = @"Grants the Zentari shields and flat armor reduction."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_IconOfKhastEem, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_IconOfKhastEem, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_FaithCastBlades,
                 new EntityModel(DataType.PASSIVE_FaithCastBlades, EntityType.Passive)
@@ -1947,11 +1943,11 @@ public class DATA
                         Name = "Faith Cast Blades", Descriptive = DescriptiveType.Passive,
                         Description = @"Increases the range of the Zentari's ranged weapon."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_FaithCastBlades, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_FaithCastBlades, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-
             },
-            
+
             {
                 DataType.PASSIVE_ThroneMovingShot,
                 new EntityModel(DataType.PASSIVE_ThroneMovingShot, EntityType.Passive)
@@ -1962,7 +1958,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_SiroccoScript,
                 new EntityModel(DataType.PASSIVE_SiroccoScript, EntityType.Passive)
@@ -1971,10 +1967,10 @@ public class DATA
                         Name = "Sirocco Script Rites", Descriptive = DescriptiveType.Passive,
                         Description = @"Increases the derish's movement speed"
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_SiroccoScript})
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_SiroccoScript })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_HallowingRites,
                 new EntityModel(DataType.PASSIVE_HallowingRites, EntityType.Passive)
@@ -1985,7 +1981,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_HallowedRuin,
                 new EntityModel(DataType.PASSIVE_HallowedRuin, EntityType.Passive)
@@ -1996,18 +1992,19 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_RegentsWrath,
                 new EntityModel(DataType.PASSIVE_RegentsWrath, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Regent's Wrath", Descriptive = DescriptiveType.Passive,
-                        Description = @"Scepters gain energy when stabilized. They lose energy when moving. Energy is spent to have splash on attack."
+                        Description =
+                            @"Scepters gain energy when stabilized. They lose energy when moving. Energy is spent to have splash on attack."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_PsalmOfFire,
                 new EntityModel(DataType.PASSIVE_PsalmOfFire, EntityType.Passive)
@@ -2018,7 +2015,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_Zeal,
                 new EntityModel(DataType.PASSIVE_Zeal, EntityType.Passive)
@@ -2029,7 +2026,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_HallowedGround,
                 new EntityModel(DataType.PASSIVE_HallowedGround, EntityType.Passive)
@@ -2040,7 +2037,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
-            
+
             {
                 DataType.PASSIVE_CastFromLife,
                 new EntityModel(DataType.PASSIVE_HallowedGround, EntityType.Passive)
@@ -2052,7 +2049,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_WraithBowRange,
                 new EntityModel(DataType.PASSIVE_WraithBowRange, EntityType.Passive)
@@ -2061,44 +2058,46 @@ public class DATA
                         Name = "Wraith Bow Range", Descriptive = DescriptiveType.Ability,
                         Description = @"Increases Wraith Bow range against air."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_WraithBowRange, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_WraithBowRange, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_Rootway,
                 new EntityModel(DataType.PASSIVE_Rootway, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Rootway", Descriptive = DescriptiveType.Passive,
-                        Description = @"Building generates Rootway.",
+                        Description = @"Building generates Rootway."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_BehemothCapacity,
                 new EntityModel(DataType.PASSIVE_BehemothCapacity, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Quitl Storage", Descriptive = DescriptiveType.Passive,
-                        Description = @"Unit stores quitl for attacks.",
+                        Description = @"Unit stores quitl for attacks."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_QuitlStorage2,
                 new EntityModel(DataType.PASSIVE_QuitlStorage2, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Quitl Storage", Descriptive = DescriptiveType.Passive,
-                        Description = @"Unit stores more quitl for attacks.",
+                        Description = @"Unit stores more quitl for attacks."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_BehemothCapacity, Requirement = RequirementType.Research_Upgrade} )
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_BehemothCapacity, Requirement = RequirementType.Research_Upgrade })
             },
-            
+
             {
                 DataType.PASSIVE_ExternalDigestion,
                 new EntityModel(DataType.PASSIVE_ExternalDigestion, EntityType.Passive)
@@ -2109,56 +2108,56 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_Temporary,
                 new EntityModel(DataType.PASSIVE_Temporary, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Temporary", Descriptive = DescriptiveType.Passive,
-                        Description = @"This unit has a limited duration before it dies.",
+                        Description = @"This unit has a limited duration before it dies."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
-            
-            
+
+
             {
                 DataType.PASSIVE_Stalk,
                 new EntityModel(DataType.PASSIVE_Stalk, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Stalk", Descriptive = DescriptiveType.Passive,
-                        Description = @"After remaining stationary for several seconds, gain Hidden 3 and a movement speed boost.",
+                        Description =
+                            @"After remaining stationary for several seconds, gain Hidden 3 and a movement speed boost.",
                         Notes = "Lose hidden on attacking"
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel{Id=DataType.UPGRADE_Stalk})
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_Stalk })
             },
-            
+
             {
                 DataType.PASSIVE_Ambush,
                 new EntityModel(DataType.PASSIVE_Stalk, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Ambush", Descriptive = DescriptiveType.Passive,
-                        Description = @"This unit deals double damage when attacking from hidden.",
+                        Description = @"This unit deals double damage when attacking from hidden."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel(){Id=DataType.UPGRADE_Ambush})
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_Ambush })
             },
-            
+
             {
                 DataType.PASSIVE_HiddenX,
                 new EntityModel(DataType.PASSIVE_HiddenX, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Hidden X", Descriptive = DescriptiveType.Passive,
-                        Description = @"This unit cannot be seen unless enemies units are within X.",
+                        Description = @"This unit cannot be seen unless enemies units are within X."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_FallenHarvest,
                 new EntityModel(DataType.PASSIVE_FallenHarvest, EntityType.Passive)
@@ -2169,7 +2168,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
+
             {
                 DataType.PASSIVE_RestoreLifeblood,
                 new EntityModel(DataType.PASSIVE_RestoreLifeblood, EntityType.Passive)
@@ -2181,7 +2180,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
 
-            
+
             {
                 DataType.PASSIVE_Transfusion,
                 new EntityModel(DataType.PASSIVE_Transfusion, EntityType.Passive)
@@ -2192,10 +2191,8 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-            
-         
 
-            
+
             {
                 DataType.PASSIVE_FortifiedIcons,
                 new EntityModel(DataType.PASSIVE_FortifiedIcons, EntityType.Passive)
@@ -2205,7 +2202,8 @@ public class DATA
                         Description = @"Increases Sipari shields and increases the bonus while in Hallowed Ground",
                         Notes = "+20 Shields, and +20 Shields on Hallowed Ground."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_FortifiedIcons, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_FortifiedIcons, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
             },
             {
@@ -2265,7 +2263,8 @@ public class DATA
                         Description =
                             @"Xacal builds up charges for double damage overtime. These charges can be spent on attacking."
                     })
-                    .AddPart(new EntityRequirementModel(){ Id = DataType.UPGRADE_XacalDamage, Requirement = RequirementType.Research_Upgrade})
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_XacalDamage, Requirement = RequirementType.Research_Upgrade })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
             {
@@ -2362,19 +2361,21 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Radiant Ward", Descriptive = DescriptiveType.Ability,
-                        Description = @"Spawns a mine that reveals enemy units, slows them, and makes them take increased damage for a duration.",
+                        Description =
+                            @"Spawns a mine that reveals enemy units, slows them, and makes them take increased damage for a duration."
                     })
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
-                    .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40} )
+                    .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40 })
                     .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_RadiantWard })
-                    .AddPart(new EntityVitalityModel {Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light, IsStructure = true})
+                    .AddPart(new EntityVitalityModel
+                        { Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light, IsStructure = true })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_HouseOfFadingSaints,
                         Requirement = RequirementType.Production_Building
                     })
             },
-            
+
             {
                 DataType.ABILITY_Maledictions,
                 new EntityModel(DataType.ABILITY_Maledictions, EntityType.Ability)
@@ -2513,8 +2514,7 @@ public class DATA
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "D" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel(){ Id= DataType.UPGRADE_Offering})
-                    
+                    .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_Offering })
             },
             {
                 DataType.ABILITY_DiveBomb,
@@ -2668,12 +2668,13 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 25 })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
-                    .AddPart(new EntityRequirementModel { Id = DataType.UNIT_RedSeer, Requirement = RequirementType.Morph })
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UNIT_RedSeer, Requirement = RequirementType.Morph })
                     .AddPart(new EntityVitalityModel { Health = 200, DefenseLayer = 60, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 125, Range = 1500, AttacksPerSecond = 0.175f, Targets = TargetType.Ground })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HiddenX})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HiddenX })
             },
             // Pyre Spells
             // Q'Rath
@@ -2696,7 +2697,7 @@ public class DATA
                         MediumDamage = 25, HeavyDamage = 30
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Respite })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
                 DataType.ISPELL_PillarOfHeaven,
@@ -2711,7 +2712,8 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Orzum })
                     .AddPart(new EntityProductionModel { Pyre = 100, Cooldown = 15 })
-                    .AddPart(new EntityVitalityModel { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true})
+                    .AddPart(new EntityVitalityModel
+                        { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Zeal })
             },
             {
@@ -2787,7 +2789,7 @@ public class DATA
                     .AddPart(new EntityWeaponModel
                         { Damage = 15, Range = 800, AttacksPerSecond = 1.887f, Targets = TargetType.All })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Respite })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.ISPELL_ConstructBloodWell,
@@ -2801,10 +2803,11 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "1" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 21 })
-                    .AddPart(new EntityVitalityModel {Health = 400, Energy = 100, DefenseLayer = 50,  Armor = ArmorType.Heavy, IsStructure = true})
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.PASSIVE_RestoreLifeblood})
-                    .AddPart(new EntityIdPassiveModel {Id = DataType.PASSIVE_Transfusion})
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityVitalityModel
+                        { Health = 400, Energy = 100, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_RestoreLifeblood })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Transfusion })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.ISPELL_RedTithe,
@@ -2835,19 +2838,26 @@ public class DATA
             {
                 DataType.ISPELL_MarkPrey,
                 new EntityModel(DataType.ISPELL_MarkPrey, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel { Name = "Mark Prey", 
-                        Description = @"Enemy units in the target area are <b>Revealed</b> through fog of war. Units still in the area after a short delay are marked for 10 seconds to take bonus damage and provide Pyre when killed.",
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Mark Prey",
+                        Description =
+                            @"Enemy units in the target area are <b>Revealed</b> through fog of war. Units still in the area after a short delay are marked for 10 seconds to take bonus damage and provide Pyre when killed.",
                         Notes = "+3 pyre for kills"
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "1" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
-                    .AddPart(new EntityProductionModel {  Cooldown = 15, Pyre = 25})
+                    .AddPart(new EntityProductionModel { Cooldown = 15, Pyre = 25 })
             },
             {
                 DataType.ISPELL_TheGreatHunt,
                 new EntityModel(DataType.ISPELL_TheGreatHunt, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel { Name = "The Great Hunt", Description = "Enemy unit and structures have their vision reduce to 3 for a short time."})
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "The Great Hunt",
+                        Description = "Enemy unit and structures have their vision reduce to 3 for a short time."
+                    })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "1" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
@@ -2875,7 +2885,7 @@ public class DATA
                         HarvestedPerInterval = 1, RequiresWorker = true, Resource = ResourceType.Alloy, Slots = 2,
                         TotalAmount = 3600
                     })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
                 DataType.BUPGRADE_MiningLevel2_QRath,
@@ -2954,7 +2964,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 38, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
                 DataType.DEFENSE_FireSinger,
@@ -3032,7 +3042,7 @@ public class DATA
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
                 DataType.BUILDING_HouseOfFadingSaints,
@@ -3074,7 +3084,7 @@ public class DATA
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 600, DefenseLayer = 600, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_HallowedGround})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
                 DataType.BUILDING_EyeOfAros,
@@ -3139,7 +3149,7 @@ public class DATA
                         HarvestedPerInterval = 1, RequiresWorker = true, Resource = ResourceType.Alloy, Slots = 2,
                         TotalAmount = 3600
                     })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.BUPGRADE_GodHeart,
@@ -3161,7 +3171,7 @@ public class DATA
                     })
                     .AddPart(new EntityProductionModel
                         { Alloy = 100, Ether = 75, BuildTime = 36, RequiresWorker = false })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.BUPGRADE_MiningLevel2_Aru,
@@ -3240,7 +3250,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 36, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 900, DefenseLayer = 100, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.BUILDING_Neurocyte,
@@ -3282,9 +3292,11 @@ public class DATA
                     .AddPart(new EntityInfoModel { Name = "Omnivore", Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "SHIFT" })
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
-                    .AddPart(new EntityRequirementModel {
+                    .AddPart(new EntityRequirementModel
+                    {
                         Id = DataType.DEFENSE_Aerovore,
-                     Requirement = RequirementType.Morph })
+                        Requirement = RequirementType.Morph
+                    })
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 18, RequiresWorker = false })
                     .AddPart(new EntityVitalityModel
                         { Health = 400, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
@@ -3314,7 +3326,7 @@ public class DATA
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 1000, DefenseLayer = 250, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.BUILDING_BoneCanopy,
@@ -3336,7 +3348,7 @@ public class DATA
                     })
                     .AddPart(new EntityVitalityModel
                         { Health = 1000, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel(){Id = DataType.PASSIVE_Rootway})
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
                 DataType.BUILDING_RedVale,

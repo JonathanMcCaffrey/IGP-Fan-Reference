@@ -1,8 +1,8 @@
-﻿@using Model.Website
-
-<div class="sectionContainer">
-    @foreach (var childPage in Section.WebPageModels) {
-        if (childPage.IsPrivate.Equals("True")) {
+﻿<div class="sectionContainer">
+    @foreach (var childPage in Section.WebPageModels)
+    {
+        if (childPage.IsPrivate.Equals("True"))
+        {
             continue;
         }
         <DesktopNavLinkComponent Page=childPage></DesktopNavLinkComponent>

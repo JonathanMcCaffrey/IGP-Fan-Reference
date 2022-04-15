@@ -6,15 +6,15 @@
         Group specfic webpages. Each webpage link is used to navigate to that specific webpage. If on the webpage, the link turns dark gray. It can be clicked again to leave the page and return to home.
     </Description>
     <Example>
-        <NavSectionComponent Section=@(new WebSectionModel { Name = "Example Section" })
-                             Children=@(new List<WebPageModel> { new() { Name = "Example Page", Href = "immortal-makingof", IsPrivate = "False" }, new() { Name = "Database", Href = "immortal-database", IsPrivate = "False" } })>
-        </NavSectionComponent>
+        <DesktopNavSectionComponent Section=@(new WebSectionModel { Name = "Example Section" })
+                                    Children=@(new List<WebPageModel> { new() { Name = "Example Page", Href = "immortal-makingof", IsPrivate = "False" }, new() { Name = "Database", Href = "immortal-database", IsPrivate = "False" } })>
+        </DesktopNavSectionComponent>
     </Example>
     <Usage>
         <CodeComponent>
-            &lt;NavSectionComponent Section=@@(new WebSectionModel{Name = &quot;Example Section&quot;})
+            &lt;DesktopNavSectionComponent Section=@@(new WebSectionModel{Name = &quot;Example Section&quot;})
             Children=@@(new List&lt;WebPageModel&gt;{new WebPageModel{Name=&quot;Example Page&quot;, Href = &quot;immortal-makingof&quot;, IsPrivate = false}, new WebPageModel{Name=&quot;Database&quot;, Href = &quot;immortal-database&quot;, IsPrivate = false}})&gt;
-            &lt;/NavSectionComponent&gt;
+            &lt;/DesktopNavSectionComponent&gt;
         </CodeComponent>
     </Usage>
     <Code>

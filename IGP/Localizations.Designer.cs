@@ -104,5 +104,11 @@ namespace IGP {
                 return ResourceManager.GetString("Tooltip Hotkey Info", resourceCulture);
             }
         }
+        
+        internal static string Tooltip_Options_Info {
+            get {
+                return ResourceManager.GetString("Tooltip Options Info", resourceCulture);
+            }
+        }
     }
 }

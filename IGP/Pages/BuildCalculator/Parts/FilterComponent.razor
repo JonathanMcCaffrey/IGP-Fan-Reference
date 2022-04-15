@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime jsRuntime;
+@inject IImmortalSelectionService filterService
 
 <FormLayoutComponent>
     <FormSelectComponent OnChange="@OnFactionChanged">
@@ -12,12 +13,12 @@
     <FormSelectComponent OnChange="@OnImmortalChanged">
         <FormLabelComponent>Immortal</FormLabelComponent>
         <ChildContent>
-            @if (FilterService.GetFactionType() == FactionType.QRath)
+            @if (filterService.GetFactionType() == FactionType.QRath)
             {
                 <option value="@DataType.IMMORTAL_Orzum" selected>Orzum</option>
                 <option value="@DataType.IMMORTAL_Ajari">Ajari</option>
             }
-            @if (FilterService.GetFactionType() == FactionType.Aru)
+            @if (filterService.GetFactionType() == FactionType.Aru)
             {
                 <option value="@DataType.IMMORTAL_Mala" selected>Mala</option>
                 <option value="@DataType.IMMORTAL_Xol">Xol</option>
@@ -28,17 +29,14 @@
 
 @code {
 
-    [Inject]
-    public IImmortalSelectionService FilterService { get; set; } = default!;
-
     void OnFactionChanged(ChangeEventArgs e)
     {
-        FilterService.SelectFactionType(e.Value!.ToString()!);
+        filterService.SelectFactionType(e.Value!.ToString()!);
     }
 
     void OnImmortalChanged(ChangeEventArgs e)
     {
-        FilterService.SelectImmortalType(e.Value!.ToString()!);
+        filterService.SelectImmortalType(e.Value!.ToString()!);
     }
 
     protected override bool ShouldRender()
@@ -46,7 +44,7 @@
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "FilterComponent");
 #endif
-        
+
         return true;
     }
 
@@ -56,4 +54,5 @@
         jsRuntime.InvokeVoidAsync("console.timeEnd", "FilterComponent");
 #endif
     }
+
 }

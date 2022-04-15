@@ -2,8 +2,10 @@
 
 namespace Services.Immortal;
 
-public class EntityService : IEntityService {
-    public List<EntityModel> GetEntities() {
+public class EntityService : IEntityService
+{
+    public List<EntityModel> GetEntities()
+    {
         throw new NotImplementedException();
     }
 }

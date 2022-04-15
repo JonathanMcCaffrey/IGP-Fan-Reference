@@ -6,7 +6,6 @@
 @if (lastRequestedRefreshIndex != requestedRefreshIndex)
 {
     <LoadingComponent/>
-    
 }
 else
 {
@@ -30,8 +29,8 @@ else
             </div>
         }
     </div>
-    
-    
+
+
     <style>
     .chartsContainer {
         position: relative;
@@ -60,8 +59,6 @@ else
             <Display>@highestArmyPoint</Display>
         </FormDisplayComponent>
     </FormLayoutComponent>
-
-
 }
 
 @code {
@@ -80,7 +77,7 @@ else
 
     private Timer ageTimer = null!;
 
-    
+
     protected override void OnInitialized()
     {
         buildOrderService.Subscribe(OnBuilderOrderChanged);
@@ -89,12 +86,13 @@ else
         ageTimer.Elapsed += OnAge!;
         ageTimer.Enabled = true;
 
-        
+
         GenerateChart();
     }
 
 
     int lastRequestedRefreshIndex = 0;
+
     void OnAge(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         if (requestedRefreshIndex > 0)
@@ -105,14 +103,13 @@ else
                 requestedRefreshIndex = 0;
                 lastRequestedRefreshIndex = 0;
             }
-            
+
             lastRequestedRefreshIndex = requestedRefreshIndex;
         }
-        
+
         ageTimer.Enabled = true;
     }
-    
-    
+
 
     void IDisposable.Dispose()
     {
@@ -121,6 +118,7 @@ else
 
 
     int requestedRefreshIndex = 0;
+
     void OnBuilderOrderChanged()
     {
         requestedRefreshIndex++;
@@ -133,7 +131,7 @@ else
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "ChartComponent");
 #endif
-        
+
         return true;
     }
 
@@ -143,7 +141,7 @@ else
         jsRuntime.InvokeVoidAsync("console.timeEnd", "ChartComponent");
 #endif
     }
-    
+
     void GenerateChart()
     {
         var economyOverTime = economyService.GetOverTime();

@@ -5,14 +5,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="_PaperWork\**" />
-        <EmbeddedResource Remove="_PaperWork\**" />
-        <None Remove="_PaperWork\**" />
-        <None Remove="Immortal\MemoryTester\" />
+        <Compile Remove="_PaperWork\**"/>
+        <EmbeddedResource Remove="_PaperWork\**"/>
+        <None Remove="_PaperWork\**"/>
+        <None Remove="Immortal\MemoryTester\"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="YamlDotNet" Version="11.2.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="YamlDotNet" Version="11.2.1"/>
     </ItemGroup>
 </Project>

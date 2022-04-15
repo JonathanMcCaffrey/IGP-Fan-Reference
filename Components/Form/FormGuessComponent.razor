@@ -1,12 +1,12 @@
-﻿@using Services
+﻿@using Model.MemoryTester
 @using Services.Immortal
-@using Model.MemoryTester
 @implements IDisposable
 
 @inject IMemoryTesterService MemoryTesterService
 
 <div class="formGuessContainer">
-    @if (MemoryQuestion.Name != "") {
+    @if (MemoryQuestion.Name != "")
+    {
         <div class="formLabel">
             @MemoryQuestion.Name
         </div>
@@ -94,46 +94,57 @@
 
     private string labelId = "";
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         labelId = Label.ToLower().Replace(" ", "_") + MemoryQuestion.Id;
 
         MemoryTesterService.Subscribe(OnMemoryEvent);
 
-        if (MemoryQuestion.IsRevealed) {
+        if (MemoryQuestion.IsRevealed)
+        {
             guess = MemoryQuestion.Answer.ToString();
         }
 
         OnRefresh();
     }
 
-    void IDisposable.Dispose() {
+    void IDisposable.Dispose()
+    {
         MemoryTesterService.Unsubscribe(OnMemoryEvent);
     }
 
-    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent) {
-        if (memoryTesterEvent == MemoryTesterEvent.OnVerify) {
+    void OnMemoryEvent(MemoryTesterEvent memoryTesterEvent)
+    {
+        if (memoryTesterEvent == MemoryTesterEvent.OnVerify)
+        {
             OnVerify();
         }
 
-        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh) {
+        if (memoryTesterEvent == MemoryTesterEvent.OnRefresh)
+        {
             OnRefresh();
         }
     }
 
-    protected override void OnAfterRender(bool firstRender) {
-        if (MemoryQuestion.IsRevealed) {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (MemoryQuestion.IsRevealed)
+        {
             guess = MemoryQuestion.Answer.ToString();
         }
     }
 
-    void OnVerify() {
+    void OnVerify()
+    {
         IsSubmitted = true;
     }
 
-    void OnRefresh() {
+    void OnRefresh()
+    {
         guess = "";
 
-        if (MemoryQuestion.IsRevealed) {
+        if (MemoryQuestion.IsRevealed)
+        {
             guess = MemoryQuestion.Answer.ToString();
         }
 
@@ -141,10 +152,12 @@
         IsSubmitted = false;
     }
 
-    void OnGuessChanged(ChangeEventArgs changeEventArgs) {
+    void OnGuessChanged(ChangeEventArgs changeEventArgs)
+    {
         guess = changeEventArgs.Value!.ToString()!;
 
-        OnChange.InvokeAsync(new AnswerEventArgs {
+        OnChange.InvokeAsync(new AnswerEventArgs
+        {
             Name = MemoryQuestion.Name,
             IsCorrect = int.Parse(guess) == MemoryQuestion.Answer,
             Guess = int.Parse(guess)

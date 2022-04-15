@@ -15,7 +15,9 @@ else
             </div>
         </div>
         <div class="noteContent">@((MarkupString)Markdown.ToHtml(content, Pipeline))</div>
-        <div class="noteFooter"><EditLinkComponent Href="@GitUrl"></EditLinkComponent></div>
+        <div class="noteFooter">
+            <EditLinkComponent Href="@GitUrl"></EditLinkComponent>
+        </div>
     </div>
 }
 
@@ -43,23 +45,33 @@ else
 </style>
 
 @code {
-    [Parameter] public NoteContentModel NoteContentModel { get; set; } = default!;
+
+    [Parameter]
+    public NoteContentModel NoteContentModel { get; set; } = default!;
 
     NoteFrontMatterModel noteFrontMatter = null!;
     private string? content = null;
-    
+
     private string Filepath => $"content/notes/{NoteContentModel.Content}.md";
     private string GitUrl => $"{Project.GitResourcesUrl}/{Filepath}";
     private MarkdownPipeline Pipeline => MarkdownFiles.Pipeline;
 
-    private async Task<NoteFrontMatterModel> LoadContent() {
+    private async Task<NoteFrontMatterModel> LoadContent()
+    {
         content = await MarkdownFiles.LoadMarkdown(httpClient, Filepath);
-        
+
         return noteFrontMatter =
             await MarkdownFiles.LoadFrontMatter<NoteFrontMatterModel>(httpClient, Filepath);
     }
 
-    protected override async Task OnParametersSetAsync() => await LoadContent();
-    protected override async Task OnInitializedAsync() => await LoadContent();
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadContent();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadContent();
+    }
 
 }

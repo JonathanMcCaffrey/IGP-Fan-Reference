@@ -1,8 +1,5 @@
 ---
-title: Project Data
-summary: Using data in this project.
-created_date: 2022-04-11
-updated_date: 2022-04-11
+title: Project Data summary: Using data in this project. created_date: 2022-04-11 updated_date: 2022-04-11
 ---
 
 # Overview
@@ -11,7 +8,8 @@ This document will contain general information on data in this project.
 
 ## General Note
 
-This project is a work in progress. As such, most of the data in the website doesn't follow the document. Ideally, this will be fixed over time.
+This project is a work in progress. As such, most of the data in the website doesn't follow the document. Ideally, this
+will be fixed over time.
 
 ## SQL
 
@@ -19,7 +17,9 @@ Relational data is stored in a local SQL database.
 
 This data is converted into JSON so it can be handled by Blazor WASM.
 
-<i>Currently, Blazor WASM has a bug that prevents SQL from being used in production. Although, given SQL doesn't seem to provide much, aside from increased build times and load times, it might just be best to use the design principals of SQL, and it's interface, without using the actual technology in production.</i>
+<i>Currently, Blazor WASM has a bug that prevents SQL from being used in production. Although, given SQL doesn't seem to
+provide much, aside from increased build times and load times, it might just be best to use the design principals of
+SQL, and it's interface, without using the actual technology in production.</i>
 
 The data is then loaded in by a Service, via it's load method.
 
@@ -90,7 +90,8 @@ else
 
 Localized strings are handled in the Localizations.resx file.
 
-Most text isn't using localized strings yet. And English is the only plan of support in the short term, and probably in the long term as well.
+Most text isn't using localized strings yet. And English is the only plan of support in the short term, and probably in
+the long term as well.
 
 ## Markdown Files
 

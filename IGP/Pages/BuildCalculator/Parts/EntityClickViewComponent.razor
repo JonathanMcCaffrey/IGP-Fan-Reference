@@ -1,9 +1,7 @@
 ﻿@inject IJSRuntime jsRuntime;
-
-
-    @inject IKeyService keyService 
-    @inject IImmortalSelectionService filterService
-    @inject IBuildOrderService buildOrderService 
+@inject IKeyService keyService
+@inject IImmortalSelectionService filterService
+@inject IBuildOrderService buildOrderService
 
 @implements IDisposable
 
@@ -68,4 +66,5 @@
             StateHasChanged();
         }
     }
+
 }

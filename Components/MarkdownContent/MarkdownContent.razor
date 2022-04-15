@@ -1,6 +1,8 @@
-﻿@((MarkupString)MarkdownText)
+﻿@using Markdig
+@((MarkupString)MarkdownText)
 
 @code {
+
     [Inject]
     protected HttpClient Http { get; set; } = default!;
 
@@ -9,7 +11,9 @@
 
     private string MarkdownText { get; set; } = "";
 
-    protected override async Task OnInitializedAsync() {
-        MarkdownText = Markdig.Markdown.ToHtml(await Http.GetStringAsync($"markdown/{MarkdownFileName}.md"));
+    protected override async Task OnInitializedAsync()
+    {
+        MarkdownText = Markdown.ToHtml(await Http.GetStringAsync($"markdown/{MarkdownFileName}.md"));
     }
+
 }

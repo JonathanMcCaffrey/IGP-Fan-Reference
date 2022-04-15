@@ -49,14 +49,14 @@ public static class DataType
     public static string ISPELL_ConstructBloodWell = "07aee142-02dd-4804-878a-2d5c6881e8c8";
     public static string ISPELL_RedTithe = "57008163-5e3a-4b95-98f3-d00b54e18684";
     public static string ISPELL_RainOfBlood = "792df385-c66a-4710-9f75-97731897a565";
-    
+
     public static string IPASSIVE_HealingGround = "3ec17526-8dc5-4592-9c15-ef1d9b1ca2f6";
     public static string IPASSIVE_Expansionist = "b6cd4335-2165-44c3-b3dc-4500c0111870";
 
     public static string IPASSIVE_MothersHunger = "382dc614-9228-4494-9a80-d1a72604a1ee";
     public static string IPASSIVE_StalkersSense = "a3d255aa-94f2-4aed-bb44-e9becb736fca";
 
-    
+
     public static string ISPELL_MarkPrey = "8505419c-bb42-41fa-9c5b-fc0db280d7c0";
     public static string ISPELL_TheGreatHunt = "efa14586-33f0-487f-b691-1ed3bcd5b0e6";
 
@@ -92,7 +92,7 @@ public static class DataType
 
     public static string DEFENSE_Aerovore = "b68307b7-4759-43a3-8679-d844ac3aa73f";
 
-    
+
     public static string UPGRADE_GreavesOfAhqar = "eac602b3-e3ae-4e36-aa14-28532e3485a7";
     public static string UPGRADE_FortifiedIcons = "b16bdb3a-6c61-44da-89c5-5be37c7e9d66";
 
@@ -114,18 +114,18 @@ public static class DataType
     public static string UPGRADE_BehemothCapacity = "d0390dd2-d9a5-4b20-9d8b-f554f4c52143";
     public static string UPGRADE_BloodPlague = "9c207e21-f595-49d0-967d-f30ca8cc3745";
     public static string UPGRADE_BirthingStorm = "0cb2f1a4-03b3-491b-9db3-d2d4590ede3a";
-    
+
     public static string UPGRADE_RadiantWard = "c8acc6d0-9f26-475a-aff4-4e2b2f9657f2";
 
     public static string UPGRADE_Stalk = "36fbc2c0-e9e3-4f54-a79a-981db908c25c";
     public static string UPGRADE_Ambush = "6cf83dc9-717f-4fa9-b417-a3371474a1da";
-    
+
     public static string PASSIVE_WraithBowRange = "196dd8a6-2044-44e1-aac4-fbaa40552699";
 
-    
+
     public static string PASSIVE_HiddenX = "7b819996-ffc0-4e07-9c11-c91c5f9d467b";
-    
-    
+
+
     public static string PASSIVE_Respite = "607c39f4-a957-4a7a-8fc6-a239f9e570ec";
     public static string PASSIVE_BastionPassives = "ea42b9cb-2456-4ed2-b490-fcfde12c6153";
     public static string PASSIVE_HallowedWarrior = "fea43ced-33f3-4531-af7d-740c1789fec1";
@@ -136,18 +136,18 @@ public static class DataType
     public static string PASSIVE_RelicOfTheWrathfulGaze = "ccebc0c9-cfd5-465a-8a5d-2495bd745a83";
 
     public static string PASSIVE_WingsOfTheKenLatir = "48909ff5-63db-4c99-b62f-d290e127e0bf";
-    
+
     public static string PASSIVE_ExecutionRites = "8d017a17-320f-4c2a-b139-d2d83bf7ecd0";
 
-    
+
     public static string PASSIVE_IconOfKhastEem = "7a211da6-4713-40f5-a171-1e3b6e02bf09";
     public static string PASSIVE_FaithCastBlades = "da4f8c9c-1b22-4b3f-94fc-11bc12cde02d";
 
-    
+
     public static string PASSIVE_ThroneMovingShot = "699423ed-7410-4daf-8b07-9dc733a8bf55";
-    
+
     public static string PASSIVE_SiroccoScript = "11c21afa-ff88-4e42-9f97-a1d1595b115c";
-    
+
     public static string PASSIVE_HallowingRites = "9c8ae47b-954e-4a17-8f35-f128c9114b61";
     public static string PASSIVE_RegentsWrath = "f111f004-6548-4430-9d13-ef44ab108ae7";
     public static string PASSIVE_PsalmOfFire = "d28f6b7c-d319-4fb8-bdd4-92ede40a0751";
@@ -164,11 +164,11 @@ public static class DataType
     public static string PASSIVE_FallenHarvest = "d209e13f-d631-40d7-90e1-d9845b51b8d4";
     public static string PASSIVE_RestoreLifeblood = "fa213bc6-336c-4510-8a4b-db9ccfc54d62";
     public static string PASSIVE_Transfusion = "e67a3d6d-f2bb-4622-9e4d-ea2a26af2f39";
-    
+
     public static string PASSIVE_HallowedRuin = "402b555a-eb8a-4065-bd25-465d190b30c7";
     public static string PASSIVE_ExternalDigestion = "2563723b-4a75-4a17-a104-1f5ac3b79a06";
-    
-    
+
+
     public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
 
     public static string PASSIVE_QuenchingScythes = "dbf07db4-e7b6-4f81-9f8e-e5391850eead";
@@ -188,7 +188,7 @@ public static class DataType
     public static string ABILITY_RadiantWard = "db1fc8bd-d86a-4eda-b83c-16e8d0ce4f81";
 
     public static string ABILITY_Maledictions = "6cdc109c-157d-433a-b225-192e39c0b613";
-    
+
     public static string ABILITY_BladesOfTheGodhead = "000154ac-faf5-483d-b0bd-e84335891a27";
     public static string ABILITY_Windstep = "a410b296-39f7-42e0-87c8-6cef11eb967c";
     public static string ABILITY_Leap = "aa155b88-125a-4d25-b63f-77987ea6e519";
