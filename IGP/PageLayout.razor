@@ -1,38 +1,35 @@
 ﻿@inherits LayoutComponentBase;
+@inject IJSRuntime jsRuntime
 
+@inject ISearchService searchService
 @inject IWebsiteService webService;
 @implements IDisposable;
 
-<div class="layoutContainer">
-    @if (!webService.IsLoaded())
-    {
-        <LoadingComponent/>
-    }
-    else
-    {
-        <div class="content">
-            @Body
-        </div>
+<div class="pageContents">
+    <div class="layoutContainer">
+        @if (!webService.IsLoaded())
+        {
+            <LoadingComponent/>
+        }
+        else
+        {
+            <div class="content">
+                @Body
+            </div>
 
 
-        <DesktopNavComponent WebSections=webService.WebSectionModels
-                             WebPages=webService.WebPageModels/>
-        <TabletNavComponent WebSections=webService.WebSectionModels
-                            WebPages=webService.WebPageModels/>
-        <MobileNavComponent WebSections=webService.WebSectionModels
-                            WebPages=webService.WebPageModels/>
-    }
+            <DesktopNavComponent WebSections=webService.WebSectionModels
+                                 WebPages=webService.WebPageModels/>
+            <TabletNavComponent WebSections=webService.WebSectionModels
+                                WebPages=webService.WebPageModels/>
+            <MobileNavComponent WebSections=webService.WebSectionModels
+                                WebPages=webService.WebPageModels/>
+        }
+    </div>
+
 </div>
 
 @code {
-
-#if NO_SQL
-
-#else
-    [Inject]
-    DatabaseContext Database { get; set; }
-#endif
-
 
     protected override void OnInitialized()
     {
@@ -42,6 +39,19 @@
     protected override async Task OnInitializedAsync()
     {
         await webService.Load();
+        
+        await Focus();
+
+    }
+
+    private async Task  Focus()
+    {
+    //   await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageContents);        
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+       // await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageContents);
     }
 
     void IDisposable.Dispose()
@@ -53,5 +63,16 @@
     {
         StateHasChanged();
     }
+
+    private void HandleKeyDown(KeyboardEventArgs keyboardEventArgs)
+    {
+        if ((keyboardEventArgs.CtrlKey || keyboardEventArgs.MetaKey) && keyboardEventArgs.Key.ToLower() == "k")
+        {
+            searchService.Show();
+        }
+        
+        Console.WriteLine(keyboardEventArgs.CtrlKey  + " " + keyboardEventArgs.Key);
+    }
+
 
 }

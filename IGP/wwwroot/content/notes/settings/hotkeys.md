@@ -9,7 +9,7 @@ In the pre-alpha, IGP comes with some Unreal default hotkey setup.
 
 This document will explain how to set up, modify, and use a new hotkey setup.
 
-## Save the "Input.ini" file
+# Save the "Input.ini" file
 
 ***Copy the below content and save the file as `Input.ini`.***
 
@@ -90,15 +90,14 @@ ActionMappings = (ActionName="UnitTypeSelectionModifier",bShift=False,bCtrl=Fals
 
 ***Copy the above content and save the file as `Input.ini`.***
 
-## Understand the Input.ini
+# Understand the Input.ini
 
 You can notice a single line of this file can be broken down like this.
 
 `ActionMappings=(ActionName="AttackMove",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=A)`
 
 - `ActionMappings=(***)`: Indicates content is an action mapping. i.e. a hotkey
-- `ActionName="AttackMove"`: Indicates the name of the selected action. Here, we are using the `AttackMove` move action,
-  that forces your selected army to attack.
+- `ActionName="AttackMove"`: Indicates the name of the selected action. Here, we are using the `AttackMove` move action, that forces your selected army to attack.
 - `Key=A`: Indicates key being mapped to the action. Set to `Key=Tab` to require the Tab key to be pressed instead, to
   perform the `AttackMove` action.
     - `bShift=False`: Indicates that the Shift key is not held. Set to `bShift=True` to require a shift key held to
@@ -110,7 +109,7 @@ You can notice a single line of this file can be broken down like this.
     - `bCmd=False`: Indicates that the Cmd key is not held. Set to `bCmd=True` to require a cmd key held to perform the
       mapped action. (Macs not supported by IGP)
 
-## Modify the Input.ini file
+# Modify the Input.ini file
 
 You are now going to want to modify the file with your own hotkey setup.
 
@@ -258,10 +257,10 @@ to use proper values for `YOUR_USER` and `CURRENT_IMMORTAL_CLIENT`.
 
 There will be a blank `Input.ini` file in this folder. You can safely override it with your modified file.
 
-## Testing
+# Testing
 
 Restart the IGP client, and try out your new hotkey setup!
 
-## Trouble Shooting
+# Trouble Shooting
 
 If running into trouble, ask for help in the `hotkeys` channel in the IGP Discord.

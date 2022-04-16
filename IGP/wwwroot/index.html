@@ -36,6 +36,17 @@
         applicationCulture: 'en-US'
     });
 </script>
+<script>
+    window.getUserAgent = () => {
+        return navigator.userAgent;
+    };
+</script>
+<script>
+    window.SetFocusToElement = (elementId) => {
+        document.getElementById(elementId).focus();
+    };
+</script>
+
 <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 

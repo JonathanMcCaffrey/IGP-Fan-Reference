@@ -16,6 +16,7 @@
             IGP Fan Reference
         </NavLink>
 
+        <div class="sectionNavs">
         @foreach (var webSection in WebSections)
         {
             var isSelected = navigationService.GetNavigationSectionId().Equals(webSection.Id);
@@ -25,7 +26,7 @@
                 sectionButtonStyle += " sectionButtonSelected";
             }
             
-            <div>
+            <div class="sectionNav">
                 <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
 
                 @if (isSelected)
@@ -38,6 +39,9 @@
                 }
             </div>
         }
+        </div>
+        
+        <SearchButtonComponent />
     </div>
 </div>
 
@@ -57,10 +61,7 @@
 
     .sectionButton {
         cursor: pointer;  
-        padding-left: 12px;
-        padding-right: 12px;
-        padding-top: 10px;
-        top: -11px;
+        padding: 12px;
         position: relative;
         z-index: 50000;
     }
@@ -78,14 +79,32 @@
         border-bottom: 4px solid black;
         position: fixed;
         width: 100%;
-        padding: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        
+        padding-left: 24px;
+        padding-right: 24px;
+                
         display: flex;
-        justify-content: center;
-        gap: 8px;
-        height: 50px;
         background-color: var(--accent);
+        
+        justify-content: space-between;
+        align-items: center;
+        
     }
 
+
+    .sectionNavs {
+        display: flex;
+        gap: 8px;  
+        align-items: center;
+    }
+
+.sectionNav {
+    display: flex;
+        align-items: center;
+        height: 100%;
+}
 
     .websiteTitle {
         font-weight: bold;
@@ -95,8 +114,8 @@
 
     .navMenuPosition {
        position: relative;
-       top: calc(100% - 36px);
-       left: calc(50% + -330px / 2);
+       top: 18px;
+       left: calc(-50% + -330px / 2);
        width: 0;
        height: 0;
     }
@@ -119,7 +138,6 @@
     }
     
     .sectionButtonSelected {
-        padding-bottom: 14px;
         box-shadow: 0 2px 3px black;
         background-color: var(--info);
         transform: translateY(-1px) scale(1.08);

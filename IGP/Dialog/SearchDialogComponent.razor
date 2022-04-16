@@ -1,0 +1,172 @@
+﻿@implements IDisposable;
+@inject ISearchService searchService
+@inject IJSRuntime jsRuntime
+
+
+@inject NavigationManager navigationManager
+
+@if (searchService.IsLoaded())
+{
+    <div class="searchBackground" onclick="@CloseDialog">
+        <div class="searchContainer"
+             @onclick:preventDefault="true"
+             @onclick:stopPropagation="true">
+        
+            <FormLayoutComponent>
+                <FormTextComponent Placeholder="Search..."  OnChange="SearchChanged"></FormTextComponent>
+            </FormLayoutComponent>
+        
+            <div class="searchBox">
+                @if (SearchText.Length > 0)
+                {
+                    foreach (var searchSection in searchService.Searches)
+                    {
+                        var searchPoints = searchSection.Value.FindAll(x => x.Title.ToLower().Contains(SearchText.ToLower()));
+                        
+                        @if (searchPoints.Count > 0)
+                        {
+                            <div>
+                                <div class="searchSectionTitle">
+                                    @searchSection.Key
+                                </div>
+                                <div class="searchContents">
+                                @foreach (var searchPoint in searchPoints)
+                                {
+                                    <button class="searchLink @searchPoint.PointType.ToLower()" @onclick="() => OnSearch(searchPoint)">@searchPoint.Title</button>
+                                }
+                                </div>
+                            </div>    
+                        }
+                        
+                    }
+ 
+                }
+            </div>
+
+        </div>
+    </div>
+   
+}
+<style>
+    .pageContents * {
+        filter: blur(2px);
+    }
+   
+.searchBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+}
+
+.searchBox {
+    padding: 12px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 530px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.searchContents {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    
+    padding:  12px;
+}
+
+
+.searchSectionTitle {
+    font-weight: bolder;
+}
+
+
+.searchContainer {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 64px;
+    width: 800px;
+    height: 600px;
+    
+    background-color: var(--background);
+    border-width: var(--dialog-border-width);
+    border-style: solid;
+    border-color: var(--dialog-border-color);
+    border-radius: var(--dialog-radius);
+    
+    padding:  8px;
+    
+    
+    box-shadow: 1px 2px 2px black;
+
+}
+
+.searchLink {
+    text-decoration: underline;
+
+}
+</style>
+
+@code {
+
+    private ElementReference searchBox;
+
+    private string SearchText { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        searchService.Subscribe(OnSearchChanged);
+    }
+
+    private void OnSearchChanged()
+    {
+        if (searchService.IsVisible)
+        {
+            jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-dialog-input");
+
+        }
+    }
+
+    public void Dispose()
+    {
+        searchService.Unsubscribe(OnSearchChanged);
+    }
+
+
+    public void CloseDialog()
+    {
+        searchService.Hide();
+    }
+
+    public void NavigateTo(string url)
+    {
+        if (url.Contains("#"))
+        {
+        
+            navigationManager.NavigateTo(url, 
+                navigationManager.Uri.Split("#").First().Contains(url.Split("#").First()));    
+        }
+        else
+        {
+            navigationManager.NavigateTo(url);
+        }
+        
+    }
+
+    private void SearchChanged(ChangeEventArgs obj)
+    {
+        SearchText = obj.Value!.ToString()!;
+    }
+
+    private void OnSearch(SearchPointModel searchPoint)
+    {
+        NavigateTo(searchPoint.Href);
+        searchService.Hide();
+    }
+
+}

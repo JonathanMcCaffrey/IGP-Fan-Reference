@@ -25,6 +25,26 @@ public interface IToastService
     void ClearAllToasts();
 }
 
+public interface ISearchService
+{
+    public List<SearchPointModel> SearchPoints { get; set; }
+    
+    public Dictionary<string, List<SearchPointModel>> Searches { get; set; }
+    
+    public bool IsVisible { get; set; }
+
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+
+    public void Search(string entityId);
+    
+    public Task Load();
+
+    public bool IsLoaded();
+    void Show();
+    void Hide();
+}
+
 public interface IEntityDialogService
 {
     public void Subscribe(Action action);
@@ -70,7 +90,7 @@ public interface IAgileService
     public void Unsubscribe(Action? action);
     public void Update();
 
-    public Task Load();
+    public  Task Load();
     public bool IsLoaded();
 }
 

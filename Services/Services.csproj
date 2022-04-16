@@ -15,12 +15,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="YamlDotNet" Version="11.2.1"/>
+        <PackageReference Include="YamlDotNet" Version="11.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Contexts\Contexts.csproj"/>
-        <ProjectReference Include="..\Model\Model.csproj"/>
+        <ProjectReference Include="..\Contexts\Contexts.csproj" />
+        <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
 </Project>

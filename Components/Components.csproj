@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser"/>
+        <SupportedPlatform Include="browser" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,14 +25,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Inputs\"/>
+        <Folder Include="Inputs\" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Model\Model.csproj"/>
-        <ProjectReference Include="..\Services\Services.csproj"/>
+        <ProjectReference Include="..\Model\Model.csproj" />
+        <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Inputs\"/>
+        <None Remove="Inputs\" />
     </ItemGroup>
 </Project>

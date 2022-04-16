@@ -69,7 +69,7 @@
 
         foreach (var e in DATA.Get().Values)
         {
-            if (e.Info().Name.Equals(Text))
+            if (e.Info().Name.ToLower().Equals(Text!.ToLower()))
             {
                 entity = e;
                 return;

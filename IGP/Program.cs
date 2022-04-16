@@ -36,6 +36,7 @@ builder.Services.AddSingleton<IAgileService, AgileService>();
 builder.Services.AddSingleton<IGitService, GitService>();
 builder.Services.AddSingleton<INoteService, NoteService>();
 builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
+builder.Services.AddSingleton<ISearchService, SearchService>();
 
 builder.Services.AddSingleton(new HttpClient
 {

@@ -59,6 +59,11 @@ public class NoteService : INoteService
 
         isLoaded = true;
 
+        foreach (var content in NoteContentModels)
+        {
+            content.LoadedContent = await httpClient.GetStringAsync($"content/notes/{content.Content}.md");
+        }
+
         SortSQL();
 
         NotifyDataChanged();

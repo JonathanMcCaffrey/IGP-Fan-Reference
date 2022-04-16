@@ -1,0 +1,28 @@
+﻿@implements IDisposable;
+
+@inject ISearchService searchService
+
+@if (searchService.IsVisible)
+{
+    <SearchDialogComponent></SearchDialogComponent>
+}
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        searchService.Subscribe(OnUpdate);
+
+        searchService.Load();
+    }
+
+    public void Dispose()
+    {
+        searchService.Unsubscribe(OnUpdate);
+    }
+    
+    void OnUpdate()
+    {
+        StateHasChanged();
+    }
+}
