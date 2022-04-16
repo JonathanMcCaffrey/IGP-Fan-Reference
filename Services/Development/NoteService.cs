@@ -1,13 +1,6 @@
 ﻿using System.Net.Http.Json;
 using Model.Notes;
 
-#if NO_SQL
-
-#else
-using Contexts;
-using Microsoft.EntityFrameworkCore;
-#endif
-
 namespace Services.Development;
 
 public class NoteService : INoteService

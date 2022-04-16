@@ -19,7 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Contexts\Contexts.csproj" />
         <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
