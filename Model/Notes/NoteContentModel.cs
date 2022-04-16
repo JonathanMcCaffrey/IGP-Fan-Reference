@@ -37,10 +37,6 @@ public class NoteContentModel
     {
         var regex = new Regex(@"^#* (.*)$", RegexOptions.Multiline);
         var listOfMatches = regex.Matches(LoadedContent);
-        
-        Console.WriteLine($"Name: {Name}");
-        
-        Console.WriteLine($"Matches: {listOfMatches.Count}");
 
         List<SearchPointModel> foundHeaders = new List<SearchPointModel>();
         
