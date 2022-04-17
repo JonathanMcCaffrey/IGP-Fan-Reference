@@ -1,6 +1,7 @@
 using System.Globalization;
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Services;
 using Services;
 using Services.Development;
 using Services.Immortal;
@@ -16,6 +17,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped<LazyAssemblyLoader>();
 
 builder.Services.AddLocalization();
 
