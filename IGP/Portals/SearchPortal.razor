@@ -8,12 +8,15 @@
 }
 
 @code {
-
+    
     protected override void OnInitialized()
     {
         searchService.Subscribe(OnUpdate);
+    }
 
-        searchService.Load();
+    protected override async Task OnInitializedAsync()
+    {
+        await searchService.Load();
     }
 
     public void Dispose()

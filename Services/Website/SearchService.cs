@@ -101,6 +101,8 @@ public class SearchService : ISearchService
         }
         
         isLoaded = true;
+        
+        NotifyDataChanged();
     }
 
     public bool IsLoaded()
