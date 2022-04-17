@@ -71,11 +71,6 @@ public class SearchService : ISearchService
             
             Searches["Notes"].Add(SearchPoints.Last());
 
-            foreach (var noteHeader in note.GetHeaders())
-            {
-                SearchPoints.Add(new SearchPointModel { Title =  noteHeader.Title, 
-                    PointType = "NoteHeader", Href = $"{note.GetNoteLink()}/#{noteHeader.Href}"});
-            }
         }
         
         
