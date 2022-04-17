@@ -1,14 +1,13 @@
 ﻿@implements IDisposable;
 
 @inject ISearchService searchService
+@inject IJSRuntime jsRuntime
 
-@if (searchService.IsVisible)
-{
-    <SearchDialogComponent></SearchDialogComponent>
-}
+<SearchDialogComponent></SearchDialogComponent>
 
 @code {
-    
+    private string test = "Q";
+
     protected override void OnInitialized()
     {
         searchService.Subscribe(OnUpdate);
@@ -17,15 +16,35 @@
     protected override async Task OnInitializedAsync()
     {
         await searchService.Load();
+        await jsRuntime.InvokeVoidAsync("SetDotnetReference", DotNetObjectReference.Create(this));
     }
+    
+
 
     public void Dispose()
     {
         searchService.Unsubscribe(OnUpdate);
     }
-    
+
     void OnUpdate()
     {
         StateHasChanged();
     }
+
+    [JSInvokable("OnKeyPress")]
+    public async Task OnKeyPress(string code, bool ctrlKey, bool shiftKey, bool altKey, bool metaKey)
+    {
+        if (code.ToLower().Equals("k") && (ctrlKey || shiftKey || altKey || metaKey))
+        {
+            if (searchService.IsVisible)
+            {
+                searchService.Hide();
+            }
+            else
+            {
+                searchService.Show();
+            }
+        }
+    }
+
 }

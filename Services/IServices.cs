@@ -28,16 +28,16 @@ public interface IToastService
 public interface ISearchService
 {
     public List<SearchPointModel> SearchPoints { get; set; }
-    
+
     public Dictionary<string, List<SearchPointModel>> Searches { get; set; }
-    
+
     public bool IsVisible { get; set; }
 
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
 
     public void Search(string entityId);
-    
+
     public Task Load();
 
     public bool IsLoaded();
@@ -90,7 +90,7 @@ public interface IAgileService
     public void Unsubscribe(Action? action);
     public void Update();
 
-    public  Task Load();
+    public Task Load();
     public bool IsLoaded();
 }
 

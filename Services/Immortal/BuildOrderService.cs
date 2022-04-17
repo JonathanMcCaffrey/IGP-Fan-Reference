@@ -13,13 +13,14 @@ namespace Services.Immortal;
 public class BuildOrderService : IBuildOrderService
 {
     private BuildOrderModel buildOrder = new();
-    public int BuildingInputDelay { get; set; } = 2;
-    private int lastInterval = 0;
+    private int lastInterval;
 
     public BuildOrderService()
     {
         Reset();
     }
+
+    public int BuildingInputDelay { get; set; } = 2;
 
     public Dictionary<int, List<EntityModel>> StartedOrders => buildOrder.StartedOrders;
     public Dictionary<int, List<EntityModel>> CompletedOrders => buildOrder.CompletedOrders;
@@ -254,7 +255,7 @@ public class BuildOrderService : IBuildOrderService
     public void Reset()
     {
         lastInterval = 0;
-        
+
         buildOrder = new BuildOrderModel
         {
             StartedOrders = new Dictionary<int, List<EntityModel>>
@@ -304,7 +305,7 @@ public class BuildOrderService : IBuildOrderService
                 }
             }
         };
-        
+
         NotifyDataChanged();
     }
 
@@ -326,7 +327,7 @@ public class BuildOrderService : IBuildOrderService
                 atInterval = interval;
 
                 if (entity.EntityType != EntityType.Army) atInterval += BuildingInputDelay;
-                
+
                 return true;
             }
         }

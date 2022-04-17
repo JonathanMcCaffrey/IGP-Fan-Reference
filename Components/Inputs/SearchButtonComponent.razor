@@ -1,5 +1,4 @@
-﻿@using System.Runtime.InteropServices
-@inject ISearchService searchService
+﻿@inject ISearchService searchService
 @inject NavigationManager navigationManager
 @inject IJSRuntime jsRuntime
 
@@ -7,13 +6,9 @@
     <div class="searchText">
         Search...
     </div>
-    @if (false)
-    {
-        <div class="searchHotkey">
-            @CommandKey + K
-        </div>
-        
-    }
+    <div class="searchHotkey">
+        @CommandKey + K
+    </div>
 </button>
 
 <style>
@@ -35,6 +30,7 @@
     .searchHotkey {
         padding:  2px;
         
+        background-color: var(--info);
         border: 2px solid var(--primary-border);
     }
     
@@ -42,20 +38,22 @@
 
 
 @code {
+
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
     private string userAgent = "";
 
     string CommandKey => userAgent.Contains("Mac OS") ? "CMD" : "Ctrl";
-    
+
     private void ButtonClicked(EventArgs eventArgs)
     {
         searchService.Show();
     }
-    
+
     protected override async Task OnInitializedAsync()
     {
         userAgent = await jsRuntime.InvokeAsync<string>("getUserAgent");
     }
+
 }

@@ -28,7 +28,7 @@ public class TimingService : ITimingService
             NotifyDataChanged();
         }
     }
-    
+
     public int GetTravelTime()
     {
         return travelTime;

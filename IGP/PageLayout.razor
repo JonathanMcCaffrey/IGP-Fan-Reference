@@ -39,19 +39,18 @@
     protected override async Task OnInitializedAsync()
     {
         await webService.Load();
-        
-        await Focus();
 
+        await Focus();
     }
 
-    private async Task  Focus()
+    private async Task Focus()
     {
     //   await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageContents);        
     }
 
     protected override async void OnAfterRender(bool firstRender)
     {
-       // await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageContents);
+    // await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageContents);
     }
 
     void IDisposable.Dispose()

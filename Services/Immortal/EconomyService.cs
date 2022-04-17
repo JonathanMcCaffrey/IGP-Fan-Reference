@@ -1,8 +1,6 @@
 ﻿using Model.Economy;
 using Model.Entity;
-using Model.Feedback;
 using Model.Types;
-using Services.Website;
 
 namespace Services.Immortal;
 
@@ -159,11 +157,8 @@ public class EconomyService : IEconomyService
 
     public EconomyModel GetEconomy(int atInterval)
     {
-        if (atInterval >= economyOverTime.Count)
-        {
-            return economyOverTime.Last();
-        }
-        
+        if (atInterval >= economyOverTime.Count) return economyOverTime.Last();
+
         return economyOverTime[atInterval];
     }
 

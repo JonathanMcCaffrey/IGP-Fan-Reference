@@ -1,8 +1,5 @@
 ---
-title: Holdout 
-summary: First coop test map in pre-alpha. 
-created_date: 2/18/2022 
-updated_date: 2/18/2022
+title: Holdout summary: First coop test map in pre-alpha. created_date: 2/18/2022 updated_date: 2/18/2022
 ---
 
 Information contained in this note is based on this <a href="https://www.youtube.com/watch?v=XkAgOCIz3DE">YouTube,

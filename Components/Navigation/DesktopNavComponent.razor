@@ -17,31 +17,31 @@
         </NavLink>
 
         <div class="sectionNavs">
-        @foreach (var webSection in WebSections)
-        {
-            var isSelected = navigationService.GetNavigationSectionId().Equals(webSection.Id);
-            var sectionButtonStyle = "sectionButton";
-            if (isSelected)
+            @foreach (var webSection in WebSections)
             {
-                sectionButtonStyle += " sectionButtonSelected";
-            }
-            
-            <div class="sectionNav">
-                <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
-
-                @if (isSelected)
+                var isSelected = navigationService.GetNavigationSectionId().Equals(webSection.Id);
+                var sectionButtonStyle = "sectionButton";
+                if (isSelected)
                 {
-                    <div class="navMenuPosition">
-                        <div class="navMenuContainer">
-                            <DesktopNavSectionComponent Section=webSection /> 
-                        </div>
-                    </div>
+                    sectionButtonStyle += " sectionButtonSelected";
                 }
-            </div>
-        }
+
+                <div class="sectionNav">
+                    <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
+
+                    @if (isSelected)
+                    {
+                        <div class="navMenuPosition">
+                            <div class="navMenuContainer">
+                                <DesktopNavSectionComponent Section=webSection/>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
         </div>
-        
-        <SearchButtonComponent />
+
+        <SearchButtonComponent/>
     </div>
 </div>
 

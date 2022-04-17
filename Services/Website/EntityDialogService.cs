@@ -3,9 +3,8 @@
 //TODO Move to a database folder, with EntityService, EntityFilterService
 public class EntityDialogService : IEntityDialogService
 {
-    private string? entityId;
-
     private readonly List<string> history = new();
+    private string? entityId;
 
     public void Subscribe(Action action)
     {

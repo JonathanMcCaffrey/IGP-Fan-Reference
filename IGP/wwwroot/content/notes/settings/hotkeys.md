@@ -1,8 +1,6 @@
 ---
-title: Custom HotKey Setup 
-summary: Customize your hotkeys in the pre-alpha. 
-created_date: 4/13/2022 
-updated_date: 4/13/2022
+title: Custom HotKey Setup summary: Customize your hotkeys in the pre-alpha. created_date: 4/13/2022 updated_date:
+4/13/2022
 ---
 
 In the pre-alpha, IGP comes with some Unreal default hotkey setup.
@@ -97,7 +95,8 @@ You can notice a single line of this file can be broken down like this.
 `ActionMappings=(ActionName="AttackMove",bShift=False,bCtrl=False,bAlt=False,bCmd=False,Key=A)`
 
 - `ActionMappings=(***)`: Indicates content is an action mapping. i.e. a hotkey
-- `ActionName="AttackMove"`: Indicates the name of the selected action. Here, we are using the `AttackMove` move action, that forces your selected army to attack.
+- `ActionName="AttackMove"`: Indicates the name of the selected action. Here, we are using the `AttackMove` move action,
+  that forces your selected army to attack.
 - `Key=A`: Indicates key being mapped to the action. Set to `Key=Tab` to require the Tab key to be pressed instead, to
   perform the `AttackMove` action.
     - `bShift=False`: Indicates that the Shift key is not held. Set to `bShift=True` to require a shift key held to

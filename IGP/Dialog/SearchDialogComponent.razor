@@ -5,24 +5,24 @@
 
 @inject NavigationManager navigationManager
 
-@if (searchService.IsLoaded())
+@if (searchService.IsLoaded() && searchService.IsVisible)
 {
     <div class="searchBackground" onclick="@CloseDialog">
         <div class="searchContainer"
              @onclick:preventDefault="true"
              @onclick:stopPropagation="true">
-        
+
             <FormLayoutComponent>
-                <FormTextComponent Placeholder="Search..."  OnChange="SearchChanged"></FormTextComponent>
+                <FormTextComponent Id="search-input-box" Placeholder="Search..." OnChange="SearchChanged"></FormTextComponent>
             </FormLayoutComponent>
-        
+
             <div class="searchBox">
                 @if (SearchText.Length > 0)
                 {
                     foreach (var searchSection in searchService.Searches)
                     {
                         var searchPoints = searchSection.Value.FindAll(x => x.Title.ToLower().Contains(SearchText.ToLower()));
-                        
+
                         @if (searchPoints.Count > 0)
                         {
                             <div>
@@ -30,22 +30,20 @@
                                     @searchSection.Key
                                 </div>
                                 <div class="searchContents">
-                                @foreach (var searchPoint in searchPoints)
-                                {
-                                    <button class="searchLink @searchPoint.PointType.ToLower()" @onclick="() => OnSearch(searchPoint)">@searchPoint.Title</button>
-                                }
+                                    @foreach (var searchPoint in searchPoints)
+                                    {
+                                        <button class="searchLink @searchPoint.PointType.ToLower()" @onclick="() => OnSearch(searchPoint)">@searchPoint.Title</button>
+                                    }
                                 </div>
-                            </div>    
+                            </div>
                         }
-                        
                     }
- 
                 }
             </div>
 
         </div>
     </div>
-   
+
     <style>
     .pageContents * {
         filter: blur(2px);
@@ -110,7 +108,6 @@
 
 }
 </style>
-    
 }
 
 
@@ -125,12 +122,17 @@
         searchService.Subscribe(OnSearchChanged);
     }
 
+    private System.Threading.Timer timer = null!;
     private void OnSearchChanged()
     {
         if (searchService.IsVisible)
         {
-            jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-dialog-input");
-
+            timer = new System.Threading.Timer(_ =>
+            {
+                jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-input-box");
+                InvokeAsync(StateHasChanged);
+            }, null, 1, 1);
+            
         }
     }
 
@@ -149,15 +151,13 @@
     {
         if (url.Contains("#"))
         {
-        
-            navigationManager.NavigateTo(url, 
-                navigationManager.Uri.Split("#").First().Contains(url.Split("#").First()));    
+            navigationManager.NavigateTo(url,
+                navigationManager.Uri.Split("#").First().Contains(url.Split("#").First()));
         }
         else
         {
             navigationManager.NavigateTo(url);
         }
-        
     }
 
     private void SearchChanged(ChangeEventArgs obj)

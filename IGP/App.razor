@@ -15,7 +15,8 @@
 
 <EntityDialogPortal/>
 <ToastPortal/>
-<SearchPortal />
+<SearchPortal/>
+
 
 <style>
     a {
@@ -67,12 +68,5 @@
 </style>
 
 @code {
-
-#if NO_SQL
-
-#else
-    [Inject]
-    DatabaseContext Database { get; set; }
-#endif
 
 }

@@ -24,22 +24,27 @@ public class NoteContentModel
 
     public string Description { get; set; }
     public string Content { get; set; }
-    
-    
-    [NotMapped]
-    public virtual string LoadedContent { get; set; }
 
-    
+
+    [NotMapped] public virtual string LoadedContent { get; set; }
+
+
     public string IsHidden { get; set; } = "False";
     public string IsPreAlpha { get; set; } = "True";
+
+    [NotMapped]
+    public virtual ICollection<NoteContentModel> NoteContentModels { get; set; } = new List<NoteContentModel>();
+
+    [NotMapped] public virtual NoteContentModel Parent { get; set; }
+    [NotMapped] public virtual int PageOrder { get; set; }
 
     public List<SearchPointModel> GetHeaders()
     {
         var regex = new Regex(@"^#* (.*)$", RegexOptions.Multiline);
         var listOfMatches = regex.Matches(LoadedContent);
 
-        List<SearchPointModel> foundHeaders = new List<SearchPointModel>();
-        
+        var foundHeaders = new List<SearchPointModel>();
+
         foreach (var capture in listOfMatches)
         {
             var cleanUp = capture.ToString();
@@ -49,18 +54,12 @@ public class NoteContentModel
             cleanUp = cleanUp.Replace("\"", "");
             cleanUp = cleanUp.Trim();
             cleanUp = cleanUp.Replace(" ", "-");
-           foundHeaders.Add(new SearchPointModel(){ Title = capture.ToString().Trim(), Href = cleanUp});
+            foundHeaders.Add(new SearchPointModel { Title = capture.ToString().Trim(), Href = cleanUp });
             Console.WriteLine($"Capture: {cleanUp}");
         }
 
         return foundHeaders;
     }
-    
-    [NotMapped]
-    public virtual ICollection<NoteContentModel> NoteContentModels { get; set; } = new List<NoteContentModel>();
-
-    [NotMapped] public virtual NoteContentModel Parent { get; set; }
-    [NotMapped] public virtual int PageOrder { get; set; }
 
 
     private string GetLink()

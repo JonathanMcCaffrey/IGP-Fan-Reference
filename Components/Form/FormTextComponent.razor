@@ -11,7 +11,7 @@
                placeholder="@Placeholder"
                type="text"
                value="@Value"
-               id="@labelId"
+               id="@Id"
                @oninput="OnChange"
                @onchange="OnChange"/>
     </div>
@@ -52,6 +52,9 @@
 @code {
 
     [Parameter]
+    public string Id { get; set; } = "";
+    
+    [Parameter]
     public string Label { get; set; } = "";
 
     [Parameter]
@@ -62,7 +65,7 @@
 
     [Parameter]
     public EventCallback<ChangeEventArgs> OnChange { get; set; }
-    
+
 
     [Parameter]
     public bool ReadOnly { get; set; }

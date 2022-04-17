@@ -1,8 +1,5 @@
 ---
-title: Armor Types 
-summary: Heavy, Medium, and Light. What does it mean? 
-created_date: 4/13/2000 
-updated_date: 4/13/2000
+title: Armor Types summary: Heavy, Medium, and Light. What does it mean? created_date: 4/13/2000 updated_date: 4/13/2000
 ---
 
 ## Armor Types

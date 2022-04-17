@@ -1,23 +1,20 @@
 ﻿using Model.Entity.Data;
-using Model.Feedback;
 using Model.Website;
 
 namespace Services.Website;
 
 public class SearchService : ISearchService
 {
-    
-    private bool isLoaded = false;
-    public List<SearchPointModel> SearchPoints { get; set; } = new();
+    private readonly IDocumentationService documentationService;
 
-    public Dictionary<string, List<SearchPointModel>> Searches { get; set; } = new();
+    private bool isLoaded;
+    private readonly INoteService noteService;
 
 
-    private IWebsiteService websiteService;
-    private INoteService noteService;
-    private IDocumentationService documentationService;
+    private readonly IWebsiteService websiteService;
 
-    public SearchService(IWebsiteService websiteService, INoteService noteService, IDocumentationService documentationService)
+    public SearchService(IWebsiteService websiteService, INoteService noteService,
+        IDocumentationService documentationService)
     {
         this.websiteService = websiteService;
         this.noteService = noteService;
@@ -25,7 +22,11 @@ public class SearchService : ISearchService
 
         // All Unit Data
     }
-    
+
+    public List<SearchPointModel> SearchPoints { get; set; } = new();
+
+    public Dictionary<string, List<SearchPointModel>> Searches { get; set; } = new();
+
     public bool IsVisible { get; set; }
 
     public void Subscribe(Action action)
@@ -47,8 +48,8 @@ public class SearchService : ISearchService
         await websiteService.Load();
         await noteService.Load();
         await documentationService.Load();
-        
-        
+
+
         Searches.Add("Pages", new List<SearchPointModel>());
         Searches.Add("Notes", new List<SearchPointModel>());
         Searches.Add("Documents", new List<SearchPointModel>());
@@ -56,47 +57,55 @@ public class SearchService : ISearchService
 
         foreach (var webPage in websiteService.WebPageModels)
         {
-            SearchPoints.Add(new SearchPointModel{ Title =  webPage.Name, 
+            SearchPoints.Add(new SearchPointModel
+            {
+                Title = webPage.Name,
                 PointType = "WebPage",
-                Href=webPage.Href
+                Href = webPage.Href
             });
-            
+
             Searches["Pages"].Add(SearchPoints.Last());
         }
-        
+
         foreach (var note in noteService.NoteContentModels)
         {
-            SearchPoints.Add(new SearchPointModel(){ Title =  note.Name, 
-                PointType = "Note", Href = note.GetNoteLink()});
-            
-            Searches["Notes"].Add(SearchPoints.Last());
+            SearchPoints.Add(new SearchPointModel
+            {
+                Title = note.Name,
+                PointType = "Note", Href = note.GetNoteLink()
+            });
 
+            Searches["Notes"].Add(SearchPoints.Last());
         }
-        
-        
+
+
         foreach (var entity in DATA.Get().Values)
         {
-            SearchPoints.Add(new SearchPointModel(){ 
-                Title = entity.Info().Name,  
+            SearchPoints.Add(new SearchPointModel
+            {
+                Title = entity.Info().Name,
                 Tags = $"{entity.EntityType},{entity.Descriptive}",
                 PointType = "Entity",
                 Href = $"database/{entity.Info().Name.ToLower()}"
             });
-            
+
             Searches["Entities"].Add(SearchPoints.Last());
         }
 
-        
+
         foreach (var doc in documentationService.DocContentModels)
         {
-            SearchPoints.Add(new SearchPointModel { Title =  doc.Name, 
-                PointType = "Document", Href = doc.GetDocLink()});
-            
+            SearchPoints.Add(new SearchPointModel
+            {
+                Title = doc.Name,
+                PointType = "Document", Href = doc.GetDocLink()
+            });
+
             Searches["Documents"].Add(SearchPoints.Last());
         }
-        
+
         isLoaded = true;
-        
+
         NotifyDataChanged();
     }
 
@@ -108,14 +117,14 @@ public class SearchService : ISearchService
     public void Show()
     {
         IsVisible = true;
-        
+
         NotifyDataChanged();
     }
 
     public void Hide()
     {
         IsVisible = false;
-        
+
         NotifyDataChanged();
     }
 
