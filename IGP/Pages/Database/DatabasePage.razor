@@ -5,6 +5,7 @@
 @implements IDisposable
 
 @inject IEntityDisplayService entityDisplayService
+@inject IVariableService variableService
 
 <LayoutLargeContentComponent>
     <WebsiteTitleComponent>Database</WebsiteTitleComponent>
@@ -12,7 +13,7 @@
     <PaperComponent>
         <FormDisplayComponent Label="Patch">
             <Display>
-                Game Patch: @EntityModel.GameVersion
+                Game Patch: @variableService.Variables["GamePatch"]
             </Display>
         </FormDisplayComponent>
     </PaperComponent>
@@ -66,7 +67,7 @@
                 Is this database updated to the latest version?
             </InfoQuestionComponent>
             <InfoAnswerComponent>
-                Maybe. Check this <b>@EntityModel.GameVersion</b> version number, and compare it to the number on discord, in the <b>#game-updates</b> channel. That should give a general sense of how out of date the data is.
+                Maybe. Check this <b>@variableService.Variables["GamePatch"]</b> version number, and compare it to the number on discord, in the <b>#game-updates</b> channel. That should give a general sense of how out of date the data is.
             </InfoAnswerComponent>
         </InfoBodyComponent>
 

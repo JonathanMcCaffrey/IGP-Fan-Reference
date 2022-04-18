@@ -2368,7 +2368,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40 })
                     .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_RadiantWard })
                     .AddPart(new EntityVitalityModel
-                        { Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light, IsStructure = true })
+                        { Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_HouseOfFadingSaints,

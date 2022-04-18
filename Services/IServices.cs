@@ -45,6 +45,13 @@ public interface ISearchService
     void Hide();
 }
 
+public interface IVariableService 
+{
+    public Dictionary<string, string> Variables { get; set; }
+    public Task Load();
+    public bool IsLoaded();
+}
+
 public interface IEconomyComparisonService
 {
     public List<BuildToCompareModel> BuildsToCompare { get; set; }

@@ -4,6 +4,7 @@
 
 @inject IEntityDisplayService entityDisplayService
 
+@inject IVariableService variableService
 @implements IDisposable
 
 <LayoutLargeContentComponent>
@@ -11,7 +12,7 @@
     <PaperComponent>
         <FormDisplayComponent Label="Patch">
             <Display>
-                Game Patch: @EntityModel.GameVersion
+                Game Patch: @variableService.Variables["GamePatch"]
             </Display>
         </FormDisplayComponent>
     </PaperComponent>

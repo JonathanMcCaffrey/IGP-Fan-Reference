@@ -2,6 +2,7 @@
 #else
 
 using Microsoft.EntityFrameworkCore;
+using Model;
 using Model.Doc;
 using Model.Git;
 using Model.Notes;
@@ -29,6 +30,7 @@ public class DatabaseContext : DbContext
     public DbSet<NoteContentModel> NoteContentModels { get; set; } = default!;
     public DbSet<NoteConnectionModel> NoteConnectionModels { get; set; } = default!;
     public DbSet<NoteSectionModel> NoteSectionModels { get; set; } = default!;
+    public DbSet<Variable> Variables { get; set; } = default!;
 }
 
 #endif

@@ -2,6 +2,7 @@ using System.Globalization;
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Services;
+using Model;
 using Services;
 using Services.Development;
 using Services.Immortal;
@@ -39,6 +40,7 @@ builder.Services.AddSingleton<IGitService, GitService>();
 builder.Services.AddSingleton<INoteService, NoteService>();
 builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
 builder.Services.AddSingleton<ISearchService, SearchService>();
+builder.Services.AddSingleton<IVariableService, VariableService>();
 
 builder.Services.AddSingleton<IEconomyComparisonService, EconomyComparisionService>();
 
