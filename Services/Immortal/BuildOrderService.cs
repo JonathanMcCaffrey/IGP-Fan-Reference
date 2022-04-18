@@ -80,8 +80,7 @@ public class BuildOrderService : IBuildOrderService
             if (!supply.Grants.Equals(0))
                 buildOrder.SupplyCountTimes.Add(buildOrder.SupplyCountTimes.Last().Key + supply.Grants, completedTime);
         }
-
-
+        
         if (atInterval > lastInterval) lastInterval = atInterval;
 
         NotifyDataChanged();

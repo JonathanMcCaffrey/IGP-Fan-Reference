@@ -77,8 +77,10 @@ public class EconomyService : IEconomyService
                     select harvester).ToList();
 
             // Add funds
-            economyAtSecond.Pyre += 1;
-
+            if (interval % 3 == 0)
+            {
+                economyAtSecond.Pyre += 1;
+            }
             // Add funds
             foreach (var entity in economyAtSecond.Harvesters)
             {
