@@ -642,7 +642,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_MaskedHunter, ImmortalId = DataType.IMMORTAL_Xol })
-                    .AddPart(new EntityProductionModel { Alloy = 50, Ether = 0, BuildTime = 35 })
+                    .AddPart(new EntityProductionModel { Alloy = 50, Ether = 0, BuildTime = 20 })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel
                         { Health = 85, DefenseLayer = 10, Armor = ArmorType.Light, IsEtheric = false })
@@ -829,7 +829,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        LightDamage = 32, MediumDamage = 24, Damage = 16, Range = 250, AttacksPerSecond = 0.5f,
+                        LightDamage = 32, MediumDamage = 24, Damage = 16, Range = 300, AttacksPerSecond = 0.5f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_SiroccoScript })
