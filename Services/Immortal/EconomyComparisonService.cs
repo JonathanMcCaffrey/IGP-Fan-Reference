@@ -68,6 +68,12 @@ public class EconomyComparisionService : IEconomyComparisonService
     
     private List<EconomyModel> CalculateEconomy(BuildToCompareModel buildToCompare, int fromInterval = 0)
     {
+        // We don't consider things mining at zero seconds
+        if (fromInterval == 0)
+        {
+            fromInterval = 1;
+        }
+        
         BuildOrderModel buildOrder = buildToCompare.BuildOrderModel;
 
         List<EconomyModel> buildEconomyOverTime = buildToCompare.EconomyOverTimeModel;
@@ -77,6 +83,7 @@ public class EconomyComparisionService : IEconomyComparisonService
 
         for (var interval = fromInterval; interval < IntervalMax; interval++)
         {
+            buildEconomyOverTime[interval] = new EconomyModel();
             var economyAtSecond = buildEconomyOverTime[interval];
             if (interval > 0)
             {

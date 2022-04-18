@@ -28,6 +28,12 @@ public class EconomyService : IEconomyService
 
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval)
     {
+        // We don't consider things mining at zero seconds
+        if (fromInterval == 0)
+        {
+            fromInterval = 1;
+        }
+        
         //TODO Break all this up
         if (buildEconomyOverTime == null)
         {
@@ -45,6 +51,8 @@ public class EconomyService : IEconomyService
 
         for (var interval = fromInterval; interval < timing.GetAttackTime(); interval++)
         {
+            buildEconomyOverTime[interval] = new EconomyModel();
+            
             var economyAtSecond = buildEconomyOverTime[interval];
             if (interval > 0)
             {
