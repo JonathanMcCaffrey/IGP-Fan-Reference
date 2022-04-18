@@ -1,6 +1,8 @@
 ---
-title: Custom HotKey Setup summary: Customize your hotkeys in the pre-alpha. created_date: 4/13/2022 updated_date:
-4/13/2022
+title: Custom HotKey Setup 
+summary: Customize your hotkeys in the pre-alpha. 
+created_date: 4/13/2022 
+updated_date: 4/13/2022
 ---
 
 In the pre-alpha, IGP comes with some Unreal default hotkey setup.
