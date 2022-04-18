@@ -111,6 +111,7 @@ else
     void OnChangeClicked(ChangeEventArgs changeEventArgs)
     {
         isViewImportant = (bool)changeEventArgs.Value!;
+        StateHasChanged();
     }
 
     void HasChanged()
