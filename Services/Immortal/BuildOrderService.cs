@@ -87,6 +87,28 @@ public class BuildOrderService : IBuildOrderService
         NotifyDataChanged();
     }
 
+    public bool AddWait(int forInterval)
+    {
+        if (forInterval == 0)
+        {
+            return false;
+        }
+        
+        lastInterval += forInterval;
+        
+        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
+            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
+
+        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
+            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
+        
+        
+        NotifyDataChanged();
+
+        return true;
+
+    }
+
 
     public int? WillMeetRequirements(EntityModel entity)
     {
@@ -139,6 +161,15 @@ public class BuildOrderService : IBuildOrderService
     {
         if (buildOrder.StartedOrders.Keys.Count > 1)
         {
+            if (buildOrder.StartedOrders.Count == 0)
+            {
+                buildOrder.StartedOrders.Remove(buildOrder.StartedOrders.Last().Key);
+                buildOrder.CompletedOrders.Remove(buildOrder.CompletedOrders.Last().Key);
+
+                lastInterval = buildOrder.StartedOrders.Last().Key;
+                return;
+            }
+            
             var lastStarted = buildOrder.StartedOrders.Keys.Last();
             var lastCompleted = buildOrder.CompletedOrders.Keys.Last();
 

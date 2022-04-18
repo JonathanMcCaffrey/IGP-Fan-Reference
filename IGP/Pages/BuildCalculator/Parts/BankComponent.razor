@@ -9,16 +9,30 @@
     <FormDisplayComponent Label="Time">
         <Display>@BuildOrderService.GetLastRequestInterval() | T @Interval.ToTime(BuildOrderService.GetLastRequestInterval())</Display>
     </FormDisplayComponent>
-    <FormDisplayComponent Label="Alloy">
-        <Display>@economy.Alloy</Display>
-    </FormDisplayComponent>
-    <FormDisplayComponent Label="Ether">
-        <Display>@economy.Ether</Display>
-    </FormDisplayComponent>
-    <FormDisplayComponent Label="Supply">
-        <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
-    </FormDisplayComponent>
+    <div class="bankRow">
+        <FormDisplayComponent Label="Alloy">
+            <Display>@economy.Alloy</Display>
+        </FormDisplayComponent>
+        <FormDisplayComponent Label="Ether">
+            <Display>@economy.Ether</Display>
+        </FormDisplayComponent>
+    </div>
+    <div class="bankRow">
+         <FormDisplayComponent Label="Pyre">
+             <Display>@economy.Pyre</Display>
+             </FormDisplayComponent>
+        <FormDisplayComponent Label="Supply">
+            <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
+        </FormDisplayComponent>
+    </div>
 </FormLayoutComponent>
+
+<style>
+    .bankRow {
+        display: flex;
+        gap: 8px;
+    }
+</style>
 
 @code {
 
@@ -61,6 +75,8 @@
 
     void OnBuildOrderChanged()
     {
+        Console.WriteLine("OnBuildOrderChanged()");
+        
         economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
 
         var ordersOverTime = BuildOrderService.GetOrders();

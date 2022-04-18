@@ -16,7 +16,7 @@
 
     <FormNumberComponent Max="600"
                          Min="0"
-                         Value="30"
+                         Value="@WaitTime"
                          OnChange="@OnWaitTimeChanged">
         <FormLabelComponent>Wait Time</FormLabelComponent>
         <FormInfoComponent>Not implemented</FormInfoComponent>
@@ -36,12 +36,15 @@
 
     void OnWaitTimeChanged(ChangeEventArgs changeEventArgs)
     {
-        toastService.AddToast(new ToastModel { Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet." });
+        WaitTime = (int)changeEventArgs.Value!;
     }
 
     public void OnWaitClicked()
     {
-        toastService.AddToast(new ToastModel { Title = "Not Implemented", SeverityType = SeverityType.Warning, Message = "The ability to wait for X seconds in a build order hasn't been implemented yet." });
+        if (buildOrderService.AddWait(WaitTime))
+        {
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+        }
     }
 
     protected override bool ShouldRender()
@@ -59,5 +62,7 @@
         jsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
 #endif
     }
+
+    public int WaitTime { get; set; } = 30;
 
 }

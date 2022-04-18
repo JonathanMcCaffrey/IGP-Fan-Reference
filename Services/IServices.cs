@@ -307,14 +307,16 @@ public interface IBuildOrderService
 
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);
+    public bool AddWait(int forInterval);
 
-    public void SetName(string Name);
+    
+    public void SetName(string name);
     public string GetName();
 
-    public void SetNotes(string Notes);
+    public void SetNotes(string notes);
     public string GetNotes();
 
-    public void DeprecatedSetColor(string Color);
+    public void DeprecatedSetColor(string color);
     public string GetColor();
 
     public int? WillMeetRequirements(EntityModel entity);
