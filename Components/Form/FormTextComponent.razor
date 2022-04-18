@@ -12,7 +12,7 @@
                type="text"
                value="@Value"
                id="@Id"
-               @oninput="OnChange"
+               @oninput="OnInput"
                @onchange="OnChange"/>
     </div>
     @if (Info != "")
@@ -63,6 +63,9 @@
     [Parameter]
     public string Placeholder { get; set; } = "";
 
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnInput { get; set; }
+    
     [Parameter]
     public EventCallback<ChangeEventArgs> OnChange { get; set; }
 

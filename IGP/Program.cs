@@ -24,7 +24,7 @@ builder.Services.AddLocalization();
 builder.Services.AddSingleton<INavigationService, NavigationService>();
 builder.Services.AddSingleton<IKeyService, KeyService>();
 builder.Services.AddSingleton<IImmortalSelectionService, ImmortalSelectionService>();
-builder.Services.AddSingleton<IBuildComparisonService, BuildComparisionService>();
+builder.Services.AddSingleton<IBuildComparisonService, DeprecatedBuildComparisionService>();
 builder.Services.AddSingleton<IBuildOrderService, BuildOrderService>();
 builder.Services.AddSingleton<IEconomyService, EconomyService>();
 builder.Services.AddSingleton<ITimingService, TimingService>();
@@ -39,6 +39,8 @@ builder.Services.AddSingleton<IGitService, GitService>();
 builder.Services.AddSingleton<INoteService, NoteService>();
 builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
 builder.Services.AddSingleton<ISearchService, SearchService>();
+
+builder.Services.AddSingleton<IEconomyComparisonService, EconomyComparisionService>();
 
 builder.Services.AddSingleton(new HttpClient
 {

@@ -1,0 +1,126 @@
+﻿@inject IEconomyComparisonService economyComparisonService
+@implements IDisposable
+
+<div class="differences">
+    <div class="differenceContainer">
+        <div class="differenceTitle">
+            Starting Advantage
+        </div>
+        <div>
+            At Time: @StartingAdvantageAtTime | T @Interval.ToTime(StartingAdvantageAtTime)
+        </div>
+    </div>
+
+    <div class="differenceContainer">
+        <div class="differenceTitle">
+            Peak Advantage
+        </div>
+        <div>
+            By Alloy: @PeakAdvantageByAlloy
+        </div>
+        <div>
+            At Time: @PeakAdvantageAtTime | T @Interval.ToTime(PeakAdvantageAtTime)
+        </div>
+    </div>
+
+    <div class="differenceContainer">
+        <div class="differenceTitle">
+            Worsening Time
+        </div>
+        <div>
+            At Time: @WorseningTime | T @Interval.ToTime(WorseningTime)
+        </div>
+    </div>
+
+    <div class="differenceContainer">
+        <div class="differenceTitle">
+            Miracle Time
+        </div>
+        <div>
+            At Time: @MiracleTime | T @Interval.ToTime(MiracleTime)
+        </div>
+    </div>
+</div>
+
+
+<style>
+.differences {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+}
+
+    .differenceTitle {
+        font-size: 1.2em;
+        font-weight: 800;
+    }
+    
+    .differenceContainer {
+        
+    }
+</style>
+
+@code {
+    private int StartingAdvantageAtTime = 0;
+    
+    private int PeakAdvantageByAlloy = 0;
+    private int PeakAdvantageAtTime = 0;
+
+    private int WorseningTime = 0;
+    private int MiracleTime = 0;
+    
+    protected override void OnInitialized()
+    {
+        economyComparisonService.Subscribe(CalculateDifferences);
+    }
+
+    void IDisposable.Dispose()
+    {
+        economyComparisonService.Unsubscribe(CalculateDifferences);
+    }
+
+    void CalculateDifferences()
+    {
+        PeakAdvantageByAlloy = 0;
+        StartingAdvantageAtTime = 0;
+        WorseningTime = 0;
+        
+        for (int interval = 0; interval < economyComparisonService.BuildsToCompare[0].EconomyOverTimeModel.Count; interval++)
+        {
+            var yourEconomy = economyComparisonService.BuildsToCompare[0].EconomyOverTimeModel[interval];
+            var theirEconomy = economyComparisonService.BuildsToCompare[1].EconomyOverTimeModel[interval];
+
+            var deltaEconomy = yourEconomy.Alloy - theirEconomy.Alloy;
+            if (deltaEconomy >= 0)
+            {
+                if (deltaEconomy > PeakAdvantageByAlloy)
+                {
+                    if (StartingAdvantageAtTime == 0)
+                    {
+                        StartingAdvantageAtTime = interval;
+                    }
+
+                    PeakAdvantageByAlloy = (int)deltaEconomy;
+                    PeakAdvantageAtTime = interval;
+                }
+            }
+            else
+            {
+
+                if (PeakAdvantageByAlloy > 0 && WorseningTime == 0)
+                {
+                    WorseningTime = interval;
+                }   
+                
+                if (deltaEconomy < 1000 && MiracleTime != 0)
+                {
+                    MiracleTime = interval;
+                }   
+            }
+        }
+
+        StateHasChanged();
+    }
+
+}

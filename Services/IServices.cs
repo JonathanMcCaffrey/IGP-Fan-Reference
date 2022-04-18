@@ -45,6 +45,24 @@ public interface ISearchService
     void Hide();
 }
 
+public interface IEconomyComparisonService
+{
+    public List<BuildToCompareModel> BuildsToCompare { get; set; }
+    public void ChangeNumberOfTownHalls(int forPlayer, int toCount);
+    public void ChangeTownHallTiming(int forPlayer, int forTownHall, int toTiming);
+    public int GetTownHallCount(int forPlayer);
+    public int GetTownHallBuildTime(int forPlayer, int forTownHall);
+    
+    public List<int> GetTownHallBuildTimes(int forPlayer);
+    public void ChangeFaction(int forPlayer, string toFaction);
+    public string GetFaction(int forPlayer);
+
+    public void ChangeColor(int forPlayer, string toColor);
+    public string GetColor(int forPlayer);
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+}
+
 public interface IEntityDialogService
 {
     public void Subscribe(Action action);
@@ -164,8 +182,8 @@ public interface INavigationService
 
 public interface IBuildComparisonService
 {
-    public void SetBuilds(BuildComparisonModel buildComparisonModel);
-    public BuildComparisonModel Get();
+    public void SetBuilds(BuildToCompareModel buildToCompareModel);
+    public BuildToCompareModel Get();
     public string BuildOrderAsYaml();
     public string AsJson();
     public bool LoadJson(string data);
@@ -289,7 +307,7 @@ public interface IBuildOrderService
     public void SetNotes(string Notes);
     public string GetNotes();
 
-    public void SetColor(string Color);
+    public void DeprecatedSetColor(string Color);
     public string GetColor();
 
     public int? WillMeetRequirements(EntityModel entity);

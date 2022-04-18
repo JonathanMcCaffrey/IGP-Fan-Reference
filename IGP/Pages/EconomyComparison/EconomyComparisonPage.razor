@@ -1,0 +1,95 @@
+﻿@page "/economy-comparison"
+
+@implements IDisposable
+@inject IEconomyComparisonService economyComparisonService
+@layout PageLayout
+
+
+<LayoutMediumContentComponent>
+  
+    <AlertComponent Type="@SeverityType.Error">
+        <Title>Contains Bugs</Title>
+        <Message>None of these calculations and results have been verified. Use with caution. </Message>
+    </AlertComponent>
+    
+    <DevOnlyComponent>
+        @foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
+        {
+            foreach (var ordersAtTime in buildToCompare.BuildOrderModel.StartedOrders)
+            {
+                foreach (var order in ordersAtTime.Value)
+                {
+                    <div>@ordersAtTime.Key - @order.Info().Name</div>
+                }
+            }
+            
+        }
+        
+        @{
+            float alloyHighest = 0;
+        }
+        @foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
+                {
+                    foreach (var economy in buildToCompare.EconomyOverTimeModel)
+                    {
+                        if (economy.Alloy > alloyHighest)
+                        {
+                            alloyHighest = economy.Alloy;
+                        }
+                    }
+                    
+                }
+        
+        <div>@alloyHighest</div>
+        
+    </DevOnlyComponent>
+
+    <PaperComponent>
+        <div>You</div>
+        <EconomyInputComponent ForPlayer="0"/>
+    </PaperComponent>
+
+    <PaperComponent>
+        <div>Them</div>
+        <EconomyInputComponent ForPlayer="1"/>
+    </PaperComponent>
+
+    <PaperComponent>
+        <EconomyDifferenceComponent/>
+    </PaperComponent>
+
+    <PaperComponent>
+        <ChartComponent/>
+    </PaperComponent>
+
+    <ContentDividerComponent/>
+
+    <PaperComponent>
+
+        <InfoBodyComponent>
+            <InfoQuestionComponent>
+                What is this tool for?
+            </InfoQuestionComponent>
+            <InfoAnswerComponent>
+                Compare two economies together to determine best attack timing windows.
+            </InfoAnswerComponent>
+        </InfoBodyComponent>
+    </PaperComponent>
+</LayoutMediumContentComponent>
+
+@code {
+
+    
+    protected override void OnInitialized()
+    {
+        economyComparisonService.Subscribe(StateHasChanged);
+
+    }
+
+
+    void IDisposable.Dispose()
+    {
+        economyComparisonService.Unsubscribe(StateHasChanged);
+    }
+
+}

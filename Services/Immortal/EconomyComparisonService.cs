@@ -1,49 +1,81 @@
-﻿using Model.BuildOrders;
+using Model.BuildOrders;
 using Model.Economy;
 using Model.Entity;
+using Model.Entity.Data;
 using Model.Types;
 
 namespace Services.Immortal;
 
-public class EconomyService : IEconomyService
+public class EconomyComparisionService : IEconomyComparisonService
 {
-    private List<EconomyModel> buildEconomyOverTime = null!;
-    
-    private Dictionary<string, List<EconomyModel>> specficEconomiesOverTime = null!;
+    public List<BuildToCompareModel> BuildsToCompare { get; set; }
 
-    public List<EconomyModel> GetOverTime()
+    public EconomyComparisionService()
     {
-        return buildEconomyOverTime;
-    }
-
-    public void Subscribe(Action action)
-    {
-        OnChange += action;
-    }
-
-    public void Unsubscribe(Action action)
-    {
-        OnChange -= action;
-    }
-
-    public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval)
-    {
-        //TODO Break all this up
-        if (buildEconomyOverTime == null)
+        BuildsToCompare = new List<BuildToCompareModel>()
         {
-            buildEconomyOverTime = new List<EconomyModel>();
-            for (var interval = 0; interval < timing.GetAttackTime(); interval++)
-                buildEconomyOverTime.Add(new EconomyModel { Interval = interval });
+            new BuildToCompareModel { NumberOfTownHallExpansions = 0, Faction = DataType.FACTION_Aru, ChartColor = "green"},
+            new BuildToCompareModel { NumberOfTownHallExpansions = 0, Faction = DataType.FACTION_Aru, ChartColor = "red"}
+        };
+
+        BuildsToCompare[0].EconomyOverTimeModel = CalculateEconomy(BuildsToCompare[0], 0);
+        BuildsToCompare[1].EconomyOverTimeModel = CalculateEconomy(BuildsToCompare[1], 0);
+    }
+
+
+
+    void CalculateBuildOrder(BuildToCompareModel buildToCompare)
+    {
+        buildToCompare.BuildOrderModel = new BuildOrderModel(buildToCompare.Faction);
+
+        foreach (var time in buildToCompare.TimeToBuildTownHall)
+        {
+            var townHall = buildToCompare.GetTownHallEntity;
+            var townHallMining2 = buildToCompare.GetTownHallMining2Entity;
+            var townHallMining3 = buildToCompare.GetTownHallMining3Entity;
+
+            Add(townHall, buildToCompare, time);
+            Add(townHallMining2, buildToCompare, time + townHall.Production()!.BuildTime);
+            Add(townHallMining3, buildToCompare, time + townHall.Production()!.BuildTime + townHallMining2.Production()!.BuildTime);
         }
 
+        CalculateEconomy(buildToCompare, 0);
+    }
+    
+    public void Add(EntityModel entityModel, BuildToCompareModel buildToCompare, int atInterval)
+    {
+        BuildOrderModel buildOrder = buildToCompare.BuildOrderModel;
+       
+        
+        if (!buildOrder.StartedOrders.ContainsKey(atInterval))
+            buildOrder.StartedOrders.Add(atInterval, new List<EntityModel>());
 
-        if (buildEconomyOverTime.Count > timing.GetAttackTime())
-            buildEconomyOverTime.RemoveRange(timing.GetAttackTime(), buildEconomyOverTime.Count - timing.GetAttackTime());
+        var production = entityModel.Production();
+        
+        var completedTime = atInterval;
+        if (production != null) completedTime += production.BuildTime;
 
-        while (buildEconomyOverTime.Count < timing.GetAttackTime())
+        if (!buildOrder.CompletedOrders.ContainsKey(completedTime))
+            buildOrder.CompletedOrders.Add(completedTime, new List<EntityModel>());
+
+        buildOrder.StartedOrders[atInterval].Add(entityModel.Clone());
+        buildOrder.CompletedOrders[completedTime].Add(entityModel.Clone());
+
+        NotifyDataChanged();
+    }
+
+    private int IntervalMax = 1024;
+    
+    private List<EconomyModel> CalculateEconomy(BuildToCompareModel buildToCompare, int fromInterval = 0)
+    {
+        BuildOrderModel buildOrder = buildToCompare.BuildOrderModel;
+
+        List<EconomyModel> buildEconomyOverTime = buildToCompare.EconomyOverTimeModel;
+
+        while (buildEconomyOverTime.Count < IntervalMax)
             buildEconomyOverTime.Add(new EconomyModel { Interval = buildEconomyOverTime.Count - 1 });
 
-        for (var interval = fromInterval; interval < timing.GetAttackTime(); interval++)
+        for (var interval = fromInterval; interval < IntervalMax; interval++)
         {
             var economyAtSecond = buildEconomyOverTime[interval];
             if (interval > 0)
@@ -153,24 +185,100 @@ public class EconomyService : IEconomyService
                 }
         }
 
+        return buildEconomyOverTime;
+    }
+
+    
+    public void ChangeNumberOfTownHalls(int forPlayer, int toCount)
+    {
+        if (BuildsToCompare[forPlayer].NumberOfTownHallExpansions == toCount)
+        {
+            return;
+        }
+        
+        BuildsToCompare[forPlayer].NumberOfTownHallExpansions = toCount;
+        
+        CalculateBuildOrder(BuildsToCompare[forPlayer]);
+        
         NotifyDataChanged();
     }
 
-
-    
-    
-    public EconomyModel GetEconomy(int atInterval)
+    public void ChangeTownHallTiming(int forPlayer, int forTownHall, int toTiming)
     {
-        if (atInterval >= buildEconomyOverTime.Count) return buildEconomyOverTime.Last();
+        if (BuildsToCompare[forPlayer].TimeToBuildTownHall[forTownHall] == toTiming)
+        {
+            return;
+        }
 
-        return buildEconomyOverTime[atInterval];
+        BuildsToCompare[forPlayer].TimeToBuildTownHall[forTownHall] = toTiming;
+
+        CalculateBuildOrder(BuildsToCompare[forPlayer]);
+
+        NotifyDataChanged();
     }
 
+    public int GetTownHallCount(int forPlayer)
+    {
+        return BuildsToCompare[forPlayer].NumberOfTownHallExpansions;
+    }
 
+    public int GetTownHallBuildTime(int forPlayer, int forTownHall)
+    {
+        return BuildsToCompare[forPlayer].TimeToBuildTownHall[forTownHall];
+    }
+
+    public List<int> GetTownHallBuildTimes(int forPlayer)
+    {
+        return BuildsToCompare[forPlayer].TimeToBuildTownHall;
+    }
+
+    public void ChangeFaction(int forPlayer, string toFaction)
+    {
+        if (BuildsToCompare[forPlayer].Faction.Equals(toFaction))
+        {
+            return;
+        }
+
+        BuildsToCompare[forPlayer].Faction = toFaction;
+        NotifyDataChanged();
+    }
+
+    public string GetFaction(int forPlayer)
+    {
+        return BuildsToCompare[forPlayer].Faction;
+    }
+
+    public void ChangeColor(int forPlayer, string toColor)
+    {
+        if (BuildsToCompare[forPlayer].ChartColor.Equals(toColor))
+        {
+            return;
+        }
+
+        BuildsToCompare[forPlayer].ChartColor = toColor;
+        NotifyDataChanged();
+    }
+
+    public string GetColor(int forPlayer)
+    {
+        return BuildsToCompare[forPlayer].ChartColor;
+    }
+
+    public void Subscribe(Action action)
+    {
+        OnChange += action;
+    }
+
+    public void Unsubscribe(Action action)
+    {
+        OnChange -= action;
+    }
+    
+    
     private event Action OnChange = null!;
 
     private void NotifyDataChanged()
     {
-        OnChange?.Invoke();
+        OnChange();
     }
 }

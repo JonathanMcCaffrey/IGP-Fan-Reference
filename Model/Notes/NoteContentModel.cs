@@ -55,7 +55,6 @@ public class NoteContentModel
             cleanUp = cleanUp.Trim();
             cleanUp = cleanUp.Replace(" ", "-");
             foundHeaders.Add(new SearchPointModel { Title = capture.ToString().Trim(), Href = cleanUp });
-            Console.WriteLine($"Capture: {cleanUp}");
         }
 
         return foundHeaders;

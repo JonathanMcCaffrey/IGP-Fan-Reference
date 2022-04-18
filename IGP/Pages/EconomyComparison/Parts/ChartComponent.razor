@@ -1,0 +1,199 @@
+﻿@inject IEconomyComparisonService economyComparisonService
+@inject IJSRuntime jsRuntime;
+@using Model.BuildOrders
+@implements IDisposable
+
+<div class="chartsContainer">
+
+    @{
+        var index = 0;
+    }
+    @foreach (var chart in charts)
+    {
+        index++;
+
+        <div style="width: 0; height: @chart.ValueDisplayMax.ToString()px">
+            <div style="left: calc(-@width.ToString()px / 2); position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
+                @foreach (var point in chart.Points)
+                {
+                    var xCoord = point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax);
+                    
+                    var show = int.Parse(xCoord) / 6 % 2;
+                    var player = index - 1;
+
+                    if (show == player)
+                    {
+                        <div style="position: absolute;
+							bottom:@point.GetValue(highestAlloyPoint, chart.ValueDisplayMax)px;
+                            left:@point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax)px;
+                            width: 0px;
+							height: 0px;">
+                            <div style="width:1px; height: 1px; border-top-right-radius:10px; border-top-left-radius:10px; border: 2px solid @chart.ChartColor; background-color:@chart.ChartColor">
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .chartsContainer {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+</style>
+
+@code {
+
+    private readonly int width = 800;
+    private readonly int height = 700;
+
+    private List<ChartModel> charts = new();
+
+
+    float highestAlloyPoint = 0;
+
+
+    protected override void OnInitialized()
+    {
+        economyComparisonService.Subscribe(OnBuilderOrderChanged);
+
+        OnBuilderOrderChanged();
+    }
+
+
+    int lastRequestedRefreshIndex;
+
+    void IDisposable.Dispose()
+    {
+        economyComparisonService.Unsubscribe(OnBuilderOrderChanged);
+    }
+
+
+    void OnBuilderOrderChanged()
+    {
+        
+        charts = new List<ChartModel>();
+        var index = 0;
+        
+        
+        highestAlloyPoint = 0;
+        
+        foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
+        {
+            GenerateChart(index++, buildToCompare);
+        }
+        
+        StateHasChanged();
+    }
+
+
+    protected override bool ShouldRender()
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.time", "ChartComponent");
+#endif
+
+        return true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+#if DEBUG
+        jsRuntime.InvokeVoidAsync("console.timeEnd", "ChartComponent");
+#endif
+    }
+
+    void GenerateChart(int index, BuildToCompareModel buildToCompareModel)
+    {
+        var economyOverTime = buildToCompareModel.EconomyOverTimeModel;
+
+
+        var alloyChart = new ChartModel
+        {
+            IntervalDisplayMax = width,
+            ValueDisplayMax = height,
+            ChartColor = buildToCompareModel.ChartColor
+        };
+
+
+
+        for (var interval = 0; interval < economyOverTime.Count(); interval++)
+        {
+            var alloyPoint = new PointModel { Interval = interval };
+
+            var economyAtSecond = economyOverTime[interval];
+
+            var alloyWorkerHarvesters = from harvester in economyAtSecond.Harvesters
+                where harvester.Harvest() != null
+                where harvester.Harvest().RequiresWorker
+                where harvester.Harvest().Resource == ResourceType.Alloy
+                select harvester;
+
+            var alloyAutomaticHarvesters = from harvester in economyAtSecond.Harvesters
+                where harvester.Harvest() != null
+                where harvester.Harvest().RequiresWorker == false
+                where harvester.Harvest().Resource == ResourceType.Alloy
+                select harvester;
+
+
+            float autoAlloy = 0;
+            float workerSlots = 0;
+            float workerAlloy = 0;
+
+            float economySpending = 0;
+
+            foreach (var alloyAutoHarvester in alloyAutomaticHarvesters)
+            {
+                autoAlloy += alloyAutoHarvester.Harvest().Slots * alloyAutoHarvester.Harvest().HarvestedPerInterval;
+                var production = alloyAutoHarvester.Production();
+                if (production != null)
+                {
+                    economySpending += production.Alloy;
+                }
+            }
+
+            foreach (var alloyWorkerHarvester in alloyWorkerHarvesters)
+            {
+                workerSlots += alloyWorkerHarvester.Harvest().Slots;
+                var production = alloyWorkerHarvester.Production();
+                if (production != null)
+                {
+                    economySpending += production.Alloy;
+                }
+            }
+
+            economySpending += (economyAtSecond.WorkerCount - 6) * 50;
+
+            workerAlloy = Math.Min(economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount, workerSlots);
+
+
+            alloyPoint.TempValue = workerAlloy + autoAlloy;
+
+
+            if (interval > 0)
+            {
+                alloyPoint.TempValue += alloyChart.Points.Last().TempValue;
+            }
+
+            alloyPoint.Value = alloyPoint.TempValue - economySpending;
+
+            highestAlloyPoint = Math.Max(highestAlloyPoint, alloyPoint.Value);
+
+            alloyChart.Points.Add(alloyPoint);
+        }
+
+        alloyChart.HighestValuePoint = highestAlloyPoint;
+
+        alloyChart.HighestIntervalPoint = economyOverTime.Count();
+
+        charts.Add(alloyChart);
+    }
+
+}

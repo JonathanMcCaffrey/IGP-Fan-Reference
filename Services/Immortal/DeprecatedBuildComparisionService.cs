@@ -7,9 +7,9 @@ using YamlDotNet.Serialization;
 
 namespace Services.Immortal;
 
-public class BuildComparisionService : IBuildComparisonService
+public class DeprecatedBuildComparisionService : IBuildComparisonService
 {
-    private BuildComparisonModel buildComparison = new();
+    private BuildToCompareModel buildToCompare = new();
 
     public void Subscribe(Action action)
     {
@@ -21,15 +21,15 @@ public class BuildComparisionService : IBuildComparisonService
         OnChange -= action;
     }
 
-    public void SetBuilds(BuildComparisonModel buildComparisonModel)
+    public void SetBuilds(BuildToCompareModel buildToCompareModel)
     {
-        buildComparison = buildComparisonModel;
+        buildToCompare = buildToCompareModel;
         NotifyDataChanged();
     }
 
-    public BuildComparisonModel Get()
+    public BuildToCompareModel Get()
     {
-        return buildComparison;
+        return buildToCompare;
     }
 
     public string AsJson()
@@ -39,7 +39,7 @@ public class BuildComparisionService : IBuildComparisonService
             WriteIndented = true
         };
         options.Converters.Add(new JsonStringEnumConverter());
-        return JsonSerializer.Serialize(buildComparison, options);
+        return JsonSerializer.Serialize(buildToCompare, options);
     }
 
     public bool LoadJson(string data)
@@ -51,7 +51,7 @@ public class BuildComparisionService : IBuildComparisonService
                 WriteIndented = true
             };
             options.Converters.Add(new JsonStringEnumConverter());
-            buildComparison = JsonSerializer.Deserialize<BuildComparisonModel>(data, options)!;
+            buildToCompare = JsonSerializer.Deserialize<BuildToCompareModel>(data, options)!;
 
             // Must Hydrate because not loaded with Parts
             HydratedLoadedJson();
@@ -69,7 +69,7 @@ public class BuildComparisionService : IBuildComparisonService
     {
         var stringBuilder = new StringBuilder();
         var serializer = new Serializer();
-        stringBuilder.AppendLine(serializer.Serialize(buildComparison));
+        stringBuilder.AppendLine(serializer.Serialize(buildToCompare));
         var buildOrderText = stringBuilder.ToString();
         return buildOrderText;
     }
@@ -84,9 +84,5 @@ public class BuildComparisionService : IBuildComparisonService
 
     public void HydratedLoadedJson()
     {
-        foreach (var build in buildComparison.Builds)
-        foreach (var orders in build.StartedOrders.Values)
-        foreach (var order in orders)
-            order.Copy(EntityModel.Get(order.DataType));
     }
 }

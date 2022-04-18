@@ -241,71 +241,20 @@ public class BuildOrderService : IBuildOrderService
         return buildOrder.Notes;
     }
 
-    public void SetColor(string color)
+    public void DeprecatedSetColor(string color)
     {
-        buildOrder.Color = color;
-        NotifyDataChanged();
+        
     }
 
     public string GetColor()
     {
-        return buildOrder.Color;
+        return "";
     }
 
     public void Reset()
     {
         lastInterval = 0;
-
-        buildOrder = new BuildOrderModel
-        {
-            StartedOrders = new Dictionary<int, List<EntityModel>>
-            {
-                {
-                    0,
-                    new List<EntityModel>
-                    {
-                        EntityModel.Get(DataType.STARTING_Bastion),
-                        EntityModel.Get(DataType.STARTING_TownHall_Aru)
-                    }
-                }
-            },
-            CompletedOrders = new Dictionary<int, List<EntityModel>>
-            {
-                {
-                    0,
-                    new List<EntityModel>
-                    {
-                        EntityModel.Get(DataType.STARTING_Bastion),
-                        EntityModel.Get(DataType.STARTING_TownHall_Aru)
-                    }
-                }
-            },
-            UniqueCompletedTimes = new Dictionary<string, int>
-            {
-                {
-                    DataType.STARTING_Bastion, 0
-                },
-                {
-                    DataType.STARTING_TownHall_Aru, 0
-                }
-            },
-            UniqueCompletedCount = new Dictionary<string, int>
-            {
-                {
-                    DataType.STARTING_Bastion, 1
-                },
-                {
-                    DataType.STARTING_TownHall_Aru, 1
-                }
-            },
-            SupplyCountTimes = new Dictionary<int, int>
-            {
-                {
-                    0, 0
-                }
-            }
-        };
-
+        buildOrder.Initialize(DataType.FACTION_Aru);
         NotifyDataChanged();
     }
 

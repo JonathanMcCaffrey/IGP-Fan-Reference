@@ -1,0 +1,85 @@
+﻿@inject IEconomyComparisonService economyComparisonService
+@implements IDisposable
+
+<FormLayoutComponent>
+    <FormSelectComponent OnChange="@OnFactionChanged">
+        <FormLabelComponent>Faction</FormLabelComponent>
+        <ChildContent>
+            <option value="@DataType.FACTION_Aru" selected="@IsSelected(DataType.FACTION_Aru)">Aru</option>
+            <option value="@DataType.FACTION_QRath" selected="@IsSelected(DataType.FACTION_QRath)">Q'Rath</option>
+        </ChildContent>
+    </FormSelectComponent>
+    <ContentDividerComponent/>
+    <FormNumberComponent Value="@TownHallCount" OnChange="ChangeTownHallNumber">
+        <FormLabelComponent>Number of TownHall Expansions</FormLabelComponent>
+    </FormNumberComponent>
+    <ContentDividerComponent/>
+  
+    @{
+        var index = 0;
+    }
+    @foreach (var timing in TownHallTimings)
+    {
+        index++;
+    
+    <FormNumberComponent Value="@timing" OnChange="(e)=> ChangeBuildTime(e, index - 1)">
+           <FormLabelComponent>
+               TownHall build time
+           </FormLabelComponent>
+    </FormNumberComponent>
+   }
+    <ContentDividerComponent/>
+    <FormTextComponent Label="Chart Color" Value="@ChartColor" OnChange="ChangeColor" />
+</FormLayoutComponent>
+
+
+<style>
+    
+</style>
+
+@code {
+
+    [Parameter]
+    public int ForPlayer { get; set; }
+
+    private int TownHallCount => economyComparisonService.GetTownHallCount(ForPlayer);
+    private string ChartColor => economyComparisonService.GetColor(ForPlayer);
+    private string Faction => economyComparisonService.GetFaction(ForPlayer);
+    private List<int> TownHallTimings => economyComparisonService.GetTownHallBuildTimes(ForPlayer);
+    
+    protected override void OnInitialized()
+    {
+        economyComparisonService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        economyComparisonService.Unsubscribe(StateHasChanged);
+    }
+
+    private void OnFactionChanged(ChangeEventArgs obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private bool IsSelected(string factionType)
+    {
+        return Faction.Equals(factionType);
+    }
+
+    private void ChangeColor(ChangeEventArgs obj)
+    {
+        economyComparisonService.ChangeColor(ForPlayer, obj.Value!.ToString()!);
+    }
+
+    private void ChangeTownHallNumber(ChangeEventArgs obj)
+    {
+        economyComparisonService.ChangeNumberOfTownHalls(ForPlayer, (int)obj.Value!);
+    }
+
+    private void ChangeBuildTime(ChangeEventArgs obj, int index)
+    {
+        economyComparisonService.ChangeTownHallTiming(ForPlayer, index, (int)obj.Value!);
+    }
+
+}
