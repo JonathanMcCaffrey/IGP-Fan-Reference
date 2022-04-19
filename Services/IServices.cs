@@ -308,6 +308,7 @@ public interface IBuildOrderService
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
     public void Add(EntityModel entity, int atInterval);
     public bool AddWait(int forInterval);
+    public bool AddWaitTo(int interval);
 
     
     public void SetName(string name);

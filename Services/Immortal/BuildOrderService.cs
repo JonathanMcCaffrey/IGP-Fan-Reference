@@ -101,14 +101,15 @@ public class BuildOrderService : IBuildOrderService
         if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
             buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
         
-        
         NotifyDataChanged();
-
         return true;
-
     }
 
-
+    public bool AddWaitTo(int interval)
+    {
+        throw new NotImplementedException();
+    }
+    
     public int? WillMeetRequirements(EntityModel entity)
     {
         var requirements = entity.Requirements();
@@ -141,7 +142,24 @@ public class BuildOrderService : IBuildOrderService
 
         return null;
     }
+    
+    public int? WillMeetTrainingQueue(EntityModel entity)
+    {
+        var supply = entity.Supply();
 
+        if (supply == null || supply.Takes.Equals(0)) return 0;
+
+        // TODO: Finish Training Queue Logic
+        
+        foreach (var supplyAtTime in buildOrder.SupplyCountTimes)
+            if (supply.Takes + buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
+                return supplyAtTime.Value;
+
+        return null;
+    }
+
+
+    
 
     public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService withToasts)
     {
@@ -347,6 +365,26 @@ public class BuildOrderService : IBuildOrderService
         return true;
     }
 
+    private bool HandleTrainingQueue(EntityModel entity, IToastService withToasts, ref int atInterval)
+    {
+        var minSupplyInterval = WillMeetSupply(entity);
+        if (minSupplyInterval == null)
+        {
+            withToasts.AddToast(new ToastModel
+            {
+                Title = "Supply Cap Reached", Message = "Build more supply!",
+                SeverityType = SeverityType.Error
+            });
+
+            return false;
+        }
+
+        if (minSupplyInterval > atInterval) atInterval = (int)minSupplyInterval;
+
+        return true;
+    }
+
+    
     private bool HandleRequirements(EntityModel entity, IToastService withToasts, ref int atInterval)
     {
         var minRequirementInterval = WillMeetRequirements(entity);

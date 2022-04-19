@@ -1,4 +1,5 @@
-﻿@implements IDisposable;
+﻿@using System.Timers
+@implements IDisposable;
 @inject ISearchService searchService
 @inject IJSRuntime jsRuntime
 
@@ -13,7 +14,7 @@
              @onclick:stopPropagation="true">
 
             <FormLayoutComponent>
-                <FormTextComponent Id="search-input-box" Placeholder="Search..." OnInput="SearchChanged"></FormTextComponent>
+                <FormTextComponent OnFocus="OnFocus" Id="search-input-box" Placeholder="Search..." OnInput="SearchChanged"></FormTextComponent>
             </FormLayoutComponent>
 
             <div class="searchBox">
@@ -120,25 +121,33 @@
     protected override void OnInitialized()
     {
         searchService.Subscribe(OnSearchChanged);
+        
+        timer = new Timer(200);
+        timer.Elapsed += FocusTimer;
+        timer.Enabled = false;
     }
 
-    private System.Threading.Timer timer = null!;
+
+    private void FocusTimer(object? sender, ElapsedEventArgs e)
+    {
+        jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-input-box");
+        StateHasChanged();
+    }
+    
+    private Timer timer = null!;
     private void OnSearchChanged()
     {
-        if (searchService.IsVisible)
+        if (timer.Enabled != searchService.IsVisible)
         {
-            timer = new System.Threading.Timer(_ =>
-            {
-                jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-input-box");
-                InvokeAsync(StateHasChanged);
-            }, null, 1, 1);
-            
+            timer.Enabled = searchService.IsVisible;
         }
+        StateHasChanged(); 
     }
 
     public void Dispose()
     {
         searchService.Unsubscribe(OnSearchChanged);
+        timer.Elapsed -= FocusTimer;
     }
 
 
@@ -169,6 +178,11 @@
     {
         NavigateTo(searchPoint.Href);
         searchService.Hide();
+    }
+
+    private void OnFocus(object obj)
+    {
+        timer.Enabled = false;
     }
 
 }

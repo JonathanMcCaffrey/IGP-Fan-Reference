@@ -14,21 +14,41 @@
         <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
     </FormNumberComponent>
 
-    <FormNumberComponent Max="600"
-                         Min="0"
-                         Value="@WaitTime"
-                         OnChange="@OnWaitTimeChanged">
-        <FormLabelComponent>Wait Time</FormLabelComponent>
-        <FormInfoComponent>Not implemented</FormInfoComponent>
-    </FormNumberComponent>
+    <div class="optionRow">
+        <FormLayoutComponent>
+            <FormNumberComponent Max="600"
+                                 Min="0"
+                                 Value="@WaitTime"
+                                 OnChange="@OnWaitTimeChanged">
+                <FormLabelComponent>Wait Time</FormLabelComponent>
+            </FormNumberComponent>
+            <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
+        </FormLayoutComponent>
+        <FormLayoutComponent>
+            <FormNumberComponent Max="600"
+                                 Min="0"
+                                 Value="@WaitTime"
+                                 OnChange="@OnWaitTimeChanged">
+                <FormLabelComponent>Wait To</FormLabelComponent>
+            </FormNumberComponent>
+            <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
+        </FormLayoutComponent>
 
-
-    <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
-
+    </div>
 </FormLayoutComponent>
 
-@code {
+<style>
+    .optionRow {
+        display: flex;
+        gap: 12px;
+    }
+</style>
 
+@code {
+    public int WaitTime { get; set; } = 30;
+    public int WaitTo { get; set; } = 30;
+
+    
     void OnBuildingInputDelayChanged(ChangeEventArgs changeEventArgs)
     {
         buildOrderService.BuildingInputDelay = int.Parse(changeEventArgs.Value!.ToString()!);
@@ -40,6 +60,14 @@
     }
 
     public void OnWaitClicked()
+    {
+        if (buildOrderService.AddWait(WaitTime))
+        {
+            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+        }
+    }
+    
+    public void OnWaitToClicked()
     {
         if (buildOrderService.AddWait(WaitTime))
         {
@@ -63,6 +91,5 @@
 #endif
     }
 
-    public int WaitTime { get; set; } = 30;
 
 }

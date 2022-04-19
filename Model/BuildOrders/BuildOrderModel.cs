@@ -29,6 +29,8 @@ public class BuildOrderModel
     public Dictionary<string, int> UniqueCompletedCount { get; set; } = new();
     public Dictionary<int, int> SupplyCountTimes { get; set; } = new();
 
+    public List<TrainingCapacityUsedModel> TrainingCapacityModels { get; set; } = new();
+
     public void Initialize(string faction)
     {
         string factionStartingTownHall = faction.Equals(DataType.FACTION_QRath) ? DataType.STARTING_TownHall_QRath : 
