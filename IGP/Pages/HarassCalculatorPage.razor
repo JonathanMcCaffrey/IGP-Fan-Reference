@@ -1,6 +1,7 @@
 ﻿@layout PageLayout
 
 @page "/harass-calculator"
+@using Model
 
 <LayoutMediumContentComponent>
     <WebsiteTitleComponent>Harass Calculator</WebsiteTitleComponent>
@@ -29,24 +30,38 @@
 
             <LayoutColumnComponent>
                 <FormLayoutComponent>
-                    <FormNumberComponent Min="0"
+                    <FormNumberComponent Min="1"
                                          Value="@((int)NumberOfWorkersLostToHarass)"
                                          OnChange="@(e => { NumberOfWorkersLostToHarass = int.Parse(e.Value!.ToString()!); Calculate();})">
                         <FormLabelComponent>Number of workers lost to harass</FormLabelComponent>
                     </FormNumberComponent>
+                    
+                      <FormNumberComponent Min="1"
+                                           Value="@((int)NumberOfTownHallsExisting)"
+                                           OnChange="OnTownHallsChanged">
+                          <FormLabelComponent>Number of townhalls you have</FormLabelComponent>
+                          </FormNumberComponent>
 
-                    <FormNumberComponent Min="0"
-                                         Value="@((int)NumberOfTownHallsExisting)"
-                                         OnChange="@(e => { NumberOfTownHallsExisting = int.Parse(e.Value!.ToString()!); Calculate();})">
-                        <FormLabelComponent>Number of townhalls you have</FormLabelComponent>
-                    </FormNumberComponent>
-
-                    <FormNumberComponent Min="0"
-                                         Value="@((int)TravelTime)"
-                                         OnChange="@(e => { TravelTime = int.Parse(e.Value!.ToString()!); Calculate();})">
-                        <FormLabelComponent>Worker travel time to alloy</FormLabelComponent>
-                    </FormNumberComponent>
-
+                    
+                    
+                    @{
+                        var index = 0;
+                    }
+                    @foreach (var travelTime in TravelTimes)
+                    {
+                        index++;
+                        if (index == 1)
+                        {
+                            continue;
+                        }
+                        
+                        <FormNumberComponent Min="0"
+                                             Value="@(travelTime.Value)"
+                                             OnChange="((e) => { OnTownHallTravelTimeChanged(e, travelTime); })">
+                            <FormLabelComponent>Worker travel time from other base @(travelTime.Index + 1)</FormLabelComponent>
+                        </FormNumberComponent>    
+                    }
+                    
                     <FormDisplayComponent Label="Total alloy lost">
                         <Display>
                             <div style="font-size: 1.5rem; font-weight: 800;">
@@ -63,8 +78,10 @@
                     (<b>Worker replacement costs:</b> @WorkerReplacementCost())
                 </div>
                 <div>
-
                     (<b>Delayed mining time:</b> @DelayedMiningCost())
+                </div>
+                <div>
+                    (<b>Average travel time:</b> @GetAverageTravelTime())
                 </div>
 
 
@@ -180,10 +197,31 @@
     readonly float CostOfWorker = 50;
     readonly float AlloyMinedPerSecondByWorker = 1;
     readonly float TimeToProduceWorker = 20;
-    float TravelTime = 1;
     float NumberOfWorkersLostToHarass = 1;
     float NumberOfTownHallsExisting = 1;
 
+    float GetAverageTravelTime()
+    {
+        if (TravelTimes.Count == 0)
+        {
+            return 0;
+        }
+
+        var sum = 0;
+
+        foreach (var travelTime in TravelTimes)
+        {
+            sum += travelTime.Value;
+        }
+        
+        
+        Console.WriteLine("NumberOfTownHallsExisting " + NumberOfTownHallsExisting);
+
+        
+        return sum / NumberOfTownHallsExisting;
+    }
+
+    
     float SimultaneousProductionFloor()
     {
         if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0)
@@ -191,6 +229,8 @@
             return 0;
         }
 
+        Console.WriteLine("SimultaneousProductionFloor " + Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
+        
         return (float)Math.Floor(NumberOfWorkersLostToHarass / Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass));
     }
 
@@ -203,8 +243,7 @@
     {
         return CostOfWorker * NumberOfWorkersLostToHarass;
     }
-
-
+    
     float DelayedMiningCost()
     {
         return TotalAlloyHarassment - WorkerReplacementCost();
@@ -216,10 +255,11 @@
 
         for (var workerProductionIndex = 0; workerProductionIndex < SimultaneousProductionFloor(); workerProductionIndex++)
         {
-            TotalAlloyHarassment += AlloyMinedPerSecondByWorker * (TimeToProduceWorker + TravelTime) * (workerProductionIndex + 1);
+            int townHallIndex = (workerProductionIndex + 1) % TravelTimes.Count;
+            TotalAlloyHarassment += AlloyMinedPerSecondByWorker * (TimeToProduceWorker + TravelTimes[townHallIndex].Value) * (workerProductionIndex + 1);
         }
 
-        TotalAlloyHarassment += LeftOverWorkersToProduceCount() * (TimeToProduceWorker + TravelTime) * AlloyMinedPerSecondByWorker;
+        TotalAlloyHarassment += LeftOverWorkersToProduceCount() * (TimeToProduceWorker + TravelTimes[0].Value) * AlloyMinedPerSecondByWorker;
     }
 
     protected override void OnInitialized()
@@ -231,5 +271,26 @@
     {
         Calculate();
     }
+    
+    public List<TravelTime> TravelTimes { get; set; } = new() {new TravelTime(0, 0)};
 
+    private void OnTownHallsChanged(ChangeEventArgs obj)
+    {
+        NumberOfTownHallsExisting = int.Parse(obj.Value!.ToString()!);
+
+        while (TravelTimes.Count > NumberOfTownHallsExisting)
+            TravelTimes.Remove(TravelTimes.Last());
+        
+        while (TravelTimes.Count < NumberOfTownHallsExisting)
+            TravelTimes.Add(new TravelTime(TravelTimes.Count, 0));
+        Calculate();
+    }
+
+    private void OnTownHallTravelTimeChanged(ChangeEventArgs obj, TravelTime travelTime)
+    {
+        travelTime.Value = (int)obj.Value!;
+        
+        Calculate();
+        StateHasChanged();
+    }
 }
