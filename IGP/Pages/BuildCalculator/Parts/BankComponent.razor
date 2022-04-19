@@ -5,7 +5,7 @@
 
 @implements IDisposable
 
-<FormLayoutComponent>
+<div class="bankContainer">
     <FormDisplayComponent Label="Time">
         <Display>@BuildOrderService.GetLastRequestInterval() | T @Interval.ToTime(BuildOrderService.GetLastRequestInterval())</Display>
     </FormDisplayComponent>
@@ -18,16 +18,42 @@
         </FormDisplayComponent>
     </div>
     <div class="bankRow">
-         <FormDisplayComponent Label="Pyre">
-             <Display>@economy.Pyre</Display>
-             </FormDisplayComponent>
+        <FormDisplayComponent Label="Pyre">
+            <Display>@economy.Pyre</Display>
+        </FormDisplayComponent>
         <FormDisplayComponent Label="Supply">
             <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
         </FormDisplayComponent>
     </div>
-</FormLayoutComponent>
+
+    <div>
+        <div class="workerText">Workers</div>
+        <div class="bankRow">
+            <FormDisplayComponent Label="Current">
+                <Display>@economy.WorkerCount</Display>
+            </FormDisplayComponent>
+            <FormDisplayComponent Label="Busy">
+                <Display>@economy.BusyWorkerCount</Display>
+            </FormDisplayComponent>
+            <FormDisplayComponent Label="Creating">
+                <Display>@economy.CreatingWorkerCount</Display>
+            </FormDisplayComponent>
+        </div>
+    </div>
+</div>
 
 <style>
+    .bankContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .workerText {
+        margin-bottom: -2px;
+        font-size: 0.8em;
+    }
+
     .bankRow {
         display: flex;
         gap: 8px;
@@ -75,8 +101,6 @@
 
     void OnBuildOrderChanged()
     {
-        Console.WriteLine("OnBuildOrderChanged()");
-        
         economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
 
         var ordersOverTime = BuildOrderService.GetOrders();

@@ -213,19 +213,19 @@ else
 
             var economyAtSecond = economyOverTime[interval];
 
-            var alloyWorkerHarvesters = from harvester in economyAtSecond.Harvesters
+            var alloyWorkerHarvesters = from harvester in economyAtSecond.HarvestPoints
                 where harvester.Harvest() != null
                 where harvester.Harvest().RequiresWorker
                 where harvester.Harvest().Resource == ResourceType.Alloy
                 select harvester;
 
-            var alloyAutomaticHarvesters = from harvester in economyAtSecond.Harvesters
+            var alloyAutomaticHarvesters = from harvester in economyAtSecond.HarvestPoints
                 where harvester.Harvest() != null
                 where harvester.Harvest().RequiresWorker == false
                 where harvester.Harvest().Resource == ResourceType.Alloy
                 select harvester;
 
-            var etherAutomaticHarvesters = from harvester in economyAtSecond.Harvesters
+            var etherAutomaticHarvesters = from harvester in economyAtSecond.HarvestPoints
                 where harvester.Harvest() != null
                 where harvester.Harvest().RequiresWorker == false
                 where harvester.Harvest().Resource == ResourceType.Ether

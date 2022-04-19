@@ -323,7 +323,7 @@ public interface IBuildOrderService
     public int? WillMeetSupply(EntityModel entity);
     public Dictionary<int, List<EntityModel>> GetOrders();
     public List<EntityModel> GetCompletedBefore(int interval);
-    public List<EntityModel> GetHarvestersCompletedBefore(int interval);
+    public List<EntityModel> GetHarvestPointsCompletedBefore(int interval);
 
     public void RemoveLast();
     public void Reset();

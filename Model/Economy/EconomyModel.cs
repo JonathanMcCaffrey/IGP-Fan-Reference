@@ -14,5 +14,5 @@ public class EconomyModel
     public int BusyWorkerCount { get; set; } = 0;
     public int CreatingWorkerCount { get; set; } = 0;
     public List<int> CreatingWorkerDelays { get; set; } = new();
-    public List<EntityModel> Harvesters { get; set; } = new();
+    public List<EntityModel> HarvestPoints { get; set; } = new();
 }

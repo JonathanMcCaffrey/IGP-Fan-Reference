@@ -93,7 +93,7 @@ public class EconomyComparisionService : IEconomyComparisonService
                 economyAtSecond.WorkerCount = buildEconomyOverTime[interval - 1].WorkerCount;
                 economyAtSecond.BusyWorkerCount = buildEconomyOverTime[interval - 1].BusyWorkerCount;
                 economyAtSecond.CreatingWorkerCount = buildEconomyOverTime[interval - 1].CreatingWorkerCount;
-                economyAtSecond.Harvesters = buildEconomyOverTime[interval - 1].Harvesters.ToList();
+                economyAtSecond.HarvestPoints = buildEconomyOverTime[interval - 1].HarvestPoints.ToList();
                 economyAtSecond.CreatingWorkerDelays = buildEconomyOverTime[interval - 1].CreatingWorkerDelays.ToList();
             }
 
@@ -103,7 +103,7 @@ public class EconomyComparisionService : IEconomyComparisonService
             float freeWorkers = economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount;
             var workersNeeded = 0;
 
-            economyAtSecond.Harvesters =
+            economyAtSecond.HarvestPoints =
                 (from harvester in buildOrder.GetHarvestersCompletedBefore(interval)
                     select harvester).ToList();
 
@@ -111,7 +111,7 @@ public class EconomyComparisionService : IEconomyComparisonService
             economyAtSecond.Pyre += 1;
 
             // Add funds
-            foreach (var entity in economyAtSecond.Harvesters)
+            foreach (var entity in economyAtSecond.HarvestPoints)
             {
                 var harvester = entity.Harvest();
                 if (harvester.RequiresWorker)
@@ -185,7 +185,7 @@ public class EconomyComparisionService : IEconomyComparisonService
                 foreach (var newEntity in completedAtInterval)
                 {
                     var harvest = newEntity;
-                    if (harvest != null) economyAtSecond.Harvesters.Add(harvest);
+                    if (harvest != null) economyAtSecond.HarvestPoints.Add(harvest);
 
                     var production = newEntity.Production();
                     if (production != null && production.RequiresWorker) economyAtSecond.BusyWorkerCount -= 1;

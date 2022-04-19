@@ -239,7 +239,7 @@ public class BuildOrderService : IBuildOrderService
             select orders).ToList();
     }
 
-    public List<EntityModel> GetHarvestersCompletedBefore(int interval)
+    public List<EntityModel> GetHarvestPointsCompletedBefore(int interval)
     {
         return (from ordersAtTime in buildOrder.StartedOrders
             from orders in ordersAtTime.Value
