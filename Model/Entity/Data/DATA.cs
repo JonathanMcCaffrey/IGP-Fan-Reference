@@ -2175,8 +2175,9 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Restore Lifeblood", Descriptive = DescriptiveType.Passive,
-                        Description = @"Restores health to a single target."
+                        Description = @"Quickly heals a nearby unit"
                     })
+                    .AddPart(new EntityProductionModel(){Cooldown = 0.25f})
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
 
@@ -2187,12 +2188,11 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Transfusion", Descriptive = DescriptiveType.Passive,
-                        Description = @"Restores energy to a single target."
+                        Description = @"Spends mana to refill the mana of nearby units"
                     })
+                    .AddPart(new EntityProductionModel(){Energy = 4, Cooldown = 1})
                     .AddPart(new EntityFactionModel { Faction = FactionType.Aru })
             },
-
-
             {
                 DataType.PASSIVE_FortifiedIcons,
                 new EntityModel(DataType.PASSIVE_FortifiedIcons, EntityType.Passive)
