@@ -13,11 +13,10 @@
         <FormLabelComponent>Building Input Delay</FormLabelComponent>
         <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
     </FormNumberComponent>
-
     <div class="optionRow">
         <FormLayoutComponent>
             <FormNumberComponent Max="600"
-                                 Min="0"
+                                 Min="1"
                                  Value="@WaitTime"
                                  OnChange="@OnWaitTimeChanged">
                 <FormLabelComponent>Wait Time</FormLabelComponent>
@@ -25,15 +24,14 @@
             <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
         </FormLayoutComponent>
         <FormLayoutComponent>
-            <FormNumberComponent Max="600"
-                                 Min="0"
-                                 Value="@WaitTime"
-                                 OnChange="@OnWaitTimeChanged">
+            <FormNumberComponent Max="2048"
+                                 Min="1"
+                                 Value="@WaitTo"
+                                 OnChange="@OnWaitToChanged">
                 <FormLabelComponent>Wait To</FormLabelComponent>
             </FormNumberComponent>
-            <ButtonComponent OnClick="OnWaitClicked">Add Wait</ButtonComponent>
+            <ButtonComponent OnClick="OnWaitToClicked">Add Wait</ButtonComponent>
         </FormLayoutComponent>
-
     </div>
 </FormLayoutComponent>
 
@@ -45,8 +43,8 @@
 </style>
 
 @code {
-    public int WaitTime { get; set; } = 30;
-    public int WaitTo { get; set; } = 30;
+    private int WaitTime { get; set; } = 30;
+    private int WaitTo { get; set; } = 30;
 
     
     void OnBuildingInputDelayChanged(ChangeEventArgs changeEventArgs)
@@ -58,18 +56,23 @@
     {
         WaitTime = (int)changeEventArgs.Value!;
     }
+    
+    void OnWaitToChanged(ChangeEventArgs changeEventArgs)
+    {
+        WaitTo = (int)changeEventArgs.Value!;
+    }
 
-    public void OnWaitClicked()
+    private void OnWaitClicked()
     {
         if (buildOrderService.AddWait(WaitTime))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }
     }
-    
-    public void OnWaitToClicked()
+
+    private void OnWaitToClicked()
     {
-        if (buildOrderService.AddWait(WaitTime))
+        if (buildOrderService.AddWaitTo(WaitTo))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }

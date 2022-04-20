@@ -45,7 +45,7 @@ public interface ISearchService
     void Hide();
 }
 
-public interface IVariableService 
+public interface IVariableService
 {
     public Dictionary<string, string> Variables { get; set; }
     public Task Load();
@@ -59,7 +59,7 @@ public interface IEconomyComparisonService
     public void ChangeTownHallTiming(int forPlayer, int forTownHall, int toTiming);
     public int GetTownHallCount(int forPlayer);
     public int GetTownHallBuildTime(int forPlayer, int forTownHall);
-    
+
     public List<int> GetTownHallBuildTimes(int forPlayer);
     public void ChangeFaction(int forPlayer, string toFaction);
     public string GetFaction(int forPlayer);
@@ -305,12 +305,12 @@ public interface IBuildOrderService
     public Dictionary<int, int> SupplyCountTimes { get; }
 
 
-    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService toastService);
+    public bool Add(EntityModel entity, IEconomyService withEconomy);
     public void Add(EntityModel entity, int atInterval);
     public bool AddWait(int forInterval);
     public bool AddWaitTo(int interval);
 
-    
+
     public void SetName(string name);
     public string GetName();
 

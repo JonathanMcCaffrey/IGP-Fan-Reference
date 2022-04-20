@@ -329,7 +329,7 @@
             return;
         }
 
-        if (buildOrderService.Add(entity, economyService, toastService))
+        if (buildOrderService.Add(entity, economyService))
         {
             economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
         }

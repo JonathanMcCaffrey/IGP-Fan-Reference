@@ -17,7 +17,7 @@ public class BuildOrderModel
     {
         Initialize(factionType);
     }
-    
+
     public string Name { get; set; } = "";
     public string Notes { get; set; } = @"";
 
@@ -28,19 +28,18 @@ public class BuildOrderModel
     public Dictionary<string, int> UniqueCompletedTimes { get; set; } = new();
     public Dictionary<string, int> UniqueCompletedCount { get; set; } = new();
     public Dictionary<int, int> SupplyCountTimes { get; set; } = new();
+    
+    public Dictionary<string, Dictionary<int, List<EntityModel>>> UniqueCompleted { get; set; } = new();
 
-    public List<TrainingCapacityUsedModel> TrainingCapacityModels { get; set; } = new();
+    public List<TrainingCapacityUsedModel> TrainingCapacityUsed { get; set; } = new();
 
     public void Initialize(string faction)
     {
-        string factionStartingTownHall = faction.Equals(DataType.FACTION_QRath) ? DataType.STARTING_TownHall_QRath : 
+        var factionStartingTownHall = faction.Equals(DataType.FACTION_QRath) ? DataType.STARTING_TownHall_QRath :
             faction.Equals(DataType.FACTION_Aru) ? DataType.STARTING_TownHall_Aru : "";
 
-        if (factionStartingTownHall.Equals(""))
-        {
-            throw new Exception("Reminder to add support to new factions");
-        }
-        
+        if (factionStartingTownHall.Equals("")) throw new Exception("Reminder to add support to new factions");
+
         StartedOrders = new Dictionary<int, List<EntityModel>>
         {
             {

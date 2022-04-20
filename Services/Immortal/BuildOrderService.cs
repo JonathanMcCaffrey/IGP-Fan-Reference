@@ -12,11 +12,15 @@ namespace Services.Immortal;
 
 public class BuildOrderService : IBuildOrderService
 {
-    private BuildOrderModel buildOrder = new();
+    private readonly BuildOrderModel buildOrder = new();
     private int lastInterval;
 
-    public BuildOrderService()
+    private readonly IToastService toastService;
+
+    public BuildOrderService(IToastService toastService)
     {
+        this.toastService = toastService;
+
         Reset();
     }
 
@@ -47,6 +51,7 @@ public class BuildOrderService : IBuildOrderService
         OnChange -= action;
     }
 
+
     public void Add(EntityModel entity, int atInterval)
     {
         if (!buildOrder.StartedOrders.ContainsKey(atInterval))
@@ -74,13 +79,23 @@ public class BuildOrderService : IBuildOrderService
         else
             buildOrder.UniqueCompletedCount[entity.DataType]++;
 
+        //entity.
+        if (!buildOrder.UniqueCompleted.ContainsKey(entity.DataType))
+            buildOrder.UniqueCompleted.Add(entity.DataType, new Dictionary<int, List<EntityModel>>());
+
+        if (!buildOrder.UniqueCompleted[entity.DataType].ContainsKey(completedTime))
+            buildOrder.UniqueCompleted[entity.DataType].Add(completedTime, new List<EntityModel>());
+        
+        buildOrder.UniqueCompleted[entity.DataType][completedTime].Add(entity);
+        
+
         if (supply != null)
         {
             if (!supply.Takes.Equals(0)) buildOrder.CurrentSupplyUsed += supply.Takes;
             if (!supply.Grants.Equals(0))
                 buildOrder.SupplyCountTimes.Add(buildOrder.SupplyCountTimes.Last().Key + supply.Grants, completedTime);
         }
-        
+
         if (atInterval > lastInterval) lastInterval = atInterval;
 
         NotifyDataChanged();
@@ -88,28 +103,44 @@ public class BuildOrderService : IBuildOrderService
 
     public bool AddWait(int forInterval)
     {
-        if (forInterval == 0)
+        if (forInterval < 0)
         {
+            toastService.AddToast(new ToastModel(){SeverityType = SeverityType.Error, Title = "Wait", Message = "This should never happen."});
             return false;
-        }
-        
+        };
+
         lastInterval += forInterval;
-        
+
         if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
             buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
 
         if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
             buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
-        
+
         NotifyDataChanged();
         return true;
     }
 
     public bool AddWaitTo(int interval)
     {
-        throw new NotImplementedException();
+        if (interval <= lastInterval)
+        {
+            toastService.AddToast(new ToastModel(){SeverityType = SeverityType.Error, Title = "Logic Error", Message = "You cannot wait to a time that has already elapsed."});
+            return false;
+        }
+
+        lastInterval = interval;
+        
+        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
+            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
+
+        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
+            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
+
+        NotifyDataChanged();
+        return true;
     }
-    
+
     public int? WillMeetRequirements(EntityModel entity)
     {
         var requirements = entity.Requirements();
@@ -142,32 +173,15 @@ public class BuildOrderService : IBuildOrderService
 
         return null;
     }
-    
-    public int? WillMeetTrainingQueue(EntityModel entity)
-    {
-        var supply = entity.Supply();
-
-        if (supply == null || supply.Takes.Equals(0)) return 0;
-
-        // TODO: Finish Training Queue Logic
-        
-        foreach (var supplyAtTime in buildOrder.SupplyCountTimes)
-            if (supply.Takes + buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
-                return supplyAtTime.Value;
-
-        return null;
-    }
 
 
-    
-
-    public bool Add(EntityModel entity, IEconomyService withEconomy, IToastService withToasts)
+    public bool Add(EntityModel entity, IEconomyService withEconomy)
     {
         var atInterval = lastInterval;
 
-        if (!HandleSupply(entity, withToasts, ref atInterval)) return false;
-        if (!HandleRequirements(entity, withToasts, ref atInterval)) return false;
-        if (!HandleEconomy(entity, withEconomy, withToasts, ref atInterval)) return false;
+        if (!HandleSupply(entity, ref atInterval)) return false;
+        if (!HandleRequirements(entity, ref atInterval)) return false;
+        if (!HandleEconomy(entity, withEconomy, ref atInterval)) return false;
 
         Add(entity, atInterval);
 
@@ -186,7 +200,7 @@ public class BuildOrderService : IBuildOrderService
                 lastInterval = buildOrder.StartedOrders.Last().Key;
                 return;
             }
-            
+
             var lastStarted = buildOrder.StartedOrders.Keys.Last();
             var lastCompleted = buildOrder.CompletedOrders.Keys.Last();
 
@@ -212,7 +226,8 @@ public class BuildOrderService : IBuildOrderService
 
             if (entityRemoved.Supply()?.Takes > 0)
                 buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
-
+            
+            
 
             buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
             if (buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0)
@@ -291,7 +306,6 @@ public class BuildOrderService : IBuildOrderService
 
     public void DeprecatedSetColor(string color)
     {
-        
     }
 
     public string GetColor()
@@ -306,10 +320,40 @@ public class BuildOrderService : IBuildOrderService
         NotifyDataChanged();
     }
 
+    public bool AddWaitTo(int interval, TimingService timingService)
+    {
+        if (lastInterval >= interval) return false;
+
+        if (interval > timingService.GetAttackTime()) return false;
+
+
+        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
+            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
+
+        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
+            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
+
+        NotifyDataChanged();
+        return true;
+    }
+
+    public int? WillMeetTrainingQueue(EntityModel entity)
+    {
+        var supply = entity.Supply();
+
+        if (supply == null || supply.Takes.Equals(0)) return 0;
+
+
+        foreach (var supplyAtTime in buildOrder.SupplyCountTimes)
+            if (supply.Takes + buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
+                return supplyAtTime.Value;
+
+        return null;
+    }
+
     private event Action OnChange = null!;
 
-    private bool HandleEconomy(EntityModel entity, IEconomyService withEconomy, IToastService withToasts,
-        ref int atInterval)
+    private bool HandleEconomy(EntityModel entity, IEconomyService withEconomy, ref int atInterval)
     {
         var production = entity.Production();
 
@@ -318,8 +362,9 @@ public class BuildOrderService : IBuildOrderService
         for (var interval = atInterval; interval < withEconomy.GetOverTime().Count; interval++)
         {
             var economyAtSecond = withEconomy.GetOverTime()[interval];
-            if (economyAtSecond.Alloy >= production.Alloy && economyAtSecond.Ether >= production.Ether &&
-                economyAtSecond.Pyre >= production.Pyre)
+            if (economyAtSecond.Alloy >= production.Alloy
+                && economyAtSecond.Ether >= production.Ether
+                && economyAtSecond.Pyre >= production.Pyre)
             {
                 atInterval = interval;
 
@@ -330,14 +375,14 @@ public class BuildOrderService : IBuildOrderService
         }
 
         if (withEconomy.GetOverTime().Last().Ether < production.Ether)
-            withToasts.AddToast(new ToastModel
+            toastService.AddToast(new ToastModel
             {
                 Title = "Not Enough Ether", Message = "Build more ether extractors!",
                 SeverityType = SeverityType.Error
             });
 
         if (withEconomy.GetOverTime().Last().Alloy < production.Alloy)
-            withToasts.AddToast(new ToastModel
+            toastService.AddToast(new ToastModel
             {
                 Title = "Not Enough Alloy", Message = "Build more bases!",
                 SeverityType = SeverityType.Error
@@ -346,12 +391,12 @@ public class BuildOrderService : IBuildOrderService
         return false;
     }
 
-    private bool HandleSupply(EntityModel entity, IToastService withToasts, ref int atInterval)
+    private bool HandleSupply(EntityModel entity, ref int atInterval)
     {
         var minSupplyInterval = WillMeetSupply(entity);
         if (minSupplyInterval == null)
         {
-            withToasts.AddToast(new ToastModel
+            toastService.AddToast(new ToastModel
             {
                 Title = "Supply Cap Reached", Message = "Build more supply!",
                 SeverityType = SeverityType.Error
@@ -365,12 +410,12 @@ public class BuildOrderService : IBuildOrderService
         return true;
     }
 
-    private bool HandleTrainingQueue(EntityModel entity, IToastService withToasts, ref int atInterval)
+    private bool HandleTrainingQueue(EntityModel entity, ref int atInterval)
     {
         var minSupplyInterval = WillMeetSupply(entity);
         if (minSupplyInterval == null)
         {
-            withToasts.AddToast(new ToastModel
+            toastService.AddToast(new ToastModel
             {
                 Title = "Supply Cap Reached", Message = "Build more supply!",
                 SeverityType = SeverityType.Error
@@ -384,13 +429,13 @@ public class BuildOrderService : IBuildOrderService
         return true;
     }
 
-    
-    private bool HandleRequirements(EntityModel entity, IToastService withToasts, ref int atInterval)
+
+    private bool HandleRequirements(EntityModel entity, ref int atInterval)
     {
         var minRequirementInterval = WillMeetRequirements(entity);
         if (minRequirementInterval == null)
         {
-            withToasts.AddToast(new ToastModel
+            toastService.AddToast(new ToastModel
             {
                 Title = "Missing Requirements", Message = "You don't have what's needed for this unit.",
                 SeverityType = SeverityType.Error

@@ -95,7 +95,7 @@ grid-template-areas: 'loader sand compare compare' ;">
         {
             return;
         }
-        if (BuildOrderService.Add(entity, EconomyService, toastService))
+        if (BuildOrderService.Add(entity, EconomyService))
         {
             EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }

@@ -1,5 +1,4 @@
-﻿using Model.BuildOrders;
-using Model.Economy;
+﻿using Model.Economy;
 using Model.Entity;
 using Model.Types;
 
@@ -8,7 +7,7 @@ namespace Services.Immortal;
 public class EconomyService : IEconomyService
 {
     private List<EconomyModel> buildEconomyOverTime = null!;
-    
+
     private Dictionary<string, List<EconomyModel>> specficEconomiesOverTime = null!;
 
     public List<EconomyModel> GetOverTime()
@@ -29,11 +28,8 @@ public class EconomyService : IEconomyService
     public void Calculate(IBuildOrderService buildOrder, ITimingService timing, int fromInterval)
     {
         // We don't consider things mining at zero seconds
-        if (fromInterval == 0)
-        {
-            fromInterval = 1;
-        }
-        
+        if (fromInterval == 0) fromInterval = 1;
+
         //TODO Break all this up
         if (buildEconomyOverTime == null)
         {
@@ -44,7 +40,8 @@ public class EconomyService : IEconomyService
 
 
         if (buildEconomyOverTime.Count > timing.GetAttackTime())
-            buildEconomyOverTime.RemoveRange(timing.GetAttackTime(), buildEconomyOverTime.Count - timing.GetAttackTime());
+            buildEconomyOverTime.RemoveRange(timing.GetAttackTime(),
+                buildEconomyOverTime.Count - timing.GetAttackTime());
 
         while (buildEconomyOverTime.Count < timing.GetAttackTime())
             buildEconomyOverTime.Add(new EconomyModel { Interval = buildEconomyOverTime.Count - 1 });
@@ -52,14 +49,14 @@ public class EconomyService : IEconomyService
         for (var interval = fromInterval; interval < timing.GetAttackTime(); interval++)
         {
             buildEconomyOverTime[interval] = new EconomyModel();
-            
+
             var economyAtSecond = buildEconomyOverTime[interval];
-            
+
             CarryOverEconomyFromPreviousInterval(interval, economyAtSecond);
 
             SetupCurrentInverval(buildOrder, economyAtSecond, interval);
             AddPassivePyreGain(interval, economyAtSecond);
-            float freeWorkers = economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount; 
+            float freeWorkers = economyAtSecond.WorkerCount - economyAtSecond.BusyWorkerCount;
             var workersNeeded = AddFundsFromHarvestPoints(economyAtSecond, freeWorkers);
             workersNeeded -= CalculateCreatingWorkerCosts(economyAtSecond);
             MakeNeededNewWorkersRequests(workersNeeded, economyAtSecond);
@@ -68,6 +65,14 @@ public class EconomyService : IEconomyService
         }
 
         NotifyDataChanged();
+    }
+
+
+    public EconomyModel GetEconomy(int atInterval)
+    {
+        if (atInterval >= buildEconomyOverTime.Count) return buildEconomyOverTime.Last();
+
+        return buildEconomyOverTime[atInterval];
     }
 
     private static void SetupCurrentInverval(IBuildOrderService buildOrder, EconomyModel economyAtSecond, int interval)
@@ -129,8 +134,8 @@ public class EconomyService : IEconomyService
      */
     private static int CalculateCreatingWorkerCosts(EconomyModel economyAtSecond)
     {
-        int createdWorkers = 0;
-        
+        var createdWorkers = 0;
+
         if (economyAtSecond.CreatingWorkerCount > 0)
             for (var i = 0; i < economyAtSecond.CreatingWorkerDelays.Count; i++)
                 if (economyAtSecond.CreatingWorkerDelays[i] > 0)
@@ -158,8 +163,8 @@ public class EconomyService : IEconomyService
      */
     private static int AddFundsFromHarvestPoints(EconomyModel economyAtSecond, float freeWorkers)
     {
-        int workersNeeded = 0;
-        
+        var workersNeeded = 0;
+
         foreach (var entity in economyAtSecond.HarvestPoints)
         {
             var harvester = entity.Harvest();
@@ -188,10 +193,7 @@ public class EconomyService : IEconomyService
 
     private static void AddPassivePyreGain(int interval, EconomyModel economyAtSecond)
     {
-        if (interval % 3 == 0)
-        {
-            economyAtSecond.Pyre += 1;
-        }
+        if (interval % 3 == 0) economyAtSecond.Pyre += 1;
     }
 
     private void CarryOverEconomyFromPreviousInterval(int interval, EconomyModel economyAtSecond)
@@ -207,14 +209,6 @@ public class EconomyService : IEconomyService
             economyAtSecond.HarvestPoints = buildEconomyOverTime[interval - 1].HarvestPoints.ToList();
             economyAtSecond.CreatingWorkerDelays = buildEconomyOverTime[interval - 1].CreatingWorkerDelays.ToList();
         }
-    }
-
-
-    public EconomyModel GetEconomy(int atInterval)
-    {
-        if (atInterval >= buildEconomyOverTime.Count) return buildEconomyOverTime.Last();
-
-        return buildEconomyOverTime[atInterval];
     }
 
 

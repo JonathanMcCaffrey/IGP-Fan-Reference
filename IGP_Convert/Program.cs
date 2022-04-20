@@ -27,6 +27,6 @@ using (var db = new DatabaseContext(options.Options))
     File.WriteAllTextAsync($"{webPath}/NoteContentModels.json", JsonSerializer.Serialize(db.NoteContentModels));
     File.WriteAllTextAsync($"{webPath}/NoteConnectionModels.json", JsonSerializer.Serialize(db.NoteConnectionModels));
     File.WriteAllTextAsync($"{webPath}/NoteSectionModels.json", JsonSerializer.Serialize(db.NoteSectionModels));
-    
+
     File.WriteAllTextAsync($"{webPath}/Variables.json", JsonSerializer.Serialize(db.Variables));
 }

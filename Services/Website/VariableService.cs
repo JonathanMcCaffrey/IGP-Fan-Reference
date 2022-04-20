@@ -29,12 +29,8 @@ public class VariableService : IVariableService
         var variables = (await httpClient.GetFromJsonAsync<Variable[]>("generated/Variables.json"))!
             .ToList();
 
-        foreach (var variable in variables)
-        {
-            Variables.Add(variable.Key, variable.Value);
-        }
-        
+        foreach (var variable in variables) Variables.Add(variable.Key, variable.Value);
+
         isLoaded = true;
     }
-    
 }

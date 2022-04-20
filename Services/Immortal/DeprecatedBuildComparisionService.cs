@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Model.BuildOrders;
-using Model.Entity;
 using YamlDotNet.Serialization;
 
 namespace Services.Immortal;

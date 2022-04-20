@@ -1,6 +1,4 @@
-﻿
-
-using Model.Entity.Data;
+﻿using Model.Entity.Data;
 
 namespace Model.BuildOrders;
 

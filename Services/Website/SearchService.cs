@@ -6,12 +6,12 @@ namespace Services.Website;
 public class SearchService : ISearchService
 {
     private readonly IDocumentationService documentationService;
-
-    private bool isLoaded;
     private readonly INoteService noteService;
 
 
     private readonly IWebsiteService websiteService;
+
+    private bool isLoaded;
 
     public SearchService(IWebsiteService websiteService, INoteService noteService,
         IDocumentationService documentationService)

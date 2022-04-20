@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Model;
+﻿namespace Model;
 
 public class TravelTime
 {
-    public int Index { get; set; } = 0;
-    public int Value { get; set; } = 0;
-
     public TravelTime(int index, int value)
     {
         Index = index;
         Value = value;
     }
+
+    public int Index { get; set; }
+    public int Value { get; set; }
 }
