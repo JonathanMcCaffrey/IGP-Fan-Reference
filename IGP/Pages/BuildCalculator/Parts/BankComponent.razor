@@ -11,18 +11,18 @@
     </FormDisplayComponent>
     <div class="bankRow">
         <FormDisplayComponent Label="Alloy">
-            <Display>@economy.Alloy</Display>
+            <Display>@_economy.Alloy</Display>
         </FormDisplayComponent>
         <FormDisplayComponent Label="Ether">
-            <Display>@economy.Ether</Display>
+            <Display>@_economy.Ether</Display>
         </FormDisplayComponent>
     </div>
     <div class="bankRow">
         <FormDisplayComponent Label="Pyre">
-            <Display>@economy.Pyre</Display>
+            <Display>@_economy.Pyre</Display>
         </FormDisplayComponent>
         <FormDisplayComponent Label="Supply">
-            <Display>@supplyTaken / @supplyGranted (@(supplyGranted / 16)@(extraBuildings > 0 ? "+" + extraBuildings : ""))</Display>
+            <Display>@_supplyTaken / @_supplyGranted (@(_supplyGranted / 16)@(_extraBuildings > 0 ? "+" + _extraBuildings : ""))</Display>
         </FormDisplayComponent>
     </div>
 
@@ -30,13 +30,13 @@
         <div class="workerText">Workers</div>
         <div class="bankRow">
             <FormDisplayComponent Label="Current">
-                <Display>@economy.WorkerCount</Display>
+                <Display>@_economy.WorkerCount</Display>
             </FormDisplayComponent>
             <FormDisplayComponent Label="Busy">
-                <Display>@economy.BusyWorkerCount</Display>
+                <Display>@_economy.BusyWorkerCount</Display>
             </FormDisplayComponent>
             <FormDisplayComponent Label="Creating">
-                <Display>@economy.CreatingWorkerCount</Display>
+                <Display>@_economy.CreatingWorkerCount</Display>
             </FormDisplayComponent>
         </div>
     </div>
@@ -68,10 +68,10 @@
     [Inject]
     IEconomyService EconomyService { get; set; } = default!;
 
-    EconomyModel economy = new();
-    int supplyGranted;
-    int supplyTaken;
-    int extraBuildings;
+    EconomyModel _economy = new();
+    int _supplyGranted;
+    int _supplyTaken;
+    int _extraBuildings;
 
     protected override void OnInitialized()
     {
@@ -101,27 +101,27 @@
 
     void OnBuildOrderChanged()
     {
-        economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
+        _economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
 
         var ordersOverTime = BuildOrderService.GetOrders();
 
-        supplyTaken = (from ordersAtInterval in ordersOverTime
+        _supplyTaken = (from ordersAtInterval in ordersOverTime
             from order in ordersAtInterval.Value
             where order.Supply() != null
             where order.Supply().Takes > 0
             select order.Supply().Takes).Sum();
 
-        supplyGranted = (from ordersAtInterval in ordersOverTime
+        _supplyGranted = (from ordersAtInterval in ordersOverTime
             from order in ordersAtInterval.Value
             where order.Supply() != null
             where order.Supply().Grants > 0
             select order.Supply().Grants).Sum();
 
-        extraBuildings = 0;
-        if (supplyGranted > 160)
+        _extraBuildings = 0;
+        if (_supplyGranted > 160)
         {
-            extraBuildings = (supplyGranted - 160) / 16;
-            supplyGranted = 160;
+            _extraBuildings = (_supplyGranted - 160) / 16;
+            _supplyGranted = 160;
         }
 
 

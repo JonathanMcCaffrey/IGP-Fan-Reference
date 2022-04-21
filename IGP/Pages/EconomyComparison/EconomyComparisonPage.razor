@@ -1,49 +1,10 @@
 ﻿@page "/economy-comparison"
 
 @implements IDisposable
-@inject IEconomyComparisonService economyComparisonService
+@inject IEconomyComparisonService EconomyComparisonService
 @layout PageLayout
 
-
 <LayoutMediumContentComponent>
-  
-    <AlertComponent Type="@SeverityType.Error">
-        <Title>Contains Bugs</Title>
-        <Message>None of these calculations and results have been verified. Use with caution. </Message>
-    </AlertComponent>
-    
-    <DevOnlyComponent>
-        @foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
-        {
-            foreach (var ordersAtTime in buildToCompare.BuildOrderModel.StartedOrders)
-            {
-                foreach (var order in ordersAtTime.Value)
-                {
-                    <div>@ordersAtTime.Key - @order.Info().Name</div>
-                }
-            }
-            
-        }
-        
-        @{
-            float alloyHighest = 0;
-        }
-        @foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
-                {
-                    foreach (var economy in buildToCompare.EconomyOverTimeModel)
-                    {
-                        if (economy.Alloy > alloyHighest)
-                        {
-                            alloyHighest = economy.Alloy;
-                        }
-                    }
-                    
-                }
-        
-        <div>@alloyHighest</div>
-        
-    </DevOnlyComponent>
-
     <PaperComponent>
         <div>You</div>
         <EconomyInputComponent ForPlayer="0"/>
@@ -65,7 +26,6 @@
     <ContentDividerComponent/>
 
     <PaperComponent>
-
         <InfoBodyComponent>
             <InfoQuestionComponent>
                 What is this tool for?
@@ -78,18 +38,13 @@
 </LayoutMediumContentComponent>
 
 @code {
-
-    
     protected override void OnInitialized()
     {
-        economyComparisonService.Subscribe(StateHasChanged);
-
+        EconomyComparisonService.Subscribe(StateHasChanged);
     }
-
 
     void IDisposable.Dispose()
     {
-        economyComparisonService.Unsubscribe(StateHasChanged);
+        EconomyComparisonService.Unsubscribe(StateHasChanged);
     }
-
 }

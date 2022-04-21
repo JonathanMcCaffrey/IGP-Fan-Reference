@@ -12,33 +12,33 @@ namespace Services.Immortal;
 
 public class BuildOrderService : IBuildOrderService
 {
-    private readonly BuildOrderModel buildOrder = new();
-    private int lastInterval;
+    private readonly BuildOrderModel _buildOrder = new();
 
-    private readonly IToastService toastService;
+    private readonly IToastService _toastService;
+    private int _lastInterval;
 
     public BuildOrderService(IToastService toastService)
     {
-        this.toastService = toastService;
+        _toastService = toastService;
 
         Reset();
     }
 
     public int BuildingInputDelay { get; set; } = 2;
 
-    public Dictionary<int, List<EntityModel>> StartedOrders => buildOrder.StartedOrders;
-    public Dictionary<int, List<EntityModel>> CompletedOrders => buildOrder.CompletedOrders;
-    public Dictionary<string, int> UniqueCompletedTimes => buildOrder.UniqueCompletedTimes;
-    public Dictionary<int, int> SupplyCountTimes => buildOrder.SupplyCountTimes;
+    public Dictionary<int, List<EntityModel>> StartedOrders => _buildOrder.StartedOrders;
+    public Dictionary<int, List<EntityModel>> CompletedOrders => _buildOrder.CompletedOrders;
+    public Dictionary<string, int> UniqueCompletedTimes => _buildOrder.UniqueCompletedTimes;
+    public Dictionary<int, int> SupplyCountTimes => _buildOrder.SupplyCountTimes;
 
     public int GetLastRequestInterval()
     {
-        return lastInterval;
+        return _lastInterval;
     }
 
     public Dictionary<int, List<EntityModel>> GetOrders()
     {
-        return buildOrder.StartedOrders;
+        return _buildOrder.StartedOrders;
     }
 
     public void Subscribe(Action action)
@@ -54,49 +54,52 @@ public class BuildOrderService : IBuildOrderService
 
     public void Add(EntityModel entity, int atInterval)
     {
-        if (!buildOrder.StartedOrders.ContainsKey(atInterval))
-            buildOrder.StartedOrders.Add(atInterval, new List<EntityModel>());
+        if (!_buildOrder.StartedOrders.ContainsKey(atInterval))
+            _buildOrder.StartedOrders.Add(atInterval, new List<EntityModel>());
 
         var production = entity.Production();
 
         var completedTime = atInterval;
         if (production != null) completedTime += production.BuildTime;
 
-        if (!buildOrder.CompletedOrders.ContainsKey(completedTime))
-            buildOrder.CompletedOrders.Add(completedTime, new List<EntityModel>());
+        if (!_buildOrder.CompletedOrders.ContainsKey(completedTime))
+            _buildOrder.CompletedOrders.Add(completedTime, new List<EntityModel>());
 
-        var supply = entity.Supply();
+        _buildOrder.StartedOrders[atInterval].Add(entity.Clone());
+        _buildOrder.CompletedOrders[completedTime].Add(entity.Clone());
 
+        if (!_buildOrder.UniqueCompletedTimes.ContainsKey(entity.DataType))
+            _buildOrder.UniqueCompletedTimes.Add(entity.DataType, atInterval);
 
-        buildOrder.StartedOrders[atInterval].Add(entity.Clone());
-        buildOrder.CompletedOrders[completedTime].Add(entity.Clone());
-
-        if (!buildOrder.UniqueCompletedTimes.ContainsKey(entity.DataType))
-            buildOrder.UniqueCompletedTimes.Add(entity.DataType, atInterval);
-
-        if (!buildOrder.UniqueCompletedCount.ContainsKey(entity.DataType))
-            buildOrder.UniqueCompletedCount.Add(entity.DataType, 1);
+        if (!_buildOrder.UniqueCompletedCount.ContainsKey(entity.DataType))
+            _buildOrder.UniqueCompletedCount.Add(entity.DataType, 1);
         else
-            buildOrder.UniqueCompletedCount[entity.DataType]++;
+            _buildOrder.UniqueCompletedCount[entity.DataType]++;
 
-        //entity.
-        if (!buildOrder.UniqueCompleted.ContainsKey(entity.DataType))
-            buildOrder.UniqueCompleted.Add(entity.DataType, new Dictionary<int, List<EntityModel>>());
+        if (!_buildOrder.UniqueCompleted.ContainsKey(entity.DataType))
+            _buildOrder.UniqueCompleted.Add(entity.DataType, new Dictionary<int, List<EntityModel>>());
 
-        if (!buildOrder.UniqueCompleted[entity.DataType].ContainsKey(completedTime))
-            buildOrder.UniqueCompleted[entity.DataType].Add(completedTime, new List<EntityModel>());
-        
-        buildOrder.UniqueCompleted[entity.DataType][completedTime].Add(entity);
-        
+        if (!_buildOrder.UniqueCompleted[entity.DataType].ContainsKey(completedTime))
+            _buildOrder.UniqueCompleted[entity.DataType].Add(completedTime, new List<EntityModel>());
 
-        if (supply != null)
-        {
-            if (!supply.Takes.Equals(0)) buildOrder.CurrentSupplyUsed += supply.Takes;
-            if (!supply.Grants.Equals(0))
-                buildOrder.SupplyCountTimes.Add(buildOrder.SupplyCountTimes.Last().Key + supply.Grants, completedTime);
-        }
+        if (entity.Production()?.ProducedBy != null)
+            _buildOrder.TrainingCapacityUsed.Add(new TrainingCapacityUsedModel
+            {
+                StartingUsageTime = atInterval,
+                StopUsageTime = completedTime,
+                UsedSlots = entity.Supply() != null ? entity.Supply()!.Takes : 1,
+                UsedBuilding = entity.Production()!.ProducedBy
+            });
 
-        if (atInterval > lastInterval) lastInterval = atInterval;
+        _buildOrder.UniqueCompleted[entity.DataType][completedTime].Add(entity);
+
+        if (entity.Supply() != null && entity.Supply()!.Takes > 0)
+            _buildOrder.CurrentSupplyUsed += entity.Supply()!.Takes;
+        if (entity.Supply() != null && entity.Supply()!.Grants > 0)
+            _buildOrder.SupplyCountTimes.Add(_buildOrder.SupplyCountTimes.Last().Key + entity.Supply()!.Grants,
+                completedTime);
+
+        if (atInterval > _lastInterval) _lastInterval = atInterval;
 
         NotifyDataChanged();
     }
@@ -105,17 +108,18 @@ public class BuildOrderService : IBuildOrderService
     {
         if (forInterval < 0)
         {
-            toastService.AddToast(new ToastModel(){SeverityType = SeverityType.Error, Title = "Wait", Message = "This should never happen."});
+            _toastService.AddToast(new ToastModel
+                { SeverityType = SeverityType.Error, Title = "Wait", Message = "This should never happen." });
             return false;
-        };
+        }
 
-        lastInterval += forInterval;
+        _lastInterval += forInterval;
 
-        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
-            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
+        if (!_buildOrder.StartedOrders.ContainsKey(_lastInterval))
+            _buildOrder.StartedOrders.Add(_lastInterval, new List<EntityModel>());
 
-        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
-            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
+        if (!_buildOrder.CompletedOrders.ContainsKey(_lastInterval))
+            _buildOrder.CompletedOrders.Add(_lastInterval, new List<EntityModel>());
 
         NotifyDataChanged();
         return true;
@@ -123,19 +127,23 @@ public class BuildOrderService : IBuildOrderService
 
     public bool AddWaitTo(int interval)
     {
-        if (interval <= lastInterval)
+        if (interval <= _lastInterval)
         {
-            toastService.AddToast(new ToastModel(){SeverityType = SeverityType.Error, Title = "Logic Error", Message = "You cannot wait to a time that has already elapsed."});
+            _toastService.AddToast(new ToastModel
+            {
+                SeverityType = SeverityType.Error, Title = "Logic Error",
+                Message = "You cannot wait to a time that has already elapsed."
+            });
             return false;
         }
 
-        lastInterval = interval;
-        
-        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
-            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
+        _lastInterval = interval;
 
-        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
-            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
+        if (!_buildOrder.StartedOrders.ContainsKey(_lastInterval))
+            _buildOrder.StartedOrders.Add(_lastInterval, new List<EntityModel>());
+
+        if (!_buildOrder.CompletedOrders.ContainsKey(_lastInterval))
+            _buildOrder.CompletedOrders.Add(_lastInterval, new List<EntityModel>());
 
         NotifyDataChanged();
         return true;
@@ -149,7 +157,7 @@ public class BuildOrderService : IBuildOrderService
 
         var metTime = 0;
         foreach (var requiredEntity in requirements)
-            if (buildOrder.UniqueCompletedTimes.TryGetValue(requiredEntity.Id, out var completedTime))
+            if (_buildOrder.UniqueCompletedTimes.TryGetValue(requiredEntity.Id, out var completedTime))
             {
                 if (completedTime > metTime) metTime = completedTime;
             }
@@ -167,8 +175,8 @@ public class BuildOrderService : IBuildOrderService
 
         if (supply == null || supply.Takes.Equals(0)) return 0;
 
-        foreach (var supplyAtTime in buildOrder.SupplyCountTimes)
-            if (supply.Takes + buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
+        foreach (var supplyAtTime in _buildOrder.SupplyCountTimes)
+            if (supply.Takes + _buildOrder.CurrentSupplyUsed <= supplyAtTime.Key)
                 return supplyAtTime.Value;
 
         return null;
@@ -177,7 +185,7 @@ public class BuildOrderService : IBuildOrderService
 
     public bool Add(EntityModel entity, IEconomyService withEconomy)
     {
-        var atInterval = lastInterval;
+        var atInterval = _lastInterval;
 
         if (!HandleSupply(entity, ref atInterval)) return false;
         if (!HandleRequirements(entity, ref atInterval)) return false;
@@ -190,47 +198,47 @@ public class BuildOrderService : IBuildOrderService
 
     public void RemoveLast()
     {
-        if (buildOrder.StartedOrders.Keys.Count > 1)
+        if (_buildOrder.StartedOrders.Keys.Count > 1)
         {
-            if (buildOrder.StartedOrders.Count == 0)
+            if (_buildOrder.StartedOrders.Count == 0)
             {
-                buildOrder.StartedOrders.Remove(buildOrder.StartedOrders.Last().Key);
-                buildOrder.CompletedOrders.Remove(buildOrder.CompletedOrders.Last().Key);
+                _buildOrder.StartedOrders.Remove(_buildOrder.StartedOrders.Last().Key);
+                _buildOrder.CompletedOrders.Remove(_buildOrder.CompletedOrders.Last().Key);
 
-                lastInterval = buildOrder.StartedOrders.Last().Key;
+                _lastInterval = _buildOrder.StartedOrders.Last().Key;
                 return;
             }
 
-            var lastStarted = buildOrder.StartedOrders.Keys.Last();
-            var lastCompleted = buildOrder.CompletedOrders.Keys.Last();
+            var lastStarted = _buildOrder.StartedOrders.Keys.Last();
+            var lastCompleted = _buildOrder.CompletedOrders.Keys.Last();
 
             EntityModel entityRemoved = default!;
 
-            if (buildOrder.StartedOrders[lastStarted].Count > 0)
+            if (_buildOrder.StartedOrders[lastStarted].Count > 0)
             {
-                entityRemoved = buildOrder.StartedOrders[lastStarted].Last();
-                buildOrder.StartedOrders[lastStarted].Remove(buildOrder.StartedOrders[lastStarted].Last());
-                buildOrder.CompletedOrders[lastCompleted].Remove(buildOrder.CompletedOrders[lastCompleted].Last());
+                entityRemoved = _buildOrder.StartedOrders[lastStarted].Last();
+                _buildOrder.StartedOrders[lastStarted].Remove(_buildOrder.StartedOrders[lastStarted].Last());
+                _buildOrder.CompletedOrders[lastCompleted].Remove(_buildOrder.CompletedOrders[lastCompleted].Last());
             }
 
-            if (buildOrder.StartedOrders[lastStarted].Count == 0) buildOrder.StartedOrders.Remove(lastStarted);
-            if (buildOrder.CompletedOrders[lastCompleted].Count == 0) buildOrder.CompletedOrders.Remove(lastCompleted);
+            if (_buildOrder.StartedOrders[lastStarted].Count == 0) _buildOrder.StartedOrders.Remove(lastStarted);
+            if (_buildOrder.CompletedOrders[lastCompleted].Count == 0)
+                _buildOrder.CompletedOrders.Remove(lastCompleted);
 
-            if (buildOrder.StartedOrders.Keys.Count > 0)
-                lastInterval = buildOrder.StartedOrders.Keys.Last();
+            if (_buildOrder.StartedOrders.Keys.Count > 0)
+                _lastInterval = _buildOrder.StartedOrders.Keys.Last();
             else
-                lastInterval = 0;
+                _lastInterval = 0;
 
             if (entityRemoved.Supply()?.Grants > 0)
                 SupplyCountTimes.Remove(SupplyCountTimes.Last().Key);
 
             if (entityRemoved.Supply()?.Takes > 0)
-                buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
-            
-            
+                _buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
 
-            buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
-            if (buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0)
+
+            _buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
+            if (_buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0)
                 UniqueCompletedTimes.Remove(entityRemoved.DataType);
 
             if (entityRemoved.Info().Descriptive == DescriptiveType.Worker)
@@ -251,14 +259,14 @@ public class BuildOrderService : IBuildOrderService
             WriteIndented = true
         };
         options.Converters.Add(new JsonStringEnumConverter());
-        return JsonSerializer.Serialize(buildOrder, options);
+        return JsonSerializer.Serialize(_buildOrder, options);
     }
 
     public string BuildOrderAsYaml()
     {
         var stringBuilder = new StringBuilder();
         var serializer = new Serializer();
-        stringBuilder.AppendLine(serializer.Serialize(buildOrder));
+        stringBuilder.AppendLine(serializer.Serialize(_buildOrder));
         var buildOrderText = stringBuilder.ToString();
         return buildOrderText;
     }
@@ -266,7 +274,7 @@ public class BuildOrderService : IBuildOrderService
 
     public List<EntityModel> GetCompletedBefore(int interval)
     {
-        return (from ordersAtTime in buildOrder.StartedOrders
+        return (from ordersAtTime in _buildOrder.StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             select orders).ToList();
@@ -274,7 +282,7 @@ public class BuildOrderService : IBuildOrderService
 
     public List<EntityModel> GetHarvestPointsCompletedBefore(int interval)
     {
-        return (from ordersAtTime in buildOrder.StartedOrders
+        return (from ordersAtTime in _buildOrder.StartedOrders
             from orders in ordersAtTime.Value
             where ordersAtTime.Key + (orders.Production() == null ? 0 : orders.Production().BuildTime) <= interval
             where orders.Harvest() != null
@@ -284,24 +292,24 @@ public class BuildOrderService : IBuildOrderService
 
     public void SetName(string name)
     {
-        buildOrder.Name = name;
+        _buildOrder.Name = name;
         NotifyDataChanged();
     }
 
     public string GetName()
     {
-        return buildOrder.Name;
+        return _buildOrder.Name;
     }
 
     public void SetNotes(string notes)
     {
-        buildOrder.Notes = notes;
+        _buildOrder.Notes = notes;
         NotifyDataChanged();
     }
 
     public string GetNotes()
     {
-        return buildOrder.Notes;
+        return _buildOrder.Notes;
     }
 
     public void DeprecatedSetColor(string color)
@@ -315,37 +323,39 @@ public class BuildOrderService : IBuildOrderService
 
     public void Reset()
     {
-        lastInterval = 0;
-        buildOrder.Initialize(DataType.FACTION_Aru);
+        _lastInterval = 0;
+        _buildOrder.Initialize(DataType.FACTION_Aru);
         NotifyDataChanged();
-    }
-
-    public bool AddWaitTo(int interval, TimingService timingService)
-    {
-        if (lastInterval >= interval) return false;
-
-        if (interval > timingService.GetAttackTime()) return false;
-
-
-        if (!buildOrder.StartedOrders.ContainsKey(lastInterval))
-            buildOrder.StartedOrders.Add(lastInterval, new List<EntityModel>());
-
-        if (!buildOrder.CompletedOrders.ContainsKey(lastInterval))
-            buildOrder.CompletedOrders.Add(lastInterval, new List<EntityModel>());
-
-        NotifyDataChanged();
-        return true;
     }
 
     public int? WillMeetTrainingQueue(EntityModel entity)
     {
         var supply = entity.Supply();
+        var production = entity.Production();
+        if (supply == null || production == null || supply.Takes.Equals(0)) return 1;
 
-        if (supply == null || supply.Takes.Equals(0)) return 0;
+        var producedBy = production.ProducedBy;
+        if (producedBy == null)
+            return 1;
+
+        var uniqueCompleted = _buildOrder.UniqueCompleted[producedBy];
 
 
-        foreach (var supplyAtTime in buildOrder.SupplyCountTimes)
-            if (supply.Takes + buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
+        foreach (var used in _buildOrder.TrainingCapacityUsed)
+        {
+            //used.UsedBuilding
+        }
+        
+        foreach (var atTime in uniqueCompleted)
+        {
+            foreach (var productionEntity in uniqueCompleted[atTime.Key])
+            {
+                
+            }
+        }
+
+        foreach (var supplyAtTime in _buildOrder.SupplyCountTimes)
+            if (supply.Takes + _buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
                 return supplyAtTime.Value;
 
         return null;
@@ -375,14 +385,14 @@ public class BuildOrderService : IBuildOrderService
         }
 
         if (withEconomy.GetOverTime().Last().Ether < production.Ether)
-            toastService.AddToast(new ToastModel
+            _toastService.AddToast(new ToastModel
             {
                 Title = "Not Enough Ether", Message = "Build more ether extractors!",
                 SeverityType = SeverityType.Error
             });
 
         if (withEconomy.GetOverTime().Last().Alloy < production.Alloy)
-            toastService.AddToast(new ToastModel
+            _toastService.AddToast(new ToastModel
             {
                 Title = "Not Enough Alloy", Message = "Build more bases!",
                 SeverityType = SeverityType.Error
@@ -396,7 +406,7 @@ public class BuildOrderService : IBuildOrderService
         var minSupplyInterval = WillMeetSupply(entity);
         if (minSupplyInterval == null)
         {
-            toastService.AddToast(new ToastModel
+            _toastService.AddToast(new ToastModel
             {
                 Title = "Supply Cap Reached", Message = "Build more supply!",
                 SeverityType = SeverityType.Error
@@ -415,7 +425,7 @@ public class BuildOrderService : IBuildOrderService
         var minSupplyInterval = WillMeetSupply(entity);
         if (minSupplyInterval == null)
         {
-            toastService.AddToast(new ToastModel
+            _toastService.AddToast(new ToastModel
             {
                 Title = "Supply Cap Reached", Message = "Build more supply!",
                 SeverityType = SeverityType.Error
@@ -435,7 +445,7 @@ public class BuildOrderService : IBuildOrderService
         var minRequirementInterval = WillMeetRequirements(entity);
         if (minRequirementInterval == null)
         {
-            toastService.AddToast(new ToastModel
+            _toastService.AddToast(new ToastModel
             {
                 Title = "Missing Requirements", Message = "You don't have what's needed for this unit.",
                 SeverityType = SeverityType.Error
