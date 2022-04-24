@@ -20,6 +20,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
         <PackageReference Include="Markdig" Version="0.28.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.2.22153.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.2.22153.2" PrivateAssets="all" />

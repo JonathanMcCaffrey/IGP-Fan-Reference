@@ -1,0 +1,122 @@
+﻿<div class="formContainer">
+    <div class="formTextContainer">
+        <div class="formLabel">
+            @Label:
+        </div>
+        <label class="switch">
+        <input readonly="@ReadOnly"
+               type="checkbox"
+               id="@labelId"
+               checked="@Value"
+               @oninput="OnChange"/>
+
+        <span class="slider"></span>
+        </label>
+    </div>
+    @if (Info != "")
+    {
+        <div class="formInfo">
+            @Info
+        </div>
+    }
+</div>
+<style>
+    .formContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .formTextContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .formLabel {
+        font-weight: 800;
+    }
+
+    .formInfo {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+    
+    .switch {
+      position: relative;
+      width: 60px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      top: 4px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--paper-border);
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #7838df;
+    }
+    
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+    
+</style>
+
+@code {
+
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string Info { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    private string labelId = "";
+
+    protected override void OnInitialized()
+    {
+        labelId = Label.ToLower().Replace(" ", "_");
+    }
+
+}

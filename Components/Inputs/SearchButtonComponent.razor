@@ -1,6 +1,6 @@
-﻿@inject ISearchService searchService
-@inject NavigationManager navigationManager
-@inject IJSRuntime jsRuntime
+﻿@inject ISearchService SearchService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <button class="searchButtonContainer" @onclick="ButtonClicked">
     <div class="searchText">
@@ -48,12 +48,12 @@
 
     private void ButtonClicked(EventArgs eventArgs)
     {
-        searchService.Show();
+        SearchService.Show();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        userAgent = await jsRuntime.InvokeAsync<string>("getUserAgent");
+        userAgent = await JsRuntime.InvokeAsync<string>("getUserAgent");
     }
 
 }

@@ -1,16 +1,27 @@
 ﻿@page "/permissions"
 
+@inject IPermissionService PermissionService
 @layout PageLayout
+@using Services.Website
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+@implements IDisposable
 
 
 <LayoutMediumContentComponent>
-    <AlertComponent>
-        <Title>Not Implemented</Title>
-        <Message></Message>
-    </AlertComponent>
-
     <PaperComponent>
-        TODO
+        <FormLayoutComponent>
+            <FormToggleComponent 
+                Label="Storage Enabled" 
+                Info="Is storage enabled?" 
+                Value="@_storageEnabled" 
+                OnChange="StoragePermissionChanged"/>
+            <FormToggleComponent 
+                Label="Data Collection Enabled" 
+                Info="Is data collection enabled?" 
+                Value="@_dataCollectionEnabled" 
+                OnChange="DataCollectionPermissionChanged"/>
+        </FormLayoutComponent>
     </PaperComponent>
 
     <ContentDividerComponent/>
@@ -42,3 +53,43 @@
         </InfoBodyComponent>
     </PaperComponent>
 </LayoutMediumContentComponent>
+
+
+@code {
+    private bool _storageEnabled = false;
+    private bool _dataCollectionEnabled = false;
+    
+    protected override void OnInitialized()
+    {
+        PermissionService.Subscribe(Update);
+
+        Update();
+    }
+    
+    void Update()
+    {
+        _storageEnabled = PermissionService.GetIsStorageEnabled();
+        _dataCollectionEnabled = PermissionService.GetIsDataCollectionEnabled();
+        
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        PermissionService.Unsubscribe(Update);
+    }
+    
+    
+
+    private void StoragePermissionChanged(ChangeEventArgs obj)
+    {
+        PermissionService.SetIsStorageEnabled((bool)obj.Value!);
+    }
+
+    private void DataCollectionPermissionChanged(ChangeEventArgs obj)
+    {
+        PermissionService.SetIsDataCollectionEnabled((bool)obj.Value!);
+    }
+
+
+}

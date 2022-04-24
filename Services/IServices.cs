@@ -1,4 +1,5 @@
-﻿using Model.BuildOrders;
+﻿using Microsoft.AspNetCore.Components.ProtectedBrowserStorage;
+using Model.BuildOrders;
 using Model.Doc;
 using Model.Economy;
 using Model.Entity;
@@ -10,6 +11,7 @@ using Model.Website;
 using Model.Website.Enums;
 using Model.Work.Tasks;
 using Services.Immortal;
+using Services.Website;
 
 namespace Services;
 
@@ -23,6 +25,30 @@ public interface IToastService
     List<ToastModel> GetToasts();
     void AgeToasts();
     void ClearAllToasts();
+}
+
+public interface IStorageService
+{
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    T GetValue<T>(string forKey);
+    void SetValue<T>(string key, T value);
+
+    Task Load();
+}
+
+public interface IPermissionService
+{
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+
+    public bool GetIsStorageEnabled();
+    public bool GetIsDataCollectionEnabled();
+    
+    public void SetIsStorageEnabled(bool isEnabled);
+    public void SetIsDataCollectionEnabled(bool isEnabled);
+    
+    Task Load();
 }
 
 public interface ISearchService

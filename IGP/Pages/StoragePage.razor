@@ -1,16 +1,31 @@
 ﻿@page "/storage"
 
+@inject IStorageService StorageService
+
+@using Services.Website
+@implements IDisposable
 @layout PageLayout
 
 <LayoutMediumContentComponent>
-    <AlertComponent>
-        <Title>Not Implemented</Title>
-        <Message></Message>
-    </AlertComponent>
 
-    <PaperComponent>
-        TODO
-    </PaperComponent>
+    @if (!_enabledPermissions)
+    {
+        <AlertComponent Type="@SeverityType.Error">
+            <Title>Storage Disabled</Title>
+            <Message>Enable Storage on the Permissions Page.</Message>
+        </AlertComponent>
+    }
+    else
+    {
+        <PaperComponent>
+            <FormLayoutComponent>
+                <FormToggleComponent
+                    Label="Is Plain View"
+                    Value="@_isEntityPlainView"
+                    OnChange="EntityViewChanged"/>
+            </FormLayoutComponent>
+        </PaperComponent>
+    }
 
     <ContentDividerComponent/>
 
@@ -18,3 +33,36 @@
 
     </PaperComponent>
 </LayoutMediumContentComponent>
+
+@code {
+    bool _enabledPermissions;
+
+    protected override void OnInitialized()
+    {
+        _enabledPermissions = StorageService.GetValue<bool>(StorageKeys.EnabledStorage);
+
+        Update();
+
+        StorageService.Subscribe(Update);
+    }
+
+
+    public void Dispose()
+    {
+        StorageService.Unsubscribe(Update);
+    }
+
+    void Update()
+    {
+        _isEntityPlainView = StorageService.GetValue<bool>(StorageKeys.IsPlainView);
+        
+        StateHasChanged();
+    }
+
+    private bool _isEntityPlainView;
+
+    private void EntityViewChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.IsPlainView, obj.Value);
+    }
+}

@@ -1,8 +1,10 @@
 using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Blazored.LocalStorage;
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Services;
-using Model;
 using Services;
 using Services.Development;
 using Services.Immortal;
@@ -17,10 +19,23 @@ builder.Logging.SetMinimumLevel(LogLevel.Warning);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped<LazyAssemblyLoader>();
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddSingleton<LazyAssemblyLoader>();
+
+builder.Services.AddProtectedBrowserStorage();
 
 builder.Services.AddLocalization();
+
+builder.Services.AddBlazoredLocalStorageAsSingleton(config =>
+{
+    config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    config.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+    config.JsonSerializerOptions.WriteIndented = false;
+});
 
 builder.Services.AddSingleton<INavigationService, NavigationService>();
 builder.Services.AddSingleton<IKeyService, KeyService>();
@@ -41,6 +56,9 @@ builder.Services.AddSingleton<INoteService, NoteService>();
 builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
 builder.Services.AddSingleton<ISearchService, SearchService>();
 builder.Services.AddSingleton<IVariableService, VariableService>();
+
+builder.Services.AddSingleton<IStorageService, StorageService>();
+builder.Services.AddSingleton<IPermissionService, PermissionService>();
 
 builder.Services.AddSingleton<IEconomyComparisonService, EconomyComparisionService>();
 

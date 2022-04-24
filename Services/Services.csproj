@@ -15,11 +15,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="YamlDotNet" Version="11.2.1"/>
+        <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" Version="5.0.0-rc.1.20451.17" />
+        <PackageReference Include="Microsoft.JSInterop" Version="7.0.0-preview.2.22153.2" />
+        <PackageReference Include="YamlDotNet" Version="11.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Model\Model.csproj"/>
+        <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 
 </Project>

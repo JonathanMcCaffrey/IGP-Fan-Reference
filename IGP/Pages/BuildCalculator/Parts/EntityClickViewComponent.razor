@@ -1,15 +1,17 @@
-﻿@inject IJSRuntime jsRuntime;
-@inject IKeyService keyService
-@inject IImmortalSelectionService filterService
-@inject IBuildOrderService buildOrderService
+﻿@inject IJSRuntime JsRuntime
+@inject IKeyService KeyService
+@inject IImmortalSelectionService FilterService
+@inject IBuildOrderService BuildOrderService
+@inject IStorageService StorageService
 
+@using Services.Website
 @implements IDisposable
 
-@if (entity != null)
+@if (_entity != null)
 {
     <div class="entityClickView">
-        <CascadingValue Value="entity">
-            <CascadingValue Value="@viewType">
+        <CascadingValue Value="_entity">
+            <CascadingValue Value="@_viewType">
                 <EntityViewComponent></EntityViewComponent>
             </CascadingValue>
         </CascadingValue>
@@ -17,28 +19,39 @@
 }
 <style>
     .entityClickView {
-    overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;
+        overflow-y: scroll; width: 100%; overflow-x: hidden; height: 550px;
     }
 </style>
 
 @code {
-    private EntityModel? entity = default!;
-    private string viewType = "Detailed";
+    private EntityModel? _entity = default!;
+    private string _viewType = EntityViewType.Detailed;
 
     protected override void OnInitialized()
     {
-        keyService.Subscribe(HandleClick);
+        KeyService.Subscribe(HandleClick);
+        StorageService.Subscribe(RefreshDefaults);
+
+        RefreshDefaults();
     }
 
     void IDisposable.Dispose()
     {
-        keyService.Unsubscribe(HandleClick);
+        KeyService.Unsubscribe(HandleClick);
+        
+        StorageService.Unsubscribe(RefreshDefaults);
+    }
+    
+
+    void RefreshDefaults()
+    {
+        _viewType = StorageService.GetValue<bool>(StorageKeys.IsPlainView) ? EntityViewType.Plain : EntityViewType.Detailed;
     }
 
     protected override bool ShouldRender()
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.time", "EntityClickViewComponent");
+        JsRuntime.InvokeVoidAsync("console.time", "EntityClickViewComponent");
 #endif
         return true;
     }
@@ -46,23 +59,23 @@
     protected override void OnAfterRender(bool firstRender)
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.timeEnd", "EntityClickViewComponent");
+        JsRuntime.InvokeVoidAsync("console.timeEnd", "EntityClickViewComponent");
 #endif
     }
 
     private void HandleClick()
     {
-        var hotkey = keyService.GetHotkey();
-        var hotkeyGroup = keyService.GetHotkeyGroup();
-        var isHoldSpace = keyService.IsHoldingSpace();
-        var faction = filterService.GetFactionType();
-        var immortal = filterService.GetImmortalType();
+        var hotkey = KeyService.GetHotkey();
+        var hotkeyGroup = KeyService.GetHotkeyGroup();
+        var isHoldSpace = KeyService.IsHoldingSpace();
+        var faction = FilterService.GetFactionType();
+        var immortal = FilterService.GetImmortalType();
 
         var foundEntity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
-        if (foundEntity != null && entity != foundEntity)
+        if (foundEntity != null && _entity != foundEntity)
         {
-            entity = foundEntity;
+            _entity = foundEntity;
             StateHasChanged();
         }
     }

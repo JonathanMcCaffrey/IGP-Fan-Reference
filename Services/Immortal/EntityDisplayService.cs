@@ -1,12 +1,28 @@
-﻿namespace Services.Immortal;
+﻿using Services.Website;
 
+namespace Services.Immortal;
+
+public class EntityViewType
+{
+    public static string Detailed = "Detailed";
+    public static string Plain = "Plain";
+
+}
 public class EntityDisplayService : IEntityDisplayService
 {
-    private string displayType = "Detailed";
+    private string _displayType;
 
+    public EntityDisplayService(IStorageService storageService)
+    {
+        _displayType = storageService.GetValue<bool>(StorageKeys.IsPlainView) 
+            ? EntityViewType.Plain : EntityViewType.Detailed;
+    }
+    
+    
+    
     public List<string> DefaultChoices()
     {
-        return new List<string> { "Detailed", "Plain" };
+        return new List<string> { EntityViewType.Detailed, EntityViewType.Plain };
     }
 
     public void Subscribe(Action action)
@@ -21,12 +37,12 @@ public class EntityDisplayService : IEntityDisplayService
 
     public string GetDisplayType()
     {
-        return displayType;
+        return _displayType;
     }
 
     public void SetDisplayType(string displayType)
     {
-        this.displayType = displayType;
+        this._displayType = displayType;
         NotifyDataChanged();
     }
 

@@ -1,4 +1,7 @@
-﻿@inject IVariableService VariableService
+﻿@using Microsoft.AspNetCore.Components.ProtectedBrowserStorage
+@inject IVariableService VariableService
+@inject IStorageService StorageService
+
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -76,6 +79,7 @@
     protected override async Task OnInitializedAsync()
     {
         await VariableService.Load();
+        await StorageService.Load();
         isLoaded = true;
         StateHasChanged();
     }
