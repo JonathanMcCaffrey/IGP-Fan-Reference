@@ -77,10 +77,7 @@ public class BuildOrderService : IBuildOrderService
             _buildOrder.UniqueCompletedCount[entity.DataType]++;
 
         if (!_buildOrder.UniqueCompleted.ContainsKey(entity.DataType))
-            _buildOrder.UniqueCompleted.Add(entity.DataType, new Dictionary<int, List<EntityModel>>());
-
-        if (!_buildOrder.UniqueCompleted[entity.DataType].ContainsKey(completedTime))
-            _buildOrder.UniqueCompleted[entity.DataType].Add(completedTime, new List<EntityModel>());
+            _buildOrder.UniqueCompleted.Add(entity.DataType, new List<EntityModel>());
 
         if (entity.Production()?.ProducedBy != null)
             _buildOrder.TrainingCapacityUsed.Add(new TrainingCapacityUsedModel
@@ -91,7 +88,7 @@ public class BuildOrderService : IBuildOrderService
                 UsedBuilding = entity.Production()!.ProducedBy
             });
 
-        _buildOrder.UniqueCompleted[entity.DataType][completedTime].Add(entity);
+        _buildOrder.UniqueCompleted[entity.DataType].Add(entity);
 
         if (entity.Supply() != null && entity.Supply()!.Takes > 0)
             _buildOrder.CurrentSupplyUsed += entity.Supply()!.Takes;
@@ -190,6 +187,7 @@ public class BuildOrderService : IBuildOrderService
         if (!HandleSupply(entity, ref atInterval)) return false;
         if (!HandleRequirements(entity, ref atInterval)) return false;
         if (!HandleEconomy(entity, withEconomy, ref atInterval)) return false;
+        if (!HandleTrainingQueue(entity, ref atInterval)) return false;
 
         Add(entity, atInterval);
 
@@ -236,11 +234,21 @@ public class BuildOrderService : IBuildOrderService
             if (entityRemoved.Supply()?.Takes > 0)
                 _buildOrder.CurrentSupplyUsed -= entityRemoved.Supply()!.Takes;
 
-
             _buildOrder.UniqueCompletedCount[entityRemoved!.DataType]--;
             if (_buildOrder.UniqueCompletedCount[entityRemoved!.DataType] == 0)
                 UniqueCompletedTimes.Remove(entityRemoved.DataType);
 
+            _buildOrder.UniqueCompleted[entityRemoved.DataType]
+                .Remove(_buildOrder.UniqueCompleted[entityRemoved.DataType].Last());
+
+            if (entityRemoved.Production() != null 
+                && entityRemoved.Production()!.ProducedBy != null 
+                && entityRemoved.Supply() != null 
+                && entityRemoved.Supply()!.Takes > 0)
+            {
+                _buildOrder.TrainingCapacityUsed.Remove(_buildOrder.TrainingCapacityUsed.Last());
+            }
+            
             if (entityRemoved.Info().Descriptive == DescriptiveType.Worker)
             {
                 RemoveLast();
@@ -330,35 +338,70 @@ public class BuildOrderService : IBuildOrderService
 
     public int? WillMeetTrainingQueue(EntityModel entity)
     {
+        Console.WriteLine($"WillMeetTrainingQueue {entity.Info().Name}");
+        
         var supply = entity.Supply();
         var production = entity.Production();
-        if (supply == null || production == null || supply.Takes.Equals(0)) return 1;
+
+        var checkedInterval = _lastInterval;
+
+        if (supply == null || production == null || supply.Takes.Equals(0))
+        {
+            Console.WriteLine(supply == null ? "Was Null" : supply.Takes);
+            
+            return 1;
+        }
 
         var producedBy = production.ProducedBy;
         if (producedBy == null)
+        {
+            Console.WriteLine("Produced by Nothing");
             return 1;
-
-        var uniqueCompleted = _buildOrder.UniqueCompleted[producedBy];
-
-
-        foreach (var used in _buildOrder.TrainingCapacityUsed)
-        {
-            //used.UsedBuilding
         }
+        var uniqueCompleted = _buildOrder.UniqueCompleted[producedBy];
         
-        foreach (var atTime in uniqueCompleted)
+        var shortestIncrement = int.MaxValue;
+        var trainingSlots = 0;
+        bool didDelay = false;
+
+        foreach (var productionEntity in uniqueCompleted) trainingSlots += productionEntity.Supply()!.Grants;
+
+        
+        while (true)
         {
-            foreach (var productionEntity in uniqueCompleted[atTime.Key])
+            var usedSlots = 0;
+            foreach (var used in _buildOrder.TrainingCapacityUsed)
+                if (checkedInterval >= used.StartingUsageTime && checkedInterval < used.StopUsageTime)
+                {   
+                    usedSlots += used.UsedSlots;
+                    var duration = used.StopUsageTime - used.StartingUsageTime;
+                    if (duration < shortestIncrement) shortestIncrement = duration;
+                    
+                    Console.WriteLine($"Used slots {used.UsedSlots} Duration {duration} Start {used.StartingUsageTime} Stop {used.StopUsageTime} ");
+
+                }
+
+            if (usedSlots + supply.Takes <= trainingSlots)
+            {
+                if (didDelay)
+                {
+                    _toastService.AddToast(new ToastModel{Title = "Waited", SeverityType = SeverityType.Information, Message = $"Had to wait {checkedInterval - _lastInterval}s for Training Queue."});
+                }
+                
+                Console.WriteLine($"Time {checkedInterval} did Delay {didDelay}");
+                
+                return checkedInterval;
+            }
+            checkedInterval += shortestIncrement;
+            didDelay = true;
+
+            if (shortestIncrement == int.MaxValue)
             {
                 
+                Console.WriteLine($"MaxValue");
+                return null;
             }
         }
-
-        foreach (var supplyAtTime in _buildOrder.SupplyCountTimes)
-            if (supply.Takes + _buildOrder.CurrentSupplyUsed < supplyAtTime.Key)
-                return supplyAtTime.Value;
-
-        return null;
     }
 
     private event Action OnChange = null!;
@@ -422,19 +465,19 @@ public class BuildOrderService : IBuildOrderService
 
     private bool HandleTrainingQueue(EntityModel entity, ref int atInterval)
     {
-        var minSupplyInterval = WillMeetSupply(entity);
-        if (minSupplyInterval == null)
+        var minTrainingQueueInterval = WillMeetTrainingQueue(entity);
+        if (minTrainingQueueInterval == null)
         {
             _toastService.AddToast(new ToastModel
             {
-                Title = "Supply Cap Reached", Message = "Build more supply!",
+                Title = "Invalid", Message = "Invalid Training Queue error",
                 SeverityType = SeverityType.Error
             });
 
             return false;
         }
 
-        if (minSupplyInterval > atInterval) atInterval = (int)minSupplyInterval;
+        if (minTrainingQueueInterval > atInterval) atInterval = (int)minTrainingQueueInterval;
 
         return true;
     }

@@ -1,5 +1,4 @@
-﻿@inject HttpClient httpClient
-@inject IVariableService variableService
+﻿@inject IVariableService VariableService
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -76,7 +75,7 @@
     
     protected override async Task OnInitializedAsync()
     {
-        await variableService.Load();
+        await VariableService.Load();
         isLoaded = true;
         StateHasChanged();
     }
