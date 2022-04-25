@@ -1,12 +1,13 @@
 ﻿@layout PageLayout
+@inherits BasePage
 
-@inject IDocumentationService documentationService
+@inject IDocumentationService DocumentationService
 
 @implements IDisposable
 
 @page "/docs/{href1}/{href2?}/{href3?}/{href4?}/{href5?}"
 
-@if (!documentationService.IsLoaded())
+@if (!DocumentationService.IsLoaded())
 {
     <LoadingComponent/>
 }
@@ -15,12 +16,12 @@ else
     <LayoutWithSidebarComponent>
         <Sidebar>
             <DocumentNavComponent
-                Connections="documentationService.DocConnectionModels"
-                Documents="documentationService.DocContentModels"/>
+                Connections="DocumentationService.DocConnectionModels"
+                Documents="DocumentationService.DocContentModels"/>
         </Sidebar>
         <Content>
             <PaperComponent>
-                @foreach (var doc in documentationService.DocContentModels)
+                @foreach (var doc in DocumentationService.DocContentModels)
                 {
                     if (!doc.Href.Equals(Href))
                     {
@@ -108,14 +109,15 @@ else
 
     protected override void OnInitialized()
     {
-        documentationService.Subscribe(StateHasChanged);
+        base.OnInitialized();
+        DocumentationService.Subscribe(StateHasChanged);
 
-        documentationService.Load();
+        DocumentationService.Load();
     }
 
     void IDisposable.Dispose()
     {
-        documentationService.Unsubscribe(StateHasChanged);
+        DocumentationService.Unsubscribe(StateHasChanged);
     }
 
 }

@@ -1,16 +1,20 @@
 ﻿@layout PageLayout
 
-@inject IStringLocalizer<Localizations> locale
+@inherits BasePage
 
-@inject IKeyService keyService
-@inject IImmortalSelectionService filterService
-@inject IBuildOrderService buildOrderService
-@inject IEconomyService economyService
-@inject IToastService toastService
-@inject ITimingService timingService
+@inject IStringLocalizer<Localizations> Locale
+
+@inject IKeyService KeyService
+@inject IImmortalSelectionService FilterService
+@inject IBuildOrderService BuildOrderService
+@inject IEconomyService EconomyService
+@inject IToastService ToastService
+@inject ITimingService TimingService
+@inject IDataCollectionService DataCollectionService 
 
 @page "/build-calculator"
 
+@using Services.Website
 @implements IDisposable
 
 <LayoutLargeContentComponent>
@@ -29,18 +33,18 @@
         <div class="gridItem" style="grid-area: timing;">
             <ButtonComponent ButtonType="ButtonType.Secondary" OnClick="OnResetClicked">Clear Build Order</ButtonComponent>
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Timing Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Timing Info"]">
                     <TimingComponent></TimingComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Filter Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Filter Info"]">
                     <FilterComponent></FilterComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
 
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Options Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Options Info"]">
                     <OptionsComponent></OptionsComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -49,7 +53,7 @@
 
         <div class="gridItem" style="grid-area: chart;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Chart Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Chart Info"]">
                     <BuildChartComponent></BuildChartComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -57,7 +61,7 @@
 
         <div class="gridItem" style="grid-area: view;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Entity Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Entity Info"]">
                     <EntityClickViewComponent/>
                 </InfoTooltipComponent>
 
@@ -66,7 +70,7 @@
 
         <div class="gridItem" style="grid-area: bank;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Bank Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Bank Info"]">
                     <BankComponent></BankComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -74,7 +78,7 @@
 
         <div class="gridItem" style="grid-area: army;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Army Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Army Info"]">
                     <ArmyComponent></ArmyComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -82,7 +86,7 @@
 
         <div class="gridItem gridKeys">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Hotkey Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Hotkey Info"]">
                     <HotkeyViewerComponent Size="80"></HotkeyViewerComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -90,7 +94,7 @@
 
         <div class="gridItem" style="grid-area: highlights;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip Highlights Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip Highlights Info"]">
                     <HighlightsComponent></HighlightsComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -98,7 +102,7 @@
 
         <div class="gridItem" style="grid-area: buildorder;">
             <PanelComponent>
-                <InfoTooltipComponent InfoText="@locale["Tooltip BuildOrder Info"]">
+                <InfoTooltipComponent InfoText="@Locale["Tooltip BuildOrder Info"]">
                     <BuildOrderComponent></BuildOrderComponent>
                 </InfoTooltipComponent>
             </PanelComponent>
@@ -216,32 +220,39 @@
 
     protected override void OnInitialized()
     {
-        economyService.Calculate(buildOrderService, timingService, 0);
+        base.OnInitialized();
+        
+        EconomyService.Calculate(BuildOrderService, TimingService, 0);
 
-        keyService.Subscribe(HandleClick);
+        KeyService.Subscribe(HandleClick);
+        
+        DataCollectionService.SendEvent(
+            DataCollectionKeys.PageInitialized, 
+            new Dictionary<string, string> {{"page", "build-calculator"}}
+            );
     }
 
     void IDisposable.Dispose()
     {
-        keyService.Unsubscribe(HandleClick);
+        KeyService.Unsubscribe(HandleClick);
     }
 
     private void OnResetClicked()
     {
-        toastService.AddToast(new ToastModel
+        ToastService.AddToast(new ToastModel
         {
             SeverityType = SeverityType.Success,
             Message = "Build order has been cleared.",
             Title = "Reset"
         });
 
-        buildOrderService.Reset();
+        BuildOrderService.Reset();
     }
 
 
     private void HandleClick()
     {
-        var hotkey = keyService.GetHotkey();
+        var hotkey = KeyService.GetHotkey();
 
         if (hotkey == "")
         {
@@ -250,15 +261,15 @@
 
         if (hotkey == "`")
         {
-            buildOrderService.RemoveLast();
-            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+            BuildOrderService.RemoveLast();
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
             return;
         }
 
-        var hotkeyGroup = keyService.GetHotkeyGroup();
-        var isHoldSpace = keyService.IsHoldingSpace();
-        var faction = filterService.GetFaction();
-        var immortal = filterService.GetImmortal();
+        var hotkeyGroup = KeyService.GetHotkeyGroup();
+        var isHoldSpace = KeyService.IsHoldingSpace();
+        var faction = FilterService.GetFaction();
+        var immortal = FilterService.GetImmortal();
 
         var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 
@@ -267,9 +278,9 @@
             return;
         }
 
-        if (buildOrderService.Add(entity, economyService))
+        if (BuildOrderService.Add(entity, EconomyService))
         {
-            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }
     }
 

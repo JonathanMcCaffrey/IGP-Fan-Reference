@@ -1,12 +1,16 @@
 ﻿@layout PageLayout
 
-@inject INoteService noteService
+@inherits BasePage
+
+@inject INoteService NoteService
 @implements IDisposable
+
+@inject IDataCollectionService DataCollectionService 
 
 @page "/notes"
 
 
-@if (!noteService.IsLoaded())
+@if (!NoteService.IsLoaded())
 {
     <LoadingComponent/>
 }
@@ -15,7 +19,7 @@ else
     <LayoutMediumContentComponent>
 
         <PaperComponent>
-            @foreach (var noteSection in noteService.NoteSectionModels)
+            @foreach (var noteSection in NoteService.NoteSectionModels)
             {
                 <div class="noteSectionContainer">
                     <div class="noteSectionTitle">@noteSection.Name</div>
@@ -119,15 +123,16 @@ else
 
     protected override void OnInitialized()
     {
-        noteService.Subscribe(StateHasChanged);
+        base.OnInitialized();
+        NoteService.Subscribe(StateHasChanged);
 
-        noteService.Load();
+        NoteService.Load();
     }
 
 
     void IDisposable.Dispose()
     {
-        noteService.Unsubscribe(StateHasChanged);
+        NoteService.Unsubscribe(StateHasChanged);
     }
 
 

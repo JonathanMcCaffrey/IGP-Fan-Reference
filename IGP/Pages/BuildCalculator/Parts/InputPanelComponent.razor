@@ -1,6 +1,8 @@
-﻿@inject IKeyService keyService
+﻿@using Services.Website
+@inject IKeyService KeyService
 
-@inject IJSRuntime jsRuntime;
+@inject IDataCollectionService DataCollectionService 
+@inject IJSRuntime JsRuntime
 
 
 <div tabindex="0"
@@ -19,18 +21,23 @@
 
     private void HandleKeyDown(KeyboardEventArgs e)
     {
-        keyService.AddPressedKey(e.Key);
+        DataCollectionService.SendEvent(
+            DataCollectionKeys.BuildCalcInput, 
+            new Dictionary<string, string> {{"key", e.Key.ToLower()}, {"input-source", "keyboard"}}
+            );
+        
+        KeyService.AddPressedKey(e.Key);
     }
 
     private void HandleKeyUp(KeyboardEventArgs e)
     {
-        keyService.RemovePressedKey(e.Key);
+        KeyService.RemovePressedKey(e.Key);
     }
 
     protected override bool ShouldRender()
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.time", "InputPanelComponent");
+        JsRuntime.InvokeVoidAsync("console.time", "InputPanelComponent");
 #endif
 
         return true;
@@ -39,7 +46,7 @@
     protected override void OnAfterRender(bool firstRender)
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.timeEnd", "InputPanelComponent");
+        JsRuntime.InvokeVoidAsync("console.timeEnd", "InputPanelComponent");
 #endif
     }
 

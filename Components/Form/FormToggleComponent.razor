@@ -7,6 +7,7 @@
         <input readonly="@ReadOnly"
                type="checkbox"
                id="@labelId"
+               class="@ClassStyle"
                checked="@Value"
                @oninput="OnChange"/>
 
@@ -83,15 +84,15 @@
       border-radius: 50%;
     }
     
-    input:checked + .slider {
-      background-color: #7838df;
-    }
-    
-    input:checked + .slider:before {
-      -webkit-transform: translateX(26px);
-      -ms-transform: translateX(26px);
-      transform: translateX(26px);
-    }
+    .checked + .slider {
+          background-color: #7838df;
+     }
+     
+     .checked + .slider:before {
+           -webkit-transform: translateX(26px);
+           -ms-transform: translateX(26px);
+           transform: translateX(26px);
+         }
     
 </style>
 
@@ -114,9 +115,11 @@
 
     private string labelId = "";
 
+    private string ClassStyle => Value ? "checked" : "";
+    
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         labelId = Label.ToLower().Replace(" ", "_");
     }
-
 }

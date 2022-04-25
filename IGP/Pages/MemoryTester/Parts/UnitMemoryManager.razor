@@ -64,6 +64,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MemoryTesterService.Subscribe(OnMemoryEvent);
 
         MemoryTesterService.GenerateQuiz();

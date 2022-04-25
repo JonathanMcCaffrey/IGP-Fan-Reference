@@ -1,6 +1,6 @@
-﻿@using Microsoft.AspNetCore.Components.ProtectedBrowserStorage
-@inject IVariableService VariableService
+﻿@inject IVariableService VariableService
 @inject IStorageService StorageService
+@inject IPermissionService PermissionService
 
 
 <Router AppAssembly="@typeof(App).Assembly">
@@ -22,6 +22,14 @@
 <EntityDialogPortal/>
 <ToastPortal/>
 <SearchPortal/>
+<ConfirmationDialogPortal/>
+
+
+@if (PermissionService.GetIsDataCollectionEnabled())
+{
+    <NavigationTracker />
+}
+
 
 
 <style>

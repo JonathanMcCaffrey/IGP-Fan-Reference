@@ -145,6 +145,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         entity = DATA.Get()[entityDialogService.GetEntityId() ?? string.Empty];
 
         entityDialogService.Subscribe(OnUpdate);

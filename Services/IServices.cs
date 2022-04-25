@@ -10,6 +10,7 @@ using Model.Website;
 using Model.Website.Enums;
 using Model.Work.Tasks;
 using Services.Immortal;
+using Services.Website;
 
 namespace Services;
 
@@ -23,6 +24,12 @@ public interface IToastService
     List<ToastModel> GetToasts();
     void AgeToasts();
     void ClearAllToasts();
+}
+
+public interface IDataCollectionService
+{
+    public void SendEvent<T>(string eventName, T eventData);
+
 }
 
 public interface IStorageService
@@ -45,8 +52,6 @@ public interface IPermissionService
 
     public void SetIsStorageEnabled(bool isEnabled);
     public void SetIsDataCollectionEnabled(bool isEnabled);
-
-    Task Load();
 }
 
 public interface ISearchService
@@ -67,6 +72,16 @@ public interface ISearchService
     public bool IsLoaded();
     void Show();
     void Hide();
+}
+
+public interface IDialogService
+{
+    public bool IsVisible { get; set; }
+    public void Subscribe(Action action);
+    public void Unsubscribe(Action action);
+    public void Show(DialogContents dialogContents);
+    public DialogContents GetDialogContents();
+    public void Hide();
 }
 
 public interface IVariableService

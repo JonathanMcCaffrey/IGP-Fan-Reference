@@ -1,0 +1,25 @@
+﻿@implements IDisposable;
+
+@inject IDialogService DialogService
+
+<ConfirmationDialogComponent></ConfirmationDialogComponent>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        DialogService.Subscribe(OnUpdate);
+    }
+
+    void IDisposable.Dispose()
+    {
+        DialogService.Unsubscribe(OnUpdate);
+    }
+
+    void OnUpdate()
+    {
+        StateHasChanged();
+    }
+
+}

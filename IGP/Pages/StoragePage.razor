@@ -1,5 +1,7 @@
 ﻿@page "/storage"
 
+
+@inherits BasePage
 @inject IStorageService StorageService
 @using Services.Website
 @implements IDisposable
@@ -145,6 +147,8 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+        
         _enabledPermissions = StorageService.GetValue<bool>(StorageKeys.EnabledStorage);
 
         RefreshDefaults();

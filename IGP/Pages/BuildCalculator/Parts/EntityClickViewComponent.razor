@@ -29,6 +29,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         KeyService.Subscribe(HandleClick);
         StorageService.Subscribe(RefreshDefaults);
 

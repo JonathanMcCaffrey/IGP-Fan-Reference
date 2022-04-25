@@ -75,6 +75,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         BuildOrderService.Subscribe(OnBuildOrderChanged);
     }
 

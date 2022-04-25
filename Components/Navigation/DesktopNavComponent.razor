@@ -168,6 +168,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         navigationService.Subscribe(StateHasChanged);
     }
 

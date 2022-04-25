@@ -54,28 +54,12 @@ public class StorageService : IStorageService
         {
             _localStorageService.SetItem(key, value);
             NotifyDataChanged();
-            
-            _toastService.AddToast(new ToastModel
-            {
-                Title = "Test 1",
-                SeverityType = SeverityType.Error,
-                Message = "Storage must be enabled before Storage can be used."
-            });
-            
             return;
         }
 
         if (key.Equals(StorageKeys.EnabledStorage))
         {
             _localStorageService.Clear();
-            
-            _toastService.AddToast(new ToastModel
-            {
-                Title = "Test 2",
-                SeverityType = SeverityType.Error,
-                Message = "Storage must be enabled before Storage can be used."
-            });
-            
             NotifyDataChanged();
             return;
         }

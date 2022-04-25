@@ -1,0 +1,114 @@
+﻿@implements IDisposable;
+@inject IDialogService DialogService
+@inject IJSRuntime JsRuntime
+
+
+@inject NavigationManager NavigationManager
+
+@if (DialogService.IsVisible)
+{
+    <div class="confirmDialogBackground" onclick="@CloseDialog">
+        <div class="confirmDialogContainer"
+             @onclick:preventDefault="true"
+             @onclick:stopPropagation="true">
+
+            <div class="confirmDialogHeader">
+                @DialogService.GetDialogContents().Title
+            </div>
+            <div class="confirmDialogBody">
+                @DialogService.GetDialogContents().Message
+            </div>
+
+            <div class="confirmDialogFooter">
+                <ButtonComponent ButtonType="ButtonType.Secondary" OnClick="DialogService.GetDialogContents().OnCancel">
+                    Cancel
+                </ButtonComponent>
+                <ButtonComponent ButtonType="ButtonType.Primary" OnClick="DialogService.GetDialogContents().OnConfirm">
+                    @DialogService.GetDialogContents().ConfirmButtonLabel
+                </ButtonComponent>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .pageContents * {
+        filter: blur(2px);
+    }
+   
+.confirmDialogBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+}
+
+
+.confirmDialogContainer {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 64px;
+    width: 800px;
+    height: 600px;
+    
+    background-color: var(--background);
+    border-width: var(--dialog-border-width);
+    border-style: solid;
+    border-color: var(--dialog-border-color);
+    border-radius: var(--dialog-radius);
+    
+    padding:  8px;
+    
+    
+    box-shadow: 1px 2px 2px black;
+    
+    display: flex;
+    flex-direction: column;
+
+}
+
+.confirmDialogHeader {
+    font-size: 1.4em;
+    padding: 12px;
+}
+
+.confirmDialogBody {
+    padding: 12px;
+    flex-grow: 1;
+}
+
+.confirmDialogFooter {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 12px;
+}
+
+</style>
+}
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        DialogService.Subscribe(StateHasChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        DialogService.Unsubscribe(StateHasChanged);
+    }
+
+
+    public void CloseDialog()
+    {
+        DialogService.Hide();
+    }
+
+
+}

@@ -2,24 +2,27 @@
 
 @inject IPermissionService PermissionService
 @layout PageLayout
-@using Services.Website
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
+@inject IDialogService DialogService 
+
+@inherits BasePage
+@using Services.Website
 @implements IDisposable
 
 
 <LayoutMediumContentComponent>
     <PaperComponent>
         <FormLayoutComponent>
-            <FormToggleComponent 
-                Label="Storage Enabled" 
-                Info="Is storage enabled?" 
-                Value="@_storageEnabled" 
+            <FormToggleComponent
+                Label="Storage Enabled"
+                Info="Is storage enabled?"
+                Value="_storageEnabled"
                 OnChange="StoragePermissionChanged"/>
-            <FormToggleComponent 
-                Label="Data Collection Enabled" 
-                Info="Is data collection enabled?" 
-                Value="@_dataCollectionEnabled" 
+
+            <FormToggleComponent
+                Label="Data Collection Enabled"
+                Info="Is data collection enabled?"
+                Value="_dataCollectionEnabled"
                 OnChange="DataCollectionPermissionChanged"/>
         </FormLayoutComponent>
     </PaperComponent>
@@ -44,7 +47,10 @@
 
         <InfoBodyComponent>
             <InfoQuestionComponent>What data does this website collect?</InfoQuestionComponent>
-            <InfoAnswerComponent>This website usages Google Analytics to collect data enabled on the Analytics page.</InfoAnswerComponent>
+            <InfoAnswerComponent>This website usages Google Analytics to collect data on usage of this website.
+                <br/><br/>
+                Items include: if people use keyboard or mouse in build calculator, what pages people visit, and other usages.
+                </InfoAnswerComponent>
         </InfoBodyComponent>
 
         <InfoBodyComponent>
@@ -58,38 +64,60 @@
 @code {
     private bool _storageEnabled = false;
     private bool _dataCollectionEnabled = false;
-    
+
     protected override void OnInitialized()
     {
         PermissionService.Subscribe(Update);
 
         Update();
     }
-    
+
     void Update()
     {
         _storageEnabled = PermissionService.GetIsStorageEnabled();
         _dataCollectionEnabled = PermissionService.GetIsDataCollectionEnabled();
-        
         StateHasChanged();
     }
-    
+
     void IDisposable.Dispose()
     {
         PermissionService.Unsubscribe(Update);
     }
-    
-    
 
     private void StoragePermissionChanged(ChangeEventArgs obj)
     {
-        PermissionService.SetIsStorageEnabled((bool)obj.Value!);
+        PermissionService.SetIsStorageEnabled(!PermissionService.GetIsStorageEnabled());
     }
+
 
     private void DataCollectionPermissionChanged(ChangeEventArgs obj)
     {
-        PermissionService.SetIsDataCollectionEnabled((bool)obj.Value!);
-    }
+        void OnDataCollectionConfirmClicked(MouseEventArgs mouseEventArgs)
+        {
+            PermissionService.SetIsDataCollectionEnabled(!PermissionService.GetIsDataCollectionEnabled());
+            DialogService.Hide();
+        }
 
+        void OnDataCollectionCancelClicked(MouseEventArgs mouseEventArgs)
+        {
+            DialogService.Hide();
+        }
+
+        if (_storageEnabled && !PermissionService.GetIsDataCollectionEnabled())
+        {
+            DialogService.Show(new DialogContents
+            {
+                Title = "Permission Request",
+                Message = "Are you sure you want to enable data collection? This feature is implemented with Google Analytics, and your data will be used to gauge interests, find bugs, and optimize updates in IGP Fan Reference.",
+                OnConfirm = new EventCallback<EventArgs>(this, OnDataCollectionConfirmClicked),
+                OnCancel = new EventCallback<EventArgs>(this, OnDataCollectionCancelClicked),
+                ConfirmButtonLabel = "Enable Data Collection"
+            });
+        }
+        else
+        {
+            PermissionService.SetIsDataCollectionEnabled(!PermissionService.GetIsDataCollectionEnabled());
+        }
+    }
 
 }

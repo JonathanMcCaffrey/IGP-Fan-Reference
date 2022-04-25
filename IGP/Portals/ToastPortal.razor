@@ -31,6 +31,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         toastService.Subscribe(OnUpdate);
 
         ageTimer = new Timer(10);

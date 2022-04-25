@@ -1,24 +1,27 @@
 ﻿@layout PageLayout
 
+@inherits BasePage
+
 @page "/database/{text}"
 
-@inject IEntityDisplayService entityDisplayService
+@inject IEntityDisplayService EntityDisplayService
+@inject IVariableService VariableService
 
-@inject IVariableService variableService
 @implements IDisposable
+
 
 <LayoutLargeContentComponent>
 
     <PaperComponent>
         <FormDisplayComponent Label="Patch">
             <Display>
-                Game Patch: @variableService.Variables["GamePatch"]
+                Game Patch: @VariableService.Variables["GamePatch"]
             </Display>
         </FormDisplayComponent>
     </PaperComponent>
 
     <div style="margin-left: 8px">
-        <ButtonGroupComponent OnClick="choice => { entityDisplayService.SetDisplayType(choice); }" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+        <ButtonGroupComponent OnClick="choice => { EntityDisplayService.SetDisplayType(choice); }" Choice="@EntityDisplayService.GetDisplayType()" Choices="@EntityDisplayService.DefaultChoices()"></ButtonGroupComponent>
     </div>
 
 
@@ -33,7 +36,7 @@
             </CodeComponent>
         </PaperComponent>
     }
-    else if (entity == null)
+    else if (_entity == null)
     {
         <PaperComponent>
             <div>Invalid entity name entered: @Text</div>
@@ -44,8 +47,8 @@
     else
     {
         <PaperComponent>
-            <CascadingValue Value="entity">
-                <CascadingValue Value="@entityDisplayService.GetDisplayType()">
+            <CascadingValue Value="_entity">
+                <CascadingValue Value="@EntityDisplayService.GetDisplayType()">
 
                     <EntityViewComponent></EntityViewComponent>
                 </CascadingValue>
@@ -62,17 +65,28 @@
     [Parameter]
     public string? Text { get; set; }
 
-    private EntityModel? entity;
+    private EntityModel? _entity;
 
     protected override void OnInitialized()
     {
-        entityDisplayService.Subscribe(StateHasChanged);
+        EntityDisplayService.Subscribe(StateHasChanged);
+    }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        base.OnInitialized();
+        
+        FocusEntity();
+    }
+    
+    private void FocusEntity()
+    {
         foreach (var e in DATA.Get().Values)
         {
             if (e.Info().Name.ToLower().Equals(Text!.ToLower()))
             {
-                entity = e;
+                _entity = e;
                 return;
             }
         }
@@ -80,7 +94,7 @@
 
     void IDisposable.Dispose()
     {
-        entityDisplayService.Unsubscribe(StateHasChanged);
+        EntityDisplayService.Unsubscribe(StateHasChanged);
     }
 
 }

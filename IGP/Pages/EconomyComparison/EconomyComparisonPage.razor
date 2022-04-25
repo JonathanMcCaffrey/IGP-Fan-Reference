@@ -1,5 +1,7 @@
 ﻿@page "/economy-comparison"
 
+@inherits BasePage
+
 @implements IDisposable
 @inject IEconomyComparisonService EconomyComparisonService
 @layout PageLayout
@@ -40,6 +42,7 @@
 @code {
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         EconomyComparisonService.Subscribe(StateHasChanged);
     }
 

@@ -1,5 +1,8 @@
 ﻿@layout PageLayout
 
+@inject IDataCollectionService DataCollectionService 
+@inherits BasePage
+
 @page "/harass-calculator"
 @using Model
 
@@ -261,6 +264,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         Calculate();
     }
 

@@ -68,6 +68,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         isOnDev = NavigationManager.BaseUri.Contains("https://localhost");
     }
 

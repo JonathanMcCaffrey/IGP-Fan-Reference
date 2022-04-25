@@ -244,6 +244,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         StorageService.Subscribe(RefreshDefaults);
     }
 

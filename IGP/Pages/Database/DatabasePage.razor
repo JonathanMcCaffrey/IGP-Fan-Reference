@@ -1,11 +1,12 @@
 ﻿@layout PageLayout
-
+@inherits BasePage
 @page "/database"
 
 @implements IDisposable
 
-@inject IEntityDisplayService entityDisplayService
-@inject IVariableService variableService
+@inject IEntityDisplayService EntityDisplayService
+@inject IVariableService VariableService
+
 
 <LayoutLargeContentComponent>
     <WebsiteTitleComponent>Database</WebsiteTitleComponent>
@@ -13,13 +14,13 @@
     <PaperComponent>
         <FormDisplayComponent Label="Patch">
             <Display>
-                Game Patch: @variableService.Variables["GamePatch"]
+                Game Patch: @VariableService.Variables["GamePatch"]
             </Display>
         </FormDisplayComponent>
     </PaperComponent>
 
     <div style="margin-left: 8px">
-        <ButtonGroupComponent OnClick="choice => { entityDisplayService.SetDisplayType(choice); }" Choice="@entityDisplayService.GetDisplayType()" Choices="@entityDisplayService.DefaultChoices()"></ButtonGroupComponent>
+        <ButtonGroupComponent OnClick="choice => { EntityDisplayService.SetDisplayType(choice); }" Choice="@EntityDisplayService.GetDisplayType()" Choices="@EntityDisplayService.DefaultChoices()"></ButtonGroupComponent>
     </div>
 
     <PaperComponent>
@@ -31,7 +32,7 @@
                 @foreach (var entity in searches)
                 {
                     <CascadingValue Value="entity">
-                        <CascadingValue Value="@entityDisplayService.GetDisplayType()">
+                        <CascadingValue Value="@EntityDisplayService.GetDisplayType()">
                             <EntityViewComponent></EntityViewComponent>
                         </CascadingValue>
                     </CascadingValue>
@@ -67,7 +68,7 @@
                 Is this database updated to the latest version?
             </InfoQuestionComponent>
             <InfoAnswerComponent>
-                Maybe. Check this <b>@variableService.Variables["GamePatch"]</b> version number, and compare it to the number on discord, in the <b>#game-updates</b> channel. That should give a general sense of how out of date the data is.
+                Maybe. Check this <b>@VariableService.Variables["GamePatch"]</b> version number, and compare it to the number on discord, in the <b>#game-updates</b> channel. That should give a general sense of how out of date the data is.
             </InfoAnswerComponent>
         </InfoBodyComponent>
 
@@ -134,16 +135,17 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         RefreshFactionSearch();
 
         EntityFilterService.Subscribe(OnChange);
-        entityDisplayService.Subscribe(StateHasChanged);
+        EntityDisplayService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
         EntityFilterService.Unsubscribe(OnChange);
-        entityDisplayService.Unsubscribe(StateHasChanged);
+        EntityDisplayService.Unsubscribe(StateHasChanged);
     }
 
     void OnChange(EntityFilterEvent filterEntityEvent)

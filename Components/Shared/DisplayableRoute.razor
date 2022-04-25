@@ -21,6 +21,7 @@ else
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         var page = MyNavigationManager.Uri.Remove(0, MyNavigationManager.BaseUri.Length);
         isDisplayable = WebDeploymentModel.Get().Contains(page);
     }

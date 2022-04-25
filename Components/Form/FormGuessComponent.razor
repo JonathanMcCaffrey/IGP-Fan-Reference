@@ -96,6 +96,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         labelId = Label.ToLower().Replace(" ", "_") + MemoryQuestion.Id;
 
         MemoryTesterService.Subscribe(OnMemoryEvent);

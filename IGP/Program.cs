@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Blazor.Analytics;
 using Blazored.LocalStorage;
 using IGP;
 using Microsoft.AspNetCore.Components.Web;
@@ -9,6 +10,7 @@ using Services;
 using Services.Development;
 using Services.Immortal;
 using Services.Website;
+    
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
@@ -19,8 +21,10 @@ builder.Logging.SetMinimumLevel(LogLevel.Warning);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddSingleton<LazyAssemblyLoader>();
+
+
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped<LazyAssemblyLoader>();
 
 builder.Services.AddProtectedBrowserStorage();
 
@@ -37,32 +41,40 @@ builder.Services.AddBlazoredLocalStorageAsSingleton(config =>
     config.JsonSerializerOptions.WriteIndented = false;
 });
 
-builder.Services.AddSingleton<INavigationService, NavigationService>();
-builder.Services.AddSingleton<IKeyService, KeyService>();
-builder.Services.AddSingleton<IImmortalSelectionService, ImmortalSelectionService>();
-builder.Services.AddSingleton<IBuildComparisonService, DeprecatedBuildComparisionService>();
-builder.Services.AddSingleton<IBuildOrderService, BuildOrderService>();
-builder.Services.AddSingleton<IEconomyService, EconomyService>();
-builder.Services.AddSingleton<ITimingService, TimingService>();
-builder.Services.AddSingleton<IMemoryTesterService, MemoryTesterService>();
-builder.Services.AddSingleton<IEntityFilterService, EntityFilterService>();
-builder.Services.AddSingleton<IEntityDisplayService, EntityDisplayService>();
-builder.Services.AddSingleton<IEntityDialogService, EntityDialogService>();
-builder.Services.AddSingleton<IToastService, ToastService>();
-builder.Services.AddSingleton<IWebsiteService, WebsiteService>();
-builder.Services.AddSingleton<IAgileService, AgileService>();
-builder.Services.AddSingleton<IGitService, GitService>();
-builder.Services.AddSingleton<INoteService, NoteService>();
-builder.Services.AddSingleton<IDocumentationService, DocumentationService>();
-builder.Services.AddSingleton<ISearchService, SearchService>();
-builder.Services.AddSingleton<IVariableService, VariableService>();
+#if DEBUG
+builder.Services.AddGoogleAnalytics("G-S96LW7TVFY");
+#else
+builder.Services.AddGoogleAnalytics(builder.Configuration["GA-Tag"]);
+#endif
 
-builder.Services.AddSingleton<IStorageService, StorageService>();
-builder.Services.AddSingleton<IPermissionService, PermissionService>();
+builder.Services.AddScoped<INavigationService, NavigationService>();
+builder.Services.AddScoped<IKeyService, KeyService>();
+builder.Services.AddScoped<IImmortalSelectionService, ImmortalSelectionService>();
+builder.Services.AddScoped<IBuildComparisonService, DeprecatedBuildComparisionService>();
+builder.Services.AddScoped<IBuildOrderService, BuildOrderService>();
+builder.Services.AddScoped<IEconomyService, EconomyService>();
+builder.Services.AddScoped<ITimingService, TimingService>();
+builder.Services.AddScoped<IMemoryTesterService, MemoryTesterService>();
+builder.Services.AddScoped<IEntityFilterService, EntityFilterService>();
+builder.Services.AddScoped<IEntityDisplayService, EntityDisplayService>();
+builder.Services.AddScoped<IEntityDialogService, EntityDialogService>();
+builder.Services.AddScoped<IToastService, ToastService>();
+builder.Services.AddScoped<IWebsiteService, WebsiteService>();
+builder.Services.AddScoped<IAgileService, AgileService>();
+builder.Services.AddScoped<IGitService, GitService>();
+builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<IDocumentationService, DocumentationService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IVariableService, VariableService>();
+builder.Services.AddScoped<IStorageService, StorageService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IEconomyComparisonService, EconomyComparisionService>();
+builder.Services.AddScoped<IDataCollectionService, DataCollectionService>();
 
-builder.Services.AddSingleton<IEconomyComparisonService, EconomyComparisionService>();
+builder.Services.AddScoped<IDialogService, DialogService>();
 
-builder.Services.AddSingleton(new HttpClient
+
+builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });

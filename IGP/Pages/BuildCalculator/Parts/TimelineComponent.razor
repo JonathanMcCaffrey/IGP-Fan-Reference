@@ -58,6 +58,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         economyService.Subscribe(StateHasChanged);
         buildOrderService.Subscribe(StateHasChanged);
     }

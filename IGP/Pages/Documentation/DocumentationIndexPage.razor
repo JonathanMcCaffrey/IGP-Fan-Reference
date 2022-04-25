@@ -1,11 +1,12 @@
 ﻿@layout PageLayout
+@inherits BasePage
 
-@inject IDocumentationService documentationService
+@inject IDocumentationService DocumentationService
 @implements IDisposable
 
 @page "/docs"
 
-@if (!documentationService.IsLoaded())
+@if (!DocumentationService.IsLoaded())
 {
     <LoadingComponent/>
 }
@@ -13,7 +14,7 @@ else
 {
     <LayoutMediumContentComponent>
         <PaperComponent>
-            @foreach (var docSection in documentationService.DocSectionModels)
+            @foreach (var docSection in DocumentationService.DocSectionModels)
             {
                 <div class="docSectionContainer">
                     <div class="docSectionTitle">@docSection.Name</div>
@@ -102,14 +103,15 @@ else
 
     protected override void OnInitialized()
     {
-        documentationService.Subscribe(StateHasChanged);
+        base.OnInitialized();
+        DocumentationService.Subscribe(StateHasChanged);
 
-        documentationService.Load();
+        DocumentationService.Load();
     }
 
     void IDisposable.Dispose()
     {
-        documentationService.Unsubscribe(StateHasChanged);
+        DocumentationService.Unsubscribe(StateHasChanged);
     }
 
 }

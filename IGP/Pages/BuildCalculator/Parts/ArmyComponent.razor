@@ -67,6 +67,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         buildOrder.Subscribe(OnBuildOrderChanged);
         timingService.Subscribe(StateHasChanged);
     }

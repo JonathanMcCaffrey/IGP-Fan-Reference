@@ -2,7 +2,7 @@
 
 namespace Services.Website;
 
-public class PermissionService : IPermissionService
+public class PermissionService : IPermissionService, IDisposable
 {
     private IJSRuntime _jsRuntime;
     private readonly IStorageService _storageService;
@@ -15,6 +15,13 @@ public class PermissionService : IPermissionService
         _jsRuntime = jsRuntime;
         _toastService = toastService;
         _storageService = storageService;
+        
+        _storageService.Subscribe(NotifyDataChanged);
+    }
+
+    void IDisposable.Dispose()
+    {
+        _storageService.Unsubscribe(NotifyDataChanged);
     }
 
     public void Subscribe(Action action)
@@ -45,11 +52,6 @@ public class PermissionService : IPermissionService
     public void SetIsDataCollectionEnabled(bool isEnabled)
     {
         _storageService.SetValue(StorageKeys.EnabledDataCollection, isEnabled);
-    }
-
-    public Task Load()
-    {
-        throw new NotImplementedException();
     }
 
     private event Action OnChange = null!;

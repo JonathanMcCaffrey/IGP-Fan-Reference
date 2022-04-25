@@ -52,6 +52,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         TimingService.Subscribe(RefreshDefaults);
 
         RefreshDefaults();

@@ -81,6 +81,7 @@ else
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         buildOrderService.Subscribe(OnBuilderOrderChanged);
         timingService.Subscribe(OnBuilderOrderChanged);
 

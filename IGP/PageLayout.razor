@@ -1,13 +1,16 @@
-﻿@inherits LayoutComponentBase;
-@inject IJSRuntime jsRuntime
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JsRuntime
 
-@inject ISearchService searchService
-@inject IWebsiteService webService;
-@implements IDisposable;
+@inject ISearchService SearchService
+@inject IWebsiteService WebService
+@inject IDataCollectionService DataCollectionService 
+@inject NavigationManager NavigationManager
+@using Services.Website
+@implements IDisposable
 
 <div class="pageContents">
     <div class="layoutContainer">
-        @if (!webService.IsLoaded())
+        @if (!WebService.IsLoaded())
         {
             <LoadingComponent/>
         }
@@ -18,12 +21,12 @@
             </div>
 
 
-            <DesktopNavComponent WebSections=webService.WebSectionModels
-                                 WebPages=webService.WebPageModels/>
-            <TabletNavComponent WebSections=webService.WebSectionModels
-                                WebPages=webService.WebPageModels/>
-            <MobileNavComponent WebSections=webService.WebSectionModels
-                                WebPages=webService.WebPageModels/>
+            <DesktopNavComponent WebSections=WebService.WebSectionModels
+                                 WebPages=WebService.WebPageModels/>
+            <TabletNavComponent WebSections=WebService.WebSectionModels
+                                WebPages=WebService.WebPageModels/>
+            <MobileNavComponent WebSections=WebService.WebSectionModels
+                                WebPages=WebService.WebPageModels/>
         }
     </div>
 
@@ -33,12 +36,29 @@
 
     protected override void OnInitialized()
     {
-        webService.Subscribe(HasChanged);
+        base.OnInitialized();
+        WebService.Subscribe(HasChanged);
+        
+        CollectFirstPageLoaded();
+    }
+
+    private void CollectFirstPageLoaded()
+    {
+        var skipBaseUri = NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length,
+            NavigationManager.Uri.Length - NavigationManager.BaseUri.Length);
+        var rootUrl = skipBaseUri.Split("/").First();
+        if (rootUrl.Trim().Equals(""))
+        {
+            rootUrl = "home";
+        }
+        
+        DataCollectionService.SendEvent(DataCollectionKeys.FirstPage,
+            new Dictionary<string, string> { { "page", rootUrl } });
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await webService.Load();
+        await WebService.Load();
 
         await Focus();
     }
@@ -55,7 +75,7 @@
 
     void IDisposable.Dispose()
     {
-        webService.Unsubscribe(HasChanged);
+        WebService.Unsubscribe(HasChanged);
     }
 
     void HasChanged()
@@ -67,7 +87,7 @@
     {
         if ((keyboardEventArgs.CtrlKey || keyboardEventArgs.MetaKey) && keyboardEventArgs.Key.ToLower() == "k")
         {
-            searchService.Show();
+            SearchService.Show();
         }
     }
 

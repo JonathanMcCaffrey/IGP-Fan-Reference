@@ -338,8 +338,6 @@ public class BuildOrderService : IBuildOrderService
 
     public int? WillMeetTrainingQueue(EntityModel entity)
     {
-        Console.WriteLine($"WillMeetTrainingQueue {entity.Info().Name}");
-
         var supply = entity.Supply();
         var production = entity.Production();
 
@@ -347,15 +345,12 @@ public class BuildOrderService : IBuildOrderService
 
         if (supply == null || production == null || supply.Takes.Equals(0))
         {
-            Console.WriteLine(supply == null ? "Was Null" : supply.Takes);
-
             return 1;
         }
 
         var producedBy = production.ProducedBy;
         if (producedBy == null)
         {
-            Console.WriteLine("Produced by Nothing");
             return 1;
         }
 
@@ -377,10 +372,7 @@ public class BuildOrderService : IBuildOrderService
                     usedSlots += used.UsedSlots;
                     var duration = used.StopUsageTime - used.StartingUsageTime;
                     if (duration < shortestIncrement) shortestIncrement = duration;
-
-                    Console.WriteLine(
-                        $"Used slots {used.UsedSlots} Duration {duration} Start {used.StartingUsageTime} Stop {used.StopUsageTime} ");
-                }
+}
 
             if (usedSlots + supply.Takes <= trainingSlots)
             {
@@ -391,8 +383,6 @@ public class BuildOrderService : IBuildOrderService
                         Message = $"Had to wait {checkedInterval - _lastInterval}s for Training Queue."
                     });
 
-                Console.WriteLine($"Time {checkedInterval} did Delay {didDelay}");
-
                 return checkedInterval;
             }
 
@@ -401,7 +391,6 @@ public class BuildOrderService : IBuildOrderService
 
             if (shortestIncrement == int.MaxValue)
             {
-                Console.WriteLine("MaxValue");
                 return null;
             }
         }

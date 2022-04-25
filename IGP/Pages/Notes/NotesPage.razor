@@ -1,12 +1,16 @@
 ﻿@layout PageLayout
 
-@inject INoteService noteService
+@inherits BasePage
+
+@inject INoteService NoteService
 @implements IDisposable
+
+@inject IDataCollectionService DataCollectionService 
 
 @page "/notes/{href1}/{href2?}/{href3?}/{href4?}/{href5?}"
 
 
-@if (!noteService.IsLoaded())
+@if (!NoteService.IsLoaded())
 {
     <LoadingComponent/>
 }
@@ -15,12 +19,12 @@ else
     <LayoutWithSidebarComponent>
         <Sidebar>
             <NoteNavComponent
-                Connections="noteService.NoteConnectionModels"
-                Notes="noteService.NoteContentModels"/>
+                Connections="NoteService.NoteConnectionModels"
+                Notes="NoteService.NoteContentModels"/>
         </Sidebar>
         <Content>
             <PaperComponent>
-                @foreach (var note in noteService.NoteContentModels)
+                @foreach (var note in NoteService.NoteContentModels)
                 {
                     if (!note.Href.Equals(Href))
                     {
@@ -107,14 +111,15 @@ else
 
     protected override void OnInitialized()
     {
-        noteService.Subscribe(StateHasChanged);
+        base.OnInitialized();
+        NoteService.Subscribe(StateHasChanged);
 
-        noteService.Load();
+        NoteService.Load();
     }
 
     void IDisposable.Dispose()
     {
-        noteService.Unsubscribe(StateHasChanged);
+        NoteService.Unsubscribe(StateHasChanged);
     }
 
 }

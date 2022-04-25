@@ -1,9 +1,12 @@
 ﻿@page "/"
 
+@inject ITrackingNavigationState TrackingNavigationState
+@inject IAnalytics GlobalTracking
+
 @layout PageLayout
 
 <DevOnlyComponent>
-    <StoragePage/>
+    <PermissionsPage/>
 </DevOnlyComponent>
 
 <HomePage/>

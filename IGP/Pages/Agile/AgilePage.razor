@@ -1,11 +1,12 @@
 ﻿@implements IDisposable;
-@inject IAgileService agileService;
+@inject IAgileService AgileService;
 
 @layout PageLayout
+@inherits BasePage
 
 @page "/agile"
 
-@if (!agileService.IsLoaded())
+@if (!AgileService.IsLoaded())
 {
     <LoadingComponent/>
 }
@@ -14,7 +15,7 @@ else
     <LayoutMediumContentComponent>
         <WebsiteTitleComponent>Agile</WebsiteTitleComponent>
         <div class="agileViewContainer">
-            @foreach (var sprint in agileService.AgileSprintModels!
+            @foreach (var sprint in AgileService.AgileSprintModels!
                 .OrderBy(e => e.EndDate).Reverse())
             {
                 <details class="sprintDisplayContainer @sprint.GetSprintType().ToLower()"
@@ -80,22 +81,24 @@ else
 
     protected override void OnInitialized()
     {
-        agileService.Subscribe(HasChanged);
+        base.OnInitialized();
+        
+        AgileService.Subscribe(HasChanged);
         HasChanged();
     }
 
     void IDisposable.Dispose()
     {
-        agileService.Unsubscribe(HasChanged);
+        AgileService.Unsubscribe(HasChanged);
     }
 
     void HasChanged()
     {
-        if (!agileService.IsLoaded()) return;
+        if (!AgileService.IsLoaded()) return;
 
         backlog.Clear();
 
-        foreach (var task in agileService.AgileTaskModels!)
+        foreach (var task in AgileService.AgileTaskModels!)
         {
             if (task.AgileSprintModelId == null)
             {
@@ -108,7 +111,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await agileService.Load();
+        await AgileService.Load();
     }
 
 }

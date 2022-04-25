@@ -72,6 +72,7 @@
     
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         economyComparisonService.Subscribe(CalculateDifferences);
     }
 

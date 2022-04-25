@@ -50,7 +50,7 @@
         filter: blur(2px);
     }
    
-.searchBackground {
+.confirmDialogBackground {
     position: fixed;
     top: 0;
     left: 0;
@@ -84,7 +84,7 @@
 }
 
 
-.searchContainer {
+.confirmDialogContainer {
     margin-left: auto;
     margin-right: auto;
     margin-top: 64px;
@@ -120,6 +120,7 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         searchService.Subscribe(OnSearchChanged);
         
         timer = new Timer(200);
