@@ -50,7 +50,7 @@
         filter: blur(2px);
     }
    
-.confirmDialogBackground {
+.searchBackground {
     position: fixed;
     top: 0;
     left: 0;
@@ -84,7 +84,7 @@
 }
 
 
-.confirmDialogContainer {
+.searchContainer {
     margin-left: auto;
     margin-right: auto;
     margin-top: 64px;
@@ -120,7 +120,6 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         searchService.Subscribe(OnSearchChanged);
         
         timer = new Timer(200);
@@ -145,7 +144,7 @@
         StateHasChanged(); 
     }
 
-    void IDisposable.Dispose()
+    public void Dispose()
     {
         searchService.Unsubscribe(OnSearchChanged);
         timer.Elapsed -= FocusTimer;

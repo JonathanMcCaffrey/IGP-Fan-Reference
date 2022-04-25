@@ -1,28 +1,29 @@
 ﻿@implements IDisposable;
 
-@inject ISearchService SearchService
-@inject IJSRuntime JsRuntime
+@inject ISearchService searchService
+@inject IJSRuntime jsRuntime
 
 <SearchDialogComponent></SearchDialogComponent>
 
 @code {
+    private string test = "Q";
+
     protected override void OnInitialized()
     {
-        base.OnInitialized();
-        SearchService.Subscribe(OnUpdate);
+        searchService.Subscribe(OnUpdate);
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await SearchService.Load();
-        await JsRuntime.InvokeVoidAsync("SetDotnetReference", DotNetObjectReference.Create(this));
+        await searchService.Load();
+        await jsRuntime.InvokeVoidAsync("SetDotnetReference", DotNetObjectReference.Create(this));
     }
     
 
 
-    void IDisposable.Dispose()
+    public void Dispose()
     {
-        SearchService.Unsubscribe(OnUpdate);
+        searchService.Unsubscribe(OnUpdate);
     }
 
     void OnUpdate()
@@ -35,13 +36,13 @@
     {
         if (code.ToLower().Equals("k") && (ctrlKey || shiftKey || altKey || metaKey))
         {
-            if (SearchService.IsVisible)
+            if (searchService.IsVisible)
             {
-                SearchService.Hide();
+                searchService.Hide();
             }
             else
             {
-                SearchService.Show();
+                searchService.Show();
             }
         }
     }

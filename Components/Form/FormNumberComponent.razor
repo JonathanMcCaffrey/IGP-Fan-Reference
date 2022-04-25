@@ -5,6 +5,7 @@
     }
     <div>
         <input readonly="@ReadOnly"
+                id="@Id"
                class="numberInput"
                type="number"
                min="@Min"
@@ -39,6 +40,9 @@
 
     [Parameter]
     public RenderFragment? FormLabelComponent { get; set; }
+
+    [Parameter]
+    public string Id { get; set; } = default!;
 
     [Parameter]
     public RenderFragment? FormInfoComponent { get; set; }
