@@ -9,7 +9,11 @@
                     {
                         styleClass = "selected";
                     }
-                    <button @onclick="@(e => OnChangeFaction(choice))" class="choiceButton @styleClass">@choice</button>
+                    <button @onclick="@(e => OnChangeFaction(choice))" 
+                            class="choiceButton @styleClass">@(choice == DataType.Any 
+                                                                 ? DataType.Any 
+                                                                 : DATA.Get()[choice].Info().Name)
+                        </button>
                 }
             </div>
 

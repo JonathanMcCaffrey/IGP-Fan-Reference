@@ -20,7 +20,7 @@
             @if (Entity.Faction() != null)
             {
                 <div>
-                    <b>Faction:</b> @Entity.Faction().Faction
+                    <b>Faction:</b> @DATA.Get()[Entity.Faction().Faction].Info().Name
                 </div>
             }
             @if (Entity.Tier() != null)
@@ -70,7 +70,7 @@ else
                 @if (Entity.Faction() != null)
                 {
                     <div>
-                        <b>Faction:</b> @Entity.Faction().Faction
+                        <b>Faction:</b> @DATA.Get()[Entity.Faction().Faction].Info().Name
                     </div>
                 }
                 @if (Entity.Tier() != null)

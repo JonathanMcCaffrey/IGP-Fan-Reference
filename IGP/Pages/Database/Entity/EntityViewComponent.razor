@@ -2,7 +2,7 @@
 {
     var isVanguard = Entity.VanguardAdded() != null ? " vanguard" : "";
 
-    <div class="enititiesContainer @isVanguard">
+    <div class="entitiesContainer @isVanguard">
         <EntityHeaderComponent></EntityHeaderComponent>
         <div class="entityPartsContainer">
             <EntityVanguardAddedComponent></EntityVanguardAddedComponent>
@@ -21,7 +21,7 @@
 }
 
 <style>
-    .enititiesContainer {
+    .entitiesContainer {
         margin-bottom: 12px;
         width: 100%;
         overflow-y: auto;
@@ -41,7 +41,7 @@
     }
     
     @@media only screen and (max-width: 1025px) {
-        .enititiesContainer {
+        .entitiesContainer {
             padding: 0px;
         }
     }

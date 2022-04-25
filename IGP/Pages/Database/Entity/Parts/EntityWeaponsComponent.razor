@@ -1,4 +1,9 @@
-﻿@if (Entity!.Weapons().Count > 0)
+﻿@inject IStorageService StorageService
+@using Services.Website
+@implements IDisposable
+
+
+@if (Entity!.Weapons().Count > 0)
 {
     @if (StyleType.Equals("Plain"))
     {
@@ -71,6 +76,7 @@
                         - (or <b>SecondsBetweenAttacks:</b> @(1 / data.AttacksPerSecond))
                     </div>
                 }
+
 
                 <div>
                     <b>- Targets:</b> @data.Targets
@@ -149,6 +155,7 @@
                         <div>
                             <b>Range:</b> @data.Range
                         </div>
+
                         @if (data.SecondsBetweenAttacks > 0)
                         {
                             <div>
@@ -232,5 +239,23 @@
 
     [CascadingParameter]
     public string StyleType { get; set; } = "Detailed";
+
+    private bool _isDynamicFormatting = false;
+
+    protected override void OnInitialized()
+    {
+        StorageService.Subscribe(RefreshDefaults);
+    }
+
+
+    void RefreshDefaults()
+    {
+        _isDynamicFormatting = StorageService.GetValue<bool>(StorageKeys.IsDynamicFormatting);
+    }
+
+    void IDisposable.Dispose()
+    {
+        StorageService.Unsubscribe(RefreshDefaults);
+    }
 
 }

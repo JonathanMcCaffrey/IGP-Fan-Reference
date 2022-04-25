@@ -8,6 +8,7 @@ public class StorageKeys
     public static string EnabledStorage = "StorageEnabled";
     public static string EnabledDataCollection = "StorageDataCollection";
     public static string IsPlainView { get; set; } = "IsPlainView";
+    public static string IsDynamicFormatting { get; set; } = "IsDynamicFormatting";
     public static string AttackTime { get; set; } = "AttackTime";
     public static string TravelTime { get; set; } = "TravelTime";
     public static string SelectedFaction { get; set; } = "SelectedFaction";
