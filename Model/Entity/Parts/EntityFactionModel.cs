@@ -1,9 +1,10 @@
-﻿using Model.Types;
+﻿using Model.Entity.Data;
+using Model.Types;
 
 namespace Model.Entity.Parts;
 
 public class EntityFactionModel : IEntityPartInterface
 {
     public string Type { get; set; } = "EntityFactionModel";
-    public string Faction { get; set; } = FactionType.QRath;
+    public string Faction { get; set; } = DataType.FACTION_QRath;
 }

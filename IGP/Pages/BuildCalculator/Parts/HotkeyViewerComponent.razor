@@ -164,7 +164,7 @@
     // Move to Filter Service
     bool InvalidFaction(EntityModel entity)
     {
-        if (entity.Faction() != null && entity.Faction()?.Faction != filterService.GetFactionType() && filterService.GetFactionType() != FactionType.Any)
+        if (entity.Faction() != null && entity.Faction()?.Faction != filterService.GetFaction() && filterService.GetFaction() != DataType.Any)
         {
             return true;
         }
@@ -176,8 +176,8 @@
     bool InvalidVanguard(EntityModel entity)
     {
         if (entity.VanguardAdded() != null
-            && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortalType()
-            && filterService.GetImmortalType() != ImmortalType.Any)
+            && entity.VanguardAdded()?.ImmortalId != filterService.GetImmortal()
+            && filterService.GetImmortal() != DataType.Any)
         {
             return true;
         }
@@ -192,7 +192,7 @@
         {
             foreach (var replaced in entity.Replaceds())
             {
-                if (filterService.GetImmortalType() == replaced.ImmortalId)
+                if (filterService.GetImmortal() == replaced.ImmortalId)
                 {
                     return true;
                 }
@@ -319,8 +319,8 @@
 
         var hotkeyGroup = keyService.GetHotkeyGroup();
         var isHoldSpace = keyService.IsHoldingSpace();
-        var faction = filterService.GetFactionType();
-        var immortal = filterService.GetImmortalType();
+        var faction = filterService.GetFaction();
+        var immortal = filterService.GetImmortal();
 
         var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 

@@ -127,8 +127,8 @@
     List<EntityModel> searches = default!;
 
 
-    string selectedFactionType = FactionType.Any;
-    string selectedImmortalType = ImmortalType.Any;
+    string selectedFactionType = DataType.Any;
+    string selectedImmortalType = DataType.Any;
     string selectedEntityType = EntityType.Army;
     string searchText = "";
 
@@ -174,7 +174,7 @@
     {
         selectedFactionType = EntityFilterService.GetFactionType();
 
-        if (selectedFactionType == FactionType.Any)
+        if (selectedFactionType == DataType.Any)
         {
             factions = defaults.ToList();
         }
@@ -199,7 +199,7 @@
     {
         selectedImmortalType = EntityFilterService.GetImmortalType();
 
-        if (selectedImmortalType == ImmortalType.Any)
+        if (selectedImmortalType == DataType.Any)
         {
             immortals = factions.ToList();
         }

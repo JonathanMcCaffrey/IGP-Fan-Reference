@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.ProtectedBrowserStorage;
-using Model.BuildOrders;
+﻿using Model.BuildOrders;
 using Model.Doc;
 using Model.Economy;
 using Model.Entity;
@@ -11,7 +10,6 @@ using Model.Website;
 using Model.Website.Enums;
 using Model.Work.Tasks;
 using Services.Immortal;
-using Services.Website;
 
 namespace Services;
 
@@ -44,10 +42,10 @@ public interface IPermissionService
 
     public bool GetIsStorageEnabled();
     public bool GetIsDataCollectionEnabled();
-    
+
     public void SetIsStorageEnabled(bool isEnabled);
     public void SetIsDataCollectionEnabled(bool isEnabled);
-    
+
     Task Load();
 }
 
@@ -226,6 +224,9 @@ public interface IBuildComparisonService
 
 public interface ITimingService
 {
+    public int BuildingInputDelay { get; set; }
+    public int WaitTime { get; set; }
+    public int WaitTo { get; set; }
     public int GetAttackTime();
     public void SetAttackTime(int timing);
     public int GetTravelTime();
@@ -284,10 +285,10 @@ public interface IEntityDisplayService
 
 public interface IImmortalSelectionService
 {
-    public string GetFactionType();
-    public string GetImmortalType();
-    public bool SelectFactionType(string factionType);
-    public bool SelectImmortalType(string immortalType);
+    public string GetFaction();
+    public string GetImmortal();
+    public bool SelectFaction(string faction);
+    public bool SelectImmortal(string immortal);
     public void Subscribe(Action action);
     public void Unsubscribe(Action action);
 }
@@ -323,7 +324,6 @@ public interface IMemoryTesterService
 
 public interface IBuildOrderService
 {
-    public int BuildingInputDelay { get; set; }
     public Dictionary<int, List<EntityModel>> StartedOrders { get; }
     public Dictionary<int, List<EntityModel>> CompletedOrders { get; }
     public Dictionary<string, int> UniqueCompletedTimes { get; }

@@ -84,7 +84,7 @@ else
         toastService.RemoveToast(Toast!);
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         toastService.Unsubscribe(OnUpdate);
     }

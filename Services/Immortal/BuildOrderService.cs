@@ -14,17 +14,19 @@ public class BuildOrderService : IBuildOrderService
 {
     private readonly BuildOrderModel _buildOrder = new();
 
+    private readonly ITimingService _timingService;
+
     private readonly IToastService _toastService;
+
     private int _lastInterval;
 
-    public BuildOrderService(IToastService toastService)
+    public BuildOrderService(IToastService toastService, ITimingService timingService)
     {
         _toastService = toastService;
+        _timingService = timingService;
 
         Reset();
     }
-
-    public int BuildingInputDelay { get; set; } = 2;
 
     public Dictionary<int, List<EntityModel>> StartedOrders => _buildOrder.StartedOrders;
     public Dictionary<int, List<EntityModel>> CompletedOrders => _buildOrder.CompletedOrders;
@@ -241,14 +243,12 @@ public class BuildOrderService : IBuildOrderService
             _buildOrder.UniqueCompleted[entityRemoved.DataType]
                 .Remove(_buildOrder.UniqueCompleted[entityRemoved.DataType].Last());
 
-            if (entityRemoved.Production() != null 
-                && entityRemoved.Production()!.ProducedBy != null 
-                && entityRemoved.Supply() != null 
+            if (entityRemoved.Production() != null
+                && entityRemoved.Production()!.ProducedBy != null
+                && entityRemoved.Supply() != null
                 && entityRemoved.Supply()!.Takes > 0)
-            {
                 _buildOrder.TrainingCapacityUsed.Remove(_buildOrder.TrainingCapacityUsed.Last());
-            }
-            
+
             if (entityRemoved.Info().Descriptive == DescriptiveType.Worker)
             {
                 RemoveLast();
@@ -339,7 +339,7 @@ public class BuildOrderService : IBuildOrderService
     public int? WillMeetTrainingQueue(EntityModel entity)
     {
         Console.WriteLine($"WillMeetTrainingQueue {entity.Info().Name}");
-        
+
         var supply = entity.Supply();
         var production = entity.Production();
 
@@ -348,7 +348,7 @@ public class BuildOrderService : IBuildOrderService
         if (supply == null || production == null || supply.Takes.Equals(0))
         {
             Console.WriteLine(supply == null ? "Was Null" : supply.Takes);
-            
+
             return 1;
         }
 
@@ -358,47 +358,50 @@ public class BuildOrderService : IBuildOrderService
             Console.WriteLine("Produced by Nothing");
             return 1;
         }
+
         var uniqueCompleted = _buildOrder.UniqueCompleted[producedBy];
-        
+
         var shortestIncrement = int.MaxValue;
         var trainingSlots = 0;
-        bool didDelay = false;
+        var didDelay = false;
 
         foreach (var productionEntity in uniqueCompleted) trainingSlots += productionEntity.Supply()!.Grants;
 
-        
+
         while (true)
         {
             var usedSlots = 0;
             foreach (var used in _buildOrder.TrainingCapacityUsed)
                 if (checkedInterval >= used.StartingUsageTime && checkedInterval < used.StopUsageTime)
-                {   
+                {
                     usedSlots += used.UsedSlots;
                     var duration = used.StopUsageTime - used.StartingUsageTime;
                     if (duration < shortestIncrement) shortestIncrement = duration;
-                    
-                    Console.WriteLine($"Used slots {used.UsedSlots} Duration {duration} Start {used.StartingUsageTime} Stop {used.StopUsageTime} ");
 
+                    Console.WriteLine(
+                        $"Used slots {used.UsedSlots} Duration {duration} Start {used.StartingUsageTime} Stop {used.StopUsageTime} ");
                 }
 
             if (usedSlots + supply.Takes <= trainingSlots)
             {
                 if (didDelay)
-                {
-                    _toastService.AddToast(new ToastModel{Title = "Waited", SeverityType = SeverityType.Information, Message = $"Had to wait {checkedInterval - _lastInterval}s for Training Queue."});
-                }
-                
+                    _toastService.AddToast(new ToastModel
+                    {
+                        Title = "Waited", SeverityType = SeverityType.Information,
+                        Message = $"Had to wait {checkedInterval - _lastInterval}s for Training Queue."
+                    });
+
                 Console.WriteLine($"Time {checkedInterval} did Delay {didDelay}");
-                
+
                 return checkedInterval;
             }
+
             checkedInterval += shortestIncrement;
             didDelay = true;
 
             if (shortestIncrement == int.MaxValue)
             {
-                
-                Console.WriteLine($"MaxValue");
+                Console.WriteLine("MaxValue");
                 return null;
             }
         }
@@ -421,7 +424,7 @@ public class BuildOrderService : IBuildOrderService
             {
                 atInterval = interval;
 
-                if (entity.EntityType != EntityType.Army) atInterval += BuildingInputDelay;
+                if (entity.EntityType != EntityType.Army) atInterval += _timingService.BuildingInputDelay;
 
                 return true;
             }

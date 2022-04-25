@@ -16,12 +16,12 @@ public class EntityFilterService : IEntityFilterService
 {
     private readonly List<string> _entityChoices = new();
 
-    private readonly List<string> _factionChoices = new() { FactionType.Any, FactionType.QRath, FactionType.Aru };
+    private readonly List<string> _factionChoices = new() { DataType.Any, DataType.FACTION_QRath, DataType.FACTION_Aru };
     private readonly List<string> _immortalChoices = new();
     private string _entityType = EntityType.Army;
     private string _searchText = "";
-    private string _selectedFaction = FactionType.Any;
-    private string _selectedImmortal = ImmortalType.Any;
+    private string _selectedFaction = DataType.Any;
+    private string _selectedImmortal = DataType.Any;
 
     public EntityFilterService()
     {
@@ -59,8 +59,8 @@ public class EntityFilterService : IEntityFilterService
     {
         if (_selectedFaction == factionType)
         {
-            _selectedFaction = FactionType.None;
-            _selectedImmortal = ImmortalType.None;
+            _selectedFaction = DataType.None;
+            _selectedImmortal = DataType.None;
 
             RefreshImmortalChoices();
             RefreshEntityChoices();
@@ -71,7 +71,7 @@ public class EntityFilterService : IEntityFilterService
         }
 
         _selectedFaction = factionType;
-        _selectedImmortal = ImmortalType.Any;
+        _selectedImmortal = DataType.Any;
 
         RefreshImmortalChoices();
         RefreshEntityChoices();
@@ -84,7 +84,7 @@ public class EntityFilterService : IEntityFilterService
     {
         if (_selectedImmortal == immortalType)
         {
-            _selectedImmortal = ImmortalType.None;
+            _selectedImmortal = DataType.None;
             NotifyDataChanged(EntityFilterEvent.OnRefreshImmortal);
             return true;
         }
@@ -148,13 +148,13 @@ public class EntityFilterService : IEntityFilterService
             _immortalChoices.Add(ImmortalType.Xol);
         }*/
 
-        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Any)
+        if (_selectedFaction == DataType.FACTION_QRath || _selectedFaction == DataType.Any)
         {
             _immortalChoices.Add(DataType.IMMORTAL_Orzum);
             _immortalChoices.Add(DataType.IMMORTAL_Ajari);
         }
 
-        if (_selectedFaction == FactionType.Aru || _selectedFaction == FactionType.Any)
+        if (_selectedFaction == DataType.FACTION_Aru || _selectedFaction == DataType.Any)
         {
             _immortalChoices.Add(DataType.IMMORTAL_Mala);
             _immortalChoices.Add(DataType.IMMORTAL_Xol);
@@ -165,8 +165,8 @@ public class EntityFilterService : IEntityFilterService
     {
         _entityChoices.Clear();
 
-        if (_selectedFaction == FactionType.QRath || _selectedFaction == FactionType.Aru ||
-            _selectedFaction == FactionType.Any)
+        if (_selectedFaction == DataType.FACTION_QRath || _selectedFaction == DataType.FACTION_Aru ||
+            _selectedFaction == DataType.Any)
         {
             _entityChoices.Add(EntityType.Army);
             _entityChoices.Add(EntityType.Immortal);
@@ -178,7 +178,7 @@ public class EntityFilterService : IEntityFilterService
             _entityChoices.Add(EntityType.Worker);
         }
 
-        if (_selectedFaction == FactionType.Any) _entityChoices.Add(EntityType.Any);
+        if (_selectedFaction == DataType.Any) _entityChoices.Add(EntityType.Any);
     }
 
 

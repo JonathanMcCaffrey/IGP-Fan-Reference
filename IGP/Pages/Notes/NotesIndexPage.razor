@@ -125,7 +125,7 @@ else
     }
 
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         noteService.Unsubscribe(StateHasChanged);
     }

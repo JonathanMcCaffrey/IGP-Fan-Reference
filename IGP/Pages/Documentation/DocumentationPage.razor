@@ -113,7 +113,7 @@ else
         documentationService.Load();
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         documentationService.Unsubscribe(StateHasChanged);
     }

@@ -257,8 +257,8 @@
 
         var hotkeyGroup = keyService.GetHotkeyGroup();
         var isHoldSpace = keyService.IsHoldingSpace();
-        var faction = filterService.GetFactionType();
-        var immortal = filterService.GetImmortalType();
+        var faction = filterService.GetFaction();
+        var immortal = filterService.GetImmortal();
 
         var entity = EntityModel.GetFrom(hotkey!, hotkeyGroup, isHoldSpace, faction, immortal);
 

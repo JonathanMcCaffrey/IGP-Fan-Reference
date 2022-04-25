@@ -38,7 +38,7 @@
         ageTimer.Enabled = true;
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         toastService.Unsubscribe(OnUpdate);
     }

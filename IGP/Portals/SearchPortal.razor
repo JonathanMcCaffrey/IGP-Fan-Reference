@@ -21,7 +21,7 @@
     
 
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         searchService.Unsubscribe(OnUpdate);
     }

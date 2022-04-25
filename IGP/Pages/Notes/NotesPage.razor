@@ -112,7 +112,7 @@ else
         noteService.Load();
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         noteService.Unsubscribe(StateHasChanged);
     }

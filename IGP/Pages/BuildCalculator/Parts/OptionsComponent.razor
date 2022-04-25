@@ -1,14 +1,17 @@
-﻿@inject IJSRuntime jsRuntime;
+﻿@inject IJSRuntime JsRuntime;
 
-@inject IBuildOrderService buildOrderService
-@inject IEconomyService economyService
-@inject IToastService toastService
-@inject ITimingService timingService
+@inject IBuildOrderService BuildOrderService
+@inject IEconomyService EconomyService
+@inject IToastService ToastService
+@inject ITimingService TimingService
+
+@using System.Data
+@implements IDisposable
 
 <FormLayoutComponent>
     <FormNumberComponent Max="600"
                          Min="0"
-                         Value="@buildOrderService.BuildingInputDelay"
+                         Value="BuildDelay"
                          OnChange="@OnBuildingInputDelayChanged">
         <FormLabelComponent>Building Input Delay</FormLabelComponent>
         <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
@@ -17,7 +20,7 @@
         <FormLayoutComponent>
             <FormNumberComponent Max="600"
                                  Min="1"
-                                 Value="@WaitTime"
+                                 Value="WaitTime"
                                  OnChange="@OnWaitTimeChanged">
                 <FormLabelComponent>Wait Time</FormLabelComponent>
             </FormNumberComponent>
@@ -26,7 +29,7 @@
         <FormLayoutComponent>
             <FormNumberComponent Max="2048"
                                  Min="1"
-                                 Value="@WaitTo"
+                                 Value="WaitTo"
                                  OnChange="@OnWaitToChanged">
                 <FormLabelComponent>Wait To</FormLabelComponent>
             </FormNumberComponent>
@@ -43,45 +46,69 @@
 </style>
 
 @code {
+    private int BuildDelay { get; set; } = 2;
     private int WaitTime { get; set; } = 30;
     private int WaitTo { get; set; } = 30;
 
+    protected override void OnInitialized()
+    {
+        TimingService.Subscribe(RefreshDefaults);
+
+        RefreshDefaults();
+    }
     
+    void IDisposable.Dispose()
+    {
+        TimingService.Unsubscribe(RefreshDefaults);
+    }
+
+    void RefreshDefaults()
+    {
+        BuildDelay = TimingService.BuildingInputDelay;
+        WaitTime = TimingService.WaitTime;
+        WaitTo = TimingService.WaitTo;
+
+        StateHasChanged();
+
+    }
+
     void OnBuildingInputDelayChanged(ChangeEventArgs changeEventArgs)
     {
-        buildOrderService.BuildingInputDelay = int.Parse(changeEventArgs.Value!.ToString()!);
+        TimingService.BuildingInputDelay = int.Parse(changeEventArgs.Value!.ToString()!);
     }
 
     void OnWaitTimeChanged(ChangeEventArgs changeEventArgs)
     {
+        TimingService.WaitTime = (int)changeEventArgs.Value!;
         WaitTime = (int)changeEventArgs.Value!;
     }
     
     void OnWaitToChanged(ChangeEventArgs changeEventArgs)
     {
+        TimingService.WaitTo = (int)changeEventArgs.Value!;
         WaitTo = (int)changeEventArgs.Value!;
     }
 
     private void OnWaitClicked()
     {
-        if (buildOrderService.AddWait(WaitTime))
+        if (BuildOrderService.AddWait(WaitTime))
         {
-            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }
     }
 
     private void OnWaitToClicked()
     {
-        if (buildOrderService.AddWaitTo(WaitTo))
+        if (BuildOrderService.AddWaitTo(WaitTo))
         {
-            economyService.Calculate(buildOrderService, timingService, buildOrderService.GetLastRequestInterval());
+            EconomyService.Calculate(BuildOrderService, TimingService, BuildOrderService.GetLastRequestInterval());
         }
     }
 
     protected override bool ShouldRender()
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.time", "TimingComponent");
+        JsRuntime.InvokeVoidAsync("console.time", "TimingComponent");
 #endif
 
         return true;
@@ -90,9 +117,8 @@
     protected override void OnAfterRender(bool firstRender)
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
+        JsRuntime.InvokeVoidAsync("console.timeEnd", "TimingComponent");
 #endif
     }
-
 
 }

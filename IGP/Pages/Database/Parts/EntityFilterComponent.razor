@@ -51,16 +51,16 @@
         <FormSelectComponent OnChange="@OnFactionChanged">
             <FormLabelComponent>Faction</FormLabelComponent>
             <ChildContent>
-                <option value="@FactionType.Any" selected>Any</option>
-                <option value="@FactionType.Aru">Aru</option>
-                <option value="@FactionType.QRath">Q'Rath</option>
+                <option value="@DataType.Any" selected>Any</option>
+                <option value="@DataType.FACTION_Aru">Aru</option>
+                <option value="@DataType.FACTION_QRath">Q'Rath</option>
             </ChildContent>
         </FormSelectComponent>
 
         <FormSelectComponent OnChange="@OnImmortalChanged">
             <FormLabelComponent>Immortal</FormLabelComponent>
             <ChildContent>
-                <option value="@ImmortalType.Any" selected>Any</option>
+                <option value="@DataType.Any" selected>Any</option>
                 <option value="@DataType.IMMORTAL_Mala">Mala</option>
                 <option value="@DataType.IMMORTAL_Xol">Xol</option>
                 <option value="@DataType.IMMORTAL_Orzum">Orzum</option>

@@ -144,7 +144,7 @@
         StateHasChanged(); 
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         searchService.Unsubscribe(OnSearchChanged);
         timer.Elapsed -= FocusTimer;

@@ -150,7 +150,7 @@
         entityDialogService.Subscribe(OnUpdate);
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         entityDialogService.Unsubscribe(OnUpdate);
     }

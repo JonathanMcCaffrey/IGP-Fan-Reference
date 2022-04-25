@@ -4,6 +4,7 @@
 @inject IEconomyService economyService
 @inject IToastService toastService
 @inject ITimingService timingService
+@implements IDisposable
 
 <FormLayoutComponent>
     <FormNumberComponent Max="2048"
@@ -29,6 +30,16 @@
 </FormLayoutComponent>
 
 @code {
+
+    protected override void OnInitialized()
+    {
+        timingService.Subscribe(StateHasChanged);
+    }
+    
+    void IDisposable.Dispose()
+    {
+        timingService.Unsubscribe(StateHasChanged);
+    }
 
     void OnAttackTimeChanged(ChangeEventArgs changeEventArgs)
     {

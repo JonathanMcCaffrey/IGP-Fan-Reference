@@ -1,12 +1,28 @@
 ﻿using Model.Entity.Data;
-using Model.Types;
+using Services.Website;
 
 namespace Services.Immortal;
 
-public class ImmortalSelectionService : IImmortalSelectionService
+public class ImmortalSelectionService : IImmortalSelectionService, IDisposable
 {
-    private string _selectedFaction = FactionType.QRath;
+    private string _selectedFaction = DataType.FACTION_QRath;
     private string _selectedImmortal = DataType.IMMORTAL_Orzum;
+
+    private readonly IStorageService _storageService;
+
+    public ImmortalSelectionService(IStorageService storageService)
+    {
+        _storageService = storageService;
+        
+        _storageService.Subscribe(RefreshDefaults);
+
+        RefreshDefaults();
+    }
+
+    void IDisposable.Dispose()
+    {
+        _storageService.Unsubscribe(RefreshDefaults);
+    }
 
     public void Subscribe(Action action)
     {
@@ -18,35 +34,47 @@ public class ImmortalSelectionService : IImmortalSelectionService
         OnChange -= action;
     }
 
-    public string GetFactionType()
+    public string GetFaction()
     {
         return _selectedFaction;
     }
 
-    public string GetImmortalType()
+    public string GetImmortal()
     {
         return _selectedImmortal;
     }
 
-    public bool SelectFactionType(string factionType)
+    public bool SelectFaction(string faction)
     {
-        if (_selectedFaction == factionType) return false;
-        _selectedFaction = factionType;
+        if (_selectedFaction == faction) return false;
+        _selectedFaction = faction;
 
-        if (_selectedFaction == FactionType.QRath) _selectedImmortal = DataType.IMMORTAL_Orzum;
+        if (_selectedFaction == DataType.FACTION_QRath) _selectedImmortal = DataType.IMMORTAL_Orzum;
 
-        if (_selectedFaction == FactionType.Aru) _selectedImmortal = DataType.IMMORTAL_Mala;
+        if (_selectedFaction == DataType.FACTION_Aru) _selectedImmortal = DataType.IMMORTAL_Mala;
 
         NotifyDataChanged();
         return true;
     }
 
-    public bool SelectImmortalType(string immortalType)
+    public bool SelectImmortal(string immortal)
     {
-        if (_selectedImmortal == immortalType) return false;
-        _selectedImmortal = immortalType;
+        if (_selectedImmortal == immortal) return false;
+        _selectedImmortal = immortal;
         NotifyDataChanged();
         return true;
+    }
+
+    private void RefreshDefaults()
+    {
+        var foundFaction = _storageService.GetValue<string?>(StorageKeys.SelectedFaction);
+        var foundImmortal = _storageService.GetValue<string?>(StorageKeys.SelectedImmortal);
+
+        if (foundFaction != null) _selectedFaction = foundFaction;
+
+        if (foundImmortal != null) _selectedImmortal = foundImmortal;
+        
+        NotifyDataChanged();
     }
 
     private event Action OnChange = null!;

@@ -2,6 +2,9 @@
 
 public static class DataType
 {
+    public static string Any = "Any";
+    public static string None = "None";
+    
     public static string PYREEVENT_TowerKilled = "9a923928-b016-49f2-8c7d-950abf09e287";
     public static string PYREEVENT_CampTaken = "cc27a9b2-69e2-4322-8102-7a9f8bea7871";
     public static string PYREEVENT_MinerTaken = "5b158cf2-2810-4a2a-8131-c4fe4b392ce9";
@@ -14,6 +17,8 @@ public static class DataType
     public static string FAMILY_Rae = "ce8d60f3-b590-4619-ad90-27e65f77312b";
     public static string FAMILY_Demonic = "f61a3630-9474-4ec3-bc71-997cacc52bc1";
     public static string FAMILY_NazRa = "56cc934f-57a9-442c-909a-25690f836679";
+    
+    public static string FACTION_Neutral = "95da29af-99da-45fe-80f6-4ae1cc0d0f47";
     public static string FACTION_Aru = "fb103962-7518-48df-b7d9-83906a009db8";
     public static string FACTION_Iratek = "dbc12bda-b4f2-4fa0-8270-18dc1646d62d";
     public static string FACTION_Yul = "9c0492af-1ef8-4113-9010-92178493f8b3";

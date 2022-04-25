@@ -6,20 +6,20 @@ public class EntityViewType
 {
     public static string Detailed = "Detailed";
     public static string Plain = "Plain";
-
 }
+
 public class EntityDisplayService : IEntityDisplayService
 {
     private string _displayType;
 
     public EntityDisplayService(IStorageService storageService)
     {
-        _displayType = storageService.GetValue<bool>(StorageKeys.IsPlainView) 
-            ? EntityViewType.Plain : EntityViewType.Detailed;
+        _displayType = storageService.GetValue<bool>(StorageKeys.IsPlainView)
+            ? EntityViewType.Plain
+            : EntityViewType.Detailed;
     }
-    
-    
-    
+
+
     public List<string> DefaultChoices()
     {
         return new List<string> { EntityViewType.Detailed, EntityViewType.Plain };
@@ -42,7 +42,7 @@ public class EntityDisplayService : IEntityDisplayService
 
     public void SetDisplayType(string displayType)
     {
-        this._displayType = displayType;
+        _displayType = displayType;
         NotifyDataChanged();
     }
 

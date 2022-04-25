@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.JSInterop;
 using Model.Feedback;
 
 namespace Services.Website;
@@ -9,26 +8,29 @@ public class StorageKeys
     public static string EnabledStorage = "StorageEnabled";
     public static string EnabledDataCollection = "StorageDataCollection";
     public static string IsPlainView { get; set; } = "IsPlainView";
+    public static string AttackTime { get; set; } = "AttackTime";
+    public static string TravelTime { get; set; } = "TravelTime";
+    public static string SelectedFaction { get; set; } = "SelectedFaction";
+    public static string SelectedImmortal { get; set; } = "SelectedImmortal";
+    public static string BuildInputDelay { get; set; } = "BuildInputDelay";
+    public static string WaitTime { get; set; } = "WaitTime";
+
+    public static string WaitTo { get; set; } = "WaitTo";
 }
 
 public class StorageService : IStorageService
 {
     private readonly ISyncLocalStorageService _localStorageService;
-    private IJSRuntime _jsRuntime;
     private readonly IToastService _toastService;
     private bool isLoaded;
-    private bool isStorageEnabled;
 
 
-    public StorageService(IJSRuntime jsRuntime, IToastService toastService,
+    public StorageService(IToastService toastService,
         ISyncLocalStorageService localStorageService)
     {
-        _jsRuntime = jsRuntime;
         _toastService = toastService;
         _localStorageService = localStorageService;
     }
-
-    private string enabledKey => StorageKeys.EnabledStorage;
 
     public void Subscribe(Action action)
     {
@@ -51,12 +53,28 @@ public class StorageService : IStorageService
         {
             _localStorageService.SetItem(key, value);
             NotifyDataChanged();
+            
+            _toastService.AddToast(new ToastModel
+            {
+                Title = "Test 1",
+                SeverityType = SeverityType.Error,
+                Message = "Storage must be enabled before Storage can be used."
+            });
+            
             return;
         }
 
         if (key.Equals(StorageKeys.EnabledStorage))
         {
             _localStorageService.Clear();
+            
+            _toastService.AddToast(new ToastModel
+            {
+                Title = "Test 2",
+                SeverityType = SeverityType.Error,
+                Message = "Storage must be enabled before Storage can be used."
+            });
+            
             NotifyDataChanged();
             return;
         }
@@ -78,29 +96,20 @@ public class StorageService : IStorageService
         NotifyDataChanged();
     }
 
-    public async Task Load()
+    public Task Load()
     {
-        if (!isLoaded) return;
+        if (!isLoaded) return Task.CompletedTask;
 
 
         isLoaded = true;
 
-        isStorageEnabled = GetValue<bool>(enabledKey);
-
         NotifyDataChanged();
+        return Task.CompletedTask;
     }
 
     private event Action OnChange = null!;
-
     private void NotifyDataChanged()
     {
-        try
-        {
-
-            OnChange();
-        }
-        catch (Exception e)
-        {
-        }
+        OnChange();
     }
 }

@@ -1,17 +1,14 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 
 namespace Services.Website;
 
 public class PermissionService : IPermissionService
 {
-    private bool isLoaded;
-    
-    
     private IJSRuntime _jsRuntime;
-    private bool isStorageEnabled = false;
+    private readonly IStorageService _storageService;
     private IToastService _toastService;
-    private IStorageService _storageService; 
+    private bool isLoaded;
+    private bool isStorageEnabled = false;
 
     public PermissionService(IJSRuntime jsRuntime, IToastService toastService, IStorageService storageService)
     {

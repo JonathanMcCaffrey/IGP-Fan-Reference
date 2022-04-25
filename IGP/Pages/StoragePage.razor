@@ -1,13 +1,11 @@
 ﻿@page "/storage"
 
 @inject IStorageService StorageService
-
 @using Services.Website
 @implements IDisposable
 @layout PageLayout
 
 <LayoutMediumContentComponent>
-
     @if (!_enabledPermissions)
     {
         <AlertComponent Type="@SeverityType.Error">
@@ -23,6 +21,90 @@
                     Label="Is Plain View"
                     Value="@_isEntityPlainView"
                     OnChange="EntityViewChanged"/>
+            </FormLayoutComponent>
+        </PaperComponent>
+
+        <PaperComponent>
+            <FormLayoutComponent>
+                <FormNumberComponent Max="2048"
+                                     Min="0"
+                                     Value="@(_attackTime == null ? 0 : (int)_attackTime)"
+                                     OnChange="AttackTimeChanged">
+                    <FormLabelComponent>Attack Time</FormLabelComponent>
+                    <FormInfoComponent>
+                        @if (_attackTime != null)
+                        {
+                            <i>&emsp; T @Interval.ToTime((int)_attackTime)</i>
+                        }
+                    </FormInfoComponent>
+                </FormNumberComponent>
+
+                <FormNumberComponent Max="2048"
+                                     Min="0"
+                                     Value="@(_travelTime == null ? 0 : (int)_travelTime)"
+                                     OnChange="TravelTimeChanged">
+                    <FormLabelComponent>Travel Time</FormLabelComponent>
+                    <FormInfoComponent>
+                        @if (_travelTime != null)
+                        {
+                            <i>&emsp; T @Interval.ToTime((int)_travelTime)</i>
+                        }
+                    </FormInfoComponent>
+                </FormNumberComponent>
+                
+                <FormSelectComponent OnChange="@OnFactionChanged">
+                    <FormLabelComponent>Faction</FormLabelComponent>
+                    <ChildContent>
+                        <option value="@DataType.FACTION_Aru" 
+                                selected="@(Faction.Equals(DataType.FACTION_Aru))">Aru</option>
+                        <option value="@DataType.FACTION_QRath" 
+                                selected="@(Faction.Equals(DataType.FACTION_QRath))">Q'Rath</option>
+                    </ChildContent>
+                </FormSelectComponent>
+                
+                <FormSelectComponent OnChange="@OnImmortalChanged">
+                        <FormLabelComponent>Immortal</FormLabelComponent>
+                        <ChildContent>
+                            @if (Faction == DataType.FACTION_QRath)
+                            {
+                                <option value="@DataType.IMMORTAL_Orzum" 
+                                        selected="@(Immortal.Equals(DataType.IMMORTAL_Orzum))">Orzum</option>
+                                <option value="@DataType.IMMORTAL_Ajari"
+                                        selected="@(Immortal.Equals(DataType.IMMORTAL_Ajari))">Ajari</option>
+                            }
+                            @if (Faction == DataType.FACTION_Aru)
+                            {
+                                <option value="@DataType.IMMORTAL_Mala" 
+                                        selected="@(Immortal.Equals(DataType.IMMORTAL_Mala))">Mala</option>
+                                <option value="@DataType.IMMORTAL_Xol"
+                                        selected="@(Immortal.Equals(DataType.IMMORTAL_Xol))">Xol</option>
+                            }
+                        </ChildContent>
+                    </FormSelectComponent>
+
+                
+    <FormNumberComponent Max="600"
+                         Min="0"
+                         Value="@(_buildingInputDelay == null ? 0 : (int)_buildingInputDelay)"
+                         OnChange="OnBuildingInputDelayChanged">
+        <FormLabelComponent>Building Input Delay</FormLabelComponent>
+        <FormInfoComponent>Add a input delay to constructing buildings for simulating worker movement and player micro.</FormInfoComponent>
+    </FormNumberComponent>
+            <FormNumberComponent Max="600"
+                                 Min="1"
+                                 Value="@(_waitTime == null ? 0 : (int)_waitTime)"
+                                 OnChange="@OnWaitTimeChanged">
+                <FormLabelComponent>Wait Time</FormLabelComponent>
+            </FormNumberComponent>
+        </FormLayoutComponent>
+        <FormLayoutComponent>
+            <FormNumberComponent Max="2048"
+                                 Min="1"
+                                 Value="@(_waitTo == null ? 0 : (int)_waitTo)"
+                                 OnChange="@OnWaitToChanged">
+                <FormLabelComponent>Wait To</FormLabelComponent>
+            </FormNumberComponent>
+                
             </FormLayoutComponent>
         </PaperComponent>
     }
@@ -41,21 +123,47 @@
     {
         _enabledPermissions = StorageService.GetValue<bool>(StorageKeys.EnabledStorage);
 
-        Update();
+        RefreshDefaults();
 
-        StorageService.Subscribe(Update);
+        StorageService.Subscribe(RefreshDefaults);
     }
-
-
-    public void Dispose()
+    
+    void IDisposable.Dispose()
     {
-        StorageService.Unsubscribe(Update);
+        StorageService.Unsubscribe(RefreshDefaults);
     }
 
-    void Update()
+    private int? _attackTime = null;
+    private int? _travelTime = null;
+
+    private string? _faction = null;
+    private string? _immortal = null;
+    
+    private string? Faction => _faction == null ? DataType.FACTION_QRath : _faction;
+    private string? Immortal => _immortal == null ? DataType.IMMORTAL_Orzum : _immortal;
+
+    
+
+    private int? _buildingInputDelay;
+    private int? _waitTime;
+    private int? _waitTo;
+
+
+    
+    void RefreshDefaults()
     {
         _isEntityPlainView = StorageService.GetValue<bool>(StorageKeys.IsPlainView);
+        _attackTime = StorageService.GetValue<int?>(StorageKeys.AttackTime);
+        _travelTime = StorageService.GetValue<int?>(StorageKeys.TravelTime);
         
+        
+        _faction = StorageService.GetValue<string?>(StorageKeys.SelectedFaction);
+        _immortal = StorageService.GetValue<string?>(StorageKeys.SelectedImmortal);
+        
+        _buildingInputDelay = StorageService.GetValue<int?>(StorageKeys.BuildInputDelay);
+        _waitTime = StorageService.GetValue<int?>(StorageKeys.WaitTime);
+        _waitTo = StorageService.GetValue<int?>(StorageKeys.WaitTo);
+
         StateHasChanged();
     }
 
@@ -65,4 +173,39 @@
     {
         StorageService.SetValue(StorageKeys.IsPlainView, obj.Value);
     }
+
+    private void AttackTimeChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.AttackTime, obj.Value);
+    }
+
+    private void TravelTimeChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.TravelTime, obj.Value);
+    }
+
+    private void OnFactionChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.SelectedFaction, obj.Value);
+    }
+
+    private void OnImmortalChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.SelectedImmortal, obj.Value);
+    }
+    private void OnBuildingInputDelayChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.BuildInputDelay, obj.Value);
+    }
+
+    private void OnWaitTimeChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.WaitTime, obj.Value);
+    }
+    
+    private void OnWaitToChanged(ChangeEventArgs obj)
+    {
+        StorageService.SetValue(StorageKeys.WaitTo, obj.Value);
+    }
+
 }

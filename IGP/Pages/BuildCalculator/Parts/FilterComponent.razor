@@ -1,27 +1,33 @@
-﻿@inject IJSRuntime jsRuntime;
-@inject IImmortalSelectionService filterService
+﻿@inject IJSRuntime JsRuntime;
+@inject IImmortalSelectionService FilterService
 
 <FormLayoutComponent>
     <FormSelectComponent OnChange="@OnFactionChanged">
         <FormLabelComponent>Faction</FormLabelComponent>
         <ChildContent>
-            <option value="@FactionType.Aru">Aru</option>
-            <option value="@FactionType.QRath" selected>Q'Rath</option>
+            <option value="@DataType.FACTION_Aru" 
+                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_Aru))">Aru</option>
+            <option value="@DataType.FACTION_QRath" 
+                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_QRath))">Q'Rath</option>
         </ChildContent>
     </FormSelectComponent>
 
     <FormSelectComponent OnChange="@OnImmortalChanged">
         <FormLabelComponent>Immortal</FormLabelComponent>
         <ChildContent>
-            @if (filterService.GetFactionType() == FactionType.QRath)
+            @if (FilterService.GetFaction() == DataType.FACTION_QRath)
             {
-                <option value="@DataType.IMMORTAL_Orzum" selected>Orzum</option>
-                <option value="@DataType.IMMORTAL_Ajari">Ajari</option>
+                <option value="@DataType.IMMORTAL_Orzum" 
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Orzum))">Orzum</option>
+                <option value="@DataType.IMMORTAL_Ajari"
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Ajari))">Ajari</option>
             }
-            @if (filterService.GetFactionType() == FactionType.Aru)
+            @if (FilterService.GetFaction() == DataType.FACTION_Aru)
             {
-                <option value="@DataType.IMMORTAL_Mala" selected>Mala</option>
-                <option value="@DataType.IMMORTAL_Xol">Xol</option>
+                <option value="@DataType.IMMORTAL_Mala" 
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Mala))">Mala</option>
+                <option value="@DataType.IMMORTAL_Xol"
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Xol))">Xol</option>
             }
         </ChildContent>
     </FormSelectComponent>
@@ -31,18 +37,18 @@
 
     void OnFactionChanged(ChangeEventArgs e)
     {
-        filterService.SelectFactionType(e.Value!.ToString()!);
+        FilterService.SelectFaction(e.Value!.ToString()!);
     }
 
     void OnImmortalChanged(ChangeEventArgs e)
     {
-        filterService.SelectImmortalType(e.Value!.ToString()!);
+        FilterService.SelectImmortal(e.Value!.ToString()!);
     }
 
     protected override bool ShouldRender()
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.time", "FilterComponent");
+        JsRuntime.InvokeVoidAsync("console.time", "FilterComponent");
 #endif
 
         return true;
@@ -51,7 +57,7 @@
     protected override void OnAfterRender(bool firstRender)
     {
 #if DEBUG
-        jsRuntime.InvokeVoidAsync("console.timeEnd", "FilterComponent");
+        JsRuntime.InvokeVoidAsync("console.timeEnd", "FilterComponent");
 #endif
     }
 
