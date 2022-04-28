@@ -11,16 +11,19 @@ public class Tests
     private Website Website { get; }
 
     public Tests() {
-        //var options = new FirefoxOptions();
-        var options = new ChromeOptions();
+        var options = new FirefoxOptions();
+        //var options = new ChromeOptions();
 
         options.AcceptInsecureCertificates = true;
         options.AddArgument("--headless");
+        options.AddArgument("--ignore-certificate-errors");
         options.AddArgument("--start-maximized");
-
+        options.AddArgument("--test-type");
+        options.AddArgument("--allow-running-insecure-content");
+        
         //_webDriver = new FirefoxDriver(options);
-        _webDriver = new ChromeDriver(Environment.CurrentDirectory, options);
-        //_webDriver = new FirefoxDriver(Environment.CurrentDirectory, options);
+        //_webDriver = new ChromeDriver(Environment.CurrentDirectory, options);
+        _webDriver = new FirefoxDriver(Environment.CurrentDirectory, options);
 
         
         Website = new Website(_webDriver);
