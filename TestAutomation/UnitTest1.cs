@@ -4,12 +4,10 @@ namespace TestAutomation;
 public class Tests
 {
     private IWebDriver _webDriver = default!;
-
-
+    
     private readonly string localhost = "https://localhost:7234";
     private readonly string develop = "https://calm-mud-04916b210.1.azurestaticapps.net/";
-
-
+    
     private Website Website { get; }
 
     public Tests() {
@@ -17,23 +15,21 @@ public class Tests
         var options = new ChromeOptions();
 
         options.AcceptInsecureCertificates = true;
-
-#if !DEBUG
-    options.AddArgument("--headless");
-#endif
-
+        options.AddArgument("--headless");
         options.AddArgument("--start-maximized");
 
         //_webDriver = new FirefoxDriver(options);
-        _webDriver = new ChromeDriver(options);
+        _webDriver = new ChromeDriver(Environment.CurrentDirectory, options);
+        //_webDriver = new FirefoxDriver(Environment.CurrentDirectory, options);
 
+        
         Website = new Website(_webDriver);
     }
 
     [OneTimeSetUp]
     public void Setup()
     {
-        _webDriver.Navigate().GoToUrl(localhost);
+        _webDriver.Navigate().GoToUrl(develop);
         _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
     }
 
@@ -46,7 +42,7 @@ public class Tests
     [Test]
     public void HarassCalculator()
     {
-        _webDriver.Navigate().GoToUrl(localhost + "/harass-calculator");
+        _webDriver.Navigate().GoToUrl(develop + "/harass-calculator");
 
         int expectedTotalAlloyHarassment = 240;
 
@@ -66,7 +62,7 @@ public class Tests
     [Test]
     public void HarassCalculatorInformation()
     {
-        _webDriver.Navigate().GoToUrl(localhost + "/harass-calculator");
+        _webDriver.Navigate().GoToUrl(develop + "/harass-calculator");
         
         int expectedExampleTotalAlloyLoss = 720;
         int expectedExampleWorkerCost = 300;
