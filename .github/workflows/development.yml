@@ -47,3 +47,5 @@ jobs:
     - run: dotnet restore
     - run: dotnet build --no-restore
     - run: dotnet test --no-build --verbosity normal
+      env:
+        TEST_HOOK: ${{ secrets.TEST_HOOK }}
