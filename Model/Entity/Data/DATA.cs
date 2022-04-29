@@ -1136,7 +1136,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 378, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 15, MediumDamage = 20, HeavyDamage = 25, Range = 400, AttacksPerSecond = 0.56f,
+                        Damage = 12, MediumDamage = 18, HeavyDamage = 24, Range = 400, AttacksPerSecond = 0.56f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_XacalDamage })
@@ -2616,7 +2616,7 @@ public class DATA
                             "Units that enter the target area suffer heavy damage over time. This damaging effect persists for a few seconds after leaving the plague area."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
-                    .AddPart(new EntityProductionModel { Energy = 75, Cooldown = 2 })
+                    .AddPart(new EntityProductionModel { Energy = 75, Cooldown = 8 })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
             },
             {
@@ -2670,7 +2670,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
-                    .AddPart(new EntityProductionModel { Energy = 80, Cooldown = 2 })
+                    .AddPart(new EntityProductionModel { Energy = 80, Cooldown = 8 })
             },
             {
                 DataType.ABILITY_SummonSiegeMaw,
