@@ -15,4 +15,6 @@ public class EntityVitalityModel : IEntityPartInterface
     public bool IsStructure { get; set; } = false;
 
     public int Energy { get; set; } = 0;
+
+    public int Vision { get; set; } = 0;
 }

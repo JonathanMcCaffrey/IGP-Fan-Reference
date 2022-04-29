@@ -5,34 +5,41 @@
 
 @implements IDisposable
 
-<FormLayoutComponent>
-    <div style="display: flex; gap: 24px;">
-        <FormDisplayComponent Label="Army Completed At">
-            <Display>@lastInterval | T @Interval.ToTime(lastInterval)</Display>
-        </FormDisplayComponent>
-        <FormDisplayComponent Label="Army Attacking At">
-            <Display>@(lastInterval + timingService.GetTravelTime()) | T @Interval.ToTime(lastInterval + timingService.GetTravelTime())</Display>
-        </FormDisplayComponent>
-    </div>
-    <FormDisplayComponent Label="Army units built">
-        <Display>
-            <div class="armyCardsContainer">
-                @foreach (var unit in armyCount)
-                {
-                    <div class="armyCard">
-                        <div class="armyCountPosition">
-                            <div class="armyCount">@unit.Value.ToString()x</div>
-                        </div>
-                        <div>@unit.Key</div>
-                    </div>
-                }
-            </div>
-        </Display>
-    </FormDisplayComponent>
+<div class="armyView">
 
-</FormLayoutComponent>
+    <FormLayoutComponent>
+        <div style="display: flex; gap: 24px;">
+            <FormDisplayComponent Label="Army Completed At">
+                <Display>@lastInterval | T @Interval.ToTime(lastInterval)</Display>
+            </FormDisplayComponent>
+            <FormDisplayComponent Label="Army Attacking At">
+                <Display>@(lastInterval + timingService.GetTravelTime()) | T @Interval.ToTime(lastInterval + timingService.GetTravelTime())</Display>
+            </FormDisplayComponent>
+        </div>
+        <FormDisplayComponent Label="Army units built">
+            <Display>
+                <div class="armyCardsContainer">
+                    @foreach (var unit in armyCount) {
+                        <div class="armyCard">
+                            <div class="armyCountPosition">
+                                <div class="armyCount">@unit.Value.ToString()x</div>
+                            </div>
+                            <div>@unit.Key</div>
+                        </div>
+                    }
+                </div>
+            </Display>
+        </FormDisplayComponent>
+    </FormLayoutComponent>
+
+
+</div>
 
 <style>
+    .armyView {
+        overflow-y: scroll; width: 100%; overflow-x: hidden; height: 350px;
+}
+
 .armyCardsContainer {
     display: flex; 
     width: 100%; 
@@ -65,39 +72,33 @@
 
     List<EntityModel> army = new();
 
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         base.OnInitialized();
         buildOrder.Subscribe(OnBuildOrderChanged);
         timingService.Subscribe(StateHasChanged);
     }
 
-    void IDisposable.Dispose()
-    {
+    void IDisposable.Dispose() {
         buildOrder.Unsubscribe(OnBuildOrderChanged);
         timingService.Unsubscribe(StateHasChanged);
     }
 
-    protected override bool ShouldRender()
-    {
+    protected override bool ShouldRender() {
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.time", "ArmyComponent");
 #endif
         return true;
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
+    protected override void OnAfterRender(bool firstRender) {
 #if DEBUG
         jsRuntime.InvokeVoidAsync("console.timeEnd", "ArmyComponent");
 #endif
     }
 
-    void OnBuildOrderChanged()
-    {
+    void OnBuildOrderChanged() {
         var armyCountWas = 0;
-        foreach (var army in armyCount)
-        {
+        foreach (var army in armyCount) {
             armyCountWas += army.Value;
         }
 
@@ -107,19 +108,14 @@
 
         var entitiesOverTime = buildOrder.GetOrders();
 
-        foreach (var entitiesAtTime in entitiesOverTime)
-        {
-            foreach (var entity in entitiesAtTime.Value)
-            {
-                if (entity.EntityType == EntityType.Army)
-                {
-                    if (!armyCount.TryAdd(entity.Info().Name, 1))
-                    {
+        foreach (var entitiesAtTime in entitiesOverTime) {
+            foreach (var entity in entitiesAtTime.Value) {
+                if (entity.EntityType == EntityType.Army) {
+                    if (!armyCount.TryAdd(entity.Info().Name, 1)) {
                         armyCount[entity.Info().Name]++;
                     }
 
-                    if (entity.Production() != null && entity.Production().BuildTime + entitiesAtTime.Key > lastInterval)
-                    {
+                    if (entity.Production() != null && entity.Production().BuildTime + entitiesAtTime.Key > lastInterval) {
                         lastInterval = entity.Production().BuildTime + entitiesAtTime.Key;
                     }
                 }
@@ -128,14 +124,12 @@
 
     //TODO Better
         var armyCountIs = 0;
-        foreach (var army in armyCount)
-        {
+        foreach (var army in armyCount) {
             armyCountIs += army.Value;
         }
 
 
-        if (armyCountWas != armyCountIs)
-        {
+        if (armyCountWas != armyCountIs) {
             StateHasChanged();
         }
     }

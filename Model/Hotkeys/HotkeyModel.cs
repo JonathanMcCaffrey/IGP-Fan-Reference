@@ -5,7 +5,7 @@ namespace Model.Hotkeys;
 public class HotkeyModel
 {
     public static readonly string[] KeyGroups = { "Z", "1", "2", "TAB", "CONTROL", "SHIFT", "C" };
-    public static readonly string[] HotKeys = { "`", "Q", "W", "E", "R", "A", "S", "F", "X", "V" };
+    public static readonly string[] HotKeys = { "`", "Q", "W", "E", "R", "A", "S", "F", "X", "V", "CAPSLOCK" };
     public string KeyText { get; set; }
     public KeyType KeyType { get; set; }
     public int PositionX { get; set; }
@@ -29,25 +29,49 @@ public class HotkeyModel
         {
             new()
             {
-                KeyText = "`",
-                KeyType = KeyType.Cancel,
+                KeyText = "Z",
+                KeyType = KeyType.ControlGroup,
                 PositionX = 0,
+                PositionY = 0
+            },
+            new()
+            {
+                KeyText = "D",
+                KeyType = KeyType.ControlGroup,
+                PositionX = 1,
+                PositionY = 0
+            },
+            new()
+            {
+                KeyText = "C",
+                KeyType = KeyType.ControlGroup,
+                PositionX = 2,
+                PositionY = 0
+            },
+            new()
+            {
+                KeyText = "V",
+                KeyType = KeyType.Pyre,
+                PositionX = 3,
                 PositionY = 0
             },
             new()
             {
                 KeyText = "TAB",
                 KeyType = KeyType.ControlGroup,
+                PositionX = 4,
+                PositionY = 0
+            },
+            
+            
+            new()
+            {
+                KeyText = "`",
+                KeyType = KeyType.Cancel,
                 PositionX = 0,
                 PositionY = 1
             },
-            new()
-            {
-                KeyText = "1",
-                KeyType = KeyType.ControlGroup,
-                PositionX = 1,
-                PositionY = 0
-            },
+          
             new()
             {
                 KeyText = "Q",
@@ -76,6 +100,15 @@ public class HotkeyModel
                 PositionX = 4,
                 PositionY = 1
             },
+            
+            new()
+            {
+                KeyText = "CAPSLOCK",
+                KeyType = KeyType.Action,
+                PositionX = 0,
+                PositionY = 2
+            },
+            
             new()
             {
                 KeyText = "A",
@@ -97,6 +130,7 @@ public class HotkeyModel
                 PositionX = 3,
                 PositionY = 2
             },
+           
             new()
             {
                 KeyText = "F",
@@ -106,38 +140,10 @@ public class HotkeyModel
             },
             new()
             {
-                KeyText = "Z",
-                KeyType = KeyType.ControlGroup,
-                PositionX = 1,
-                PositionY = 3
-            },
-            new()
-            {
-                KeyText = "X",
-                KeyType = KeyType.Action,
-                PositionX = 2,
-                PositionY = 3
-            },
-            new()
-            {
-                KeyText = "C",
-                KeyType = KeyType.ControlGroup,
-                PositionX = 3,
-                PositionY = 3
-            },
-            new()
-            {
-                KeyText = "V",
-                KeyType = KeyType.Action,
-                PositionX = 4,
-                PositionY = 3
-            },
-            new()
-            {
                 KeyText = "SPACE",
                 KeyType = KeyType.Advance,
                 PositionX = 1,
-                PositionY = 4
+                PositionY = 3
             },
             // Economy
             new()
@@ -145,15 +151,15 @@ public class HotkeyModel
                 KeyText = "SHIFT", //TODO Update when game changes
                 KeyType = KeyType.Economy,
                 PositionX = 0,
-                PositionY = 2
+                PositionY = 3
             },
             // Pyre
             new()
             {
-                KeyText = "2",
-                KeyType = KeyType.Pyre,
-                PositionX = 2,
-                PositionY = 0,
+                KeyText = "ALT",
+                KeyType = KeyType.Economy,
+                PositionX = 1,
+                PositionY = 5,
                 IsHidden = true
             },
 
@@ -163,7 +169,7 @@ public class HotkeyModel
                 KeyText = "CONTROL",
                 KeyType = KeyType.Economy,
                 PositionX = 0,
-                PositionY = 3
+                PositionY = 4
             }
         };
     }
