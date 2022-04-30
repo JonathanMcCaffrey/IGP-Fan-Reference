@@ -5,10 +5,13 @@
         <div class="tabletTitle">
             IGP Fan Reference
         </div>
-
-        <div class="tabletButton">
-            <div class="tabletMenuTitle">
-                Menu
+        <div class="tabletButtons">
+            
+            <SearchButtonComponent/>
+            <div class="tabletButton">
+                <div class="tabletMenuTitle">
+                    Menu
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +81,12 @@
         gap: 22px;
         flex-direction: column;
     }
+    
+    .tabletButtons {
+        display: flex;
+        gap: 12px;
+    }
+    
 
     .tabletNavItem {
         padding: 8px;
