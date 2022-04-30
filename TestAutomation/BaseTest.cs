@@ -34,7 +34,11 @@ public class BaseTest
                 var options = new FirefoxOptions();
 
                 options.AcceptInsecureCertificates = true;
-                //   options.AddArgument("--headless");
+
+                if (DeploymentType.Equals(DeploymentType.Dev))
+                {
+                    options.AddArgument("--headless");
+                }
                 options.AddArgument("--ignore-certificate-errors");
                 options.AddArgument("--start-maximized");
                 options.AddArgument("--test-type");
