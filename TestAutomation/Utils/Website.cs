@@ -1,35 +1,113 @@
-﻿namespace TestAutomation.Utils;
+﻿using OpenQA.Selenium.Interactions;
+using TestAutomation.Enums;
+using TestAutomation.Shared;
 
-public class Website {
-    public Website(IWebDriver webDriver) {
+namespace TestAutomation.Utils;
+
+public class Website
+{
+    public readonly ScreenType ScreenType = ScreenType.Desktop;
+    
+    public Website(IWebDriver webDriver)
+    {
         WebDriver = webDriver;
 
         HarassCalculatorPage = new HarassCalculatorPage(this);
+        NavigationBar = new NavigationBar(this);
+        WebsiteSearchDialog = new WebsiteSearchDialog(this);
     }
 
     public IWebDriver WebDriver { get; }
 
     public HarassCalculatorPage HarassCalculatorPage { get; }
+    public NavigationBar NavigationBar { get; }
+    public WebsiteSearchDialog WebsiteSearchDialog { get; }
 
-    public IWebElement Find(string byId) {
-        return WebDriver.FindElement(By.Id(byId));
+    public IWebElement FindScreenSpecific(string byId)
+    {
+        var screenSpecificId = $"{ScreenType.ToString().ToLower()}-{byId}";
+        
+        try
+        {
+            return WebDriver.FindElement(By.Id(screenSpecificId));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find {screenSpecificId}. Element does not exist on current page. " +
+                                $"\n\nPerhaps an Id is missing.");
+        }
     }
 
-    public IList<IWebElement> FindChildren(string ofId, string tagname) {
+    
+    public IWebElement Find(string byId)
+    {
+        try
+        {
+            return WebDriver.FindElement(By.Id(byId));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
+                                $"\n\nPerhaps an Id is missing.");
+        }
+    }
+    
+    public IWebElement FindButtonWithLabel(string label)
+    {
+        try
+        {
+            return WebDriver.FindElement(By.XPath($"button[@label='{label}']"));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find with label: {label}. Element does not exist on current page. ");
+        }
+    }
+    
+    //@FindBy(xpath = "//div[@label='First Name']")
+
+    public IList<IWebElement> FindChildren(string ofId, string tagname)
+    {
         return WebDriver.FindElements(By.CssSelector($"#{ofId} {tagname}"));
     }
 
-    public string FindText(string byId) {
+    public string FindText(string byId)
+    {
         return WebDriver.FindElement(By.Id(byId)).Text;
     }
 
 
-    public int FindInt(string byId) {
+    public int FindInt(string byId)
+    {
         return int.Parse(WebDriver.FindElement(By.Id(byId)).Text);
     }
 
 
-    public IWebElement EnterInput<T>(IWebElement element, T input) {
+    public void ClickTopLeft()
+    {
+        new Actions(WebDriver)
+            .MoveByOffset(32, 32)
+            .Click()
+            .Perform();
+    }
+    
+    public IWebElement Click(IWebElement element)
+    {
+        try
+        {
+            element.Click();
+        }
+        catch
+        {
+            throw new Exception($"Couldn't click on {element.GetDomProperty("id")}. ");
+        }
+
+        return element;
+    }
+
+
+    public IWebElement EnterInput<T>(IWebElement element, T input)
+    {
         element.Clear();
         element.SendKeys(input!.ToString());
         element.SendKeys(Keys.Enter);
@@ -37,7 +115,8 @@ public class Website {
     }
 
 
-    public IWebElement EnterInput<T>(string byId, T input) {
+    public IWebElement EnterInput<T>(string byId, T input)
+    {
         var element = Find(byId);
         element.Clear();
         element.SendKeys(input!.ToString());
@@ -45,7 +124,8 @@ public class Website {
         return element;
     }
 
-    public string GetLabel(string byId) {
+    public string GetLabel(string byId)
+    {
         return Find(byId).Text;
     }
 }

@@ -44,7 +44,7 @@ builder.Services.AddBlazoredLocalStorageAsSingleton(config =>
 #if DEBUG
 builder.Services.AddGoogleAnalytics("G-S96LW7TVFY");
 #else
-builder.Services.AddGoogleAnalytics(builder.Configuration["GA-Tag"]);
+builder.Services.AddGoogleAnalytics(builder.Configuration["GATag"]);
 #endif
 
 builder.Services.AddScoped<INavigationService, NavigationService>();

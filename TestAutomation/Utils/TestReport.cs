@@ -4,24 +4,31 @@ using System.Runtime.CompilerServices;
 
 namespace TestAutomation.Utils;
 
-public class TestReport {
+public class TestReport
+{
     private List<Test> Tests { get; } = new();
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public Test CreateTest() {
+    public Test CreateTest()
+    {
         var testName = new StackTrace().GetFrame(1)!.GetMethod()!.Name!;
         Tests.Add(new Test { Name = testName });
         return Tests.Last();
     }
 
-    public void CheckPassed(bool passed, TestMessage message) {
+    public void CheckPassed(bool passed, TestMessage message)
+    {
         if (passed) return;
         Tests.Last().Result = false;
         Tests.Last().Messages.Add(message);
+
+        throw new Exception(message.Description);
     }
 
-    public bool DidTestsPass() {
-        foreach (var test in Tests) {
+    public bool DidTestsPass()
+    {
+        foreach (var test in Tests)
+        {
             if (test.Result) continue;
 
             return false;
@@ -31,10 +38,13 @@ public class TestReport {
         return true;
     }
 
-    public List<object> GetMessages() {
+    public List<object> GetMessages()
+    {
         if (DidTestsPass())
-            return new List<object> {
-                new {
+            return new List<object>
+            {
+                new
+                {
                     title = "Passed",
                     color = int.Parse("00FF00", NumberStyles.HexNumber),
                     description = $"All {Tests.Count} tests passed."
@@ -45,7 +55,8 @@ public class TestReport {
         foreach (var test in Tests)
         foreach (var message in test.Messages)
             messageList.Add(
-                new {
+                new
+                {
                     title = message.Title,
                     color = int.Parse(message.Color, NumberStyles.HexNumber),
                     description = message.Description

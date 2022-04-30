@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
-@inject INavigationService navigationService
+@inject INavigationService NavigationService
 @implements IDisposable
 
 @{
-    var visibleStyle = navigationService.GetNavigationSectionId() > 0 ? "clickOffVisible" : "";
+    var visibleStyle = NavigationService.GetNavigationSectionId() > 0 ? "clickOffVisible" : "";
 }
 
 <div onclick="@MenuClosed" class="clickOffBackground @visibleStyle">
@@ -12,14 +12,14 @@
 
 <div class="desktopNavContainer">
     <div class="menuHeader">
-        <NavLink href="/" class="websiteTitle">
+        <NavLink id="desktop-homeLink" href="/" class="websiteTitle">
             IGP Fan Reference
         </NavLink>
 
         <div class="sectionNavs">
             @foreach (var webSection in WebSections)
             {
-                var isSelected = navigationService.GetNavigationSectionId().Equals(webSection.Id);
+                var isSelected = NavigationService.GetNavigationSectionId().Equals(webSection.Id);
                 var sectionButtonStyle = "sectionButton";
                 if (isSelected)
                 {
@@ -28,7 +28,6 @@
 
                 <div class="sectionNav">
                     <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
-
                     @if (isSelected)
                     {
                         <div class="navMenuPosition">
@@ -41,7 +40,7 @@
             }
         </div>
 
-        <SearchButtonComponent/>
+        <SearchButtonComponent Id="desktop-searchButton"/>
     </div>
 </div>
 
@@ -169,27 +168,27 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        navigationService.Subscribe(StateHasChanged);
+        NavigationService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        navigationService.Unsubscribe(StateHasChanged);
+        NavigationService.Unsubscribe(StateHasChanged);
     }
 
     void MenuClicked(int menuName)
     {
-        navigationService.ChangeNavigationSectionId(menuName);
+        NavigationService.ChangeNavigationSectionId(menuName);
     }
 
     void MenuClosed()
     {
-        navigationService.ChangeNavigationSectionId(-1);
+        NavigationService.ChangeNavigationSectionId(-1);
     }
 
     void HoverOut(MouseEventArgs mouseEventArgs)
     {
-        navigationService.ChangeNavigationState(NavigationStateType.Default);
+        NavigationService.ChangeNavigationState(NavigationStateType.Default);
     }
 
 }

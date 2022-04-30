@@ -8,7 +8,7 @@
 
 @if (searchService.IsLoaded() && searchService.IsVisible)
 {
-    <div class="searchBackground" onclick="@CloseDialog">
+    <div id="searchBackground" class="searchBackground" onclick="@CloseDialog">
         <div class="searchContainer"
              @onclick:preventDefault="true"
              @onclick:stopPropagation="true">
@@ -33,7 +33,11 @@
                                 <div class="searchContents">
                                     @foreach (var searchPoint in searchPoints)
                                     {
-                                        <button class="searchLink @searchPoint.PointType.ToLower()" @onclick="() => OnSearch(searchPoint)">@searchPoint.Title</button>
+                                        <button class="searchLink @searchPoint.PointType.ToLower()"
+                                                label="@searchPoint.Title"
+                                                @onclick="() => OnSearch(searchPoint)">
+                                            @searchPoint.Title
+                                        </button>
                                     }
                                 </div>
                             </div>

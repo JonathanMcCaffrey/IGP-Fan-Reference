@@ -2,36 +2,24 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
 
-<button id="@Id" class="searchButtonContainer" @onclick="ButtonClicked">
+<button id="@Id" class="searchIconButtonContainer" @onclick="ButtonClicked">
     <div class="searchText">
-        Search...
-    </div>
-    <div class="searchHotkey">
-        @CommandKey + K
+        S
     </div>
 </button>
 
 <style>
-    .searchButtonContainer {
+    .searchIconButtonContainer {
         background-color: var(--primary);
         border: 2px solid var(--primary-border);
         border-radius: 8px;
         font-weight: 800;
-        width: 350px;
-        
+        width: 32px;
         padding: 5px;
         display: flex;
         flex-direction: row;
         justify-content:  space-between;
         align-items: center;
-        
-    }
-    
-    .searchHotkey {
-        padding:  2px;
-        
-        background-color: var(--info);
-        border: 2px solid var(--primary-border);
     }
 </style>
 
@@ -42,18 +30,8 @@
     [Parameter]
     public string Id { get; set; } = default!;
 
-    private string userAgent = "";
-
-    string CommandKey => userAgent.Contains("Mac OS") ? "CMD" : "Ctrl";
-
     private void ButtonClicked(EventArgs eventArgs)
     {
         SearchService.Show();
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        userAgent = await JsRuntime.InvokeAsync<string>("getUserAgent");
-    }
-
 }
