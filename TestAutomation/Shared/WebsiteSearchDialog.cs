@@ -25,11 +25,9 @@ public class WebsiteSearchDialog : BaseElement
         return this;
     }
 
-    public void SelectSearchEntity(string throne)
+    public DatabaseSinglePage SelectSearchEntity(string throne)
     {
         Website.Click(Website.FindButtonWithLabel(throne));
-        //TODO Add DatabaseSinglePage
-        //return Website.DatabaseSinglePage;
-
+        return Website.DatabaseSinglePage;
     }
 }

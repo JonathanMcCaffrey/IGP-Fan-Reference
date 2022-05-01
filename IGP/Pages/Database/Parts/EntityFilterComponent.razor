@@ -46,7 +46,7 @@
                 <button class="choiceButton @styleClass" @onclick="@(e => OnChangeEntity(choice))">@choice.Replace("_", " ")</button>
             }
         </div>
-        <FormTextComponent Label="Search Label" Placeholder="Throne..." OnChange="@(e => EntityFilterService.EnterSearchText(e.Value!.ToString()!))"/>
+        <FormTextComponent Id="filterName" Label="Filter Name" Placeholder="Throne..." OnChange="@(e => EntityFilterService.EnterSearchText(e.Value!.ToString()!))"/>
     </div>
 </div>
 
@@ -91,7 +91,7 @@
         </FormSelectComponent>
 
 
-        <FormTextComponent Label="Search Label" Placeholder="Throne..." OnChange="OnSearchTextChanged"/>
+        <FormTextComponent Id="filterName" Label="Filter Name" Placeholder="Throne..." OnChange="OnSearchTextChanged"/>
     </FormLayoutComponent>
 
 </div>
