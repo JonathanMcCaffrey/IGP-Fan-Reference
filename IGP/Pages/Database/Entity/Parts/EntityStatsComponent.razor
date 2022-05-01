@@ -14,7 +14,7 @@
                 @if (!Vitality.Health.Equals(0))
                 {
                     <div>
-                        <b>Health:</b> @Vitality.Health
+                        <b>Health:</b> <span id="entityHealth">@Vitality.Health</span>
                     </div>
                 }
                 @if (!Vitality.Energy.Equals(0))
@@ -90,7 +90,7 @@
                         @if (!Vitality.Health.Equals(0))
                         {
                             <div>
-                                <b>Health:</b> @Vitality.Health
+                                <b>Health:</b> <span id="entityHealth">@Vitality.Health</span>
                             </div>
                         }
                         @if (!Vitality.Energy.Equals(0))

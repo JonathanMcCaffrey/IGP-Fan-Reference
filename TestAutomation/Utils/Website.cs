@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Interactions;
+﻿using System.Collections.ObjectModel;
+using OpenQA.Selenium.Interactions;
 using TestAutomation.Enums;
 using TestAutomation.Shared;
 
@@ -12,14 +13,23 @@ public class Website
     {
         WebDriver = webDriver;
 
+        // Pages
         HarassCalculatorPage = new HarassCalculatorPage(this);
+        DatabasePage = new DatabasePage(this);
+        DatabaseSinglePage = new DatabaseSinglePage(this);
+        
+        // Navigation
         NavigationBar = new NavigationBar(this);
+        
+        // Dialogs
         WebsiteSearchDialog = new WebsiteSearchDialog(this);
     }
 
     public IWebDriver WebDriver { get; }
 
     public HarassCalculatorPage HarassCalculatorPage { get; }
+    public DatabaseSinglePage DatabaseSinglePage { get; }
+    public DatabasePage DatabasePage { get; }
     public NavigationBar NavigationBar { get; }
     public WebsiteSearchDialog WebsiteSearchDialog { get; }
 
@@ -39,6 +49,31 @@ public class Website
     }
 
     
+    public IWebElement Find(string byId, string withParentId)
+    {
+        IWebElement parent;
+
+        try
+        {
+            parent = WebDriver.FindElement(By.Id(withParentId));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find parent {withParentId}. Element does not exist on current page. " +
+                                $"\n\nPerhaps an Id is missing.");
+        }
+        
+        try
+        {
+            return parent.FindElement(By.Id(byId));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
+                                $"\n\nPerhaps an Id is missing.");
+        }
+    }
+    
     public IWebElement Find(string byId)
     {
         try
@@ -52,11 +87,25 @@ public class Website
         }
     }
     
+    public ReadOnlyCollection<IWebElement> FindAll(string byId)
+    {
+        try
+        {
+            return WebDriver.FindElements(By.Id(byId));
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
+                                $"\n\nPerhaps an Id is missing.");
+        }
+    }
+
+    
     public IWebElement FindButtonWithLabel(string label)
     {
         try
         {
-            return WebDriver.FindElement(By.XPath($"button[@label='{label}']"));
+            return WebDriver.FindElement(By.XPath($"//button[@label='{label}']"));
         }
         catch (Exception e)
         {

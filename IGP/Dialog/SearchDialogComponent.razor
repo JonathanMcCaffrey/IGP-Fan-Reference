@@ -14,7 +14,7 @@
              @onclick:stopPropagation="true">
 
             <FormLayoutComponent>
-                <FormTextComponent OnFocus="OnFocus" Id="search-input-box" Placeholder="Search..." OnInput="SearchChanged"></FormTextComponent>
+                <FormTextComponent OnFocus="OnFocus" Id="searchInput" Placeholder="Search..." OnInput="SearchChanged"></FormTextComponent>
             </FormLayoutComponent>
 
             <div class="searchBox">
@@ -33,11 +33,17 @@
                                 <div class="searchContents">
                                     @foreach (var searchPoint in searchPoints)
                                     {
-                                        <button class="searchLink @searchPoint.PointType.ToLower()"
-                                                label="@searchPoint.Title"
-                                                @onclick="() => OnSearch(searchPoint)">
-                                            @searchPoint.Title
-                                        </button>
+                                        <div>
+                                            <button class="searchLink @searchPoint.PointType.ToLower()"
+                                                    label="@searchPoint.Title"
+                                                    @onclick="() => OnSearch(searchPoint)">
+                                                @searchPoint.Title
+                                            </button>
+                                            @if (!searchPoint.Summary.Trim().Equals(""))
+                                            {
+                                                <i> -  @searchPoint.Summary</i>
+                                            }
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -134,7 +140,7 @@
 
     private void FocusTimer(object? sender, ElapsedEventArgs e)
     {
-        jsRuntime.InvokeVoidAsync("SetFocusToElement", "search-input-box");
+        jsRuntime.InvokeVoidAsync("SetFocusToElement", "searchInput");
         StateHasChanged();
     }
     
