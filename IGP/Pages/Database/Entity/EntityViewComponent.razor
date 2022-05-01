@@ -2,7 +2,7 @@
 {
     var isVanguard = Entity.VanguardAdded() != null ? " vanguard" : "";
 
-    <div class="entitiesContainer @isVanguard">
+    <div id="@Entity.EntityType.ToLower()-@Entity.Info().Name.ToLower()" class="entitiesContainer @isVanguard">
         <EntityHeaderComponent></EntityHeaderComponent>
         <div class="entityPartsContainer">
             <EntityVanguardAddedComponent></EntityVanguardAddedComponent>

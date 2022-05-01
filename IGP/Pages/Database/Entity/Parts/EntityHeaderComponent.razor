@@ -1,7 +1,7 @@
 ﻿@if (StyleType.Equals("Plain"))
 {
     <div>
-        <b>@Entity?.Info().Name</b>
+        <b id="entityName">@Entity?.Info().Name</b>
         @if (Entity?.Info().Descriptive != DescriptiveType.None)
         {
             <span>, @Entity?.Info().Descriptive.Replace("_", " ")</span>
@@ -11,7 +11,7 @@
 else
 {
     <div class="entityHeader">
-        <div class="entityHeaderText">
+        <div id="entityName" class="entityHeaderText">
             @Entity?.Info().Name
         </div>
         <div style="font-size:1.4rem;">
