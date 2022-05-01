@@ -61,6 +61,7 @@ public class SearchService : ISearchService
             {
                 Title = webPage.Name,
                 PointType = "WebPage",
+                 Summary = $"{webPage.Description}",
                 Href = webPage.Href
             });
 
@@ -86,22 +87,11 @@ public class SearchService : ISearchService
                 Title = entity.Info().Name,
                 Tags = $"{entity.EntityType},{entity.Descriptive}",
                 PointType = "Entity",
+                Summary = $"{entity.EntityType}, {entity.Info().Description.Substring(0, Math.Min(30, entity.Info().Description.Length - 1))}",
                 Href = $"database/{entity.Info().Name.ToLower()}"
             });
 
             Searches["Entities"].Add(SearchPoints.Last());
-        }
-
-
-        foreach (var doc in documentationService.DocContentModels)
-        {
-            SearchPoints.Add(new SearchPointModel
-            {
-                Title = doc.Name,
-                PointType = "Document", Href = doc.GetDocLink()
-            });
-
-            Searches["Documents"].Add(SearchPoints.Last());
         }
 
         isLoaded = true;
