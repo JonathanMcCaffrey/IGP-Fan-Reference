@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGP_Convert", "..\IGP_Conve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutomation", "..\TestAutomation\TestAutomation.csproj", "{8B49D038-D013-460D-9C4F-817CAFFEB06F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGP_API", "..\IGP_API\IGP_API.csproj", "{0959476B-707B-4998-AD75-6EACED19DC71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{8B49D038-D013-460D-9C4F-817CAFFEB06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B49D038-D013-460D-9C4F-817CAFFEB06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B49D038-D013-460D-9C4F-817CAFFEB06F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0959476B-707B-4998-AD75-6EACED19DC71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0959476B-707B-4998-AD75-6EACED19DC71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0959476B-707B-4998-AD75-6EACED19DC71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0959476B-707B-4998-AD75-6EACED19DC71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ using Services;
 using Services.Development;
 using Services.Immortal;
 using Services.Website;
-    
+
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");

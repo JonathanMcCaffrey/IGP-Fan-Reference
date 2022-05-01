@@ -1,12 +1,18 @@
 ﻿@page "/"
 
-@inject ITrackingNavigationState TrackingNavigationState
-@inject IAnalytics GlobalTracking
-
 @layout PageLayout
 
 <DevOnlyComponent>
-    <PermissionsPage/>
+    <img src="/image/factions/Aru.png" alt="icon name">
 </DevOnlyComponent>
 
 <HomePage/>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        await base.OnInitializedAsync();
+    }
+}
