@@ -73,7 +73,9 @@ public class SearchService : ISearchService
             SearchPoints.Add(new SearchPointModel
             {
                 Title = note.Name,
-                PointType = "Note", Href = note.GetNoteLink()
+                PointType = "Note", 
+                Href = note.GetNoteLink(),
+                Summary = note.Description
             });
 
             Searches["Notes"].Add(SearchPoints.Last());
@@ -82,12 +84,19 @@ public class SearchService : ISearchService
 
         foreach (var entity in DATA.Get().Values)
         {
+            var summary = 
+                entity.Info().Description.Length > 35
+                    ? entity.Info().Description.Substring(0, 30).Trim() + "..."
+                    : entity.Info().Description.Length > 0
+                        ? entity.Info().Description
+                        : "";
+            
             SearchPoints.Add(new SearchPointModel
             {
                 Title = entity.Info().Name,
                 Tags = $"{entity.EntityType},{entity.Descriptive}",
                 PointType = "Entity",
-                Summary = $"{entity.EntityType}, {entity.Info().Description.Substring(0, Math.Min(30, entity.Info().Description.Length - 1))}",
+                Summary = $"{entity.EntityType}, {summary}",
                 Href = $"database/{entity.Info().Name.ToLower()}"
             });
 

@@ -33,11 +33,17 @@
                                 <div class="searchContents">
                                     @foreach (var searchPoint in searchPoints)
                                     {
-                                        <button class="searchLink @searchPoint.PointType.ToLower()"
-                                                label="@searchPoint.Title"
-                                                @onclick="() => OnSearch(searchPoint)">
-                                            @searchPoint.Title
-                                        </button>
+                                        <div>
+                                            <button class="searchLink @searchPoint.PointType.ToLower()"
+                                                    label="@searchPoint.Title"
+                                                    @onclick="() => OnSearch(searchPoint)">
+                                                @searchPoint.Title
+                                            </button>
+                                            @if (!searchPoint.Summary.Trim().Equals(""))
+                                            {
+                                                <i> -  @searchPoint.Summary</i>
+                                            }
+                                        </div>
                                     }
                                 </div>
                             </div>
