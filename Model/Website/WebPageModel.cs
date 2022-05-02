@@ -8,5 +8,4 @@ public class WebPageModel
     public string Description { get; set; } = "Add description";
     public string Href { get; set; } = null;
     public string IsPrivate { get; set; } = "True";
-    
 }

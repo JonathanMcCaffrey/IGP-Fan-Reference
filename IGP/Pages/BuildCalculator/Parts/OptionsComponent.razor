@@ -4,8 +4,6 @@
 @inject IEconomyService EconomyService
 @inject IToastService ToastService
 @inject ITimingService TimingService
-
-@using System.Data
 @implements IDisposable
 
 <FormLayoutComponent>
@@ -57,7 +55,7 @@
 
         RefreshDefaults();
     }
-    
+
     void IDisposable.Dispose()
     {
         TimingService.Unsubscribe(RefreshDefaults);
@@ -70,7 +68,6 @@
         WaitTo = TimingService.WaitTo;
 
         StateHasChanged();
-
     }
 
     void OnBuildingInputDelayChanged(ChangeEventArgs changeEventArgs)
@@ -83,7 +80,7 @@
         TimingService.WaitTime = (int)changeEventArgs.Value!;
         WaitTime = (int)changeEventArgs.Value!;
     }
-    
+
     void OnWaitToChanged(ChangeEventArgs changeEventArgs)
     {
         TimingService.WaitTo = (int)changeEventArgs.Value!;

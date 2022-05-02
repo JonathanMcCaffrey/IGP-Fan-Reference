@@ -28,7 +28,7 @@ public class BuildOrderModel
     public Dictionary<string, int> UniqueCompletedTimes { get; set; } = new();
     public Dictionary<string, int> UniqueCompletedCount { get; set; } = new();
     public Dictionary<int, int> SupplyCountTimes { get; set; } = new();
-    
+
     public Dictionary<string, List<EntityModel>> UniqueCompleted { get; set; } = new();
 
     public List<TrainingCapacityUsedModel> TrainingCapacityUsed { get; set; } = new();

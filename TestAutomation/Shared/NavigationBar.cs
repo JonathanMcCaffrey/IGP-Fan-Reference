@@ -1,13 +1,13 @@
-using TestAutomation.Enums;
 using TestAutomation.Utils;
 
 namespace TestAutomation.Shared;
 
-
-
 public class NavigationBar : BaseElement
 {
-    public NavigationBar(Website website) : base(website) { }
+    public NavigationBar(Website website) : base(website)
+    {
+    }
+
     private IWebElement HomeLink => Website.FindScreenSpecific("homeLink");
     private IWebElement SearchButton => Website.FindScreenSpecific("searchButton");
 

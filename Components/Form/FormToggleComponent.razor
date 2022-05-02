@@ -4,14 +4,14 @@
             @Label:
         </div>
         <label class="switch">
-        <input readonly="@ReadOnly"
-               type="checkbox"
-               id="@labelId"
-               class="@ClassStyle"
-               checked="@Value"
-               @oninput="OnChange"/>
+            <input readonly="@ReadOnly"
+                   type="checkbox"
+                   id="@labelId"
+                   class="@ClassStyle"
+                   checked="@Value"
+                   @oninput="OnChange"/>
 
-        <span class="slider"></span>
+            <span class="slider"></span>
         </label>
     </div>
     @if (Info != "")
@@ -116,10 +116,11 @@
     private string labelId = "";
 
     private string ClassStyle => Value ? "checked" : "";
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         labelId = Label.ToLower().Replace(" ", "_");
     }
+
 }

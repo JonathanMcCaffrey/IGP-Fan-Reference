@@ -27,13 +27,14 @@
                 }
 
                 <div class="sectionNav">
-                    
-                    <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle"><i class="fa-solid @webSection.Icon"></i> 
+
+                    <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">
+                        <i class="fa-solid @webSection.Icon"></i>
                         @if (!webSection.OnlyIcon)
                         {
                             <span style="margin-left: 12px">@webSection.Name</span>
                         }
-                        </button>
+                    </button>
                     @if (isSelected)
                     {
                         <div class="navMenuPosition">

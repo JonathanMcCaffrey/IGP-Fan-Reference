@@ -4,10 +4,7 @@ public static class Links
 {
     public static string GetTarget(string link)
     {
-        if (link.StartsWith("https://"))
-        {
-            return "_blank";
-        }
+        if (link.StartsWith("https://")) return "_blank";
 
         return "_self";
     }

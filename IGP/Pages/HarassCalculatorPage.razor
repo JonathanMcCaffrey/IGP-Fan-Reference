@@ -12,7 +12,7 @@
     <PaperComponent>
         Credit to Zard for deriving the formula.
     </PaperComponent>
-    
+
     <PaperComponent>
         <LayoutRowComponent>
             <LayoutColumnComponent>
@@ -41,29 +41,31 @@
                     </FormNumberComponent>
 
                     <FormNumberComponent Min="1"
-                                           Id="numberOfTownHallsExisting"
+                                         Id="numberOfTownHallsExisting"
                                          Value="@((int)NumberOfTownHallsExisting)"
                                          OnChange="OnTownHallsChanged">
                         <FormLabelComponent>Number of townhalls you have</FormLabelComponent>
                     </FormNumberComponent>
 
                     <div id="numberOfTownHallTravelTimes">
-                    @{
-                        var index = 0;
-                    }
-                    @foreach (var travelTime in TravelTimes) {
-                        index++;
-                        if (index == 1) {
-                            continue;
+                        @{
+                            var index = 0;
                         }
-                        var id = $"numberOfTownHallsExisting_{index}";
-                        <FormNumberComponent Min="0"
-                                             Id="@id"
-                                             Value="@((int)travelTime.Value)"
-                                             OnChange="e => { OnTownHallTravelTimeChanged(e, travelTime); }">
-                            <FormLabelComponent>Worker travel time from other base @(travelTime.Index + 1)</FormLabelComponent>
-                        </FormNumberComponent>
-                    }
+                        @foreach (var travelTime in TravelTimes)
+                        {
+                            index++;
+                            if (index == 1)
+                            {
+                                continue;
+                            }
+                            var id = $"numberOfTownHallsExisting_{index}";
+                            <FormNumberComponent Min="0"
+                                                 Id="@id"
+                                                 Value="@((int)travelTime.Value)"
+                                                 OnChange="e => { OnTownHallTravelTimeChanged(e, travelTime); }">
+                                <FormLabelComponent>Worker travel time from other base @(travelTime.Index + 1)</FormLabelComponent>
+                            </FormNumberComponent>
+                        }
                     </div>
 
 
@@ -71,7 +73,7 @@
                         <Display>
                             <div style="font-size: 1.5rem; font-weight: 800;">
                                 <span id="totalAlloyHarassment">
-                                @TotalAlloyHarassment
+                                    @TotalAlloyHarassment
                                 </span>
                             </div>
                         </Display>
@@ -90,7 +92,7 @@
                 <div>
                     (<b>Average travel time:</b> <span id="getAverageTravelTime">@GetAverageTravelTime()</span>)
                 </div>
-                
+
             </LayoutColumnComponent>
         </LayoutRowComponent>
     </PaperComponent>
@@ -104,9 +106,12 @@
             </InfoQuestionComponent>
             <InfoAnswerComponent>
                 The Harass Calculator allows you to calculate damage done to an enemy alloy line. For example, if you
-                 were to attack with Ichors, and kill 6 enemy workers, you can set the <b>Number of workers  lost to 
-                    harass</b> to 6. This would determine a loss of <span id="exampleTotalAlloyLoss">@ExampleTotalAlloyLoss</span> alloy. Quite 
-                 the large number.
+                were to attack with Ichors, and kill 6 enemy workers, you can set the
+                <b>
+                    Number of workers lost to
+                    harass
+                </b> to 6. This would determine a loss of <span id="exampleTotalAlloyLoss">@ExampleTotalAlloyLoss</span> alloy. Quite
+                the large number.
             </InfoAnswerComponent>
         </InfoBodyComponent>
 
@@ -115,21 +120,27 @@
                 What can I learn from this?
             </InfoQuestionComponent>
             <InfoAnswerComponent>
-                Well, let's assume you lost a full alloy line of workers, and have to take that 
-                @ExampleTotalAlloyLoss alloy cost (<span id="exampleWorkerCost">@ExampleWorkerCost</span> 
-                to rebuy the workers, and <span id="exampleMiningTimeCost">@ExampleMiningTimeCost</span> in lost mining 
+                Well, let's assume you lost a full alloy line of workers, and have to take that
+                @ExampleTotalAlloyLoss alloy cost (<span id="exampleWorkerCost">@ExampleWorkerCost</span>
+                to rebuy the workers, and <span id="exampleMiningTimeCost">@ExampleMiningTimeCost</span> in lost mining
                 time.)
                 <br/><br/>
-                If you were to set the <b>Number of townhalls you have</b> to 2, the calculator will consider worker 
-                transfer micro. Allowing you to cut the total cost by roughly 
-                <span id="exampleTotalAlloyLossDifference">@ExampleTotalAlloyLossDifference</span> alloy. However, that number isn't 
+                If you were to set the <b>Number of townhalls you have</b> to 2, the calculator will consider worker
+                transfer micro. Allowing you to cut the total cost by roughly
+                <span id="exampleTotalAlloyLossDifference">@ExampleTotalAlloyLossDifference</span> alloy. However, that number isn't
                 entirely accurate, you are also going to have to bump up the <b>Worker travel time to alloy</b> to account for the time it takes the transferred workers to arrive at the decimated alloy line.
                 <br/><br/>
                 Let's say it takes 10 seconds for workers to transfer from your second base. Let's enter that for the
-                second base travel time for the more accurate loss of <span  
-                id="exampleTotalAlloyLossAccurate">@ExampleTotalAlloyLossAccurate</span> alloy 
-                (saving you <span id="exampleTotalAlloyLossAccurateDifference">@ExampleTotalAlloyLossAccurateDifference</span> alloy.) <i>Which is
-                 much better than not transferring workers!</i>
+                second base travel time for the more accurate loss of
+                <span
+                    id="exampleTotalAlloyLossAccurate">
+                    @ExampleTotalAlloyLossAccurate
+                </span> alloy
+                (saving you <span id="exampleTotalAlloyLossAccurateDifference">@ExampleTotalAlloyLossAccurateDifference</span> alloy.)
+                <i>
+                    Which is
+                    much better than not transferring workers!
+                </i>
             </InfoAnswerComponent>
         </InfoBodyComponent>
 
@@ -213,30 +224,30 @@
 @code {
     // Example calcs
     float ExampleTotalAlloyLoss => Calculate(
-        WorkerReplacementCost(6), 
-        SimultaneousProductionFloor(1,6), 
-        6, 
+        WorkerReplacementCost(6),
+        SimultaneousProductionFloor(1, 6),
+        6,
         new List<float> { 0 });
-    
+
     float ExampleWorkerCost => WorkerReplacementCost(6);
-    
+
     float ExampleMiningTimeCost => ExampleTotalAlloyLoss - ExampleWorkerCost;
-    
+
     float ExampleTotalAlloyLossDifference => ExampleTotalAlloyLoss - Calculate(
-        WorkerReplacementCost(6), 
-        SimultaneousProductionFloor(2,6), 
-        6, 
+        WorkerReplacementCost(6),
+        SimultaneousProductionFloor(2, 6),
+        6,
         new List<float> { 0, 0 });
-    
+
     float ExampleTotalAlloyLossAccurate => Calculate(
-        WorkerReplacementCost(6), 
-        SimultaneousProductionFloor(2,6), 
-        6, 
+        WorkerReplacementCost(6),
+        SimultaneousProductionFloor(2, 6),
+        6,
         new List<float> { 0, 10 });
 
     float ExampleTotalAlloyLossAccurateDifference => ExampleTotalAlloyLoss - ExampleTotalAlloyLossAccurate;
-    
-    float TotalAlloyHarassment = 0;
+
+    float TotalAlloyHarassment;
 
     readonly float CostOfWorker = 50;
     readonly float AlloyMinedPerSecondByWorker = 1;
@@ -244,14 +255,17 @@
     float NumberOfWorkersLostToHarass = 1;
     float NumberOfTownHallsExisting = 1;
 
-    float GetAverageTravelTime() {
-        if (TravelTimes.Count == 0) {
+    float GetAverageTravelTime()
+    {
+        if (TravelTimes.Count == 0)
+        {
             return 0;
         }
 
         float sum = 0;
 
-        foreach (var travelTime in TravelTimes) {
+        foreach (var travelTime in TravelTimes)
+        {
             sum += travelTime.Value;
         }
 
@@ -259,62 +273,73 @@
     }
 
 
-    float SimultaneousProductionFloor() {
-        if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0) {
+    float SimultaneousProductionFloor()
+    {
+        if (NumberOfTownHallsExisting <= 0 || NumberOfWorkersLostToHarass <= 0)
+        {
             return 0;
         }
 
         return NumberOfWorkersLostToHarass / Math.Min(NumberOfTownHallsExisting, NumberOfWorkersLostToHarass);
     }
-    
-    float SimultaneousProductionFloor(float existingTownHalls, float numberOfWorkersLost) {
-        if (existingTownHalls <= 0 || numberOfWorkersLost <= 0) {
+
+    float SimultaneousProductionFloor(float existingTownHalls, float numberOfWorkersLost)
+    {
+        if (existingTownHalls <= 0 || numberOfWorkersLost <= 0)
+        {
             return 0;
         }
 
         return numberOfWorkersLost / Math.Min(existingTownHalls, numberOfWorkersLost);
     }
 
-    float WorkerReplacementCost() {
+    float WorkerReplacementCost()
+    {
         return CostOfWorker * NumberOfWorkersLostToHarass;
     }
-    
-    float WorkerReplacementCost(int numberOfWorkersLostToHarass) {
+
+    float WorkerReplacementCost(int numberOfWorkersLostToHarass)
+    {
         return CostOfWorker * numberOfWorkersLostToHarass;
     }
 
-    float DelayedMiningCost() {
+    float DelayedMiningCost()
+    {
         return TotalAlloyHarassment - WorkerReplacementCost();
     }
 
-    void Calculate() {
-        TotalAlloyHarassment = Calculate(WorkerReplacementCost(), 
-            SimultaneousProductionFloor(), 
-            NumberOfWorkersLostToHarass, 
+    void Calculate()
+    {
+        TotalAlloyHarassment = Calculate(WorkerReplacementCost(),
+            SimultaneousProductionFloor(),
+            NumberOfWorkersLostToHarass,
             TravelTimes.Select(x => x.Value).ToList(),
-            TimeToProduceWorker, 
+            TimeToProduceWorker,
             AlloyMinedPerSecondByWorker);
     }
-    
-    float Calculate(float workerReplacementCost, 
-        float simultaneousProductionFloor, 
-        float numberOfWorkersLostToHarass, 
-        IList<float> travelTimes, 
-        float timeToProduceWorker = 20, 
-        float alloyMinedPerSecondByWorker = 1) {
-        
-        float totalAlloyHarassment = workerReplacementCost;
 
-        for (var workerProductionIndex = 0; workerProductionIndex < simultaneousProductionFloor; workerProductionIndex++) {
+    float Calculate(float workerReplacementCost,
+        float simultaneousProductionFloor,
+        float numberOfWorkersLostToHarass,
+        IList<float> travelTimes,
+        float timeToProduceWorker = 20,
+        float alloyMinedPerSecondByWorker = 1)
+    {
+        var totalAlloyHarassment = workerReplacementCost;
+
+        for (var workerProductionIndex = 0; workerProductionIndex < simultaneousProductionFloor; workerProductionIndex++)
+        {
             totalAlloyHarassment += alloyMinedPerSecondByWorker * timeToProduceWorker * (workerProductionIndex + 1);
         }
 
         var remainder = (int)(numberOfWorkersLostToHarass % simultaneousProductionFloor);
-        for (var remainderIndex = 0; remainderIndex < remainder; remainderIndex++) {
+        for (var remainderIndex = 0; remainderIndex < remainder; remainderIndex++)
+        {
             totalAlloyHarassment += alloyMinedPerSecondByWorker * timeToProduceWorker * (simultaneousProductionFloor + 1);
         }
 
-        for (var travelTimeIndex = 0; travelTimeIndex < numberOfWorkersLostToHarass; travelTimeIndex++) {
+        for (var travelTimeIndex = 0; travelTimeIndex < numberOfWorkersLostToHarass; travelTimeIndex++)
+        {
             var townHallIndex = travelTimeIndex % travelTimes.Count;
             totalAlloyHarassment += alloyMinedPerSecondByWorker * travelTimes[townHallIndex];
         }
@@ -322,7 +347,8 @@
         return totalAlloyHarassment;
     }
 
-    protected override void OnInitialized() {
+    protected override void OnInitialized()
+    {
         base.OnInitialized();
         Calculate();
     }
@@ -330,18 +356,20 @@
 
     public List<TravelTime> TravelTimes { get; set; } = new() { new TravelTime(0, 0) };
 
-    private void OnTownHallsChanged(ChangeEventArgs obj) {
+    private void OnTownHallsChanged(ChangeEventArgs obj)
+    {
         NumberOfTownHallsExisting = int.Parse(obj.Value!.ToString()!);
 
         while (TravelTimes.Count > NumberOfTownHallsExisting)
             TravelTimes.Remove(TravelTimes.Last());
 
         while (TravelTimes.Count < NumberOfTownHallsExisting)
-            TravelTimes.Add(new TravelTime(TravelTimes.Count, 10 * (TravelTimes.Count)));
+            TravelTimes.Add(new TravelTime(TravelTimes.Count, 10 * TravelTimes.Count));
         Calculate();
     }
 
-    private void OnTownHallTravelTimeChanged(ChangeEventArgs obj, TravelTime travelTime) {
+    private void OnTownHallTravelTimeChanged(ChangeEventArgs obj, TravelTime travelTime)
+    {
         travelTime.Value = (int)obj.Value!;
 
         Calculate();

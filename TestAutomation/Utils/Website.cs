@@ -8,7 +8,7 @@ namespace TestAutomation.Utils;
 public class Website
 {
     public readonly ScreenType ScreenType = ScreenType.Desktop;
-    
+
     public Website(IWebDriver webDriver)
     {
         WebDriver = webDriver;
@@ -17,10 +17,10 @@ public class Website
         HarassCalculatorPage = new HarassCalculatorPage(this);
         DatabasePage = new DatabasePage(this);
         DatabaseSinglePage = new DatabaseSinglePage(this);
-        
+
         // Navigation
         NavigationBar = new NavigationBar(this);
-        
+
         // Dialogs
         WebsiteSearchDialog = new WebsiteSearchDialog(this);
     }
@@ -36,7 +36,7 @@ public class Website
     public IWebElement FindScreenSpecific(string byId)
     {
         var screenSpecificId = $"{ScreenType.ToString().ToLower()}-{byId}";
-        
+
         try
         {
             return WebDriver.FindElement(By.Id(screenSpecificId));
@@ -44,11 +44,11 @@ public class Website
         catch (Exception e)
         {
             throw new Exception($"Couldn't find {screenSpecificId}. Element does not exist on current page. " +
-                                $"\n\nPerhaps an Id is missing.");
+                                "\n\nPerhaps an Id is missing.");
         }
     }
 
-    
+
     public IWebElement Find(string byId, string withParentId)
     {
         IWebElement parent;
@@ -60,9 +60,9 @@ public class Website
         catch (Exception e)
         {
             throw new Exception($"Couldn't find parent {withParentId}. Element does not exist on current page. " +
-                                $"\n\nPerhaps an Id is missing.");
+                                "\n\nPerhaps an Id is missing.");
         }
-        
+
         try
         {
             return parent.FindElement(By.Id(byId));
@@ -70,10 +70,10 @@ public class Website
         catch (Exception e)
         {
             throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
-                                $"\n\nPerhaps an Id is missing.");
+                                "\n\nPerhaps an Id is missing.");
         }
     }
-    
+
     public IWebElement Find(string byId)
     {
         try
@@ -83,10 +83,10 @@ public class Website
         catch (Exception e)
         {
             throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
-                                $"\n\nPerhaps an Id is missing.");
+                                "\n\nPerhaps an Id is missing.");
         }
     }
-    
+
     public ReadOnlyCollection<IWebElement> FindAll(string byId)
     {
         try
@@ -96,11 +96,11 @@ public class Website
         catch (Exception e)
         {
             throw new Exception($"Couldn't find {byId}. Element does not exist on current page. " +
-                                $"\n\nPerhaps an Id is missing.");
+                                "\n\nPerhaps an Id is missing.");
         }
     }
 
-    
+
     public IWebElement FindButtonWithLabel(string label)
     {
         try
@@ -112,7 +112,7 @@ public class Website
             throw new Exception($"Couldn't find with label: {label}. Element does not exist on current page. ");
         }
     }
-    
+
     //@FindBy(xpath = "//div[@label='First Name']")
 
     public IList<IWebElement> FindChildren(string ofId, string tagname)
@@ -139,7 +139,7 @@ public class Website
             .Click()
             .Perform();
     }
-    
+
     public IWebElement Click(IWebElement element)
     {
         try

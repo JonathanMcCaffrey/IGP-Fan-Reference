@@ -47,10 +47,11 @@
 
         <InfoBodyComponent>
             <InfoQuestionComponent>What data does this website collect?</InfoQuestionComponent>
-            <InfoAnswerComponent>This website usages Google Analytics to collect data on usage of this website.
+            <InfoAnswerComponent>
+                This website usages Google Analytics to collect data on usage of this website.
                 <br/><br/>
                 Items include: if people use keyboard or mouse in build calculator, what pages people visit, and other usages.
-                </InfoAnswerComponent>
+            </InfoAnswerComponent>
         </InfoBodyComponent>
 
         <InfoBodyComponent>
@@ -62,8 +63,8 @@
 
 
 @code {
-    private bool _storageEnabled = false;
-    private bool _dataCollectionEnabled = false;
+    private bool _storageEnabled;
+    private bool _dataCollectionEnabled;
 
     protected override void OnInitialized()
     {

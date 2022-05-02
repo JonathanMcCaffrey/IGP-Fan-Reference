@@ -14,22 +14,22 @@
         <FormLabelComponent>Number of TownHall Expansions</FormLabelComponent>
     </FormNumberComponent>
     <ContentDividerComponent/>
-  
+
     @{
         var index = 0;
     }
     @foreach (var timing in TownHallTimings)
     {
         index++;
-    
-    <FormNumberComponent Value="@timing" OnChange="(e)=> ChangeBuildTime(e, index - 1)">
-           <FormLabelComponent>
-               TownHall build time
-           </FormLabelComponent>
-    </FormNumberComponent>
-   }
+
+        <FormNumberComponent Value="@timing" OnChange="e => ChangeBuildTime(e, index - 1)">
+            <FormLabelComponent>
+                TownHall build time
+            </FormLabelComponent>
+        </FormNumberComponent>
+    }
     <ContentDividerComponent/>
-    <FormTextComponent Label="Chart Color" Value="@ChartColor" OnChange="ChangeColor" />
+    <FormTextComponent Label="Chart Color" Value="@ChartColor" OnChange="ChangeColor"/>
 </FormLayoutComponent>
 
 
@@ -46,7 +46,7 @@
     private string ChartColor => economyComparisonService.GetColor(ForPlayer);
     private string Faction => economyComparisonService.GetFaction(ForPlayer);
     private List<int> TownHallTimings => economyComparisonService.GetTownHallBuildTimes(ForPlayer);
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();

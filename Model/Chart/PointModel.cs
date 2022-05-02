@@ -11,7 +11,7 @@ public class PointModel
         var display = Interval / highestInterval * displayScale;
         return ((int)display).ToString();
     }
-    
+
 
     public string GetValue(float highestValue, float displayScale)
     {

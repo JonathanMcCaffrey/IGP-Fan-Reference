@@ -8,7 +8,7 @@
 
 <LayoutMediumContentComponent>
     <WebsiteTitleComponent>Economy Comparision</WebsiteTitleComponent>
-    
+
     <PaperComponent>
         <div>You</div>
         <EconomyInputComponent ForPlayer="0"/>
@@ -42,6 +42,7 @@
 </LayoutMediumContentComponent>
 
 @code {
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -52,4 +53,5 @@
     {
         EconomyComparisonService.Unsubscribe(StateHasChanged);
     }
+
 }

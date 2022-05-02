@@ -18,7 +18,7 @@ else
         <div class="docFooter">
             <LinkButtonComponent Href="@GitUrl">
                 Edit on GitHub <i class="fa-brands fa-github" style="font-size: 24px; margin-left: 5px;"></i>
-                </LinkButtonComponent>
+            </LinkButtonComponent>
         </div>
     </div>
 }
@@ -59,7 +59,7 @@ else
     public DocContentModel DocContentModel { get; set; } = default!;
 
     DocFrontMatterModel docFrontMatter = null!;
-    private string? content = null;
+    private string? content;
 
     private string Filepath => $"content/docs/{DocContentModel.Content}.md";
     private string GitUrl => $"{Project.GitResourcesUrl}/{Filepath}";

@@ -62,8 +62,8 @@ public class HotkeyModel
                 PositionX = 4,
                 PositionY = 0
             },
-            
-            
+
+
             new()
             {
                 KeyText = "`",
@@ -71,7 +71,7 @@ public class HotkeyModel
                 PositionX = 0,
                 PositionY = 1
             },
-          
+
             new()
             {
                 KeyText = "Q",
@@ -100,7 +100,7 @@ public class HotkeyModel
                 PositionX = 4,
                 PositionY = 1
             },
-            
+
             new()
             {
                 KeyText = "CAPSLOCK",
@@ -108,7 +108,7 @@ public class HotkeyModel
                 PositionX = 0,
                 PositionY = 2
             },
-            
+
             new()
             {
                 KeyText = "A",
@@ -130,7 +130,7 @@ public class HotkeyModel
                 PositionX = 3,
                 PositionY = 2
             },
-           
+
             new()
             {
                 KeyText = "F",

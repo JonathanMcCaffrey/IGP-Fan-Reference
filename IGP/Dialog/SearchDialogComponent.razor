@@ -1,5 +1,4 @@
-﻿@using System.Timers
-@implements IDisposable;
+﻿@implements IDisposable;
 @inject ISearchService searchService
 @inject IJSRuntime jsRuntime
 
@@ -41,7 +40,7 @@
                                             </button>
                                             @if (!searchPoint.Summary.Trim().Equals(""))
                                             {
-                                                <i> -  @searchPoint.Summary</i>
+                                                <i> - @searchPoint.Summary</i>
                                             }
                                         </div>
                                     }
@@ -141,7 +140,7 @@
     protected override void OnInitialized()
     {
         searchService.Subscribe(OnSearchChanged);
-        
+
         timer = new Timer(200);
         timer.Elapsed += FocusTimer;
         timer.Enabled = false;
@@ -153,15 +152,16 @@
         jsRuntime.InvokeVoidAsync("SetFocusToElement", "searchInput");
         StateHasChanged();
     }
-    
+
     private Timer timer = null!;
+
     private void OnSearchChanged()
     {
         if (timer.Enabled != searchService.IsVisible)
         {
             timer.Enabled = searchService.IsVisible;
         }
-        StateHasChanged(); 
+        StateHasChanged();
     }
 
     public void Dispose()

@@ -28,14 +28,14 @@
 
             <DevOnlyComponent>
                 <FormLayoutComponent>
-                           <FormToggleComponent
-                               Label="Is Dynamic Formatting"
-                               Info="Should [Attacks Per Second/Seconds Between Attack] match in-game values?"
-                               Value="@_isDynamicFormatting"
-                               OnChange="DynamicFormattingChanged"/>
-                       </FormLayoutComponent>     
+                    <FormToggleComponent
+                        Label="Is Dynamic Formatting"
+                        Info="Should [Attacks Per Second/Seconds Between Attack] match in-game values?"
+                        Value="@_isDynamicFormatting"
+                        OnChange="DynamicFormattingChanged"/>
+                </FormLayoutComponent>
             </DevOnlyComponent>
-           
+
         </PaperComponent>
 
         <PaperComponent>
@@ -148,7 +148,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         _enabledPermissions = StorageService.GetValue<bool>(StorageKeys.EnabledStorage);
 
         RefreshDefaults();
@@ -161,11 +161,11 @@
         StorageService.Unsubscribe(RefreshDefaults);
     }
 
-    private int? _attackTime = null;
-    private int? _travelTime = null;
+    private int? _attackTime;
+    private int? _travelTime;
 
-    private string? _faction = null;
-    private string? _immortal = null;
+    private string? _faction;
+    private string? _immortal;
 
     private string? Faction => _faction == null ? DataType.FACTION_QRath : _faction;
     private string? Immortal => _immortal == null ? DataType.IMMORTAL_Orzum : _immortal;

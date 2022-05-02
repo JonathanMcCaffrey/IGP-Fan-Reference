@@ -1,5 +1,4 @@
 ﻿using Model.Entity.Data;
-using Model.Types;
 
 namespace Model.Entity.Parts;
 

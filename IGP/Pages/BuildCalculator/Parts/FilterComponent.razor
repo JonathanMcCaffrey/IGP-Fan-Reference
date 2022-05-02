@@ -5,10 +5,14 @@
     <FormSelectComponent OnChange="@OnFactionChanged">
         <FormLabelComponent>Faction</FormLabelComponent>
         <ChildContent>
-            <option value="@DataType.FACTION_Aru" 
-                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_Aru))">Aru</option>
-            <option value="@DataType.FACTION_QRath" 
-                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_QRath))">Q'Rath</option>
+            <option value="@DataType.FACTION_Aru"
+                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_Aru))">
+                Aru
+            </option>
+            <option value="@DataType.FACTION_QRath"
+                    selected="@(FilterService.GetFaction().Equals(DataType.FACTION_QRath))">
+                Q'Rath
+            </option>
         </ChildContent>
     </FormSelectComponent>
 
@@ -17,17 +21,25 @@
         <ChildContent>
             @if (FilterService.GetFaction() == DataType.FACTION_QRath)
             {
-                <option value="@DataType.IMMORTAL_Orzum" 
-                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Orzum))">Orzum</option>
+                <option value="@DataType.IMMORTAL_Orzum"
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Orzum))">
+                    Orzum
+                </option>
                 <option value="@DataType.IMMORTAL_Ajari"
-                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Ajari))">Ajari</option>
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Ajari))">
+                    Ajari
+                </option>
             }
             @if (FilterService.GetFaction() == DataType.FACTION_Aru)
             {
-                <option value="@DataType.IMMORTAL_Mala" 
-                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Mala))">Mala</option>
+                <option value="@DataType.IMMORTAL_Mala"
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Mala))">
+                    Mala
+                </option>
                 <option value="@DataType.IMMORTAL_Xol"
-                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Xol))">Xol</option>
+                        selected="@(FilterService.GetImmortal().Equals(DataType.IMMORTAL_Xol))">
+                    Xol
+                </option>
             }
         </ChildContent>
     </FormSelectComponent>

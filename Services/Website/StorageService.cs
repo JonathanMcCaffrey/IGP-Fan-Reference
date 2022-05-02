@@ -93,6 +93,7 @@ public class StorageService : IStorageService
     }
 
     private event Action OnChange = null!;
+
     private void NotifyDataChanged()
     {
         OnChange();

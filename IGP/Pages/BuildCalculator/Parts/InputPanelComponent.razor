@@ -22,10 +22,10 @@
     private void HandleKeyDown(KeyboardEventArgs e)
     {
         DataCollectionService.SendEvent(
-            DataCollectionKeys.BuildCalcInput, 
-            new Dictionary<string, string> {{"key", e.Key.ToLower()}, {"input-source", "keyboard"}}
+            DataCollectionKeys.BuildCalcInput,
+            new Dictionary<string, string> { { "key", e.Key.ToLower() }, { "input-source", "keyboard" } }
             );
-        
+
         KeyService.AddPressedKey(e.Key);
     }
 
