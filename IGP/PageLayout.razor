@@ -1,6 +1,4 @@
 ﻿@inherits LayoutComponentBase
-@inject IJSRuntime JsRuntime
-
 @inject ISearchService SearchService
 @inject IWebsiteService WebService
 @inject IDataCollectionService DataCollectionService 
@@ -27,10 +25,15 @@
                                 WebPages=WebService.WebPageModels/>
             <MobileNavComponent WebSections=WebService.WebSectionModels
                                 WebPages=WebService.WebPageModels/>
+            
+            
+            <FooterComponent/>
         }
     </div>
 
+    
 </div>
+
 
 @code {
 
