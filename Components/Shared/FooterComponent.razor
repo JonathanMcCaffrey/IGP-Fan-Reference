@@ -1,7 +1,8 @@
 ﻿@inject IVariableService VariableService
 
-<div class="footerContainer">
+<div class="footerContainer" xmlns="http://www.w3.org/1999/html">
     <div class="footerSocials">
+
         <a href="https://github.com/JonathanMcCaffrey/IGP-Fan-Reference/discussions" target="_blank">
             <i class="fa-brands fa-github"></i>
         </a>
@@ -19,13 +20,10 @@
         <a href="https://www.twitch.tv/jonathanmccaffrey" target="_blank">
             <i class="fa-brands fa-twitch"></i>
         </a>
-
-        <span>|</span>
-
-        <span>Updated @VariableService.Variables["LastUpdated"]</span>
     </div>
+    <div class="footerLastUpdated">Website updated <a href="https://github.com/JonathanMcCaffrey/IGP-Fan-Reference/commits/main"><b>@VariableService.Variables["LastUpdated"]</b></a></div>
     <div class="footerDisclaimer">
-        This site is fan-made and not affiliated with SunSpear Games in any way.
+        This website is fan-made and not affiliated with SunSpear Games in any way.
     </div>
 </div>
 
@@ -38,7 +36,7 @@
         justify-content: center;
         padding-top: 8px;
         padding-bottom: 96px;
-        gap: 24px;
+        gap: 12px;
     }
     
     .footerSocials {
@@ -49,9 +47,15 @@
         margin: auto;
     }
     
+    .footerLastUpdated {
+        text-align: center;
+        margin: auto;
+    }
+    
     .footerDisclaimer {
         text-align: center;
         margin: auto;
+        margin-top: 12px;
     }
     
 </style>
