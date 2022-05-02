@@ -1,16 +1,17 @@
 ﻿using System.Collections.ObjectModel;
-using TestAutomation.Shared;
 using TestAutomation.Utils;
 
 namespace TestAutomation.Pages;
 
-public class DatabasePage : BaseElement
+public class DatabasePage : BasePage
 {
     public DatabasePage(Website website) : base(website)
     {
     }
 
     private IWebElement FilterNameInput => Website.Find("filterName");
+
+    public override string Url { get; set; } = "database";
 
 
     private ReadOnlyCollection<IWebElement> EntityNames()
@@ -41,6 +42,12 @@ public class DatabasePage : BaseElement
     public DatabasePage GetEntityName(int index, out string result)
     {
         result = EntityNames()[index].Text;
+        return this;
+    }
+
+    public DatabasePage Goto()
+    {
+        Website.Goto(Url);
         return this;
     }
 }

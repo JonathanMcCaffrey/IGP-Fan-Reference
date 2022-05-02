@@ -1,9 +1,8 @@
-﻿using TestAutomation.Shared;
-using TestAutomation.Utils;
+﻿using TestAutomation.Utils;
 
 namespace TestAutomation.Pages;
 
-public class DatabaseSinglePage : BaseElement
+public class DatabaseSinglePage : BasePage
 {
     public DatabaseSinglePage(Website website) : base(website)
     {
@@ -14,6 +13,8 @@ public class DatabaseSinglePage : BaseElement
 
     private IWebElement InvalidSearch => Website.Find("invalidSearch");
     private IWebElement ValidSearch => Website.Find("validSearch");
+
+    public override string Url { get; set; } = "database";
 
 
     public DatabaseSinglePage GetEntityName(out string result)
@@ -37,6 +38,12 @@ public class DatabaseSinglePage : BaseElement
     public DatabaseSinglePage GetValidSearch(out string result)
     {
         result = ValidSearch.Text;
+        return this;
+    }
+
+    public DatabaseSinglePage Goto(string searchText)
+    {
+        Website.Goto($"{Url}/{searchText}");
         return this;
     }
 }

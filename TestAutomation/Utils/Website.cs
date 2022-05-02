@@ -7,11 +7,24 @@ namespace TestAutomation.Utils;
 
 public class Website
 {
+    public static readonly DeploymentType DeploymentType =
+        Environment.GetEnvironmentVariable("TEST_HOOK")!.Contains("localhost") 
+            ? DeploymentType.Local
+            : DeploymentType.Dev;
+
+    public static readonly string Url =
+        DeploymentType.Equals(DeploymentType.Dev)
+            ? "https://calm-mud-04916b210.1.azurestaticapps.net"
+            : "https://localhost:7234";
+
     public readonly ScreenType ScreenType = ScreenType.Desktop;
 
-    public Website(IWebDriver webDriver)
+    public TestReport TestReport { get; set; }
+
+    public Website(IWebDriver webDriver, TestReport testReport)
     {
         WebDriver = webDriver;
+        TestReport = testReport;
 
         // Pages
         HarassCalculatorPage = new HarassCalculatorPage(this);
@@ -100,6 +113,16 @@ public class Website
         }
     }
 
+    public ReadOnlyCollection<IWebElement> FindAllWithTag(string tag)
+    {
+        return WebDriver.FindElements(By.TagName(tag));
+    }
+    
+    public ReadOnlyCollection<IWebElement> FindAllWithTag(IWebElement parent, string tag)
+    {
+        return parent.FindElements(By.TagName(tag));
+    }
+
 
     public IWebElement FindButtonWithLabel(string label)
     {
@@ -176,5 +199,18 @@ public class Website
     public string GetLabel(string byId)
     {
         return Find(byId).Text;
+    }
+
+    public Website Goto()
+    {
+        WebDriver.Navigate().GoToUrl($"{Url}");
+        return this;
+    }
+
+    public void Goto(string path)
+    {
+        var url = $"{Url}/{path}";
+        
+        WebDriver.Navigate().GoToUrl($"{url}");
     }
 }

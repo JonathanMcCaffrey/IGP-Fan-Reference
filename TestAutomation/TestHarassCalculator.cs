@@ -5,41 +5,43 @@ namespace TestAutomation;
 [TestFixture]
 public class TestHarassCalculator : BaseTest
 {
+    
+    [SetUp]
+    public void SetUp()
+    {
+        TestReport.CreateTest();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestReport.ThrowErrors();
+    }
+    
     [Test]
     public void CalculatorInput()
     {
-        TestReport.CreateTest();
-
-        Website.WebDriver.Navigate().GoToUrl(WebsiteUrl + "/harass-calculator");
+        
 
         var expectedTotalAlloyHarassment = 240;
 
-        try
-        {
-            Website.HarassCalculatorPage
-                .SetWorkersLostToHarass(3)
-                .SetNumberOfTownHallsExisting(2)
-                .SetTownHallTravelTime(0, 30)
-                .GetTotalAlloyHarassment(out var foundTotalAlloyHarassment);
+        Website.HarassCalculatorPage
+            .Goto()
+            .SetWorkersLostToHarass(3)
+            .SetNumberOfTownHallsExisting(2)
+            .SetTownHallTravelTime(0, 30)
+            .GetTotalAlloyHarassment(out var foundTotalAlloyHarassment);
 
-            TestReport.CheckPassed(expectedTotalAlloyHarassment.Equals(foundTotalAlloyHarassment),
-                TestMessage.CreateFailedMessage($"expectTotalAlloyHarassment of {expectedTotalAlloyHarassment} " +
-                                                "does not equal " +
-                                                $"foundTotalAlloyHarassment of {foundTotalAlloyHarassment} "));
-        }
-        catch (Exception e)
-        {
-            TestReport.CheckPassed(false,
-                TestMessage.CreateFailedMessage(e.StackTrace!));
-        }
+        TestReport.CheckPassed(expectedTotalAlloyHarassment.Equals(foundTotalAlloyHarassment),
+            TestMessage.CreateFailedMessage($"expectTotalAlloyHarassment of {expectedTotalAlloyHarassment} " +
+                                            "does not equal " +
+                                            $"foundTotalAlloyHarassment of {foundTotalAlloyHarassment} "));
     }
 
     [Test]
     public void CalculatedExampleInformation()
     {
-        TestReport.CreateTest();
-
-        Website.WebDriver.Navigate().GoToUrl(WebsiteUrl + "/harass-calculator");
+        
 
         var expectedExampleTotalAlloyLoss = 720;
         var expectedExampleWorkerCost = 300;
@@ -49,6 +51,7 @@ public class TestHarassCalculator : BaseTest
         var expectedExampleTotalAlloyLossAccurateDifference = 270;
 
         Website.HarassCalculatorPage
+            .Goto()
             .GetExampleTotalAlloyLoss(out var foundTotalAlloyLoss)
             .GetExampleWorkerCost(out var foundExampleWorkerCost)
             .GetExampleMiningTimeCost(out var foundExampleMiningTimeCost)

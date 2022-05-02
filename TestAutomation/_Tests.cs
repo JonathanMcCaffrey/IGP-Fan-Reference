@@ -9,15 +9,13 @@ public class Tests : BaseTest
     [OneTimeSetUp]
     public void Setup()
     {
-        Website.WebDriver.Navigate().GoToUrl(WebsiteUrl);
+        Website.Goto();
         Website.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
     }
 
     [OneTimeTearDown]
     public void TearDown()
     {
-        HttpClient HttpClient = new();
-
         Website.WebDriver.Quit();
 
         var message = new

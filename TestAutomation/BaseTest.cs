@@ -10,20 +10,11 @@ public enum DeploymentType
 
 public class BaseTest
 {
-    protected static readonly DeploymentType DeploymentType =
-        Environment.GetEnvironmentVariable("TEST_HOOK") != null
-            ? DeploymentType.Dev
-            : DeploymentType.Local;
-
-    protected static readonly string WebsiteUrl =
-        DeploymentType.Equals(DeploymentType.Dev)
-            ? "https://calm-mud-04916b210.1.azurestaticapps.net/"
-            : "https://localhost:7234";
-
     protected static readonly TestReport TestReport = new();
 
 
     protected static Website WebsiteInstance = default!;
+    protected readonly HttpClient HttpClient = new();
 
     protected static Website Website
     {
@@ -35,7 +26,7 @@ public class BaseTest
 
                 options.AcceptInsecureCertificates = true;
 
-                if (DeploymentType.Equals(DeploymentType.Dev)) options.AddArgument("--headless");
+                if (Website.DeploymentType.Equals(DeploymentType.Dev)) options.AddArgument("--headless");
                 options.AddArgument("--ignore-certificate-errors");
                 options.AddArgument("--start-maximized");
                 options.AddArgument("--test-type");
@@ -43,10 +34,11 @@ public class BaseTest
 
                 IWebDriver webDriver = new FirefoxDriver(Environment.CurrentDirectory, options);
 
-                WebsiteInstance = new Website(webDriver);
+                WebsiteInstance = new Website(webDriver, TestReport);
             }
 
             return WebsiteInstance;
         }
     }
+
 }
