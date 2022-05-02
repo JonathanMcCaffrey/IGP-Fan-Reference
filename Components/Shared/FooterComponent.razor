@@ -1,0 +1,77 @@
+﻿@inject IVariableService VariableService
+
+<div class="footerContainer" xmlns="http://www.w3.org/1999/html">
+    <div class="footerSocials">
+
+        <a class="footerIcon" href="https://github.com/JonathanMcCaffrey/IGP-Fan-Reference/discussions" target="_blank">
+            <i class="fa-brands fa-github"></i>
+        </a>
+
+        <a class="footerIcon" href="mailto:igpfanreference@jonathanmccaffrey.com" target="_blank">
+            <i class="fa-solid fa-envelope"></i>
+        </a>
+
+        <a class="footerIcon" href="https://discord.gg/uMq8bMGeeN" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+        </a>
+        <a class="footerIcon" href="https://www.youtube.com/channel/UCQx88d5C12yp4l7uszNYrdQ" target="_blank">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a class="footerIcon" href="https://www.twitch.tv/jonathanmccaffrey" target="_blank">
+            <i class="fa-brands fa-twitch"></i>
+        </a>
+    </div>
+    <div class="footerLastUpdated">Website updated <a href="https://github.com/JonathanMcCaffrey/IGP-Fan-Reference/commits/main"><b>@VariableService.Variables["LastUpdated"]</b></a></div>
+    <div class="footerDisclaimer">
+        This website is fan-made and not affiliated with SunSpear Games in any way.
+    </div>
+</div>
+
+
+<style>
+    .footerIcon {
+        font-size: 24px;
+        padding: 8px;
+        background-color: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.1);
+        border-radius: 6px;
+        line-height: 0;
+    }
+    
+    .footerIcon:hover {     
+        color: #8fc5ff;
+        background-color: rgba(200,200,255,0.1);
+        border: 2px solid rgba(140,140,255,0.4);
+    }
+            
+
+    .footerContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 8px;
+        padding-bottom: 102px;
+        gap: 24px;
+    }
+    
+    .footerSocials {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        justify-content: center;
+        margin: auto;
+    }
+    
+    .footerLastUpdated {
+        text-align: center;
+        margin: auto;
+    }
+    
+    .footerDisclaimer {
+        text-align: center;
+        margin: auto;
+        margin-top: 12px;
+    }
+    
+</style>
