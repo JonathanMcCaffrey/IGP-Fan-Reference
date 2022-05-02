@@ -13,7 +13,7 @@
 <div class="desktopNavContainer">
     <div class="menuHeader">
         <NavLink id="desktop-homeLink" href="/" class="websiteTitle">
-            IGP Fan Reference
+            <i class="fa-solid fa-house" style="margin-right: 4px;"></i> IGP Fan Reference
         </NavLink>
 
         <div class="sectionNavs">
@@ -27,7 +27,13 @@
                 }
 
                 <div class="sectionNav">
-                    <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle">@webSection.Name</button>
+                    
+                    <button onclick="@(() => { MenuClicked(webSection.Id); })" class="@sectionButtonStyle"><i class="fa-solid @webSection.Icon"></i> 
+                        @if (!webSection.OnlyIcon)
+                        {
+                            <span style="margin-left: 12px">@webSection.Name</span>
+                        }
+                        </button>
                     @if (isSelected)
                     {
                         <div class="navMenuPosition">
@@ -95,7 +101,7 @@
 
     .sectionNavs {
         display: flex;
-        gap: 8px;  
+        gap: 16px;  
         align-items: center;
     }
 
@@ -140,6 +146,7 @@
         box-shadow: 0 2px 3px black;
         background-color: var(--info);
         transform: translateY(-1px) scale(1.08);
+        border-radius: 12px;
     }
 
     @@media only screen and (max-width: 1025px) {

@@ -16,7 +16,9 @@ else
         </div>
         <div class="noteContent">@((MarkupString)Markdown.ToHtml(content, Pipeline))</div>
         <div class="noteFooter">
-            <EditLinkComponent Href="@GitUrl"></EditLinkComponent>
+            <LinkButtonComponent Href="@GitUrl">
+                Edit on GitHub <i class="fa-brands fa-github" style="font-size: 24px; margin-left: 5px;"></i>
+            </LinkButtonComponent>
         </div>
     </div>
 }
