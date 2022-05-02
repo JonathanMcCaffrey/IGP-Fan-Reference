@@ -1,0 +1,57 @@
+﻿@inject IVariableService VariableService
+
+<div class="footerContainer">
+    <div class="footerSocials">
+        <a href="https://github.com/JonathanMcCaffrey/IGP-Fan-Reference/discussions" target="_blank">
+            <i class="fa-brands fa-github"></i>
+        </a>
+
+        <a href="mailto:igpfanreference@jonathanmccaffrey.com" target="_blank">
+            <i class="fa-solid fa-envelope"></i>
+        </a>
+
+        <a href="https://discord.gg/uMq8bMGeeN" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+        </a>
+        <a href="https://www.youtube.com/channel/UCQx88d5C12yp4l7uszNYrdQ" target="_blank">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.twitch.tv/jonathanmccaffrey" target="_blank">
+            <i class="fa-brands fa-twitch"></i>
+        </a>
+
+        <span>|</span>
+
+        <span>Updated @VariableService.Variables["LastUpdated"]</span>
+    </div>
+    <div class="footerDisclaimer">
+        This site is fan-made and not affiliated with SunSpear Games in any way.
+    </div>
+</div>
+
+
+<style>
+    .footerContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 8px;
+        padding-bottom: 64px;
+        gap: 24px;
+    }
+    
+    .footerSocials {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        justify-content: center;
+        margin: auto;
+    }
+    
+    .footerDisclaimer {
+        text-align: center;
+        margin: auto;
+    }
+    
+</style>
