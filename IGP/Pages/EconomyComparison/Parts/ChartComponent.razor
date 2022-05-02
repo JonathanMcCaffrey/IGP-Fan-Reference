@@ -17,7 +17,7 @@
                 @foreach (var point in chart.Points)
                 {
                     var xCoord = point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax);
-                    
+
                     var show = int.Parse(xCoord) / 6 % 2;
                     var player = index - 1;
 
@@ -79,18 +79,17 @@
 
     void OnBuilderOrderChanged()
     {
-        
         charts = new List<ChartModel>();
         var index = 0;
-        
-        
+
+
         highestAlloyPoint = 0;
-        
+
         foreach (var buildToCompare in economyComparisonService.BuildsToCompare)
         {
             GenerateChart(index++, buildToCompare);
         }
-        
+
         StateHasChanged();
     }
 
@@ -122,7 +121,6 @@
             ValueDisplayMax = height,
             ChartColor = buildToCompareModel.ChartColor
         };
-
 
 
         for (var interval = 0; interval < economyOverTime.Count(); interval++)

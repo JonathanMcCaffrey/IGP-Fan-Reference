@@ -35,10 +35,7 @@ public class BaseTest
 
                 options.AcceptInsecureCertificates = true;
 
-                if (DeploymentType.Equals(DeploymentType.Dev))
-                {
-                    options.AddArgument("--headless");
-                }
+                if (DeploymentType.Equals(DeploymentType.Dev)) options.AddArgument("--headless");
                 options.AddArgument("--ignore-certificate-errors");
                 options.AddArgument("--start-maximized");
                 options.AddArgument("--test-type");

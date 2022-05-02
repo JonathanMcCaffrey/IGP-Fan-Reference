@@ -1,5 +1,4 @@
 ﻿@using Services.Website
-
 @inject IDataCollectionService DataCollectionService 
 @inject NavigationManager NavigationManager
 
@@ -12,26 +11,26 @@
 
         CollectLoadedPage();
     }
-    
+
     private void CollectLoadedPage()
     {
         var skipBaseUri = NavigationManager.Uri.Substring(NavigationManager.BaseUri.Length,
             NavigationManager.Uri.Length - NavigationManager.BaseUri.Length);
 
         var splitData = skipBaseUri.Split("/");
-        
+
         var rootUrl = splitData.First();
         if (rootUrl.Trim().Equals(""))
         {
             rootUrl = "home";
         }
-        
-        var eventData = new Dictionary<string, string> { { "page", rootUrl }};
+
+        var eventData = new Dictionary<string, string> { { "page", rootUrl } };
         if (splitData.Length > 1)
         {
             eventData["inner-page"] = splitData.Last();
         }
-        
+
         DataCollectionService.SendEvent(DataCollectionKeys.PageInitialized, eventData);
     }
 

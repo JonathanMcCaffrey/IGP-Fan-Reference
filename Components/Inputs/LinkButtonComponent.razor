@@ -1,0 +1,35 @@
+﻿<a href="@Href" class="linkButtonContainer">
+    @ChildContent
+</a>
+
+<style>
+    .linkButtonContainer {
+        padding: 16px;
+        border: 1px solid;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 1.2rem;
+        border-color: var(--primary);
+        background-color: var(--primary);
+    }
+    
+    .linkButtonContainer:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-border-hover);
+        color: white;
+    }
+
+</style>
+
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+
+    [Parameter]
+    public string Href { get; set; } = "";
+
+
+}

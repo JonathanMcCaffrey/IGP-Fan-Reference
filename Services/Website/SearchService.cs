@@ -61,7 +61,7 @@ public class SearchService : ISearchService
             {
                 Title = webPage.Name,
                 PointType = "WebPage",
-                 Summary = $"{webPage.Description}",
+                Summary = $"{webPage.Description}",
                 Href = webPage.Href
             });
 
@@ -73,7 +73,7 @@ public class SearchService : ISearchService
             SearchPoints.Add(new SearchPointModel
             {
                 Title = note.Name,
-                PointType = "Note", 
+                PointType = "Note",
                 Href = note.GetNoteLink(),
                 Summary = note.Description
             });
@@ -84,13 +84,13 @@ public class SearchService : ISearchService
 
         foreach (var entity in DATA.Get().Values)
         {
-            var summary = 
+            var summary =
                 entity.Info().Description.Length > 35
                     ? entity.Info().Description.Substring(0, 30).Trim() + "..."
                     : entity.Info().Description.Length > 0
                         ? entity.Info().Description
                         : "";
-            
+
             SearchPoints.Add(new SearchPointModel
             {
                 Title = entity.Info().Name,

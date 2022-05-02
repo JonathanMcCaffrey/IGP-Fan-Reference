@@ -63,13 +63,13 @@
 
 @code {
     private int StartingAdvantageAtTime = 0;
-    
+
     private int PeakAdvantageByAlloy = 0;
     private int PeakAdvantageAtTime = 0;
 
     private int WorseningTime = 0;
     private int MiracleTime = 0;
-    
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -87,8 +87,8 @@
         StartingAdvantageAtTime = 0;
         WorseningTime = 0;
         MiracleTime = 0;
-        
-        for (int interval = 0; interval < economyComparisonService.BuildsToCompare[0].EconomyOverTimeModel.Count; interval++)
+
+        for (var interval = 0; interval < economyComparisonService.BuildsToCompare[0].EconomyOverTimeModel.Count; interval++)
         {
             var yourEconomy = economyComparisonService.BuildsToCompare[0].EconomyOverTimeModel[interval];
             var theirEconomy = economyComparisonService.BuildsToCompare[1].EconomyOverTimeModel[interval];
@@ -109,16 +109,15 @@
             }
             else
             {
-
                 if (PeakAdvantageByAlloy > 0 && WorseningTime == 0)
                 {
                     WorseningTime = interval;
-                }   
-                
+                }
+
                 if (deltaEconomy < -1000 && MiracleTime == 0)
                 {
                     MiracleTime = interval;
-                }   
+                }
             }
         }
 

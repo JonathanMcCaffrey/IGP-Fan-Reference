@@ -13,7 +13,6 @@
 @inject IDataCollectionService DataCollectionService 
 
 @page "/build-calculator"
-
 @using Services.Website
 @implements IDisposable
 
@@ -221,14 +220,14 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+
         EconomyService.Calculate(BuildOrderService, TimingService, 0);
 
         KeyService.Subscribe(HandleClick);
-        
+
         DataCollectionService.SendEvent(
-            DataCollectionKeys.PageInitialized, 
-            new Dictionary<string, string> {{"page", "build-calculator"}}
+            DataCollectionKeys.PageInitialized,
+            new Dictionary<string, string> { { "page", "build-calculator" } }
             );
     }
 

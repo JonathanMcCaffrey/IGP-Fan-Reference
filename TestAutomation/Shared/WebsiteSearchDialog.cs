@@ -1,4 +1,3 @@
-using Discord.Rest;
 using TestAutomation.Utils;
 
 namespace TestAutomation.Shared;
@@ -10,7 +9,7 @@ public class WebsiteSearchDialog : BaseElement
     }
 
     public IWebElement SearchBackground => Website.Find("searchBackground");
-    
+
     public IWebElement SearchInput => Website.Find("searchInput");
 
     public NavigationBar CloseDialog()

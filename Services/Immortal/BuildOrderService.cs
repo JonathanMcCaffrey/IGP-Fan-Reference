@@ -343,16 +343,10 @@ public class BuildOrderService : IBuildOrderService
 
         var checkedInterval = _lastInterval;
 
-        if (supply == null || production == null || supply.Takes.Equals(0))
-        {
-            return 1;
-        }
+        if (supply == null || production == null || supply.Takes.Equals(0)) return 1;
 
         var producedBy = production.ProducedBy;
-        if (producedBy == null)
-        {
-            return 1;
-        }
+        if (producedBy == null) return 1;
 
         var uniqueCompleted = _buildOrder.UniqueCompleted[producedBy];
 
@@ -372,7 +366,7 @@ public class BuildOrderService : IBuildOrderService
                     usedSlots += used.UsedSlots;
                     var duration = used.StopUsageTime - used.StartingUsageTime;
                     if (duration < shortestIncrement) shortestIncrement = duration;
-}
+                }
 
             if (usedSlots + supply.Takes <= trainingSlots)
             {
@@ -389,10 +383,7 @@ public class BuildOrderService : IBuildOrderService
             checkedInterval += shortestIncrement;
             didDelay = true;
 
-            if (shortestIncrement == int.MaxValue)
-            {
-                return null;
-            }
+            if (shortestIncrement == int.MaxValue) return null;
         }
     }
 

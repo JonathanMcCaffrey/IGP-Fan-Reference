@@ -13,20 +13,19 @@ else
     <div class="chartsContainer">
         @foreach (var chart in charts)
         {
-            Dictionary<int, bool> takenPixels = new Dictionary<int, bool>();
-            
+            var takenPixels = new Dictionary<int, bool>();
+
             <div style="width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
                 <div style="position: relative; border: 2px solid gray; border-radius:2px; width: @chart.IntervalDisplayMax.ToString()px; height: @chart.ValueDisplayMax.ToString()px">
                     @foreach (var point in chart.Points)
                     {
-                        var x =  int.Parse(point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax));
+                        var x = int.Parse(point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax));
                         if (takenPixels.ContainsKey(x)) continue;
-                        
-                            
+
+
                         takenPixels.Add(x, true);
-                        
-                        
-                        
+
+
                         <div style="position: absolute;
 							bottom:@point.GetValue(chart.HighestValuePoint, chart.ValueDisplayMax)px;
 							left:@point.GetInterval(chart.HighestIntervalPoint, chart.IntervalDisplayMax)px;

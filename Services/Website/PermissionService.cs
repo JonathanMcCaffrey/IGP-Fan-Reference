@@ -4,8 +4,8 @@ namespace Services.Website;
 
 public class PermissionService : IPermissionService, IDisposable
 {
-    private IJSRuntime _jsRuntime;
     private readonly IStorageService _storageService;
+    private IJSRuntime _jsRuntime;
     private IToastService _toastService;
     private bool isLoaded;
     private bool isStorageEnabled = false;
@@ -15,7 +15,7 @@ public class PermissionService : IPermissionService, IDisposable
         _jsRuntime = jsRuntime;
         _toastService = toastService;
         _storageService = storageService;
-        
+
         _storageService.Subscribe(NotifyDataChanged);
     }
 

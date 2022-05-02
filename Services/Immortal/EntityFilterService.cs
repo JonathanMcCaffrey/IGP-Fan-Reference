@@ -1,5 +1,4 @@
 ﻿using Model.Entity.Data;
-using Model.Types;
 using static Services.IEntityFilterService;
 
 namespace Services.Immortal;
@@ -16,7 +15,9 @@ public class EntityFilterService : IEntityFilterService
 {
     private readonly List<string> _entityChoices = new();
 
-    private readonly List<string> _factionChoices = new() { DataType.Any, DataType.FACTION_QRath, DataType.FACTION_Aru };
+    private readonly List<string> _factionChoices = new()
+        { DataType.Any, DataType.FACTION_QRath, DataType.FACTION_Aru };
+
     private readonly List<string> _immortalChoices = new();
     private string _entityType = EntityType.Army;
     private string _searchText = "";

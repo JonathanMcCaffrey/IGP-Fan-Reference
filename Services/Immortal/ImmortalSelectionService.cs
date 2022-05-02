@@ -5,15 +5,14 @@ namespace Services.Immortal;
 
 public class ImmortalSelectionService : IImmortalSelectionService, IDisposable
 {
+    private readonly IStorageService _storageService;
     private string _selectedFaction = DataType.FACTION_QRath;
     private string _selectedImmortal = DataType.IMMORTAL_Orzum;
-
-    private readonly IStorageService _storageService;
 
     public ImmortalSelectionService(IStorageService storageService)
     {
         _storageService = storageService;
-        
+
         _storageService.Subscribe(RefreshDefaults);
 
         RefreshDefaults();
@@ -73,7 +72,7 @@ public class ImmortalSelectionService : IImmortalSelectionService, IDisposable
         if (foundFaction != null) _selectedFaction = foundFaction;
 
         if (foundImmortal != null) _selectedImmortal = foundImmortal;
-        
+
         NotifyDataChanged();
     }
 

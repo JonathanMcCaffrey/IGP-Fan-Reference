@@ -4,7 +4,7 @@ public static class DataType
 {
     public static string Any = "Any";
     public static string None = "None";
-    
+
     public static string PYREEVENT_TowerKilled = "9a923928-b016-49f2-8c7d-950abf09e287";
     public static string PYREEVENT_CampTaken = "cc27a9b2-69e2-4322-8102-7a9f8bea7871";
     public static string PYREEVENT_MinerTaken = "5b158cf2-2810-4a2a-8131-c4fe4b392ce9";
@@ -17,7 +17,7 @@ public static class DataType
     public static string FAMILY_Rae = "ce8d60f3-b590-4619-ad90-27e65f77312b";
     public static string FAMILY_Demonic = "f61a3630-9474-4ec3-bc71-997cacc52bc1";
     public static string FAMILY_NazRa = "56cc934f-57a9-442c-909a-25690f836679";
-    
+
     public static string FACTION_Neutral = "95da29af-99da-45fe-80f6-4ae1cc0d0f47";
     public static string FACTION_Aru = "fb103962-7518-48df-b7d9-83906a009db8";
     public static string FACTION_Iratek = "dbc12bda-b4f2-4fa0-8270-18dc1646d62d";
@@ -55,8 +55,7 @@ public static class DataType
     public static string ISPELL_RedTithe = "57008163-5e3a-4b95-98f3-d00b54e18684";
     public static string ISPELL_RainOfBlood = "792df385-c66a-4710-9f75-97731897a565";
 
-    
-    
+
     public static string IPASSIVE_HealingGround = "3ec17526-8dc5-4592-9c15-ef1d9b1ca2f6";
     public static string IPASSIVE_Expansionist = "b6cd4335-2165-44c3-b3dc-4500c0111870";
 
@@ -126,7 +125,7 @@ public static class DataType
 
     public static string UPGRADE_Stalk = "36fbc2c0-e9e3-4f54-a79a-981db908c25c";
     public static string UPGRADE_Ambush = "6cf83dc9-717f-4fa9-b417-a3371474a1da";
-    
+
     public static string PASSIVE_Detection = "434468fa-83b2-4fc9-a38c-1a3d00bcf055";
 
     public static string PASSIVE_WraithBowRange = "196dd8a6-2044-44e1-aac4-fbaa40552699";
@@ -160,9 +159,9 @@ public static class DataType
     public static string PASSIVE_HallowingRites = "9c8ae47b-954e-4a17-8f35-f128c9114b61";
     public static string PASSIVE_RegentsWrath = "f111f004-6548-4430-9d13-ef44ab108ae7";
     public static string PASSIVE_PsalmOfFire = "d28f6b7c-d319-4fb8-bdd4-92ede40a0751";
-    
+
     public static string PASSIVE_HallowedWeapons = "f9ac4b3e-d02d-42d4-8d9d-beb9c5d7edcb";
-    
+
     public static string PASSIVE_Zeal = "62c4942b-5578-422d-8d4e-d1789f4efa68";
     public static string PASSIVE_HallowedGround = "bdb28984-246f-4642-84ab-9e83c02b3e2e";
     public static string PASSIVE_Rootway = "46768d4a-5047-4973-b5ca-995cda25ee8d";
@@ -181,9 +180,9 @@ public static class DataType
 
 
     public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
-    
+
     public static string PASSIVE_CastingFromBlood = "c97d1cf1-67d9-402b-9fa1-1abb9bfd7bfd";
-    
+
 
     public static string PASSIVE_QuenchingScythes = "dbf07db4-e7b6-4f81-9f8e-e5391850eead";
     public static string PASSIVE_AaroxBurn = "921fe250-2b97-40c0-9765-9e6c1e766dd5";

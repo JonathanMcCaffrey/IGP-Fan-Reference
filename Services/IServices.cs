@@ -29,7 +29,6 @@ public interface IToastService
 public interface IDataCollectionService
 {
     public void SendEvent<T>(string eventName, T eventData);
-
 }
 
 public interface IStorageService

@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Model.Entity.Data;
-using Model.Website;
 
 namespace Services.Website;
 
@@ -18,11 +15,7 @@ public class DialogService : IDialogService
 {
     private DialogContents _dialogContents;
 
-    public DialogService()
-    {
-    }
-
-   public bool IsVisible { get; set; }
+    public bool IsVisible { get; set; }
 
     public void Subscribe(Action action)
     {
@@ -38,7 +31,7 @@ public class DialogService : IDialogService
     {
         _dialogContents = dialogContents;
         IsVisible = true;
-        
+
         NotifyDataChanged();
     }
 

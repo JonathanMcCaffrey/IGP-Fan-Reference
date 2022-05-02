@@ -4,10 +4,18 @@
 
 <button id="@Id" class="searchButtonContainer" @onclick="ButtonClicked">
     <div class="searchText">
-        Search...
+        <i class="fa-solid fa-magnifying-glass" style="margin-left: 3px; margin-right: 6px;"></i> Search...
     </div>
     <div class="searchHotkey">
-        @CommandKey + K
+        @if (IsMac)
+        {
+            <span><i class="fa-solid fa-command"></i>K</span>
+        }
+        else
+        {
+            <span>CTRL + K</span>
+        }
+
     </div>
 </button>
 
@@ -28,23 +36,24 @@
     }
     
     .searchHotkey {
-        padding:  2px;
-        
-        background-color: var(--info);
-        border: 2px solid var(--primary-border);
+        padding: 4px;
+        background-color: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.25);
+        border-radius: 4px;
     }
 </style>
 
 @code {
+
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
     [Parameter]
     public string Id { get; set; } = default!;
 
-    private string userAgent = "";
+    private string _userAgent = "";
 
-    string CommandKey => userAgent.Contains("Mac OS") ? "CMD" : "Ctrl";
+    bool IsMac => _userAgent.Contains("Mac OS");
 
     private void ButtonClicked(EventArgs eventArgs)
     {
@@ -53,7 +62,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userAgent = await JsRuntime.InvokeAsync<string>("getUserAgent");
+        _userAgent = await JsRuntime.InvokeAsync<string>("getUserAgent");
     }
 
 }

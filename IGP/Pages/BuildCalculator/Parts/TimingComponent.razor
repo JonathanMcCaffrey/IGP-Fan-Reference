@@ -36,7 +36,7 @@
         base.OnInitialized();
         timingService.Subscribe(StateHasChanged);
     }
-    
+
     void IDisposable.Dispose()
     {
         timingService.Unsubscribe(StateHasChanged);

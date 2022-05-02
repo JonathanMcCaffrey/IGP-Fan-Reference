@@ -3,7 +3,6 @@
 @inject IImmortalSelectionService FilterService
 @inject IBuildOrderService BuildOrderService
 @inject IStorageService StorageService
-
 @using Services.Website
 @implements IDisposable
 
@@ -39,10 +38,10 @@
     void IDisposable.Dispose()
     {
         KeyService.Unsubscribe(HandleClick);
-        
+
         StorageService.Unsubscribe(RefreshDefaults);
     }
-    
+
 
     void RefreshDefaults()
     {

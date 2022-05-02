@@ -8,7 +8,7 @@
 <div class="highlightsContainer">
     <div>
         <div>Requested</div>
-        
+
         @foreach (var ordersAtTime in buildOrderService.StartedOrders.Reverse())
         {
             foreach (var order in ordersAtTime.Value)

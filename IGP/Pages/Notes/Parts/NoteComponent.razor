@@ -8,7 +8,7 @@ else
 {
     <div class="note">
         <div class="noteHeader">
-            <div class="noteTitle">@noteFrontMatter.Title</div>
+            <h1 class="noteTitle">@noteFrontMatter.Title</h1>
             <div class="noteDates">
                 <div class="noteDateUpdated"><b>Updated</b>: @noteFrontMatter.UpdatedDate.ToString("MM/dd/yyyy")</div>
                 <div class="noteDateCreated"><b>Created</b>: @noteFrontMatter.CreatedDate.ToString("MM/dd/yyyy")</div>
@@ -16,7 +16,9 @@ else
         </div>
         <div class="noteContent">@((MarkupString)Markdown.ToHtml(content, Pipeline))</div>
         <div class="noteFooter">
-            <EditLinkComponent Href="@GitUrl"></EditLinkComponent>
+            <LinkButtonComponent Href="@GitUrl">
+                Edit on GitHub <i class="fa-brands fa-github" style="font-size: 24px; margin-left: 5px;"></i>
+            </LinkButtonComponent>
         </div>
     </div>
 }
