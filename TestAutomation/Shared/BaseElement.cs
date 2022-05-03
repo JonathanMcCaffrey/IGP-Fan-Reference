@@ -2,7 +2,7 @@
 
 namespace TestAutomation.Shared;
 
-public class BaseElement
+public abstract class BaseElement
 {
     protected readonly Website Website;
 

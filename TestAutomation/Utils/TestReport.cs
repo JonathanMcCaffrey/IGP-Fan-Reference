@@ -11,18 +11,63 @@ public class TestReport
     [MethodImpl(MethodImplOptions.NoInlining)]
     public Test CreateTest()
     {
-        var testName = new StackTrace().GetFrame(1)!.GetMethod()!.Name!;
-        Tests.Add(new Test { Name = testName });
+        Tests.Add(new Test
+        {
+            Name = TestContext.CurrentContext.Test.Name
+        });
         return Tests.Last();
     }
+
+    public void ThrowErrors()
+    {
+        if (!Tests.Last().Result)
+        {
+            string messages = string.Join("\n", Tests.Last().Messages.Select(x => x.Description).ToList());
+            
+            throw new Exception(
+                $"{Tests.Last().Name} test failed with {Tests.Last().Messages.Count} messages.\n\n{messages}");
+        }
+        
+    }
+
+    public async Task VerifyLinks(BasePage page)
+    {
+        foreach (var link in page.GetLinks())
+            try
+            {
+                if(link.StartsWith("mailto")) continue;
+                
+                using var client = new HttpClient();
+                var response = await client.GetAsync(link);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    CheckPassed(false,
+                        new TestMessage
+                        {
+                            Color = "red", Title = "Bad Link",
+                            Description = $"{link} failed on page {page.Url} with status code {response.StatusCode}"
+                        });
+                    Console.WriteLine(response.StatusCode.ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                CheckPassed(false,
+                    new TestMessage
+                    {
+                        Color = "red", Title = "Bad Link",
+                        Description = $"{link} failed on page {page.Url} with stacktrace {e.StackTrace}"
+                    });
+            }
+    }
+
 
     public void CheckPassed(bool passed, TestMessage message)
     {
         if (passed) return;
         Tests.Last().Result = false;
         Tests.Last().Messages.Add(message);
-
-        throw new Exception(message.Description);
     }
 
     public bool DidTestsPass()

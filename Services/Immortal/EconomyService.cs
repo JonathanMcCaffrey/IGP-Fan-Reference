@@ -173,6 +173,8 @@ public class EconomyService : IEconomyService
                 {
                     var usedWorkers = Math.Min(harvester.Slots, freeWorkers);
                     economyAtSecond.Alloy += harvester.HarvestedPerInterval * usedWorkers;
+                    economyAtSecond.AlloyIncome += harvester.HarvestedPerInterval * usedWorkers;
+                    
                     freeWorkers -= usedWorkers;
 
                     if (usedWorkers < harvester.Slots) workersNeeded += 1;
@@ -181,10 +183,16 @@ public class EconomyService : IEconomyService
             if (harvester.RequiresWorker == false)
             {
                 if (harvester.Resource == ResourceType.Ether)
+                {
                     economyAtSecond.Ether += harvester.HarvestedPerInterval * harvester.Slots;
-
+                    economyAtSecond.EtherIncome += harvester.HarvestedPerInterval * harvester.Slots;
+                }
+                    
                 if (harvester.Resource == ResourceType.Alloy)
+                {
                     economyAtSecond.Alloy += harvester.HarvestedPerInterval * harvester.Slots;
+                    economyAtSecond.AlloyIncome += harvester.HarvestedPerInterval * harvester.Slots;
+                }
             }
         }
 

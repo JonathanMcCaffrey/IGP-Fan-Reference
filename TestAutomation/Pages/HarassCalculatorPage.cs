@@ -1,9 +1,8 @@
-﻿using TestAutomation.Shared;
-using TestAutomation.Utils;
+﻿using TestAutomation.Utils;
 
 namespace TestAutomation.Pages;
 
-public class HarassCalculatorPage : BaseElement
+public class HarassCalculatorPage : BasePage
 {
     public HarassCalculatorPage(Website website) : base(website)
     {
@@ -23,6 +22,8 @@ public class HarassCalculatorPage : BaseElement
     private int ExampleTotalAlloyLossDifference => Website.FindInt("exampleTotalAlloyLossDifference");
     private int ExampleTotalAlloyLossAccurate => Website.FindInt("exampleTotalAlloyLossAccurate");
     private int ExampleTotalAlloyLossAccurateDifference => Website.FindInt("exampleTotalAlloyLossAccurateDifference");
+
+    public override string Url { get; set; } = "harass-calculator";
 
     public HarassCalculatorPage SetWorkersLostToHarass(int number)
     {
@@ -82,6 +83,17 @@ public class HarassCalculatorPage : BaseElement
     public HarassCalculatorPage GetExampleTotalAlloyLossAccurateDifference(out int result)
     {
         result = ExampleTotalAlloyLossAccurateDifference;
+        return this;
+    }
+
+    protected HarassCalculatorPage NavigateTo()
+    {
+        return this;
+    }
+
+    public HarassCalculatorPage Goto()
+    {
+        Website.Goto(Url);
         return this;
     }
 }

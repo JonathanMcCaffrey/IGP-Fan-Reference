@@ -7,14 +7,14 @@
 
 <div class="bankContainer">
     <FormDisplayComponent Label="Time">
-        <Display>@BuildOrderService.GetLastRequestInterval() | T @Interval.ToTime(BuildOrderService.GetLastRequestInterval())</Display>
+        <Display>@(BuildOrderService.GetLastRequestInterval() + 1) | T @Interval.ToTime(BuildOrderService.GetLastRequestInterval() + 1)</Display>
     </FormDisplayComponent>
     <div class="bankRow">
         <FormDisplayComponent Label="Alloy">
-            <Display>@_economy.Alloy</Display>
+            <Display>@_economy.Alloy +@_economy.AlloyIncome</Display>
         </FormDisplayComponent>
         <FormDisplayComponent Label="Ether">
-            <Display>@_economy.Ether</Display>
+            <Display>@Math.Round(_economy.Ether) +@Math.Round(_economy.EtherIncome)</Display>
         </FormDisplayComponent>
     </div>
     <div class="bankRow">
@@ -77,6 +77,9 @@
     {
         base.OnInitialized();
         BuildOrderService.Subscribe(OnBuildOrderChanged);
+        
+        
+        _economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval() + 1);
     }
 
     protected override bool ShouldRender()
@@ -102,7 +105,7 @@
 
     void OnBuildOrderChanged()
     {
-        _economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval());
+        _economy = EconomyService.GetEconomy(BuildOrderService.GetLastRequestInterval() + 1);
 
         var ordersOverTime = BuildOrderService.GetOrders();
 
