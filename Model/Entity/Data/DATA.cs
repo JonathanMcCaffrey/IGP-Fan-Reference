@@ -280,7 +280,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_HealingGround })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MendingGrace })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
@@ -298,7 +298,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_Expansionist })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_OrdainedConquest })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_EmpireUnbroken })
@@ -309,16 +309,16 @@ public class DATA
 
             // Immortal Passives
             {
-                DataType.IPASSIVE_HealingGround,
-                new EntityModel(DataType.IPASSIVE_HealingGround, EntityType.Passive)
+                DataType.IPASSIVE_MendingGrace,
+                new EntityModel(DataType.IPASSIVE_MendingGrace, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Healing Ground", Description = "Ajari's Hallowed Ground has a healing effect." })
+                        { Name = "Mending Grace", Description = "Ajari's presence empowers Hallowed Ground, slowly healing all friendly units within." })
             },
             {
-                DataType.IPASSIVE_Expansionist,
-                new EntityModel(DataType.IPASSIVE_Expansionist, EntityType.Passive)
+                DataType.IPASSIVE_OrdainedConquest,
+                new EntityModel(DataType.IPASSIVE_OrdainedConquest, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Expansionist", Description = "Orzum's Pyre Towers cost 25 less pyre." })
+                        { Name = "Ordained Conquest", Description = "Orzum's Citadels cost 50 pyre rather than 75." })
             },
             {
                 DataType.IPASSIVE_MothersHunger,
@@ -327,7 +327,7 @@ public class DATA
                     {
                         Name = "Mother's Hunger",
                         Description =
-                            "Mala's Blood Wells grant you pyre for nearby non-quitl deaths, based on the supply.",
+                            "When a unit dies near one of Mala's Blood Wells, she gains pyre based on the dying unit's supply.",
                         Notes = "+1 per supply"
                     })
             },
@@ -336,7 +336,7 @@ public class DATA
                 new EntityModel(DataType.IPASSIVE_StalkersSense, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Stalker's Sense", Description = "Xol's units sense nearby enemies in the fog of war."
+                        Name = "Stalker's Sense", Description = "Xol's troops are empowered with keen senses, increasing their vision range by 1."
                     })
             },
 
