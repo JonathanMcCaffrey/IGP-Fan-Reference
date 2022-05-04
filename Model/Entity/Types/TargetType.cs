@@ -1,4 +1,4 @@
-﻿namespace Model.Types;
+﻿namespace Model.Entity.Types;
 
 public static class TargetType
 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Model.Entity.Parts;
+using Model.Entity.Types;
 using Model.Types;
 using Newtonsoft.Json;
 
@@ -1285,7 +1286,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 95, Ether = 20, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 100, Ether = 0, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 40, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 382, Movement = MovementType.Ground })
@@ -1401,7 +1402,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 30, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 80, Ether = 40, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 45, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
@@ -1415,7 +1416,10 @@ public class DATA
             {
                 DataType.UNIT_Behemoth,
                 new EntityModel(DataType.UNIT_Behemoth, EntityType.Army)
-                    .AddPart(new EntityInfoModel { Name = "Behemoth", Descriptive = DescriptiveType.Skirmisher })
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Behemoth", Descriptive = DescriptiveType.Skirmisher
+                    })
                     .AddPart(new EntityTierModel { Tier = 3.5f })
                     .AddPart(new EntityRequirementModel
                     {
@@ -1436,7 +1440,9 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 0, Range = 600, AttacksPerSecond = 0.588f, SecondsBetweenAttacks = 1.7f,
+                        Damage = 21,
+                        Range = 600, AttacksPerSecond = 0.588f, SecondsBetweenAttacks = 1.7f,
+                        Cooldown = 6, Charges = 1,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_BehemothCapacity })
@@ -1449,8 +1455,9 @@ public class DATA
                 new EntityModel(DataType.SUMMON_Quitl, EntityType.Army)
                     .AddPart(new EntityInfoModel { Name = "Quitl", Descriptive = DescriptiveType.Summon })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
-                    .AddPart(new EntityVitalityModel { Health = 65, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 65, Armor = ArmorType.Light, Lasts = 8})
                     .AddPart(new EntityMovementModel { Speed = 168, Movement = MovementType.Ground })
+                    .AddPart(new EntityWeaponModel { Damage = 10, Range = 300, AttacksPerSecond = 1.124f, Targets = TargetType.Ground})
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Temporary })
             },
             // Upgrades
@@ -2434,7 +2441,9 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Spawn Quitl", Descriptive = DescriptiveType.Ability,
-                        Description = @"Unit spawns Quitl on attack."
+                        Description = @"Unit spawns Quitl on attack.",
+                        Notes = "Quitl deals 99 damage over it's life span of 8 seconds."
+                        
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
             },

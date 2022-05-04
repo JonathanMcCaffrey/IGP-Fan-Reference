@@ -1,4 +1,5 @@
-﻿using Model.Types;
+﻿using Model.Entity.Types;
+using Model.Types;
 
 namespace Model.Entity.Parts;
 
@@ -12,8 +13,12 @@ public class EntityWeaponModel : IEntityPartInterface
     public float AttacksPerSecond { get; set; } = 0;
     public float SecondsBetweenAttacks { get; set; } = 0;
 
+    public float Cooldown { get; set; } = 0;
+    public float Charges { get; set; } = 0;
 
     public int Damage { get; set; } = 0;
+    
+    public string ComplexDamage { get; set; } = "deals 126 over 6 seconds";
 
 
     public bool HasSplash { get; set; }
@@ -26,4 +31,5 @@ public class EntityWeaponModel : IEntityPartInterface
     public int StructureDamageBonus { get; set; } = 0;
     public int EthericDamageBonus { get; set; } = 0;
     public string Targets { get; set; } = TargetType.All;
+    public string Attack { get; set; } = AttackType.DPS;
 }
