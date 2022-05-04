@@ -177,8 +177,10 @@ public static class DataType
 
     public static string PASSIVE_HallowedRuin = "402b555a-eb8a-4065-bd25-465d190b30c7";
     public static string PASSIVE_ExternalDigestion = "2563723b-4a75-4a17-a104-1f5ac3b79a06";
+    public static string PASSIVE_PursuitLigaments = "9f9676d5-cf6c-417d-9d08-ace400ccd39b";
 
-
+    public static string PASSIVE_DenInstinct = "e5913d8b-a4de-40d8-a1ee-245f5b65990c";
+    
     public static string PASSIVE_OssifyingSwarm = "b8897247-8393-416e-b246-409a6b3263c2";
 
     public static string PASSIVE_CastingFromBlood = "c97d1cf1-67d9-402b-9fa1-1abb9bfd7bfd";

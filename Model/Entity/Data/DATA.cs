@@ -1289,15 +1289,17 @@ public class DATA
                         { Alloy = 100, Ether = 0, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 40, Armor = ArmorType.Medium })
-                    .AddPart(new EntityMovementModel { Speed = 382, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 424, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 13, LightDamage = 32, MediumDamage = 19, Range = 500, AttacksPerSecond = 0.7f,
-                        Targets = TargetType.Ground
+                        Damage = 13, LightDamage = 27, MediumDamage = 20, Range = 500, AttacksPerSecond = 0.7f,
+                        Targets = TargetType.Ground, SecondsBetweenAttacks = 1.429f
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_DenInstinct })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_PursuitLigaments })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_ExternalDigestion })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_PursuitLigaments })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_DenInstinct })
             },
             {
                 DataType.UNIT_Resinant,
@@ -1711,7 +1713,9 @@ public class DATA
             {
                 DataType.UPGRADE_DenInstinct,
                 new EntityModel(DataType.UPGRADE_DenInstinct, EntityType.Tech)
-                    .AddPart(new EntityInfoModel { Name = "Den Instinct", Descriptive = DescriptiveType.Upgrade })
+                    .AddPart(new EntityInfoModel { Name = "Den Instinct",
+                        Description = "Allows the Ichor to Stabilize to gain bonus shields and leave behind a region of difficult ground.",
+                        Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityRequirementModel
@@ -1725,7 +1729,9 @@ public class DATA
             {
                 DataType.UPGRADE_PursuitLigaments,
                 new EntityModel(DataType.UPGRADE_PursuitLigaments, EntityType.Tech)
-                    .AddPart(new EntityInfoModel { Name = "Pursuit Ligaments", Descriptive = DescriptiveType.Upgrade })
+                    .AddPart(new EntityInfoModel { Name = "Pursuit Ligaments", 
+                        Description = "Significantly increases the Ichor's movement speed.",
+                        Descriptive = DescriptiveType.Upgrade })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "TAB" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityRequirementModel
@@ -1734,7 +1740,7 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 75, Ether = 100, BuildTime = 45, ProducedBy = DataType.BUILDING_Neurocyte })
+                        { Alloy = 75, Ether = 100, BuildTime = 60, ProducedBy = DataType.BUILDING_Neurocyte })
             },
             {
                 DataType.UPGRADE_ResinantDeploy,
@@ -2186,6 +2192,32 @@ public class DATA
                         Description = @"Ichor attacks splash in a cone."
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+            },
+            
+            {
+                DataType.PASSIVE_PursuitLigaments,
+                new EntityModel(DataType.PASSIVE_PursuitLigaments, EntityType.Passive)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Pursuit Ligaments", Descriptive = DescriptiveType.Passive,
+                        Description = @"Increases Ichor speed to 530 (+106)."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_PursuitLigaments, Requirement = RequirementType.Research_Upgrade })
+            },
+            
+            {
+                DataType.PASSIVE_DenInstinct,
+                new EntityModel(DataType.PASSIVE_DenInstinct, EntityType.Passive)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Den Instinct", Descriptive = DescriptiveType.Passive,
+                        Description = @"After remaining stationary for a short time, gain a hude pool of bonus shields. For a short time, this leaves behind a den that slows non-hover units while moving over it."
+                    })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityRequirementModel
+                        { Id = DataType.UPGRADE_DenInstinct, Requirement = RequirementType.Research_Upgrade })
             },
 
             {
