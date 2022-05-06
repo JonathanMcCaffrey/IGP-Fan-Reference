@@ -328,7 +328,6 @@ public class DATA
                         Name = "Mother's Hunger",
                         Description =
                             "When a unit dies near one of Mala's Blood Wells, she gains pyre based on the dying unit's supply.",
-                        Notes = "+1 per supply"
                     })
             },
             {
