@@ -2359,7 +2359,7 @@ public class DATA
                     {
                         Name = "Blood Frenzy", Descriptive = DescriptiveType.Ability,
                         Description =
-                            @"Thrums gain more attack speed for a short duration when a near by allied Thrum kills an enemy unit"
+                            @"Thrums gain more attack speed for a short duration when a nearby allied Thrum kills an enemy unit."
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
             },
