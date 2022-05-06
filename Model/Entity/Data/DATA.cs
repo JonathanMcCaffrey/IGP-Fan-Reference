@@ -471,7 +471,7 @@ public class DATA
                 new EntityModel(DataType.VANGUARD_Sceptre_Orzum, EntityType.Army)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Sceptre", Descriptive = DescriptiveType.Harrier, Description = "",
+                        Name = "Sceptre", Descriptive = DescriptiveType.Frontliner, Description = "",
                         Notes = "Loses 16 energy per second when moving."
                     })
                     .AddPart(new EntityTierModel { Tier = 3 })
@@ -2083,7 +2083,7 @@ public class DATA
                     {
                         Name = "Regent's Wrath", Descriptive = DescriptiveType.Passive,
                         Description =
-                            @"Scepters gain energy when stabilized. They lose energy when moving. Energy is spent to have splash on attack."
+                            @"Sceptres gain energy when stabilized. They lose energy when moving. Energy is spent to have splash on attack."
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
             },
