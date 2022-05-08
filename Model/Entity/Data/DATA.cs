@@ -827,7 +827,7 @@ public class DATA
                     {
                         Name = "Dervish", Descriptive = DescriptiveType.Harrier,
                         Description =
-                            "Skirmisher (Ground Unit) - Swift unit used to harrass enemy outposts. Can only attack ground."
+                            "Skirmisher (Ground Unit) - Swift unit used to harass enemy outposts. Can only attack ground."
                     })
                     .AddPart(new EntityTierModel { Tier = 2 })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "Z" })
@@ -919,7 +919,7 @@ public class DATA
                     .AddPart(new EntityWeaponModel
                         { Damage = 8, Range = 500, AttacksPerSecond = 1.429f, Targets = TargetType.Ground })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_RelicOfTheWrathfulGaze })
-                    .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_Maledictions })
+                    .AddPart(new EntityIdAbilityModel { Id = DataType.PASSIVE_Maledictions })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_RelicOfTheWrathfulGaze })
             },
             {
@@ -2504,12 +2504,12 @@ public class DATA
             },
 
             {
-                DataType.ABILITY_Maledictions,
-                new EntityModel(DataType.ABILITY_Maledictions, EntityType.Ability)
+                DataType.PASSIVE_Maledictions,
+                new EntityModel(DataType.PASSIVE_Maledictions, EntityType.Passive)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Maledictions", Descriptive = DescriptiveType.Ability,
-                        Description = @"Stun ground unit? With Maledictions spell.",
+                        Name = "Maledictions", Descriptive = DescriptiveType.Passive,
+                        Description = @"Stun ground units? With Maledictions passive.",
                         Notes = "Not implemented"
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })

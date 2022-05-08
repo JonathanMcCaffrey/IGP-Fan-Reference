@@ -202,7 +202,7 @@ public static class DataType
 
     public static string ABILITY_RadiantWard = "db1fc8bd-d86a-4eda-b83c-16e8d0ce4f81";
 
-    public static string ABILITY_Maledictions = "6cdc109c-157d-433a-b225-192e39c0b613";
+    public static string PASSIVE_Maledictions = "6cdc109c-157d-433a-b225-192e39c0b613";
 
     public static string ABILITY_BladesOfTheGodhead = "000154ac-faf5-483d-b0bd-e84335891a27";
     public static string ABILITY_Windstep = "a410b296-39f7-42e0-87c8-6cef11eb967c";
