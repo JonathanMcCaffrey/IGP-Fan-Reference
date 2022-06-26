@@ -655,7 +655,7 @@ public class DATA
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel
                         { Health = 85, DefenseLayer = 10, Armor = ArmorType.Light, IsEtheric = false })
-                    .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 380, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                         { Damage = 11, Range = 400, AttacksPerSecond = 1.02f, Targets = TargetType.All })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Stalk })
@@ -813,7 +813,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 20, MediumDamage = 24, HeavyDamage = 28, Range = 500, AttacksPerSecond = 0.667f,
+                        Damage = 16, MediumDamage = 21, HeavyDamage = 26, Range = 500, AttacksPerSecond = 0.667f,
                         Targets = TargetType.All
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_WindStep })
@@ -874,7 +874,7 @@ public class DATA
                         Id = DataType.BUILDING_SoulFoundry,
                         Requirement = RequirementType.Production_Building
                     })
-                    .AddPart(new EntityMovementModel { Speed = 315, Movement = MovementType.Ground })
+                    .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
                         Damage = 11, MediumDamage = 13, HeavyDamage = 15, StructureDamageBonus = 8, Range = 800,
@@ -882,7 +882,7 @@ public class DATA
                     })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 4, MediumDamage = 6, HeavyDamage = 8, Range = 800, AttacksPerSecond = 2.857f,
+                        Damage = 6, MediumDamage = 7, HeavyDamage = 8, Range = 800, AttacksPerSecond = 2.857f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DeployAbsolver })
@@ -1356,7 +1356,7 @@ public class DATA
                     .AddPart(new EntityProductionModel
                         { Alloy = 40, Ether = 40, BuildTime = 30, ProducedBy = DataType.BUILDING_BoneCanopy })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
-                    .AddPart(new EntityVitalityModel { Health = 35, DefenseLayer = 10, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 45, DefenseLayer = 10, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 532, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                     {
@@ -1380,10 +1380,10 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 50, BuildTime = 30, ProducedBy = DataType.BUILDING_BoneCanopy })
+                        { Alloy = 80, Ether = 75, BuildTime = 30, ProducedBy = DataType.BUILDING_BoneCanopy })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 40, Armor = ArmorType.Light })
-                    .AddPart(new EntityMovementModel { Speed = 525, Movement = MovementType.Air })
+                    .AddPart(new EntityMovementModel { Speed = 500, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                     {
                         Damage = 11, HeavyDamage = 9, Range = 350, AttacksPerSecond = 0.8f, Targets = TargetType.All
@@ -1836,7 +1836,7 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Research Ambush",
-                        Description = "When Hidden, the Bone Stalker's next attack deals double damage",
+                        Description = "When Hidden, the Bone Stalker's next attack deals 200% damage. Attack range is permanetly increased by 100.",
                         Descriptive = DescriptiveType.Upgrade
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "CAPSLOCK", HotkeyGroup = "TAB", HoldSpace = false })
@@ -2495,7 +2495,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { DefensiveLayer = 30, Cooldown = 40 })
                     .AddPart(new EntityRequirementModel { Id = DataType.UPGRADE_RadiantWard })
                     .AddPart(new EntityVitalityModel
-                        { Health = 30, DefenseLayer = 30, Lasts = 30, Armor = ArmorType.Light })
+                        { Health = 30, DefenseLayer = 30, Lasts = 60, Armor = ArmorType.Light })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.BUILDING_HouseOfFadingSaints,
