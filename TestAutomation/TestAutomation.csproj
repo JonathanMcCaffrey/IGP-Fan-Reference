@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -9,20 +9,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Discord.Net.Webhook" Version="3.6.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0-preview.2.22152.2"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
-        <PackageReference Include="NUnit" Version="3.13.2"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.2.0"/>
-        <PackageReference Include="NUnit.Analyzers" Version="3.2.0"/>
-        <PackageReference Include="coverlet.collector" Version="3.1.0"/>
-        <PackageReference Include="Selenium.WebDriver" Version="4.1.0"/>
-        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="101.0.4951.4100"/>
-        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.31.0"/>
+        <PackageReference Include="Discord.Net.Webhook" Version="3.6.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
+        <PackageReference Include="NUnit.Analyzers" Version="3.2.0" />
+        <PackageReference Include="coverlet.collector" Version="3.1.0" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="101.0.4951.4100" />
+        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.31.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Pages\"/>
+        <Folder Include="Pages\" />
     </ItemGroup>
 
 </Project>

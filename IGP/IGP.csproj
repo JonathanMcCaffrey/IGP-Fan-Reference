@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
@@ -23,9 +23,9 @@
         <PackageReference Include="Blazor-Analytics" Version="3.11.0" />
         <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
         <PackageReference Include="Markdig" Version="0.28.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-preview.2.22153.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-preview.2.22153.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0-preview.2.22153.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.8" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.8" />
         <!--
                 <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.2.22153.1" />
                 <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.0-preview.2.22153.1" />
