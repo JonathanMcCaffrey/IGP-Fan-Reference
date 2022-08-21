@@ -48,12 +48,20 @@ public static class DataType
     public static string ISPELL_SummonCitadel = "3813b14c-eac5-4249-85ac-8cd7253e3aa3";
     public static string ISPELL_EmpireUnbroken = "3f442411-e958-4ff2-8671-291c47e6404a";
     public static string ISPELL_PillarOfHeaven = "af822b5c-7404-4961-9589-774c7b073877";
+
     public static string ISPELL_AjarisGrace = "cf18588b-72ac-4659-89f7-f2ead7c76869";
 
     public static string ISPELL_DeliverFromEvil = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
     public static string ISPELL_HeavensAegis = "0dcbdeac-eea2-4208-a7a1-83f47fb76e66";
+    public static string ISPELL_DeliverFromEvil = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
+    public static string ISPELL_Salvation = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
+
     public static string ISPELL_SummonGroveGuardian = "4829079a-9c7c-44f0-90a1-d6eb36f91a2f";
     public static string ISPELL_ConstructBloodWell = "07aee142-02dd-4804-878a-2d5c6881e8c8";
+
+    public static string ISPELL_RedHarvest = "a9504b95-cc3a-4204-9bc2-7269424d26a3";
+    public static string ISPELL_ProphetsFavor = "68611c59-5e04-4f1d-866c-a18f0577b4df";
+
     public static string ISPELL_RedTithe = "57008163-5e3a-4b95-98f3-d00b54e18684";
     public static string ISPELL_RainOfBlood = "792df385-c66a-4710-9f75-97731897a565";
 

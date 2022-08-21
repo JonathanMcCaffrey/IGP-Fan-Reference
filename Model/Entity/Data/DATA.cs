@@ -2876,6 +2876,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 20 })
             },
             // Ajari
+            // Ajari
             {
                 DataType.ISPELL_AjarisGrace,
                 new EntityModel(DataType.ISPELL_AjarisGrace, EntityType.Pyre_Spell)
@@ -2891,32 +2892,32 @@ public class DATA
                     .AddPart(new EntityProductionModel { Pyre = 0, Cooldown = 0 })
             },
             {
-                DataType.ISPELL_DeliverFromEvil,
-                new EntityModel(DataType.ISPELL_DeliverFromEvil, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel
-                    {
-                        Name = "Deliver from Evil",
-                        Description =
-                            @"Units in the area <b style=""gain bonus shields"">. After a short delay, allied units in teh area <b style=""color:skyblue"">teleport to your nearest Town Hall</b>."
-                    })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
-                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
-                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
-                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 60 })
-            },
-            {
                 DataType.ISPELL_HeavensAegis,
                 new EntityModel(DataType.ISPELL_HeavensAegis, EntityType.Pyre_Spell)
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Heaven's Aegis",
                         Description =
-                            @"All allied units <b style=""color:lime"">gain bonus shields</b> for several seconds."
+                            @"Provides a Barrier to a nearby allied unit once every 0.5 seconds."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
-                    .AddPart(new EntityProductionModel { Pyre = 150, Cooldown = 120 })
+                    .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 30 })
+            },
+            {
+                DataType.ISPELL_DeliverFromEvil,
+                new EntityModel(DataType.ISPELL_DeliverFromEvil, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Deliver from Evil",
+                        Description =
+                            @"Summons Ajari. Allied units near Ajari gain bonus shields. After a short delay, nearby allied units teleport to the nearest Acropolis."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
+                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 60 })
             },
             // Immortal Spells
             // Aru
@@ -2956,6 +2957,34 @@ public class DATA
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Transfusion })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
+            // Mala
+            {
+                DataType.ISPELL_RedHarvest,
+                new EntityModel(DataType.ISPELL_RedHarvest, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Red Harvest",
+                        Description = "Summons Mala's spectre. All nearby allied units replenish life as they deal damage. Nearby allied AND enemy units spawn quitl upon death."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 30 })
+            },
+            {
+                DataType.ISPELL_ProphetsFavor,
+                new EntityModel(DataType.ISPELL_ProphetsFavor, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Prophet's Favor",
+                        Description = "Within the area, Mala channels the energy of dying units to permanently enhance her chosen warriors."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 120})
+            },
+
             {
                 DataType.ISPELL_RedTithe,
                 new EntityModel(DataType.ISPELL_RedTithe, EntityType.Pyre_Spell)
@@ -2975,13 +3004,14 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Rain of Blood",
-                        Description = "Massively increases life, shield and mana regeneration for 30 seconds."
+                        Description = "Rains blood from the sky for 30 seconds. Massively increases global life regeneration for allied troops. Allies near Mala also have significantly increased blood regeneration."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
                     .AddPart(new EntityProductionModel { Pyre = 130, Cooldown = 30 })
             },
+            // Xol
             {
                 DataType.ISPELL_MarkPrey,
                 new EntityModel(DataType.ISPELL_MarkPrey, EntityType.Pyre_Spell)
