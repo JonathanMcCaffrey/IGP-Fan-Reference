@@ -49,9 +49,6 @@ public static class DataType
     public static string ISPELL_EmpireUnbroken = "3f442411-e958-4ff2-8671-291c47e6404a";
     public static string ISPELL_PillarOfHeaven = "af822b5c-7404-4961-9589-774c7b073877";
 
-    public static string ISPELL_AjarisGrace = "cf18588b-72ac-4659-89f7-f2ead7c76869";
-
-    public static string ISPELL_DeliverFromEvil = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
     public static string ISPELL_HeavensAegis = "0dcbdeac-eea2-4208-a7a1-83f47fb76e66";
     public static string ISPELL_DeliverFromEvil = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
     public static string ISPELL_Salvation = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
