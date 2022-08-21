@@ -280,7 +280,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MendingGrace })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_AjarisGrace })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
@@ -309,10 +309,10 @@ public class DATA
 
             // Immortal Passives
             {
-                DataType.IPASSIVE_MendingGrace,
-                new EntityModel(DataType.IPASSIVE_MendingGrace, EntityType.Passive)
+                DataType.IPASSIVE_AjarisGrace,
+                new EntityModel(DataType.IPASSIVE_AjarisGrace, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Mending Grace", Description = "Ajari's presence empowers Hallowed Ground, slowly healing all friendly units within." })
+                        { Name = "Ajari's Grace", Description = "Ajari's presence slows heals friendly units within her Hallowed Ground. Units entering Hallowed Ground after a period of time receive a burst of healing.", Notes = "Units inside Hallowed Ground regenerate Life at 1/sec. While outside Hallowed Ground, Life that would have been regenerated is instead stored, up to 30 Life. Upon re-entering Hallowed Ground the unit regains all stored Life." })
             },
             {
                 DataType.IPASSIVE_OrdainedConquest,
@@ -1360,11 +1360,10 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 532, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                     {
-                        LightDamage = 75, MediumDamage = 100, HeavyDamage = 125, Range = 20, AttacksPerSecond = 1,
+                        LightDamage = 100, MediumDamage = 130, HeavyDamage = 160, Range = 20, AttacksPerSecond = 1,
                         Targets =
                             TargetType.Air
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_AaroxBurn })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DiveBomb })
             },
             {
@@ -2773,7 +2772,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVanguardAddedModel
                         { ImmortalId = DataType.IMMORTAL_Mala, ReplaceId = DataType.UNIT_Acaaluk })
-                    .AddPart(new EntityProductionModel { Energy = 80, BuildTime = 10, Cooldown = 30 })
+                    .AddPart(new EntityProductionModel { Energy = 100, BuildTime = 10, Cooldown = 45 })
                     .AddPart(new EntitySupplyModel { Takes = 0 })
                     .AddPart(new EntityVitalityModel
                     {

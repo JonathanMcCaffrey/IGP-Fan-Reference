@@ -63,7 +63,7 @@ public static class DataType
     public static string ISPELL_RainOfBlood = "792df385-c66a-4710-9f75-97731897a565";
 
 
-    public static string IPASSIVE_MendingGrace = "3ec17526-8dc5-4592-9c15-ef1d9b1ca2f6";
+    public static string IPASSIVE_AjarisGrace = "3ec17526-8dc5-4592-9c15-ef1d9b1ca2f6";
     public static string IPASSIVE_OrdainedConquest = "b6cd4335-2165-44c3-b3dc-4500c0111870";
 
     public static string IPASSIVE_MothersHunger = "382dc614-9228-4494-9a80-d1a72604a1ee";
