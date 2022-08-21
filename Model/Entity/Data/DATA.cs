@@ -280,7 +280,7 @@ public class DATA
                         Resource = ResourceType.Pyre, HarvestedPerInterval = 1, HarvestDelay = 3,
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MendingGrace })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_AjarisGrace })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
@@ -309,10 +309,10 @@ public class DATA
 
             // Immortal Passives
             {
-                DataType.IPASSIVE_MendingGrace,
-                new EntityModel(DataType.IPASSIVE_MendingGrace, EntityType.Passive)
+                DataType.IPASSIVE_AjarisGrace,
+                new EntityModel(DataType.IPASSIVE_AjarisGrace, EntityType.Passive)
                     .AddPart(new EntityInfoModel
-                        { Name = "Mending Grace", Description = "Ajari's presence empowers Hallowed Ground, slowly healing all friendly units within." })
+                        { Name = "Ajari's Grace", Description = "Ajari's presence slows heals friendly units within her Hallowed Ground. Units entering Hallowed Ground after a period of time receive a burst of healing.", Notes = "Units inside Hallowed Ground regenerate Life at 1/sec. While outside Hallowed Ground, Life that would have been regenerated is instead stored, up to 30 Life. Upon re-entering Hallowed Ground the unit regains all stored Life." })
             },
             {
                 DataType.IPASSIVE_OrdainedConquest,
@@ -448,7 +448,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_Sipari, ImmortalId = DataType.IMMORTAL_Orzum })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 100, BuildTime = 24, ProducedBy = DataType.BUILDING_LegionHall })
+                        { Alloy = 100, BuildTime = 20, ProducedBy = DataType.BUILDING_LegionHall })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 180, DefenseLayer = 100, Armor = ArmorType.Light })
                     .AddPart(new EntityWeaponModel
@@ -478,7 +478,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 200, Ether = 125, BuildTime = 40, ProducedBy = DataType.BUILDING_Angelarium })
+                        { Alloy = 200, Ether = 125, BuildTime = 32, ProducedBy = DataType.BUILDING_Angelarium })
                     .AddPart(new EntityVitalityModel { Health = 350, DefenseLayer = 120, Armor = ArmorType.Heavy })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
                     .AddPart(new EntityWeaponModel
@@ -518,7 +518,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_Magi, ImmortalId = DataType.IMMORTAL_Ajari })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 75, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_LegionHall })
+                        { Alloy = 75, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_LegionHall })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel
                         { Health = 140, DefenseLayer = 100, Armor = ArmorType.Light, IsEtheric = true })
@@ -553,7 +553,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_Hallower, ImmortalId = DataType.IMMORTAL_Ajari })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 150, Ether = 100, BuildTime = 40, ProducedBy = DataType.BUILDING_SoulFoundry })
+                        { Alloy = 150, Ether = 100, BuildTime = 32, ProducedBy = DataType.BUILDING_SoulFoundry })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel
                         { Energy = 100, Health = 100, DefenseLayer = 100, Armor = ArmorType.Medium, IsEtheric = true })
@@ -590,7 +590,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_Underspine, ImmortalId = DataType.IMMORTAL_Mala })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 175, Ether = 50, BuildTime = 35, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 175, Ether = 50, BuildTime = 28, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel
                         { Health = 160, DefenseLayer = 40, Armor = ArmorType.Medium, IsEtheric = false })
@@ -681,7 +681,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_Bloodbound, ImmortalId = DataType.IMMORTAL_Xol })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 80, BuildTime = 35, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 80, Ether = 80, BuildTime = 28, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel
                     {
@@ -758,7 +758,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 75, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_LegionHall })
+                        { Alloy = 75, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_LegionHall })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVanguardReplacedModel
                         { ImmortalId = DataType.IMMORTAL_Ajari, ReplacedById = DataType.VANGUARD_Saoshin_Ajari })
@@ -833,7 +833,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 125, Ether = 10, BuildTime = 35, ProducedBy = DataType.BUILDING_SoulFoundry })
+                        { Alloy = 125, Ether = 10, BuildTime = 28, ProducedBy = DataType.BUILDING_SoulFoundry })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 100, Armor = ArmorType.Medium })
                     .AddPart(new EntityRequirementModel
@@ -866,7 +866,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 150, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_SoulFoundry })
+                        { Alloy = 150, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_SoulFoundry })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 175, DefenseLayer = 150, Armor = ArmorType.Medium })
                     .AddPart(new EntityRequirementModel
@@ -902,7 +902,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 190, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_SoulFoundry })
+                        { Alloy = 190, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_SoulFoundry })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 200, DefenseLayer = 100, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 340, Movement = MovementType.Ground })
@@ -937,7 +937,7 @@ public class DATA
                         { ImmortalId = DataType.IMMORTAL_Ajari, ReplacedById = DataType.VANGUARD_ArkMother_Ajari })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 150, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_SoulFoundry })
+                        { Alloy = 150, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_SoulFoundry })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityRequirementModel
                     {
@@ -970,7 +970,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 150, Ether = 75, BuildTime = 35, ProducedBy = DataType.BUILDING_Angelarium })
+                        { Alloy = 150, Ether = 75, BuildTime = 28, ProducedBy = DataType.BUILDING_Angelarium })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 150, DefenseLayer = 100, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 525, Movement = MovementType.Air })
@@ -1036,7 +1036,7 @@ public class DATA
                         { ImmortalId = DataType.IMMORTAL_Orzum, ReplacedById = DataType.VANGUARD_Sceptre_Orzum })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 175, Ether = 100, BuildTime = 40, ProducedBy = DataType.BUILDING_Angelarium })
+                        { Alloy = 175, Ether = 100, BuildTime = 32, ProducedBy = DataType.BUILDING_Angelarium })
                     .AddPart(new EntitySupplyModel { Takes = 6 })
                     .AddPart(new EntityRequirementModel
                     {
@@ -1120,7 +1120,7 @@ public class DATA
                     })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 50, BuildTime = 20, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 50, BuildTime = 16, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel
                         { Health = 85, DefenseLayer = 25, Defense = DefenseType.Overgrowth, Armor = ArmorType.Light })
@@ -1149,7 +1149,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 75, Ether = 30, BuildTime = 25, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 75, Ether = 30, BuildTime = 20, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 160, DefenseLayer = 70, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 378, Movement = MovementType.Ground })
@@ -1181,7 +1181,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 80, BuildTime = 30, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 80, Ether = 80, BuildTime = 24, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel
                         { Energy = 60, Health = 100, DefenseLayer = 40, Armor = ArmorType.Light })
@@ -1215,7 +1215,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 40, Ether = 140, BuildTime = 40, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 40, Ether = 140, BuildTime = 32, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel
                     {
@@ -1254,7 +1254,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 70, Ether = 50, BuildTime = 25, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 70, Ether = 50, BuildTime = 20, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 140, DefenseLayer = 40, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
@@ -1285,7 +1285,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 100, Ether = 0, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 100, Ether = 0, BuildTime = 24, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 4 })
                     .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 40, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 424, Movement = MovementType.Ground })
@@ -1318,7 +1318,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "F", HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 150, Ether = 80, BuildTime = 40, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 150, Ether = 80, BuildTime = 32, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 5 })
                     .AddPart(new EntityVitalityModel { Health = 175, DefenseLayer = 60, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
@@ -1354,17 +1354,16 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 40, Ether = 40, BuildTime = 30, ProducedBy = DataType.BUILDING_BoneCanopy })
+                        { Alloy = 40, Ether = 40, BuildTime = 24, ProducedBy = DataType.BUILDING_BoneCanopy })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel { Health = 45, DefenseLayer = 10, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 532, Movement = MovementType.Air })
                     .AddPart(new EntityWeaponModel
                     {
-                        LightDamage = 75, MediumDamage = 100, HeavyDamage = 125, Range = 20, AttacksPerSecond = 1,
+                        LightDamage = 100, MediumDamage = 130, HeavyDamage = 160, Range = 20, AttacksPerSecond = 1,
                         Targets =
                             TargetType.Air
                     })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_AaroxBurn })
                     .AddPart(new EntityIdAbilityModel { Id = DataType.ABILITY_DiveBomb })
             },
             {
@@ -1380,7 +1379,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 75, BuildTime = 30, ProducedBy = DataType.BUILDING_BoneCanopy })
+                        { Alloy = 80, Ether = 75, BuildTime = 24, ProducedBy = DataType.BUILDING_BoneCanopy })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 40, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 500, Movement = MovementType.Air })
@@ -1403,7 +1402,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 80, Ether = 40, BuildTime = 30, ProducedBy = DataType.BUILDING_AmberWomb })
+                        { Alloy = 80, Ether = 40, BuildTime = 24, ProducedBy = DataType.BUILDING_AmberWomb })
                     .AddPart(new EntitySupplyModel { Takes = 3 })
                     .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 45, Armor = ArmorType.Medium })
                     .AddPart(new EntityMovementModel { Speed = 350, Movement = MovementType.Ground })
@@ -1435,7 +1434,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "A", HoldSpace = true, HotkeyGroup = "Z" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 190, Ether = 150, BuildTime = 50, ProducedBy = DataType.BUILDING_BoneCanopy })
+                        { Alloy = 190, Ether = 150, BuildTime = 40, ProducedBy = DataType.BUILDING_BoneCanopy })
                     .AddPart(new EntitySupplyModel { Takes = 8 })
                     .AddPart(new EntityVitalityModel { Health = 350, DefenseLayer = 100, Armor = ArmorType.Heavy })
                     .AddPart(new EntityMovementModel { Speed = 210, Movement = MovementType.Air })
@@ -2773,7 +2772,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVanguardAddedModel
                         { ImmortalId = DataType.IMMORTAL_Mala, ReplaceId = DataType.UNIT_Acaaluk })
-                    .AddPart(new EntityProductionModel { Energy = 80, BuildTime = 10, Cooldown = 30 })
+                    .AddPart(new EntityProductionModel { Energy = 80, BuildTime = 10, Cooldown = 45 })
                     .AddPart(new EntitySupplyModel { Takes = 0 })
                     .AddPart(new EntityVitalityModel
                     {
@@ -2830,6 +2829,7 @@ public class DATA
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Respite })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
+            // Orzum
             {
                 DataType.ISPELL_PillarOfHeaven,
                 new EntityModel(DataType.ISPELL_PillarOfHeaven, EntityType.Pyre_Spell)
@@ -2874,20 +2874,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.Any })
                     .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 20 })
             },
-            {
-                DataType.ISPELL_DeliverFromEvil,
-                new EntityModel(DataType.ISPELL_DeliverFromEvil, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel
-                    {
-                        Name = "Deliver from Evil",
-                        Description =
-                            @"Units in the area <b style=""gain bonus shields"">. After a short delay, allied units in teh area <b style=""color:skyblue"">teleport to your nearest Town Hall</b>."
-                    })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
-                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
-                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
-                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 60 })
-            },
+            // Ajari
             {
                 DataType.ISPELL_HeavensAegis,
                 new EntityModel(DataType.ISPELL_HeavensAegis, EntityType.Pyre_Spell)
@@ -2895,12 +2882,26 @@ public class DATA
                     {
                         Name = "Heaven's Aegis",
                         Description =
-                            @"All allied units <b style=""color:lime"">gain bonus shields</b> for several seconds."
+                            @"Provides a Barrier to a nearby allied unit once every 0.5 seconds."
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
-                    .AddPart(new EntityProductionModel { Pyre = 150, Cooldown = 120 })
+                    .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 30 })
+            },
+            {
+                DataType.ISPELL_DeliverFromEvil,
+                new EntityModel(DataType.ISPELL_DeliverFromEvil, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Deliver from Evil",
+                        Description =
+                            @"Summons Ajari. Allied units near Ajari gain bonus shields. After a short delay, nearby allied units teleport to the nearest Acropolis."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
+                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 60 })
             },
             // Immortal Spells
             // Aru
@@ -2940,6 +2941,34 @@ public class DATA
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Transfusion })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
+            // Mala
+            {
+                DataType.ISPELL_RedHarvest,
+                new EntityModel(DataType.ISPELL_RedHarvest, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Red Harvest",
+                        Description = "Summons Mala's spectre. All nearby allied units replenish life as they deal damage. Nearby allied AND enemy units spawn quitl upon death."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 30 })
+            },
+            {
+                DataType.ISPELL_ProphetsFavor,
+                new EntityModel(DataType.ISPELL_ProphetsFavor, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Prophet's Favor",
+                        Description = "Within the area, Mala channels the energy of dying units to permanently enhance her chosen warriors."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 120})
+            },
+
             {
                 DataType.ISPELL_RedTithe,
                 new EntityModel(DataType.ISPELL_RedTithe, EntityType.Pyre_Spell)
@@ -2959,13 +2988,14 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Rain of Blood",
-                        Description = "Massively increases life, shield and mana regeneration for 30 seconds."
+                        Description = "Rains blood from the sky for 30 seconds. Massively increases global life regeneration for allied troops. Allies near Mala also have significantly increased blood regeneration."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
                     .AddPart(new EntityProductionModel { Pyre = 130, Cooldown = 30 })
             },
+            // Xol
             {
                 DataType.ISPELL_MarkPrey,
                 new EntityModel(DataType.ISPELL_MarkPrey, EntityType.Pyre_Spell)
