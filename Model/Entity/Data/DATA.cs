@@ -651,7 +651,7 @@ public class DATA
                     .AddPart(new EntityVanguardAddedModel
                         { ReplaceId = DataType.UNIT_MaskedHunter, ImmortalId = DataType.IMMORTAL_Xol })
                     .AddPart(new EntityProductionModel
-                        { Alloy = 50, Ether = 0, BuildTime = 20, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
+                        { Alloy = 50, Ether = 0, BuildTime = 16, ProducedBy = DataType.BUILDING_AltarOfTheWorthy })
                     .AddPart(new EntitySupplyModel { Takes = 2 })
                     .AddPart(new EntityVitalityModel
                         { Health = 85, DefenseLayer = 10, Armor = ArmorType.Light, IsEtheric = false })
