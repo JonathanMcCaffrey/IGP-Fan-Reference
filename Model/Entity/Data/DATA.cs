@@ -2830,6 +2830,7 @@ public class DATA
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Respite })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
+            // Orzum
             {
                 DataType.ISPELL_PillarOfHeaven,
                 new EntityModel(DataType.ISPELL_PillarOfHeaven, EntityType.Pyre_Spell)
@@ -2873,6 +2874,21 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.Any })
                     .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 20 })
+            },
+            // Ajari
+            {
+                DataType.ISPELL_AjarisGrace,
+                new EntityModel(DataType.ISPELL_AjarisGrace, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Ajari's Grace",
+                        Description =
+                            @"Units inside Hallowed Ground regenerate Life at 1/sec. While outside Hallowed Ground, Life that would have been regenerated is instead stored, up to 30 Life. Upon re-entering Hallowed Ground the unit regains all stored Life."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W?", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
+                    .AddPart(new EntityProductionModel { Pyre = 0, Cooldown = 0 })
             },
             {
                 DataType.ISPELL_DeliverFromEvil,
