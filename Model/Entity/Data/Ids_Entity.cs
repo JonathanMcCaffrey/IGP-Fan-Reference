@@ -51,7 +51,7 @@ public static class DataType
 
     public static string ISPELL_HeavensAegis = "0dcbdeac-eea2-4208-a7a1-83f47fb76e66";
     public static string ISPELL_DeliverFromEvil = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
-    public static string ISPELL_Salvation = "4168ca14-be95-4db4-b2b8-8b5491510b1a";
+    public static string ISPELL_Salvation = "dca82703-04af-4e4f-8f2d-eb16a72887e0";
 
     public static string ISPELL_SummonGroveGuardian = "4829079a-9c7c-44f0-90a1-d6eb36f91a2f";
     public static string ISPELL_ConstructBloodWell = "07aee142-02dd-4804-878a-2d5c6881e8c8";
