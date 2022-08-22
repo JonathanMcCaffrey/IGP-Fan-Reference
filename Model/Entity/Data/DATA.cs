@@ -242,9 +242,9 @@ public class DATA
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MothersHunger })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_RedHarvest })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_RedTithe })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ProphetsFavor })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_RainOfBlood })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_Incubator_Mala })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_DreadSister_Mala })
@@ -282,9 +282,9 @@ public class DATA
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_AjarisGrace })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_HeavensAegis })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_DeliverFromEvil })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_Salvation })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_Saoshin_Ajari })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_ArkMother_Ajari })
             },
@@ -2679,7 +2679,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "D" })
                     .AddPart(new EntityVanguardAddedModel
                         { ImmortalId = DataType.IMMORTAL_Xol, ReplaceId = DataType.ABILITY_CullingStrike })
-                    .AddPart(new EntityProductionModel { Energy = 40, Cooldown = 4 })
+                    .AddPart(new EntityProductionModel { Energy = 60, Cooldown = 4 })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
             },
             {
@@ -2882,7 +2882,8 @@ public class DATA
                     {
                         Name = "Heaven's Aegis",
                         Description =
-                            @"Provides a Barrier to a nearby allied unit once every 0.5 seconds."
+                            @"Provides a Barrier to a nearby allied unit once every 0.5 seconds.",
+                        Notes = "Ajari has Swift Charge aura: +20% movement speed. Every 0.5s Ajari applies a Barrier (Blocks one instance of damage) that lasts 10s to the closest nearby unit without one."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
@@ -2902,6 +2903,20 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
                     .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 60 })
+            },
+            {
+                DataType.ISPELL_Salvation,
+                new EntityModel(DataType.ISPELL_Salvation, EntityType.Pyre_Spell)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Salvation",
+                        Description =
+                            @"Ajari manifests for 10 seconds to save nearby units from death. Instead of dying, allied units are teleported to Ajari with 25% life."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Ajari })
+                    .AddPart(new EntityProductionModel { Pyre = 200, Cooldown = 120 })
             },
             // Immortal Spells
             // Aru
@@ -2948,7 +2963,8 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Red Harvest",
-                        Description = "Summons Mala's spectre. All nearby allied units replenish life as they deal damage. Nearby allied AND enemy units spawn quitl upon death."
+                        Description = "Summons Mala's spectre. All nearby allied units replenish life as they deal damage. Nearby allied AND enemy units spawn quitl upon death.",
+                        Notes = " Vampirism Aura: Friendly units around Mala regain 50% of damage dealt as Life. Quitl Seed Aura: All units around Mala spawn a Quitl when they die."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
@@ -2961,7 +2977,8 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Prophet's Favor",
-                        Description = "Within the area, Mala channels the energy of dying units to permanently enhance her chosen warriors."
+                        Description = "Within the area, Mala channels the energy of dying units to permanently enhance her chosen warriors.",
+                        Notes = "Units that die near Mala will add their supply to Mala's upgrade supply.  Once the nearest owned unit's supply is doubled by Mala's upgrade supply it will be deemed Worthy, consuming the stored upgrade supply. Worthy: Permanent upgrade that gives +30% Max Life and +30% Damage."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
@@ -2975,7 +2992,8 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Red Tithe",
-                        Description = "Sacrifice target unit to create an area that regenerates life and mana."
+                        Description = "Sacrifice target unit to create an area that regenerates life and mana.",
+                        Notes = "All friendly units gain Life regeneration of 5/s. Friendly units in a large area around Mala gain a Mana regeneration of 5/s."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
