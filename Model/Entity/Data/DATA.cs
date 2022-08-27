@@ -243,9 +243,9 @@ public class DATA
                     .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_MothersHunger })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_RedHarvest })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ProphetsFavor })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_RainOfBlood })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_Incubator_Mala })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_DreadSister_Mala })
             },
@@ -261,10 +261,10 @@ public class DATA
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_StalkersSense })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonGroveGuardian })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_MarkPrey })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ProphetOfTheHunt })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_HuntingGrounds })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_TheGreatHunt })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ConstructBloodWell })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_BoneStalker_Xol })
                     .AddPart(new EntityIdVanguardModel { Id = DataType.VANGUARD_WhiteWoodReaper_Xol })
             },
@@ -299,7 +299,7 @@ public class DATA
                         RequiresWorker = false, Slots = 1, TotalAmount = -1
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.IPASSIVE_OrdainedConquest })
-                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_InfuseTroops })
+                    .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_ImperialFoundation })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_SummonCitadel })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_EmpireUnbroken })
                     .AddPart(new EntityIdPyreSpellModel { Id = DataType.ISPELL_PillarOfHeaven })
@@ -2831,21 +2831,19 @@ public class DATA
             },
             // Orzum
             {
-                DataType.ISPELL_PillarOfHeaven,
-                new EntityModel(DataType.ISPELL_PillarOfHeaven, EntityType.Pyre_Spell)
+                DataType.ISPELL_ImperialFoundation,
+                new EntityModel(DataType.ISPELL_ImperialFoundation, EntityType.Pyre_Spell)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Pillar of Heavens",
+                        Name = "Imperial Foundation",
                         Description =
-                            @"Summons a powerful monument that slams into the ground to <b style=""color:orange"">deal damage</b> to enemy ground units (and takes damage from everything it lands on). It then creates <b style=""color:white"">Hallowed Ground</b> and nearby friendly units <b style=""color:orange"">gain Attack Speed<b>"
+                            @"Create a new tower foundation to use to expand the empire.",
+                        Notes = "  - After an 8 second delay, creates a destructible Tower Foundation.<br/>  - Destructible Tower Foundations are invulnerable while a tower is placed on them.<br/>"
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Orzum })
-                    .AddPart(new EntityProductionModel { Pyre = 100, Cooldown = 15 })
-                    .AddPart(new EntityVitalityModel
-                        { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
-                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Zeal })
+                    .AddPart(new EntityProductionModel { Pyre = 25, Cooldown = 30 })
             },
             {
                 DataType.ISPELL_EmpireUnbroken,
@@ -2854,25 +2852,31 @@ public class DATA
                     {
                         Name = "Empire Unbroken",
                         Description =
-                            @"Structures in target area <b style=""color:lime"">reduce incoming damage significantly</b> for several seconds."
+                            @"Structures in target area <b style=""color:lime"">reduce incoming damage significantly</b> for several seconds. At the end of the duration, structures recover 50% of their shields and life.",
+                        Notes = " - Must target at least one friendly structure.<br/>  - Summons Orzum for 1 minute.<br/>      - Orzum is invulnerable and uncontrollable.<br/>      - Orzum has a weapon: Damage of [40/46/52] light/medium/heavy, 2s Cooldown, 10 Range, Ground and Air.<br/>  - Protects nearby buildings with 70% damage reduction for 10 seconds.<br/>  - Structures still alive after 10 seconds will heal for 50% of their Life and Shields."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Orzum })
-                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 15 })
+                    .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 120 })
             },
             {
-                DataType.ISPELL_InfuseTroops,
-                new EntityModel(DataType.ISPELL_InfuseTroops, EntityType.Pyre_Spell)
+                DataType.ISPELL_PillarOfHeaven,
+                new EntityModel(DataType.ISPELL_PillarOfHeaven, EntityType.Pyre_Spell)
                     .AddPart(new EntityInfoModel
                     {
-                        Name = "Infuse Troops",
+                        Name = "Pillar of Heavens",
                         Description =
-                            @"Allied units in a large area <b style=""color:skyblue"">gain Movement Speed</b> and <b style=""color:orange"">gain Attack Speed</b> for several seconds."
+                            @"Summons a powerful monument that slams into the ground to <b style=""color:orange"">deal damage</b> to enemy ground units (and takes damage from everything it lands on). It then creates <b style=""color:white"">Hallowed Ground</b> and nearby friendly units <b style=""color:orange"">gain Attack Speed<b>",
+                        Notes = "  - Summons Orzum for 1 minute, same as Empire Unbroken<br/>  - After a 4 second telegraph a Pillar Of Reclamation will crash down dealing damage to nearby enemy units. (this and below are the same as before)<br/>  - Pillar has 300 Life & 200 shield<br/>  - Deals up to 300 damage to units and structures directly under the Pillar. This also damages the Pillar for the damage dealt.<br/>  - Deals 75 damage to nearby ground units and structures.<br/>  - Pillar creates Hallowed Ground.<br/>  - Pillar has Zeal aura: provides 30% increased attack speed"
                     })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
-                    .AddPart(new EntityFactionModel { Faction = DataType.Any })
-                    .AddPart(new EntityProductionModel { Pyre = 75, Cooldown = 20 })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Orzum })
+                    .AddPart(new EntityProductionModel { Pyre = 175, Cooldown = 120})
+                    .AddPart(new EntityVitalityModel
+                        { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Zeal })
             },
             // Ajari
             {
@@ -2883,7 +2887,7 @@ public class DATA
                         Name = "Heaven's Aegis",
                         Description =
                             @"Provides a Barrier to a nearby allied unit once every 0.5 seconds.",
-                        Notes = "Ajari has Swift Charge aura: +20% movement speed. Every 0.5s Ajari applies a Barrier (Blocks one instance of damage) that lasts 10s to the closest nearby unit without one."
+                        Notes = "  - Summons Ajari (movable).<br/>  - Ajari has Swift Charge aura: +20% movement speed<br/>  - Every 0.5s Ajari applies a Barrier (Blocks one instance of damage) that lasts 10s to the closest nearby unit without one."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
@@ -2897,7 +2901,8 @@ public class DATA
                     {
                         Name = "Deliver from Evil",
                         Description =
-                            @"Summons Ajari. Allied units near Ajari gain bonus shields. After a short delay, nearby allied units teleport to the nearest Acropolis."
+                            @"Summons Ajari. Allied units near Ajari gain bonus shields. After a short delay, nearby allied units teleport to the nearest Acropolis.",
+                        Notes = "  - Summons Ajari (movable).<br/>  - Applies bonus Max Shield to units that enter the area around her.<br/>  - After 5 seconds all units in range are teleported to the closest Acropolis owned by the player. Fails if the Ajari player has no Acropolis."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
@@ -2911,7 +2916,9 @@ public class DATA
                     {
                         Name = "Salvation",
                         Description =
-                            @"Ajari manifests for 10 seconds to save nearby units from death. Instead of dying, allied units are teleported to Ajari with 25% life."
+                            @"Ajari manifests for 10 seconds to save nearby units from death. Instead of dying, allied units are teleported to Ajari with 25% life.",
+                        Notes = " - Summons Ajari (unmoveable).<br/>  - Units within a large area around Ajari will be saved from death one time, instead being teleported to Ajari and healed a small amount."
+
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
@@ -2964,7 +2971,7 @@ public class DATA
                     {
                         Name = "Red Harvest",
                         Description = "Summons Mala's spectre. All nearby allied units replenish life as they deal damage. Nearby allied AND enemy units spawn quitl upon death.",
-                        Notes = " Vampirism Aura: Friendly units around Mala regain 50% of damage dealt as Life. Quitl Seed Aura: All units around Mala spawn a Quitl when they die."
+                        Notes = "  - Summons Mala (moveable).<br/>   - Vampirism Aura: Friendly units around Mala regain 50% of damage dealt as Life.<br/>   - Quitl Seed Aura: All units around Mala spawn a Quitl when they die."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
@@ -2978,27 +2985,12 @@ public class DATA
                     {
                         Name = "Prophet's Favor",
                         Description = "Within the area, Mala channels the energy of dying units to permanently enhance her chosen warriors.",
-                        Notes = "Units that die near Mala will add their supply to Mala's upgrade supply.  Once the nearest owned unit's supply is doubled by Mala's upgrade supply it will be deemed Worthy, consuming the stored upgrade supply. Worthy: Permanent upgrade that gives +30% Max Life and +30% Damage."
+                        Notes = "  - Summons Mala (unmoveable).<br/>  - Units that die near Mala will add their supply to Mala's upgrade supply.<br/>  - Once the nearest owned unit's supply is doubled by Mala's upgrade supply it will be deemed Worthy, consuming the stored upgrade supply.<br/>  - Worthy: Permanent upgrade that gives +30% Max Life and +30% Damage."
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityProductionModel { Pyre = 50, Cooldown = 120})
-            },
-
-            {
-                DataType.ISPELL_RedTithe,
-                new EntityModel(DataType.ISPELL_RedTithe, EntityType.Pyre_Spell)
-                    .AddPart(new EntityInfoModel
-                    {
-                        Name = "Red Tithe",
-                        Description = "Sacrifice target unit to create an area that regenerates life and mana.",
-                        Notes = "All friendly units gain Life regeneration of 5/s. Friendly units in a large area around Mala gain a Mana regeneration of 5/s."
-                    })
-                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
-                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Mala })
-                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
-                    .AddPart(new EntityProductionModel { Pyre = 40, Cooldown = 60 })
             },
             {
                 DataType.ISPELL_RainOfBlood,
@@ -3006,7 +2998,8 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "Rain of Blood",
-                        Description = "Rains blood from the sky for 30 seconds. Massively increases global life regeneration for allied troops. Allies near Mala also have significantly increased blood regeneration."
+                        Description = "Rains blood from the sky for 30 seconds. Massively increases global life regeneration for allied troops. Allies near Mala also have significantly increased blood regeneration.",
+                        Notes = "  - Summons Mala (unmoveable).<br/>  - All friendly units gain Life regeneration of 5/s.<br/>  - Friendly units in a large area around Mala gain a Mana regeneration of 5/s. <br/>"
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
@@ -3014,6 +3007,36 @@ public class DATA
                     .AddPart(new EntityProductionModel { Pyre = 130, Cooldown = 30 })
             },
             // Xol
+            {
+                DataType.ISPELL_ProphetOfTheHunt,
+                new EntityModel(DataType.ISPELL_ProphetOfTheHunt, ImmortalSpellType.Combat)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Prophet Of The Hunt",
+                        Description =
+                            @"Summon Xol to hasten allies and hunt your enemies.",
+                        Notes = " - Summons Xol (stealthed) after a 1 second delay.<br/>      - Xol has 225 Life, 75 Shield, 410 Move speed, 70 Radius.<br/>      - Xol has a weapon: 28 Damage, 1s Cooldown, 7 Range, Ground and Air.<br/>      - Every 4 attacks, the next attack will deal 22 bonus damage.<br/>  - Adds Bone Taker's Step Aura: provides +50% movement speed to units around Xol."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "W", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
+                    .AddPart(new EntityProductionModel { Cooldown = 45, Pyre = 100 })
+            },
+            {
+                DataType.ISPELL_HuntingGrounds,
+                new EntityModel(DataType.ISPELL_HuntingGrounds, ImmortalSpellType.Combat)
+                    .AddPart(new EntityInfoModel
+                    {
+                        Name = "Hunting Grounds",
+                        Description =
+                            @"Prepare an area for an ambush, units in the area stealth and deal bonus damage on their first attack.",
+                        Notes = "  - After a 10 second delay, creates a large ambush area which lasts until after an ambush is sprung.<br/>  - Units in the Hunting Ground become stealth.<br/>  - Stealth units will deal double damage on the first attack and spring the ambush.<br/>  - The Hunting Ground will disappear 5 seconds after an ambush is sprung.<br/>  - Units can only get the bonus once."
+                    })
+                    .AddPart(new EntityHotkeyModel { Hotkey = "E", HotkeyGroup = "V" })
+                    .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
+                    .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
+                    .AddPart(new EntityProductionModel { Cooldown = 60, Pyre = 50 })
+            },
             {
                 DataType.ISPELL_MarkPrey,
                 new EntityModel(DataType.ISPELL_MarkPrey, EntityType.Pyre_Spell)
@@ -3035,12 +3058,13 @@ public class DATA
                     .AddPart(new EntityInfoModel
                     {
                         Name = "The Great Hunt",
-                        Description = "Enemy unit and structures have their vision reduce to 3 for a short time."
+                        Description = "Summon Xol to being a hunt. After a small delay enemy units will have reduced vision and friendly units will again a speed and attack speed buff.",
+                        Notes = "  - Reduces enemy vision to 6 range (used to be 3).<br/>  - After a 3 second delay, the hunt begins. The hunt lasts 20 seconds.<br/>  - Summons Xol (moveable) to lead the hunt.<br/>  - Units gain a 70% decaying move speed bonus for 6 seconds.<br/>  - While on the hunt killing an enemy will cause a frenzy giving the killer double attack speed for 7 seconds"
                     })
                     .AddPart(new EntityHotkeyModel { Hotkey = "R", HotkeyGroup = "V" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVanguardAddedModel { ImmortalId = DataType.IMMORTAL_Xol })
-                    .AddPart(new EntityProductionModel { Pyre = 150, Cooldown = 120 })
+                    .AddPart(new EntityProductionModel { Pyre = 175, Cooldown = 120 })
             },
 
             // Building

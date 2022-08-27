@@ -44,8 +44,13 @@ public static class DataType
     public static string IMMORTAL_Ajari = "a8041f5a-801a-4c7a-90a9-ea6897eda8be";
     public static string IMMORTAL_Mala = "9ce65813-952d-4abd-b360-8d4d9c2ffc5a";
     public static string IMMORTAL_Xol = "73a9d002-4b64-40bd-aac9-669313d9df94";
-    public static string ISPELL_InfuseTroops = "e6da53fb-3cef-48eb-abbf-c5336820127f";
+
+    
+
+
     public static string ISPELL_SummonCitadel = "3813b14c-eac5-4249-85ac-8cd7253e3aa3";
+
+    public static string ISPELL_ImperialFoundation = "c27e4369-1152-4c3f-84b3-444fe364a874";
     public static string ISPELL_EmpireUnbroken = "3f442411-e958-4ff2-8671-291c47e6404a";
     public static string ISPELL_PillarOfHeaven = "af822b5c-7404-4961-9589-774c7b073877";
 
@@ -56,12 +61,16 @@ public static class DataType
     public static string ISPELL_SummonGroveGuardian = "4829079a-9c7c-44f0-90a1-d6eb36f91a2f";
     public static string ISPELL_ConstructBloodWell = "07aee142-02dd-4804-878a-2d5c6881e8c8";
 
+
     public static string ISPELL_RedHarvest = "a9504b95-cc3a-4204-9bc2-7269424d26a3";
     public static string ISPELL_ProphetsFavor = "68611c59-5e04-4f1d-866c-a18f0577b4df";
-
-    public static string ISPELL_RedTithe = "57008163-5e3a-4b95-98f3-d00b54e18684";
     public static string ISPELL_RainOfBlood = "792df385-c66a-4710-9f75-97731897a565";
 
+
+    public static string ISPELL_ProphetOfTheHunt = "383e0a1c-07dc-4923-ae98-72561ab3b941";
+    public static string ISPELL_HuntingGrounds = "a6e5e18a-542e-4c41-a25e-00dd115f5223";
+    public static string ISPELL_MarkPrey = "8505419c-bb42-41fa-9c5b-fc0db280d7c0";
+    public static string ISPELL_TheGreatHunt = "efa14586-33f0-487f-b691-1ed3bcd5b0e6";
 
     public static string IPASSIVE_AjarisGrace = "3ec17526-8dc5-4592-9c15-ef1d9b1ca2f6";
     public static string IPASSIVE_OrdainedConquest = "b6cd4335-2165-44c3-b3dc-4500c0111870";
@@ -69,12 +78,6 @@ public static class DataType
     public static string IPASSIVE_MothersHunger = "382dc614-9228-4494-9a80-d1a72604a1ee";
     public static string IPASSIVE_StalkersSense = "a3d255aa-94f2-4aed-bb44-e9becb736fca";
 
-
-    public static string ISPELL_MarkPrey = "8505419c-bb42-41fa-9c5b-fc0db280d7c0";
-    public static string ISPELL_TheGreatHunt = "efa14586-33f0-487f-b691-1ed3bcd5b0e6";
-
-    public static string TOWER_Citadel = "e4bb8fbd-9c42-449c-82a6-2f72504bd2b4";
-    public static string TOWER_GroveGuardian = "ea772cd5-534b-4bb0-9d4b-36498b8a6c8f";
     public static string BUILDING_Acropolis = "ee1498cf-3c8c-4793-8869-5e097fe4d372";
     public static string BUILDING_ApostleOfBinding = "87198418-ad47-455e-bd08-e42a5b2ecde1";
     public static string BUILDING_GroveHeart = "9b3f8795-d988-4b5f-92ce-090e4f598cea";

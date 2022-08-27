@@ -20,3 +20,11 @@ public static class EntityType
     public static string Tech = "Tech";
     public static string Passive = "Passive";
 }
+
+public static class ImmortalSpellType
+{
+    public static string Utitlity = "Utitlity";
+    public static string Combat = "Combat";
+    public static string Ultimate = "Ultimate";
+}
+
