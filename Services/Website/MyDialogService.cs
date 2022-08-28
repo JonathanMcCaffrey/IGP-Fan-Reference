@@ -11,7 +11,7 @@ public class DialogContents
     public EventCallback<EventArgs> OnCancel { get; set; }
 }
 
-public class DialogService : IDialogService
+public class MyDialogService : IMyDialogService
 {
     private DialogContents _dialogContents;
 

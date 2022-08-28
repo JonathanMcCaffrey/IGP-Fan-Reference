@@ -1,6 +1,6 @@
 ﻿@implements IDisposable;
 
-@inject IDialogService DialogService
+@inject IMyDialogService MyDialogService
 
 <ConfirmationDialogComponent></ConfirmationDialogComponent>
 
@@ -9,12 +9,12 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        DialogService.Subscribe(OnUpdate);
+        MyDialogService.Subscribe(OnUpdate);
     }
 
     void IDisposable.Dispose()
     {
-        DialogService.Unsubscribe(OnUpdate);
+        MyDialogService.Unsubscribe(OnUpdate);
     }
 
     void OnUpdate()

@@ -1,11 +1,12 @@
-﻿@implements IDisposable;
-@inject IDialogService DialogService
+﻿@using Services.Website
+@implements IDisposable;
+@inject IMyDialogService MyDialogService
 @inject IJSRuntime JsRuntime
 
 
 @inject NavigationManager NavigationManager
 
-@if (DialogService.IsVisible)
+@if (MyDialogService.IsVisible)
 {
     <div class="confirmDialogBackground" onclick="@CloseDialog">
         <div class="confirmDialogContainer"
@@ -13,18 +14,18 @@
              @onclick:stopPropagation="true">
 
             <div class="confirmDialogHeader">
-                @DialogService.GetDialogContents().Title
+                @MyDialogService.GetDialogContents().Title
             </div>
             <div class="confirmDialogBody">
-                @DialogService.GetDialogContents().Message
+                @MyDialogService.GetDialogContents().Message
             </div>
 
             <div class="confirmDialogFooter">
-                <ButtonComponent ButtonType="ButtonType.Secondary" OnClick="DialogService.GetDialogContents().OnCancel">
+                <ButtonComponent MyButtonType="MyButtonType.Secondary" OnClick="MyDialogService.GetDialogContents().OnCancel">
                     Cancel
                 </ButtonComponent>
-                <ButtonComponent ButtonType="ButtonType.Primary" OnClick="DialogService.GetDialogContents().OnConfirm">
-                    @DialogService.GetDialogContents().ConfirmButtonLabel
+                <ButtonComponent MyButtonType="MyButtonType.Primary" OnClick="MyDialogService.GetDialogContents().OnConfirm">
+                    @MyDialogService.GetDialogContents().ConfirmButtonLabel
                 </ButtonComponent>
             </div>
         </div>
@@ -96,18 +97,18 @@
     {
         base.OnInitialized();
 
-        DialogService.Subscribe(StateHasChanged);
+        MyDialogService.Subscribe(StateHasChanged);
     }
 
     void IDisposable.Dispose()
     {
-        DialogService.Unsubscribe(StateHasChanged);
+        MyDialogService.Unsubscribe(StateHasChanged);
     }
 
 
     public void CloseDialog()
     {
-        DialogService.Hide();
+        MyDialogService.Hide();
     }
 
 

@@ -73,7 +73,7 @@ public interface ISearchService
     void Hide();
 }
 
-public interface IDialogService
+public interface IMyDialogService
 {
     public bool IsVisible { get; set; }
     public void Subscribe(Action action);

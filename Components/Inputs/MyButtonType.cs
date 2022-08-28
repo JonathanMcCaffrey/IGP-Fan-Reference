@@ -1,6 +1,6 @@
 ﻿namespace Components.Inputs;
 
-public enum ButtonType
+public enum MyButtonType
 {
     Primary, // Positive Actions
     Secondary // Destruction Action

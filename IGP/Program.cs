@@ -10,6 +10,7 @@ using Services;
 using Services.Development;
 using Services.Immortal;
 using Services.Website;
+using MudBlazor.Services;
     
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
@@ -69,7 +70,7 @@ builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IEconomyComparisonService, EconomyComparisionService>();
 builder.Services.AddScoped<IDataCollectionService, DataCollectionService>();
 
-builder.Services.AddScoped<IDialogService, DialogService>();
+builder.Services.AddScoped<IMyDialogService, MyDialogService>();
 
 
 builder.Services.AddScoped(sp => new HttpClient
@@ -77,6 +78,7 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
 
+builder.Services.AddMudServices();
 
 #if NO_SQL
 
