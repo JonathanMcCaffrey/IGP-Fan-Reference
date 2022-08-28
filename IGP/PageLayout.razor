@@ -8,8 +8,6 @@
 
 <MudThemeProvider/>
 
-asd
-
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
@@ -81,7 +79,7 @@ asd
 
 @code {
 
-    private bool _isDarkMode;
+    private bool _isDarkMode = true;
     private MudThemeProvider _mudThemeProvider;
 
     bool _drawerOpen = true;
@@ -103,8 +101,9 @@ asd
     {
         if (firstRender)
         {
-            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
-            StateHasChanged();
+            //TODO: Support light mode
+            //_isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            //StateHasChanged();
         }
     }
 

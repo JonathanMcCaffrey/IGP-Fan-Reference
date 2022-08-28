@@ -22,29 +22,17 @@
     <PaperComponent>
         <div class="heroesContainer">
 
-            <ContentHighlightComponent
-                Title="Database"
-                Description="Review the units!"
-                Href="/database"
-                ImageHref="image/hero/Database.png"/>
+            <ContentHighlightComponent Title="Build Calculator"
+                                       Description="Make a build!"
+                                       Href="/build-calculator"
+                                       ImageHref="image/hero/Build.png" />
 
-            <ContentHighlightComponent
-                Title="Build Calculator"
-                Description="Make a build!"
-                Href="/build-calculator"
-                ImageHref="image/hero/Build.png"/>
+            <ContentHighlightComponent Title="Database"
+                                       Description="Review the units!"
+                                       Href="/database"
+                                       ImageHref="image/hero/Database.png" />
 
-            <ContentHighlightComponent
-                Title="Notes"
-                Description="Read some notes!"
-                Href="/notes"
-                ImageHref="image/hero/Notes.png"/>
 
-            <ContentHighlightComponent
-                Title="Streams"
-                Description="Watch live development!"
-                Href="/streams"
-                ImageHref="image/hero/Streams.png"/>
         </div>
     </PaperComponent>
 
@@ -59,7 +47,7 @@
         font-size: 2.2rem;
         font-weight: bold;
     }
-    
+
     .heroesContainer {
         display: grid;
         gap: 64px;
@@ -67,11 +55,11 @@
         margin: auto;
         grid-template-columns: 1fr 1fr;
     }
-    
-    
+
+
     @@media only screen and (max-width: 1025px) {
-       .heroesContainer {
-           grid-template-columns: 1fr;       
-       }
+        .heroesContainer {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
