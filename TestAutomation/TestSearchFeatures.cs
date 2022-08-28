@@ -1,3 +1,4 @@
+using Discord;
 using TestAutomation.Utils;
 
 namespace TestAutomation;
@@ -16,6 +17,13 @@ public class TestSearchFeatures : BaseTest
     public void TearDown()
     {
         TestReport.ThrowErrors();
+    }
+
+    [Test]
+    public void JustFail()
+    {
+        TestReport.CheckPassed(false,
+           new TestMessage {  Title = "Should Fail", Description = "Failed" });
     }
     
     [Test]
