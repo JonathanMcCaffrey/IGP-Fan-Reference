@@ -3,7 +3,7 @@
 @inject IPermissionService PermissionService
 @layout PageLayout
 
-@inject IDialogService DialogService 
+@inject IMyDialogService MyDialogService 
 
 @inherits BasePage
 @using Services.Website
@@ -96,17 +96,17 @@
         void OnDataCollectionConfirmClicked(MouseEventArgs mouseEventArgs)
         {
             PermissionService.SetIsDataCollectionEnabled(!PermissionService.GetIsDataCollectionEnabled());
-            DialogService.Hide();
+            MyDialogService.Hide();
         }
 
         void OnDataCollectionCancelClicked(MouseEventArgs mouseEventArgs)
         {
-            DialogService.Hide();
+            MyDialogService.Hide();
         }
 
         if (_storageEnabled && !PermissionService.GetIsDataCollectionEnabled())
         {
-            DialogService.Show(new DialogContents
+            MyDialogService.Show(new DialogContents
             {
                 Title = "Permission Request",
                 Message = "Are you sure you want to enable data collection? This feature is implemented with Google Analytics, and your data will be used to gauge interests, find bugs, and optimize updates in IGP Fan Reference.",

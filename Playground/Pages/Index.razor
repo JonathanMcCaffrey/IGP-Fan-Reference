@@ -1,0 +1,107 @@
+﻿@page "/"
+
+<MudThemeProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
+        </MudHidden>
+        <MudButton
+            Class="ml-3 mr-8"
+            Href="/"
+            Target="_self"
+            Variant="Variant.Text"
+            Color="Color.Default">
+            <MudText Typo="Typo.h5"> IGP Fan Reference</MudText>
+        </MudButton>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <MudButton Href="/build-calculator"
+                       Variant="Variant.Text"
+                       Color="Color.Default"
+                       Class="mr-4">
+                <MudIcon Icon="fa-solid fa-helmet-battle" Class="mr-2"/>
+                Build Calculator
+            </MudButton>
+            <MudButton Href="/harass-calculator"
+                       Variant="Variant.Text"
+                       Color="Color.Default"
+                       Class="mr-4">
+                <MudIcon Icon="fa-solid fa-bow-arrow" Class="mr-2"/>
+                Harass Calculator
+            </MudButton>
+            <MudButton Href="/database"
+                       Variant="Variant.Text"
+                       Color="Color.Default"
+                       Class="mr-4">
+                <MudIcon Icon="fa-solid fa-clipboard-list" Class="mr-2"/>
+                Database
+            </MudButton>
+        </MudHidden>
+        <MudSpacer/>
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
+    </MudAppBar>
+    <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+        <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+            <MudPaper Width="250px" Class="d-inline-flex py-3" Elevation="0">
+                <MudNavMenu Class="mud-width-full flex-grow-1">
+                    <MudNavLink Href="/build-calculator" Icon="fa-solid fa-helmet-battle">Build Calculator</MudNavLink>
+                    <MudNavLink Href="/harass-calculator" Icon="fa-solid fa-bow-arrow">Harass Calculator</MudNavLink>
+                    <MudNavLink Href="/database" Icon="fa-solid fa-clipboard-list">Database</MudNavLink>
+                    <MudSpacer/>
+                    <MudDivider Class="my-2"/>
+                    <MudNavLink Href="/settings" Icon="fa-solid fa-gear">Settings</MudNavLink>
+                    <MudDivider Class="my-2"/>
+                </MudNavMenu>
+            </MudPaper>
+        </MudDrawer>
+    </MudHidden>
+
+    <MudMainContent>
+        <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                        </MudItem>
+                    </MudGrid>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 100%"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+                <MudItem xs="12" sm="12" md="4">
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+}

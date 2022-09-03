@@ -49,7 +49,7 @@ public class DATA
                         Name = "Teapot", Description = "Basic scout. Every faction has this",
                         Notes = @"Very powerful! So Fast"
                     })
-                    .AddPart(new EntityVitalityModel { Health = 70, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 120, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 400 })
             },
             {
@@ -63,7 +63,7 @@ public class DATA
                     .AddPart(new EntityRequirementModel { Id = DataType.TEAPOT_Teapot })
                     .AddPart(new EntitySupplyModel { Takes = 1 })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 50 })
-                    .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 30, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 80, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 280, Movement = MovementType.Air })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Detection })
             },
@@ -844,7 +844,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        LightDamage = 24, MediumDamage = 18, Damage = 12, Range = 400, AttacksPerSecond = 0.5f,
+                        LightDamage = 30, MediumDamage = 23, Damage = 16, Range = 400, AttacksPerSecond = 0.5f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_SiroccoScript })
@@ -1291,7 +1291,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 424, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 13, LightDamage = 27, MediumDamage = 20, Range = 500, AttacksPerSecond = 0.7f,
+                        Damage = 18, LightDamage = 38, MediumDamage = 28, Range = 500, AttacksPerSecond = 0.7f,
                         Targets = TargetType.Ground, SecondsBetweenAttacks = 1.429f
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_DenInstinct })
@@ -3146,7 +3146,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 250, DefenseLayer = 150, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityHarvestModel
                     {
                         HarvestedPerInterval = 1.5625f, RequiresWorker = false, Resource = ResourceType.Ether,
@@ -3166,7 +3166,7 @@ public class DATA
                     .AddPart(new EntitySupplyModel { Grants = 16 })
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 38, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 600, DefenseLayer = 600, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
@@ -3187,7 +3187,7 @@ public class DATA
                     })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 14, Range = 700, SecondsBetweenAttacks = 1.8f, Targets
+                        Damage = 22, Range = 700, SecondsBetweenAttacks = 1.8f, Targets
                             = TargetType.All
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedWeapons })
@@ -3207,7 +3207,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel { Alloy = 125, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 350, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
             },
             {
                 DataType.BUILDING_Reliquary,
@@ -3249,7 +3249,7 @@ public class DATA
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 550, DefenseLayer = 550, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
@@ -3312,7 +3312,7 @@ public class DATA
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
             },
             {
                 DataType.BUILDING_BearerOfTheCrown,
@@ -3366,7 +3366,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVitalityModel
-                        { Health = 2150, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 2200, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.STARTING_TownHall_Aru,
@@ -3457,7 +3457,7 @@ public class DATA
                     .AddPart(new EntitySupplyModel { Grants = 16 })
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 36, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 900, DefenseLayer = 100, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 900, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
@@ -3493,6 +3493,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 18, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 300, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityWeaponModel(){ Damage = 24, Range = 700, AttacksPerSecond = 1.639f, Targets = TargetType.Air})
             },
             {
                 DataType.BUPGRADE_Omnivore,
@@ -3508,6 +3509,8 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 18, RequiresWorker = false })
                     .AddPart(new EntityVitalityModel
                         { Health = 400, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityWeaponModel(){ Damage = 24, Range = 700, AttacksPerSecond = 1.639f, Targets = TargetType.Air})
+                    .AddPart(new EntityWeaponModel(){ Damage = 12, MediumDamage = 14, HeavyDamage = 16, Range = 700, AttacksPerSecond = 2.439f, Targets = TargetType.Ground})
             },
             {
                 DataType.BUILDING_AmberWomb,
@@ -3533,7 +3536,7 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1000, DefenseLayer = 250, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 950, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
@@ -3555,7 +3558,7 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1000, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 950, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {

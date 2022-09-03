@@ -1,4 +1,4 @@
-﻿<button class="buttonContainer @ButtonType.ToString().ToLower()" @onclick="ButtonClicked">@ChildContent</button>
+﻿<button class="buttonContainer @MyButtonType.ToString().ToLower()" @onclick="ButtonClicked">@ChildContent</button>
 
 <style>
     .buttonContainer {
@@ -9,23 +9,23 @@
         font-size: 1.2rem;
     }
 
-    .@(ButtonType.Primary.ToString().ToLower()) {
+    .@(MyButtonType.Primary.ToString().ToLower()) {
         border-color: var(--primary);
         background-color: var(--primary);
     }
 
-    .@ButtonType.Secondary.ToString().ToLower() {
+    .@MyButtonType.Secondary.ToString().ToLower() {
         border-color: var(--secondary);
         background-color: var(--secondary);
     }
 
-        .@ButtonType.Primary.ToString().ToLower():hover {
+        .@MyButtonType.Primary.ToString().ToLower():hover {
             background-color: var(--primary-hover);
             border-color: var(--primary-border-hover);
             color: white;
         }
 
-        .@ButtonType.Secondary.ToString().ToLower():hover {
+        .@MyButtonType.Secondary.ToString().ToLower():hover {
             background-color: var(--secondary-hover);
             border-color: var(--secondary-border-hover);
             color: white;
@@ -43,7 +43,7 @@
     public EventCallback<EventArgs> OnClick { get; set; } = default!;
 
     [Parameter]
-    public ButtonType ButtonType { get; set; } = default!;
+    public MyButtonType MyButtonType { get; set; } = default!;
 
     private void ButtonClicked(EventArgs eventArgs)
     {

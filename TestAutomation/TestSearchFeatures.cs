@@ -1,3 +1,4 @@
+using Discord;
 using TestAutomation.Utils;
 
 namespace TestAutomation;
@@ -17,12 +18,10 @@ public class TestSearchFeatures : BaseTest
     {
         TestReport.ThrowErrors();
     }
-    
+
     [Test]
     public void DesktopOpenCloseSearchDialog()
     {
-        
-
         Website
             .Goto()
             .NavigationBar
