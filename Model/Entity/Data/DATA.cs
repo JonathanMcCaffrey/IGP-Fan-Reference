@@ -49,7 +49,7 @@ public class DATA
                         Name = "Teapot", Description = "Basic scout. Every faction has this",
                         Notes = @"Very powerful! So Fast"
                     })
-                    .AddPart(new EntityVitalityModel { Health = 70, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 120, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 400 })
             },
             {
@@ -63,7 +63,7 @@ public class DATA
                     .AddPart(new EntityRequirementModel { Id = DataType.TEAPOT_Teapot })
                     .AddPart(new EntitySupplyModel { Takes = 1 })
                     .AddPart(new EntityProductionModel { Alloy = 100, Ether = 50 })
-                    .AddPart(new EntityVitalityModel { Health = 100, DefenseLayer = 30, Armor = ArmorType.Light })
+                    .AddPart(new EntityVitalityModel { Health = 120, DefenseLayer = 80, Armor = ArmorType.Light })
                     .AddPart(new EntityMovementModel { Speed = 280, Movement = MovementType.Air })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Detection })
             },
@@ -844,7 +844,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 435, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        LightDamage = 24, MediumDamage = 18, Damage = 12, Range = 400, AttacksPerSecond = 0.5f,
+                        LightDamage = 30, MediumDamage = 23, Damage = 16, Range = 400, AttacksPerSecond = 0.5f,
                         Targets = TargetType.Ground
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_SiroccoScript })
@@ -1291,7 +1291,7 @@ public class DATA
                     .AddPart(new EntityMovementModel { Speed = 424, Movement = MovementType.Ground })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 13, LightDamage = 27, MediumDamage = 20, Range = 500, AttacksPerSecond = 0.7f,
+                        Damage = 18, LightDamage = 38, MediumDamage = 28, Range = 500, AttacksPerSecond = 0.7f,
                         Targets = TargetType.Ground, SecondsBetweenAttacks = 1.429f
                     })
                     .AddPart(new EntityIdUpgradeModel { Id = DataType.UPGRADE_DenInstinct })
@@ -3187,7 +3187,7 @@ public class DATA
                     })
                     .AddPart(new EntityWeaponModel
                     {
-                        Damage = 14, Range = 700, SecondsBetweenAttacks = 1.8f, Targets
+                        Damage = 22, Range = 700, SecondsBetweenAttacks = 1.8f, Targets
                             = TargetType.All
                     })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedWeapons })
@@ -3493,6 +3493,7 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 18, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
                         { Health = 300, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityWeaponModel(){ Damage = 24, Range = 700, AttacksPerSecond = 1.639f, Targets = TargetType.Air})
             },
             {
                 DataType.BUPGRADE_Omnivore,
@@ -3508,6 +3509,8 @@ public class DATA
                     .AddPart(new EntityProductionModel { Alloy = 50, BuildTime = 18, RequiresWorker = false })
                     .AddPart(new EntityVitalityModel
                         { Health = 400, DefenseLayer = 50, Armor = ArmorType.Heavy, IsStructure = true })
+                    .AddPart(new EntityWeaponModel(){ Damage = 24, Range = 700, AttacksPerSecond = 1.639f, Targets = TargetType.Air})
+                    .AddPart(new EntityWeaponModel(){ Damage = 12, MediumDamage = 14, HeavyDamage = 16, Range = 700, AttacksPerSecond = 2.439f, Targets = TargetType.Ground})
             },
             {
                 DataType.BUILDING_AmberWomb,

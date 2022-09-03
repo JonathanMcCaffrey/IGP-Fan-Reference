@@ -20,17 +20,8 @@ public class TestSearchFeatures : BaseTest
     }
 
     [Test]
-    public void JustFail()
-    {
-        TestReport.CheckPassed(false,
-           new TestMessage {  Title = "Should Fail", Description = "Failed" });
-    }
-    
-    [Test]
     public void DesktopOpenCloseSearchDialog()
     {
-        
-
         Website
             .Goto()
             .NavigationBar
