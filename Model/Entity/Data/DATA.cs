@@ -3146,7 +3146,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel { Alloy = 100, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 250, DefenseLayer = 150, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 300, DefenseLayer = 200, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityHarvestModel
                     {
                         HarvestedPerInterval = 1.5625f, RequiresWorker = false, Resource = ResourceType.Ether,
@@ -3166,7 +3166,7 @@ public class DATA
                     .AddPart(new EntitySupplyModel { Grants = 16 })
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 38, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 600, DefenseLayer = 600, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
@@ -3207,7 +3207,7 @@ public class DATA
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_QRath })
                     .AddPart(new EntityProductionModel { Alloy = 125, BuildTime = 30, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 350, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
             },
             {
                 DataType.BUILDING_Reliquary,
@@ -3249,7 +3249,7 @@ public class DATA
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 550, DefenseLayer = 550, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_HallowedGround })
             },
             {
@@ -3312,7 +3312,7 @@ public class DATA
                         Requirement = RequirementType.Production_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 500, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 450, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
             },
             {
                 DataType.BUILDING_BearerOfTheCrown,
@@ -3366,7 +3366,7 @@ public class DATA
                     .AddPart(new EntityHotkeyModel { Hotkey = "Q", HotkeyGroup = "CONTROL" })
                     .AddPart(new EntityFactionModel { Faction = DataType.FACTION_Aru })
                     .AddPart(new EntityVitalityModel
-                        { Health = 2150, DefenseLayer = 450, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 2200, DefenseLayer = 500, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityRequirementModel
                     {
                         Id = DataType.STARTING_TownHall_Aru,
@@ -3457,7 +3457,7 @@ public class DATA
                     .AddPart(new EntitySupplyModel { Grants = 16 })
                     .AddPart(new EntityProductionModel { Alloy = 250, BuildTime = 36, RequiresWorker = true })
                     .AddPart(new EntityVitalityModel
-                        { Health = 900, DefenseLayer = 100, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 900, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
@@ -3536,7 +3536,7 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1000, DefenseLayer = 250, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 950, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
@@ -3558,7 +3558,7 @@ public class DATA
                         Requirement = RequirementType.Research_Building
                     })
                     .AddPart(new EntityVitalityModel
-                        { Health = 1000, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
+                        { Health = 950, DefenseLayer = 300, Armor = ArmorType.Heavy, IsStructure = true })
                     .AddPart(new EntityIdPassiveModel { Id = DataType.PASSIVE_Rootway })
             },
             {
