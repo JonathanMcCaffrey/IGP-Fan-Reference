@@ -45,7 +45,6 @@
         </MudHidden>
         <MudSpacer />
         <SearchButtonComponent Id="desktop-searchButton" />
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
     <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
         <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
@@ -55,8 +54,6 @@
                     <MudNavLink Href="/harass-calculator" Icon="fa-solid fa-bow-arrow">Harass Calculator</MudNavLink>
                     <MudNavLink Href="/database" Icon="fa-solid fa-clipboard-list">Database</MudNavLink>
                     <MudSpacer />
-                    <MudDivider Class="my-2" />
-                    <MudNavLink Href="/settings" Icon="fa-solid fa-gear">Settings</MudNavLink>
                     <MudDivider Class="my-2" />
                 </MudNavMenu>
             </MudPaper>
