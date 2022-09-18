@@ -19,6 +19,8 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entity>>> GetEntities()
         {
+
+
             return await _context.Entities.ToListAsync();
         }
 

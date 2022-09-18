@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Server;
 using Server.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddProjections()
+    .AddType<Entity>()
+    .AddType<EntityWeapon>();
 
 var connectionString = builder.Configuration["ConnectionStrings:IGP"];
 
@@ -29,5 +37,12 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapEntityWeaponEndpoints();
+
+app.MapEntityEndpoints();
+
+app.MapGraphQL();
+
 
 app.Run();
